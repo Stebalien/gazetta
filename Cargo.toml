@@ -1,0 +1,9 @@
+[package]
+name = "gazetta"
+version = "0.1.0"
+authors = ["Steven Allen <steven@stebalien.com>"]
+
+[dependencies]
+chrono = "*"
+yaml-rust = "*"
+lazy_static = "*"
