@@ -2,5 +2,5 @@
 title: Posts
 index:
   sort: date
-  paginate: 10
+  paginate: 2
 ...

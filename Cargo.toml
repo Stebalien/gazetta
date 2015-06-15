@@ -7,3 +7,7 @@ authors = ["Steven Allen <steven@stebalien.com>"]
 chrono = "*"
 yaml-rust = "*"
 lazy_static = "*"
+pulldown-cmark = "*"
+
+[dependencies.horrorshow]
+path = "../horrorshow-rs"

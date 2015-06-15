@@ -59,6 +59,10 @@ impl Site {
                 Some(s) => s.into(),
                 None => return Err("file names must be valid utf8".into()),
             };
+            // Ignore static.
+            if path_str.ends_with("/static") {
+                continue;
+            }
             entries.insert(path_str, RefCell::new(try!(Entry::from_file(root, path))));
         }
 

@@ -1,10 +1,12 @@
+use ::markdown::Markdown;
+
 use ::Date;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Page<'a> {
     pub title: &'a str,
     pub date: Option<&'a Date>,
-    pub content: Option<&'a str>,
+    pub content: Option<Markdown<'a>>,
     pub href: &'a str,
     pub index: Option<Index<'a>>,
 }

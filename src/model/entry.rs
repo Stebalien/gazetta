@@ -16,26 +16,28 @@ pub struct Entry {
     pub date: Option<Date>,
     pub index: Option<Index>,
     pub cc: Vec<String>,
-    pub content: PathBuf,
+    pub src: PathBuf,
     pub content_offset: usize,
 }
 
 impl Entry {
     pub fn read_content(&self, buf: &mut String) -> io::Result<usize> {
-        let mut f = try!(File::open(&self.content));
+        let mut f = try!(File::open(self.src.join("index.md")));
         if (self.content_offset as u64) != try!(f.seek(io::SeekFrom::Start(self.content_offset as u64))) {
             return Err(io::Error::new(io::ErrorKind::Other, "content missing"));
         }
         f.read_to_string(buf)
     }
+
     pub fn from_file(root: &Path, path: &Path) -> Result<Entry, Error> {
         let mut full_path = root.join(path);
         full_path.push("index.md");
         let (offset, mut meta) = try!(yaml::load_front(&full_path));
+        full_path.pop();
 
         let mut entry = Entry {
             content_offset: offset,
-            content: full_path,
+            src: full_path,
             title: match meta.remove(&yaml::TITLE) {
                 Some(Yaml::String(title)) => title,
                 Some(..) => return Err("titles must be strings".into()),
@@ -114,10 +116,15 @@ impl Entry {
         };
 
         if let Some(ref mut idx) = entry.index {
-            for dir_entry in try!(fs::read_dir(&entry.content.parent().unwrap())) {
+            for dir_entry in try!(fs::read_dir(&entry.src)) {
                 let dir_entry = try!(dir_entry);
                 if try!(fs::metadata(dir_entry.path())).is_dir() {
-                    match path.join(dir_entry.file_name()).into_os_string().into_string() {
+                    let name = dir_entry.file_name();
+                    // Ignore static
+                    if &name == "static" {
+                        continue;
+                    }
+                    match path.join(name).into_os_string().into_string() {
                         Ok(s) => idx.entries.push(s),
                         Err(_) => return Err("paths must be valid utf8".into()),
                     }
