@@ -1,4 +1,4 @@
-use std::io;
+use std::io::{self, BufWriter};
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::fmt::Write as FmtWrite;
@@ -158,7 +158,7 @@ pub trait Renderer {
                                 }),
                                 entries: &children[..]
                             }),
-                        }, &mut try!(File::create(index_file))));
+                        }, &mut BufWriter::new(try!(File::create(index_file)))));
                     }
                 } else {
                     let children = read_children!(buf, entries, site);
@@ -183,7 +183,7 @@ pub trait Renderer {
                             paginate: None,
                             entries: &children[..]
                         })
-                    }, &mut try!(File::create(index_file))));
+                    }, &mut BufWriter::new(try!(File::create(index_file)))));
                 }
             } else {
                 let index_file: PathBuf  = [
@@ -198,7 +198,7 @@ pub trait Renderer {
                     content: if buf.trim().is_empty() { None } else { Some(Markdown::new(&buf[..], &target)) },
                     href: &target,
                     index: None,
-                }, &mut try!(File::create(index_file))));
+                }, &mut BufWriter::new(try!(File::create(index_file)))));
             }
             buf.clear();
         }
