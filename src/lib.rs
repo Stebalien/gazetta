@@ -1,6 +1,4 @@
 #![feature(path_relative_from)]
-// TODO: Better errors.
-// Check url paths?
 
 extern crate chrono;
 extern crate glob;
@@ -13,27 +11,20 @@ extern crate horrorshow;
 #[macro_use]
 extern crate lazy_static;
 
+mod error;
+mod render;
+
 pub mod prelude {
     pub use chrono::Datelike;
-    pub use view::{Page, Site};
-    pub use renderer::Renderer;
-    pub use model::Source;
-    pub use model::Meta;
+    pub use render::Gazetta;
 }
 
 pub use view::{Page, Site};
-pub use renderer::Renderer;
-pub use model::Source;
-pub use model::Meta;
+pub use render::Gazetta;
+pub use model::{Source, Entry, Meta};
+pub use error::{AnnotatedError, SourceError, RenderError};
 
 pub mod model;
 pub mod yaml;
 pub mod view;
-pub mod renderer;
 pub mod markdown;
-
-#[test]
-fn it_works() {
-    use renderer::DebugRenderer;
-    DebugRenderer.render(&Source::new("data").unwrap(), "/tmp/outdir").unwrap();
-}

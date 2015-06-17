@@ -8,6 +8,8 @@ use std::path::{Path, PathBuf};
 use model::{Source, Meta};
 use view::{Site, Page, Index, Paginate};
 
+use ::{RenderError, AnnotatedError};
+
 static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     case_sensitive: true,
     require_literal_separator: true,
@@ -35,19 +37,27 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
     Ok(())
 }
 
-pub trait Renderer {
+pub trait Gazetta {
     type SiteMeta: Meta;
     type PageMeta: Meta;
 
     fn render_page<W: Write>(&self,
                              site: &Site<Self::SiteMeta>,
                              page: &Page<Self::PageMeta>,
-                             output: &mut W) -> Result<(), Box<::std::error::Error>>;
+                             output: &mut W) -> Result<(), RenderError>;
 
     fn render<P: AsRef<Path>>(&self,
                               source: &Source<Self::SiteMeta, Self::PageMeta>,
-                              output: P) -> Result<(), Box<::std::error::Error>>
+                              output: P) -> Result<(), AnnotatedError<RenderError>>
     {
+        macro_rules! try_annotate {
+            ($e:expr, $l:expr) => {
+                match $e {
+                    Ok(v) => v,
+                    Err(e) => return Err(AnnotatedError::new(($l).to_owned(), RenderError::from(e))),
+                }
+            }
+        }
         let output = output.as_ref();
 
         let site = Site {
@@ -71,7 +81,7 @@ pub trait Renderer {
 
                 {
                     for &(child_name, child) in $entries {
-                        strides.push(try!(child.read_content(&mut $buf)));
+                        strides.push(try_annotate!(child.read_content(&mut $buf), child.content_path.clone()));
                         children.push(Page {
                             title: &child.title,
                             date: child.date.as_ref(),
@@ -96,18 +106,18 @@ pub trait Renderer {
         }
 
         for (name, entry) in &source.entries {
-            let content_len = try!(entry.read_content(&mut buf));
+            let content_len = try_annotate!(entry.read_content(&mut buf), entry.content_path.clone());
 
             {
                 // Create output.
                 let mut dest_dir = output.join(&name[1..]);
-                try!(fs::create_dir_all(&dest_dir));
+                try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
 
                 // Copy static.
                 let src_dir = entry.content_path.parent().unwrap().join("static");
                 if fs::metadata(&src_dir).is_ok() {
                     dest_dir.push("static");
-                    try!(copy_dir(&src_dir, &dest_dir));
+                    try_annotate!(copy_dir(&src_dir, &dest_dir), dest_dir);
                 }
             }
 
@@ -162,11 +172,13 @@ pub trait Renderer {
                         let children = read_children!(buf, chunk);
                         let content = &buf[..content_len];
 
-                        let mut index_file = output.join(&href[1..]);
-                        try!(fs::create_dir_all(&index_file));
-                        index_file.push("index.html");
+                        let mut index_file_path = output.join(&href[1..]);
+                        try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
+                        index_file_path.push("index.html");
 
-                        try!(self.render_page(&site, &Page {
+                        let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
+
+                        try_annotate!(self.render_page(&site, &Page {
                             title: &entry.title,
                             date: entry.date.as_ref(),
                             content: if content.trim().is_empty() {
@@ -183,19 +195,21 @@ pub trait Renderer {
                                 entries: &children[..]
                             }),
                             meta: &entry.meta,
-                        }, &mut BufWriter::new(try!(File::create(index_file)))));
+                        }, &mut BufWriter::new(index_file)), index_file_path);
                     }
                 } else {
                     let children = read_children!(buf, &child_entries);
                     let content = &buf[..content_len];
 
-                    let index_file: PathBuf  = [
+                    let index_file_path: PathBuf  = [
                         output,
                         name[1..].as_ref(),
                         "index.html".as_ref()
                     ].into_iter().collect();
 
-                    try!(self.render_page(&site, &Page {
+                    let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
+
+                    try_annotate!(self.render_page(&site, &Page {
                         title: &entry.title,
                         date: entry.date.as_ref(),
                         content: if content.trim().is_empty() {
@@ -209,41 +223,28 @@ pub trait Renderer {
                             paginate: None,
                             entries: &children[..]
                         })
-                    }, &mut BufWriter::new(try!(File::create(index_file)))));
+                    }, &mut BufWriter::new(index_file)), index_file_path);
                 }
             } else {
-                let index_file: PathBuf  = [
+                let index_file_path: PathBuf  = [
                     output,
                     name[1..].as_ref(),
                     "index.html".as_ref()
                 ].into_iter().collect();
 
-                try!(self.render_page(&site, &Page {
+                let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
+
+                try_annotate!(self.render_page(&site, &Page {
                     title: &entry.title,
                     date: entry.date.as_ref(),
                     content: if buf.trim().is_empty() { None } else { Some(Markdown::new(&buf[..], &name)) },
                     href: &name,
                     meta: &entry.meta,
                     index: None,
-                }, &mut BufWriter::new(try!(File::create(index_file)))));
+                }, &mut BufWriter::new(index_file)), index_file_path);
             }
             buf.clear();
         }
         Ok(())
-    }
-}
-
-pub struct DebugRenderer;
-
-impl Renderer for DebugRenderer {
-    type SiteMeta = ::yaml::Hash;
-    type PageMeta = ::yaml::Hash;
-
-    fn render_page<W: Write>(&self,
-                             _site: &Site<Self::SiteMeta>,
-                             page: &Page<Self::PageMeta>,
-                             output: &mut W) -> Result<(), Box<::std::error::Error>>
-    {
-        Ok(try!(writeln!(output, "{:#?}", page)))
     }
 }
