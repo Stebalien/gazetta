@@ -5,12 +5,18 @@ use std::fmt::Write as FmtWrite;
 use markdown::Markdown;
 use std::path::{Path, PathBuf};
 
-use model::Site;
-use view::{Page, Index, Paginate};
+use model::{Source, Meta};
+use view::{Site, Page, Index, Paginate};
+
+static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
+    case_sensitive: true,
+    require_literal_separator: true,
+    require_literal_leading_dot: false,
+};
 
 fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
     try!(fs::create_dir(dest));
-    for dir_entry in try!(fs::walk_dir(src)) {
+    for dir_entry in try!(fs::read_dir(src)) {
         let dir_entry = try!(dir_entry);
         let from = dir_entry.path();
         let to = dest.join(from.relative_from(src).unwrap());
@@ -19,7 +25,7 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
         }
 
         if try!(dir_entry.file_type()).is_dir() {
-            try!(fs::create_dir(to));
+            try!(copy_dir(&from, &to));
         } else {
             // TODO: Use cow. Note: Don't use fs::copy because we just want to copy the files, not the
             // permisions.
@@ -30,9 +36,25 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
 }
 
 pub trait Renderer {
-    fn render_page<W: Write>(&self, site: &Site, page: &Page, output: &mut W) -> io::Result<()>;
-    fn render<P: AsRef<Path>>(&self, site: &Site, output: P) -> io::Result<()> {
+    type SiteMeta: Meta;
+    type PageMeta: Meta;
+
+    fn render_page<W: Write>(&self,
+                             site: &Site<Self::SiteMeta>,
+                             page: &Page<Self::PageMeta>,
+                             output: &mut W) -> Result<(), Box<::std::error::Error>>;
+
+    fn render<P: AsRef<Path>>(&self,
+                              source: &Source<Self::SiteMeta, Self::PageMeta>,
+                              output: P) -> Result<(), Box<::std::error::Error>>
+    {
         let output = output.as_ref();
+
+        let site = Site {
+            title: &source.title,
+            author: &source.author,
+            meta: &source.meta,
+        };
 
         // In general, the system calls here will dwarf the cost of a couple of allocations.
         // However, putting all content in a single string buffer may improve cache behavior.
@@ -41,22 +63,22 @@ pub trait Renderer {
 
         // Define this as a macro because we need to go from a mutable borrow to an immutable borrow...
         macro_rules! read_children {
-            ($buf:ident, $entries:ident, $site:ident)  => {{
+            ($buf:ident, $entries:expr)  => {{
                 let mut children = Vec::with_capacity($entries.len());
                 let mut strides = Vec::with_capacity($entries.len());
 
                 let mut start = $buf.len();
 
                 {
-                    for child in $entries {
-                        let page = &$site.entries[child];
-                        strides.push(try!(page.read_content(&mut $buf)));
+                    for &(child_name, child) in $entries {
+                        strides.push(try!(child.read_content(&mut $buf)));
                         children.push(Page {
-                            title: &page.title,
-                            date: page.date.as_ref(),
+                            title: &child.title,
+                            date: child.date.as_ref(),
                             content: None,
-                            href: &child,
+                            href: &child_name,
                             index: None,
+                            meta: &child.meta,
                         });
                     }
                 }
@@ -73,16 +95,16 @@ pub trait Renderer {
             }}
         }
 
-        for (target, entry) in &site.entries {
+        for (name, entry) in &source.entries {
             let content_len = try!(entry.read_content(&mut buf));
 
             {
                 // Create output.
-                let mut dest_dir = output.join(target);
+                let mut dest_dir = output.join(&name[1..]);
                 try!(fs::create_dir_all(&dest_dir));
 
                 // Copy static.
-                let src_dir = entry.src.join("static");
+                let src_dir = entry.content_path.parent().unwrap().join("static");
                 if fs::metadata(&src_dir).is_ok() {
                     dest_dir.push("static");
                     try!(copy_dir(&src_dir, &dest_dir));
@@ -90,95 +112,99 @@ pub trait Renderer {
             }
 
             if let Some(ref index) = entry.index {
-                let entries = match index.max {
-                    Some(max) => &index.entries[..(max as usize)],
-                    None => &index.entries[..],
-                };
+
+                // TODO: We can optimize this because the btree is sorted.
+                let mut child_entries: Vec<_> = source.entries.iter().filter(|&(ref child_name, ref child)| {
+                    child.cc.contains(name) || index.directories.iter().any(|d| d.matches_with(child_name, &MATCH_OPTIONS))
+                }).collect();
+
+                {
+                    use ::model::index::SortDirection::*;
+                    use ::model::index::SortField::*;
+
+                    match (index.sort.direction, index.sort.field) {
+                        (Ascending,     Title) => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e1.title.cmp(&e2.title)),
+                        (Descending,    Title) => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e2.title.cmp(&e1.title)),
+                        (Ascending,     Date)  => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e1.date.cmp(&e2.date)),
+                        (Descending,    Date)  => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e2.date.cmp(&e1.date)),
+                    }
+                }
+
+                if let Some(max) = index.max {
+                    child_entries.truncate(max as usize);
+                }
 
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
-                    let num_pages = ((entries.len() / paginate)
-                                     + if entries.len() % paginate == 0 { 0 } else { 1 }) as u32;
+                    let num_pages = (child_entries.len() / paginate) + if child_entries.len() % paginate == 0 { 0 } else { 1 };
 
 
-                    for (page_num, chunk) in entries.chunks(paginate).enumerate() {
+                    let mut page_buf = String::with_capacity((num_pages-1) * (name.len() + 10));
+                    let mut pages: Vec<&str> = Vec::with_capacity(num_pages);
+                    pages.push(name);
+                    {
+                        let mut page_offsets = Vec::with_capacity(num_pages-1);
+                        for page_num in 1..num_pages {
+                            let _ = write!(page_buf, "{}/index/{}", name, page_num);
+                            page_offsets.push(page_buf.len());
+                        }
+                        let mut start = 0;
+                        for end in page_offsets {
+                            pages.push(&page_buf[start..end]);
+                            start = end;
+                        }
+                    }
+
+                    for (page_num, (chunk, href)) in child_entries.chunks(paginate).zip(&pages).enumerate() {
                         buf.truncate(content_len);
 
-                        let page_num = page_num as u32;
-
-                        let children = read_children!(buf, chunk, site);
+                        let children = read_children!(buf, chunk);
                         let content = &buf[..content_len];
 
-                        let has_prev = page_num > 0;
-                        let has_next = page_num + 1 < num_pages;
+                        let mut index_file = output.join(&href[1..]);
+                        try!(fs::create_dir_all(&index_file));
+                        index_file.push("index.html");
 
-                        // Initialize links.
-
-                        let mut cur_href = String::with_capacity(target.len() + 10);
-                        let mut next_href = String::with_capacity(target.len() + 10);
-                        let mut prev_href = String::with_capacity(target.len() + 10);
-
-                        if page_num == 0 {
-                            cur_href.push_str(&target);
-                        } else {
-                            let _ = write!(cur_href, "{}/index/{}", target, page_num);
-                            try!(fs::create_dir_all(output.join(&cur_href)));
-                        }
-
-                        if has_prev {
-                            let _ = write!(prev_href, "{}/index/{}", target, page_num - 1);
-                        }
-
-                        if has_next {
-                            let _ = write!(next_href, "{}/index/{}", target, page_num + 1);
-                        }
-
-                        let index_file: PathBuf  = [
-                            output,
-                            cur_href.as_ref(),
-                            "index.html".as_ref()
-                        ].into_iter().collect();
-
-                        try!(self.render_page(site, &Page {
+                        try!(self.render_page(&site, &Page {
                             title: &entry.title,
                             date: entry.date.as_ref(),
                             content: if content.trim().is_empty() {
                                 None
                             } else {
-                                Some(Markdown::new(content, &target))
+                                Some(Markdown::new(content, &name))
                             },
-                            href: &cur_href,
+                            href: &href,
                             index: Some(Index {
                                 paginate: Some(Paginate {
-                                    prev: if has_prev { Some((page_num - 1, &prev_href)) } else { None },
-                                    next: if has_next { Some((page_num + 1, &next_href)) } else { None },
-                                    page_number: page_num,
-                                    total: num_pages,
+                                    pages: &pages,
+                                    current: page_num,
                                 }),
                                 entries: &children[..]
                             }),
+                            meta: &entry.meta,
                         }, &mut BufWriter::new(try!(File::create(index_file)))));
                     }
                 } else {
-                    let children = read_children!(buf, entries, site);
+                    let children = read_children!(buf, &child_entries);
                     let content = &buf[..content_len];
 
                     let index_file: PathBuf  = [
                         output,
-                        target.as_ref(),
+                        name[1..].as_ref(),
                         "index.html".as_ref()
                     ].into_iter().collect();
 
-                    try!(self.render_page(site, &Page {
+                    try!(self.render_page(&site, &Page {
                         title: &entry.title,
                         date: entry.date.as_ref(),
                         content: if content.trim().is_empty() {
                             None
                         } else {
-                            Some(Markdown::new(content, &target))
+                            Some(Markdown::new(content, &name))
                         },
-                        href: &target,
+                        href: &name,
+                        meta: &entry.meta,
                         index: Some(Index {
                             paginate: None,
                             entries: &children[..]
@@ -188,15 +214,16 @@ pub trait Renderer {
             } else {
                 let index_file: PathBuf  = [
                     output,
-                    target.as_ref(),
+                    name[1..].as_ref(),
                     "index.html".as_ref()
                 ].into_iter().collect();
 
-                try!(self.render_page(site, &Page {
+                try!(self.render_page(&site, &Page {
                     title: &entry.title,
                     date: entry.date.as_ref(),
-                    content: if buf.trim().is_empty() { None } else { Some(Markdown::new(&buf[..], &target)) },
-                    href: &target,
+                    content: if buf.trim().is_empty() { None } else { Some(Markdown::new(&buf[..], &name)) },
+                    href: &name,
+                    meta: &entry.meta,
                     index: None,
                 }, &mut BufWriter::new(try!(File::create(index_file)))));
             }
@@ -209,7 +236,14 @@ pub trait Renderer {
 pub struct DebugRenderer;
 
 impl Renderer for DebugRenderer {
-    fn render_page<W: Write>(&self, _site: &Site, page: &Page, output: &mut W) -> io::Result<()> {
-        writeln!(output, "{:#?}", page)
+    type SiteMeta = ::yaml::Hash;
+    type PageMeta = ::yaml::Hash;
+
+    fn render_page<W: Write>(&self,
+                             _site: &Site<Self::SiteMeta>,
+                             page: &Page<Self::PageMeta>,
+                             output: &mut W) -> Result<(), Box<::std::error::Error>>
+    {
+        Ok(try!(writeln!(output, "{:#?}", page)))
     }
 }

@@ -1,3 +1,5 @@
+use ::glob;
+
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum SortField {
     Date, Title
@@ -26,11 +28,10 @@ impl Default for SortDirection {
     }
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 pub struct Index {
     pub sort: Sort,
+    pub directories: Vec<glob::Pattern>,
     pub paginate: Option<u32>,
-    pub entries: Vec<String>,
     pub max: Option<u32>,
 }
-

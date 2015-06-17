@@ -1,7 +1,8 @@
 use std::io;
 use std::borrow::Cow;
 
-use super::yaml::ScanError;
+use ::glob::PatternError;
+use ::yaml::ScanError;
 
 #[derive(Debug)]
 pub enum Error {
@@ -19,6 +20,12 @@ impl From<io::Error> for Error {
 impl From<ScanError> for Error {
     fn from(e: ScanError) -> Error {
         Error::Yaml(e)
+    }
+}
+
+impl From<PatternError> for Error {
+    fn from(_: PatternError) -> Error {
+        Error::from("invalid index directory pattern")
     }
 }
 

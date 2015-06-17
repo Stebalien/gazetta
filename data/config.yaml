@@ -3,3 +3,7 @@ title: Stebalien
 author:
   name: Steven Allen
   email: steven@stebalien.com
+
+nav:
+    Projects : /projects
+    Posts : /posts
