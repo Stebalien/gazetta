@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Event",""],["Tag",""]],"mod":[["html","HTML renderer that takes an iterator of events as input."]],"struct":[["Parser",""]]});
