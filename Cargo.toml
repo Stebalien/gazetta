@@ -11,4 +11,5 @@ lazy_static = "*"
 pulldown-cmark = "*"
 
 [dependencies.horrorshow]
-path = "../horrorshow-rs"
+git = "https://github.com/Stebalien/horrorshow-rs.git"
+branch="next"
