@@ -25,8 +25,22 @@ pub fn copy_recursive(src: &Path, dest: &Path) -> io::Result<()> {
     }
 }
 
+#[cfg(not(linux))]
 fn copy_file(src: &Path, dest: &Path) -> io::Result<()> {
     io::copy(&mut try!(File::open(&src)), &mut try!(File::create(&dest))).map(|_|())
+}
+
+
+#[cfg(linux)]
+fn copy_file(src: &Path, dest: &Path) -> io::Result<()> {
+    const BTRFS_IOC_CLONE: ioctl::libc::c_ulong = iow!(0x94, 9, 4) as ioctl::libc::c_ulong;
+    let src = try!(File::open(&src));
+    let dest = try!(File::create(&dest));
+    if unsafe { ioctl::ioctl(dest.as_raw_fd(), BTRFS_IOC_CLONE, src.as_raw_fd() ) } != 0 {
+        io::copy(&mut src, &mut dest).map(|_|())
+    } else {
+        Ok(())
+    }
 }
 
 fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {

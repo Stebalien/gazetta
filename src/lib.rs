@@ -7,6 +7,10 @@ extern crate glob;
 extern crate yaml_rust;
 extern crate pulldown_cmark;
 
+#[cfg(linux)]
+#[macro_use]
+extern crate ioctl;
+
 #[macro_use]
 extern crate horrorshow;
 
