@@ -2,11 +2,11 @@ use std::io::{self, BufWriter};
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::fmt::Write as FmtWrite;
-use markdown::Markdown;
-use std::path::{Path, PathBuf};
+use ::horrorshow::prelude::*;
+use std::path::Path;
 
 use model::{Source, Meta};
-use view::{Site, Page, Index, Paginate};
+use view::{Site, Page, Index, Paginate, Content};
 
 use ::{RenderError, AnnotatedError};
 
@@ -15,6 +15,19 @@ static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     require_literal_separator: true,
     require_literal_leading_dot: false,
 };
+
+/// Recursivly copy a directory.
+pub fn copy_recursive(src: &Path, dest: &Path) -> io::Result<()> {
+    if try!(fs::metadata(&src)).is_dir() {
+        copy_dir(src, dest)
+    } else {
+        copy_file(src, dest)
+    }
+}
+
+fn copy_file(src: &Path, dest: &Path) -> io::Result<()> {
+    io::copy(&mut try!(File::open(&src)), &mut try!(File::create(&dest))).map(|_|())
+}
 
 fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
     try!(fs::create_dir(dest));
@@ -26,26 +39,36 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
             return Err(io::Error::new(io::ErrorKind::AlreadyExists, "target path already exists"));
         }
 
-        if try!(dir_entry.file_type()).is_dir() {
-            try!(copy_dir(&from, &to));
+        try!(if try!(dir_entry.file_type()).is_dir() {
+            copy_dir(&from, &to)
         } else {
-            // TODO: Use cow. Note: Don't use fs::copy because we just want to copy the files, not the
-            // permisions.
-            try!(io::copy(&mut try!(File::open(from)), &mut try!(File::create(to))));
-        }
+            copy_file(&from, &to)
+        });
     }
     Ok(())
 }
 
-pub trait Gazetta {
+pub trait Gazetta: Sized {
     type SiteMeta: Meta;
     type PageMeta: Meta;
 
-    fn render_page<W: Write>(&self,
-                             site: &Site<Self::SiteMeta>,
-                             page: &Page<Self::PageMeta>,
-                             output: &mut W) -> Result<(), RenderError>;
+    /// The page rendering function.
+    fn render_page(&self, site: &Site<Self>, page: &Page<Self>, tmpl: &mut TemplateBuffer);
 
+    /// Render static content.
+    ///
+    /// By default, this just copies. Override to compile.
+    #[allow(unused_variables)]
+    fn render_static(&self, site: &Site<Self>, source: &Path, output: &Path) -> io::Result<()> {
+        copy_recursive(source, output)
+    }
+
+    /// Creates pages from a site defined by a source and renders them into output.
+    ///
+    /// Call this to render your site.
+    ///
+    /// Note: You *can* override this but you **really** shouldn't. This function contains pretty
+    /// much all of the provided render logic.
     fn render<P: AsRef<Path>>(&self,
                               source: &Source<Self::SiteMeta, Self::PageMeta>,
                               output: P) -> Result<(), AnnotatedError<RenderError>>
@@ -80,13 +103,16 @@ pub trait Gazetta {
                 let mut start = $buf.len();
 
                 {
-                    for &(child_name, child) in $entries {
-                        strides.push(try_annotate!(child.read_content(&mut $buf), child.content_path.clone()));
+                    for child in $entries {
+                        strides.push(try!(child.content.read_into(&mut $buf)));
                         children.push(Page {
                             title: &child.title,
                             date: child.date.as_ref(),
-                            content: None,
-                            href: &child_name,
+                            content: Content { 
+                                data: "",
+                                format: child.content.format()
+                            },
+                            href: &child.name,
                             index: None,
                             meta: &child.meta,
                         });
@@ -96,36 +122,32 @@ pub trait Gazetta {
                 for (&len, child_entry) in strides.iter().zip(children.iter_mut()) {
                     let s  = &$buf[start..(start + len)];
                     start += len;
-
-                    if !s.trim().is_empty() {
-                        child_entry.content = Some(Markdown::new(s, child_entry.href))
-                    }
+                    child_entry.content.data = s;
                 }
                 children
             }}
         }
 
-        for (name, entry) in &source.entries {
-            let content_len = try_annotate!(entry.read_content(&mut buf), entry.content_path.clone());
-
-            {
-                // Create output.
-                let mut dest_dir = output.join(&name[1..]);
-                try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
-
-                // Copy static.
-                let src_dir = entry.content_path.parent().unwrap().join("static");
-                if fs::metadata(&src_dir).is_ok() {
-                    dest_dir.push("static");
-                    try_annotate!(copy_dir(&src_dir, &dest_dir), dest_dir);
-                }
+        for static_entry in &source.static_entries {
+            let dst = output.join(&static_entry.name[1..]);
+            if let Some(parent) = dst.parent() {
+                try_annotate!(fs::create_dir_all(parent), parent.clone());
             }
+            try_annotate!(self.render_static(&site, &static_entry.source, &dst), static_entry.source.clone());
+        }
+
+        for entry in &source.entries {
+            let content_len = try!(entry.content.read_into(&mut buf));
+
+            let dest_dir = output.join(&entry.name[1..]);
+            try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
 
             if let Some(ref index) = entry.index {
 
-                // TODO: We can optimize this because the btree is sorted.
-                let mut child_entries: Vec<_> = source.entries.iter().filter(|&(ref child_name, ref child)| {
-                    child.cc.contains(name) || index.directories.iter().any(|d| d.matches_with(child_name, &MATCH_OPTIONS))
+                let mut child_entries: Vec<_> = source.entries.iter().filter(|child| {
+                    child.cc.contains(&entry.name) || index.directories.iter().any(|d| {
+                        d.matches_with(&child.name, &MATCH_OPTIONS)
+                    })
                 }).collect();
 
                 {
@@ -133,10 +155,10 @@ pub trait Gazetta {
                     use ::model::index::SortField::*;
 
                     match (index.sort.direction, index.sort.field) {
-                        (Ascending,     Title) => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e1.title.cmp(&e2.title)),
-                        (Descending,    Title) => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e2.title.cmp(&e1.title)),
-                        (Ascending,     Date)  => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e1.date.cmp(&e2.date)),
-                        (Descending,    Date)  => child_entries.sort_by(|&(_, ref e1), &(_, ref e2)| e2.date.cmp(&e1.date)),
+                        (Ascending,     Title) => child_entries.sort_by(|e1, e2| e1.title.cmp(&e2.title)),
+                        (Descending,    Title) => child_entries.sort_by(|e1, e2| e2.title.cmp(&e1.title)),
+                        (Ascending,     Date)  => child_entries.sort_by(|e1, e2| e1.date.cmp(&e2.date)),
+                        (Descending,    Date)  => child_entries.sort_by(|e1, e2| e2.date.cmp(&e1.date)),
                     }
                 }
 
@@ -148,100 +170,128 @@ pub trait Gazetta {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
                     let num_pages = (child_entries.len() / paginate) + if child_entries.len() % paginate == 0 { 0 } else { 1 };
-
-
-                    let mut page_buf = String::with_capacity((num_pages-1) * (name.len() + 10));
-                    let mut pages: Vec<&str> = Vec::with_capacity(num_pages);
-                    pages.push(name);
-                    {
-                        let mut page_offsets = Vec::with_capacity(num_pages-1);
-                        for page_num in 1..num_pages {
-                            let _ = write!(page_buf, "{}/index/{}", name, page_num);
-                            page_offsets.push(page_buf.len());
-                        }
-                        let mut start = 0;
-                        for end in page_offsets {
-                            pages.push(&page_buf[start..end]);
-                            start = end;
-                        }
-                    }
-
-                    for (page_num, (chunk, href)) in child_entries.chunks(paginate).zip(&pages).enumerate() {
-                        buf.truncate(content_len);
-
-                        let children = read_children!(buf, chunk);
+                    if num_pages == 0 {
                         let content = &buf[..content_len];
 
-                        let mut index_file_path = output.join(&href[1..]);
-                        try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
+                        let mut index_file_path = dest_dir;
                         index_file_path.push("index.html");
 
                         let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
 
-                        try_annotate!(self.render_page(&site, &Page {
-                            title: &entry.title,
-                            date: entry.date.as_ref(),
-                            content: if content.trim().is_empty() {
-                                None
-                            } else {
-                                Some(Markdown::new(content, &name))
-                            },
-                            href: &href,
-                            index: Some(Index {
-                                paginate: Some(Paginate {
-                                    pages: &pages,
-                                    current: page_num,
+                        try_annotate!(html! {
+                            |tmpl| self.render_page(&site, &Page {
+                                title: &entry.title,
+                                date: entry.date.as_ref(),
+                                content: Content {
+                                    data: content,
+                                    format: entry.content.format(),
+                                },
+                                href: &entry.name,
+                                index: Some(Index {
+                                    paginate: Some(Paginate {
+                                        pages: &[&entry.name],
+                                        current: 0,
+                                    }),
+                                    entries: &[]
                                 }),
-                                entries: &children[..]
-                            }),
-                            meta: &entry.meta,
-                        }, &mut BufWriter::new(index_file)), index_file_path);
+                                meta: &entry.meta,
+                            }, tmpl);
+                        }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+                    } else {
+                        let mut page_buf = String::with_capacity((num_pages-1) * (entry.name.len() + 10));
+                        let mut pages: Vec<&str> = Vec::with_capacity(num_pages);
+                        pages.push(&entry.name);
+                        {
+                            let mut page_offsets = Vec::with_capacity(num_pages-1);
+                            for page_num in 1..num_pages {
+                                let _ = write!(page_buf, "{}/index/{}", &entry.name, page_num);
+                                page_offsets.push(page_buf.len());
+                            }
+                            let mut start = 0;
+                            for end in page_offsets {
+                                pages.push(&page_buf[start..end]);
+                                start = end;
+                            }
+                        }
+
+                        for (page_num, (chunk, href)) in child_entries.chunks(paginate).zip(&pages).enumerate() {
+                            buf.truncate(content_len);
+
+                            let children = read_children!(buf, chunk);
+                            let content = &buf[..content_len];
+
+                            let mut index_file_path = output.join(&href[1..]);
+                            try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
+                            index_file_path.push("index.html");
+
+                            let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
+
+                            try_annotate!(html! {
+                                |tmpl| self.render_page(&site, &Page {
+                                    title: &entry.title,
+                                    date: entry.date.as_ref(),
+                                    content: Content {
+                                        data: content,
+                                        format: entry.content.format(),
+                                    },
+                                    href: &href,
+                                    index: Some(Index {
+                                        paginate: Some(Paginate {
+                                            pages: &pages,
+                                            current: page_num,
+                                        }),
+                                        entries: &children[..]
+                                    }),
+                                    meta: &entry.meta,
+                                }, tmpl);
+                            }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+                        }
                     }
                 } else {
                     let children = read_children!(buf, &child_entries);
                     let content = &buf[..content_len];
 
-                    let index_file_path: PathBuf  = [
-                        output,
-                        name[1..].as_ref(),
-                        "index.html".as_ref()
-                    ].into_iter().collect();
+                    let mut index_file_path = dest_dir;
+                    index_file_path.push("index.html");
 
                     let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
 
-                    try_annotate!(self.render_page(&site, &Page {
-                        title: &entry.title,
-                        date: entry.date.as_ref(),
-                        content: if content.trim().is_empty() {
-                            None
-                        } else {
-                            Some(Markdown::new(content, &name))
-                        },
-                        href: &name,
-                        meta: &entry.meta,
-                        index: Some(Index {
-                            paginate: None,
-                            entries: &children[..]
-                        })
-                    }, &mut BufWriter::new(index_file)), index_file_path);
+                    try_annotate!(html! {
+                        |tmpl| self.render_page(&site, &Page {
+                            title: &entry.title,
+                            date: entry.date.as_ref(),
+                            content: Content {
+                                data: content,
+                                format: entry.content.format(),
+                            },
+                            href: &entry.name,
+                            meta: &entry.meta,
+                            index: Some(Index {
+                                paginate: None,
+                                entries: &children[..]
+                            })
+                        }, tmpl);
+                    }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
                 }
             } else {
-                let index_file_path: PathBuf  = [
-                    output,
-                    name[1..].as_ref(),
-                    "index.html".as_ref()
-                ].into_iter().collect();
+                let mut index_file_path = dest_dir;
+                index_file_path.push("index.html");
 
                 let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
 
-                try_annotate!(self.render_page(&site, &Page {
-                    title: &entry.title,
-                    date: entry.date.as_ref(),
-                    content: if buf.trim().is_empty() { None } else { Some(Markdown::new(&buf[..], &name)) },
-                    href: &name,
-                    meta: &entry.meta,
-                    index: None,
-                }, &mut BufWriter::new(index_file)), index_file_path);
+                try_annotate!(html! {
+                    |tmpl| self.render_page(&site, &Page {
+                        title: &entry.title,
+                        date: entry.date.as_ref(),
+                        content: Content {
+                            data: &buf[..],
+                            format: entry.content.format(),
+                        },
+                        href: &entry.name,
+                        meta: &entry.meta,
+                        index: None,
+                    }, tmpl);
+                }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
             }
             buf.clear();
         }

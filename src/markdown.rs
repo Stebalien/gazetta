@@ -23,6 +23,7 @@ trait Iff: Sized {
 
 impl<T> Iff for T {}
 
+/// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Markdown<'a> {
     data: &'a str,
@@ -30,6 +31,12 @@ pub struct Markdown<'a> {
 }
 
 impl<'a> Markdown<'a> {
+    /// Create a new markdown renderer.
+    ///
+    /// `data` should contain the markdown to be rendered and `base` should specify a relative url
+    /// prefix (for relative links and images).
+    ///
+    /// Note: `base` will only affect markdown links and images, not inline html ones.
     pub fn new(data: &'a str, base: &'a str) -> Markdown<'a> {
         Markdown {
             data: data,

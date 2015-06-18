@@ -1,3 +1,5 @@
+//! TODO: Document.
+
 #![feature(path_relative_from)]
 
 extern crate chrono;

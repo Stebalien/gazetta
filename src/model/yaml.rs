@@ -24,17 +24,17 @@ lazy_static! {
     pub static ref MAX: Yaml = Yaml::String("max".into());
 }
 
-pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(usize, BTreeMap<Yaml, Yaml>), SourceError> {
+pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(u64, BTreeMap<Yaml, Yaml>), SourceError> {
     let mut buf = String::with_capacity(100);
     let mut file = BufReader::new(try!(File::open(path.as_ref())));
-    let mut offset = 0;
-    offset += try!(file.read_line(&mut buf));
+    let mut offset: u64 = 0;
+    offset += try!(file.read_line(&mut buf)) as u64;
     if buf.trim_right() == "---" {
         // Parse yaml header.
         loop {
             match file.read_line(&mut buf) {
                 Ok(len) => {
-                    offset += len;
+                    offset += len as u64;
 
                     if buf[buf.len()-len..].trim_right() == "..." {
                         break;

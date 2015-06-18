@@ -2,39 +2,103 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io;
 use std::path::PathBuf;
+use std::borrow::Cow;
 
-use ::{glob, SourceError};
+use ::{glob, SourceError, AnnotatedError};
 
 use super::{Meta, Date};
 use super::index::{self, Index};
 use super::yaml::{self, Yaml};
 
+/// An entry in the website.
+///
+/// Note: *Pages* do not correspond one-to-one to Entries (due to pagination).
 #[derive(Debug, Clone)]
 pub struct Entry<EntryMeta> where EntryMeta: Meta {
+    /// The entry's title.
+    ///
+    /// This is separate from the general metadata for sorting and linking. All entries should have
+    /// titles.
     pub title: String,
+
+    /// The entry's date.
+    /// 
+    /// This is separate from the general metadata for sorting. Many entries will have dates.
     pub date: Option<Date>,
+
+    /// The entries index options (if specified).
     pub index: Option<Index>,
+
+    /// Indices into which this entry should be linked.
     pub cc: Vec<String>,
+
+    /// Extra metadata.
     pub meta: EntryMeta,
-    pub content_path: PathBuf,
-    pub content_offset: usize,
+
+    /// The entry name.
+    pub name: String,
+
+    /// The content
+    pub content: ContentSource,
+}
+
+#[derive(Debug, Clone)]
+pub enum ContentSource {
+    File {
+        content_path: PathBuf,
+        content_offset: u64,
+    },
+    String {
+        data: Cow<'static, String>,
+        format: Cow<'static, String>,
+    }
+}
+
+impl ContentSource {
+    /// Read the content into the specified buffer.
+    pub fn read_into(&self, buf: &mut String) -> Result<usize, AnnotatedError<io::Error>> {
+        match *self {
+            ContentSource::File { ref content_path, content_offset } => (|| {
+                let mut f = try!(File::open(&content_path));
+                if content_offset != try!(f.seek(io::SeekFrom::Start(content_offset))) {
+                    return Err(io::Error::new(io::ErrorKind::Other, "content missing"));
+                }
+                f.read_to_string(buf)
+            })().map_err(|e| AnnotatedError::new(content_path.clone(), e)),
+            ContentSource::String { ref data, .. } => {
+                buf.push_str(&data);
+                Ok(data.len())
+            }
+        }
+    }
+
+    /// The content format.
+    ///
+    /// If this is a file, this returns the file extension.
+    /// If this content exists in-memory, this returns the format.
+    ///
+    /// Note: if the file extension is not UTF-8 encoded, this returns an empty string.
+    ///
+    pub fn format(&self) -> &str {
+        match *self {
+            ContentSource::File { ref content_path, .. } => {
+                content_path.extension().and_then(|e|e.to_str()).unwrap_or("")
+            },
+            ContentSource::String { ref format, .. } => &format,
+        }
+    }
 }
 
 impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
-    pub fn read_content(&self, buf: &mut String) -> io::Result<usize> {
-        let mut f = try!(File::open(&self.content_path));
-        if (self.content_offset as u64) != try!(f.seek(io::SeekFrom::Start(self.content_offset as u64))) {
-            return Err(io::Error::new(io::ErrorKind::Other, "content missing"));
-        }
-        f.read_to_string(buf)
-    }
 
-    pub fn from_file(full_path: PathBuf, name: &str) -> Result<Self, SourceError> {
+    pub fn from_file(full_path: PathBuf, name: String) -> Result<Self, SourceError> {
         let (offset, mut meta) = try!(yaml::load_front(&full_path));
 
         Ok(Entry {
-            content_offset: offset,
-            content_path: full_path,
+            content: ContentSource::File {
+                content_offset: offset,
+                content_path: full_path,
+            },
             title: match meta.remove(&yaml::TITLE) {
                 Some(Yaml::String(title)) => title,
                 Some(..) => return Err("titles must be strings".into()),
@@ -58,7 +122,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                         max: None,
                         sort: index::Sort::default(),
                         directories: {
-                            let mut s = glob::Pattern::escape(name);
+                            let mut s = glob::Pattern::escape(&name);
                             s.push_str("/*");
                             vec![glob::Pattern::new(&s).unwrap()]
                         },
@@ -168,7 +232,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                         }],
                         Some(..) => return Err("invalid directory list in index".into()),
                         None => {
-                            let mut s = glob::Pattern::escape(name);
+                            let mut s = glob::Pattern::escape(&name);
                             s.push_str("/*");
                             vec![glob::Pattern::new(&s).unwrap()]
                         }
@@ -190,6 +254,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                 None => Vec::new(),
             },
             meta: try!(EntryMeta::from_yaml(meta)),
+            name: name,
         })
     }
 }

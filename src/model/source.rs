@@ -1,5 +1,4 @@
 use std::fs;
-use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 use ::{AnnotatedError, SourceError};
@@ -15,16 +14,33 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
     pub title: String,
     pub author: Person,
     pub root: PathBuf,
-    pub entries: BTreeMap<String, Entry<EntryMeta>>,
+    pub entries: Vec<Entry<EntryMeta>>,
+    pub static_entries: Vec<StaticEntry>,
     pub meta: SourceMeta,
 }
 
+fn path_to_href(root: &Path, path: &Path) -> Result<String, AnnotatedError<SourceError>> {
+    let mut path_str = String::with_capacity(256);
+    path_str.push('/');
+    let relative_path = path.relative_from(root).unwrap();
+    match relative_path.to_str() {
+        Some(s) => path_str.push_str(s),
+        None => return Err(AnnotatedError::new(path.to_owned(), "file names must be valid utf8".into())),
+    };
+    Ok(path_str)
+}
+
+#[derive(Debug, Clone)]
+pub struct StaticEntry {
+    pub name: String,
+    pub source: PathBuf,
+}
 
 impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
     where SourceMeta: Meta,
           EntryMeta: Meta
 {
-    fn read_entries(&mut self, dir: &Path) -> Result<(), AnnotatedError<SourceError>> {
+    fn load(&mut self, dir: &Path) -> Result<(), AnnotatedError<SourceError>> {
         macro_rules! try_annotate {
             ($e:expr, $l:expr) => {
                 match $e {
@@ -38,39 +54,17 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             let full_path = dir_entry.path();
             let file_type = try_annotate!(dir_entry.file_type(), full_path);
             if file_type.is_file() {
-                if full_path.file_name().unwrap() == "index.md" {
-                    let mut path_str = String::with_capacity(256);
-                    {
-                        let path = full_path.parent().unwrap().relative_from(&self.root).unwrap();
-                        path_str.push('/');
-                        match path.to_str() {
-                            Some(s) => path_str.push_str(s),
-                            None => return Err(AnnotatedError::new(full_path.clone(), "file names must be valid utf8".into())),
-                        };
-                    }
-                    let entry = try_annotate!(Entry::from_file(full_path, &path_str), dir_entry.path());
-                    self.entries.insert(path_str, entry);
+                if full_path.file_stem().unwrap() == "index" {
+                    let path_str = try!(path_to_href(&self.root, full_path.parent().unwrap()));
+                    let entry = try_annotate!(Entry::from_file(full_path, path_str), dir_entry.path());
+                    self.entries.push(entry);
                 }
-                // TODO: index.html?
-            } else if file_type.is_dir() && !full_path.ends_with("/static") {
-                try!(self.read_entries(&full_path));
-            }
-        }
-        Ok(())
-    }
-
-    fn check_entries(&self) -> Result<(), AnnotatedError<SourceError>> {
-        for (entry_path, entry) in &self.entries {
-            for other_entry_path in &entry.cc {
-                if other_entry_path == entry_path {
-                    return Err(AnnotatedError::new(entry.content_path.clone(), "entry CCed to itself".into()));
-                }
-                let other_entry = match self.entries.get(other_entry_path) {
-                    None => return Err(AnnotatedError::new(entry.content_path.clone(), "cc points to missing entry".into())),
-                    Some(p) => p,
-                };
-                if other_entry.index.is_none() {
-                    return Err(AnnotatedError::new(entry.content_path.clone(), "cc points to entry without index".into()));
+            } else if file_type.is_dir() {
+                if full_path.ends_with("static") {
+                    let path_str = try!(path_to_href(&self.root, &full_path));
+                    self.static_entries.push(StaticEntry { name: path_str, source: full_path });
+                } else {
+                    try!(self.load(&full_path));
                 }
             }
         }
@@ -85,8 +79,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 
         let mut site = try!(Source::new_inner(root, &config_path).map_err(|e| AnnotatedError::new(config_path, e)));
 
-        try!(site.read_entries(root));
-        try!(site.check_entries());
+        try!(site.load(root));
         Ok(site)
     }
 
@@ -121,7 +114,8 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 None => return Err("must specify title".into()),
             },
             root: root.to_owned(),
-            entries: BTreeMap::new(),
+            entries: Vec::new(),
+            static_entries: Vec::new(),
             meta: try!(SourceMeta::from_yaml(config)),
         })
     }

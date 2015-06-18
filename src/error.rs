@@ -52,6 +52,16 @@ pub struct AnnotatedError<E> where E: Error {
     pub error: E,
 }
 
+// Would like to make this generic but coherence...
+impl From<AnnotatedError<io::Error>> for AnnotatedError<RenderError> {
+    fn from(e: AnnotatedError<io::Error>) -> AnnotatedError<RenderError> {
+        AnnotatedError {
+            location: e.location,
+            error: From::from(e.error),
+        }
+    }
+}
+
 impl<E> Error for AnnotatedError<E> where E: Error {
     fn description(&self) -> &str {
         self.error.description()
