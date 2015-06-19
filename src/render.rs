@@ -1,52 +1,12 @@
 use std::io::{self, BufWriter};
 use std::fs::{self, File};
-use std::io::prelude::*;
-use std::fmt::Write as FmtWrite;
-use ::horrorshow::prelude::*;
 use std::path::Path;
 
+use horrorshow::prelude::*;
+use util::copy_recursive;
 use model::{Source, Meta};
 use view::{Site, Page, Index, Paginate, Content};
-
-use ::{RenderError, AnnotatedError};
-
-static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
-    case_sensitive: true,
-    require_literal_separator: true,
-    require_literal_leading_dot: false,
-};
-
-/// Recursivly copy a directory.
-pub fn copy_recursive(src: &Path, dest: &Path) -> io::Result<()> {
-    if try!(fs::metadata(&src)).is_dir() {
-        copy_dir(src, dest)
-    } else {
-        copy_file(src, dest)
-    }
-}
-
-fn copy_file(src: &Path, dest: &Path) -> io::Result<()> {
-    io::copy(&mut try!(File::open(&src)), &mut try!(File::create(&dest))).map(|_|())
-}
-
-fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
-    try!(fs::create_dir(dest));
-    for dir_entry in try!(fs::read_dir(src)) {
-        let dir_entry = try!(dir_entry);
-        let from = dir_entry.path();
-        let to = dest.join(from.relative_from(src).unwrap());
-        if fs::metadata(&to).is_ok() {
-            return Err(io::Error::new(io::ErrorKind::AlreadyExists, "target path already exists"));
-        }
-
-        try!(if try!(dir_entry.file_type()).is_dir() {
-            copy_dir(&from, &to)
-        } else {
-            copy_file(&from, &to)
-        });
-    }
-    Ok(())
-}
+use error::{RenderError, AnnotatedError};
 
 pub trait Gazetta: Sized {
     type SiteMeta: Meta;
@@ -81,18 +41,6 @@ pub trait Gazetta: Sized {
                 }
             }
         }
-        let output = output.as_ref();
-
-        let site = Site {
-            title: &source.title,
-            author: &source.author,
-            meta: &source.meta,
-        };
-
-        // In general, the system calls here will dwarf the cost of a couple of allocations.
-        // However, putting all content in a single string buffer may improve cache behavior.
-        // TODO: Test this.
-        let mut buf = String::with_capacity(4096);
 
         // Define this as a macro because we need to go from a mutable borrow to an immutable borrow...
         macro_rules! read_children {
@@ -128,6 +76,9 @@ pub trait Gazetta: Sized {
             }}
         }
 
+        let output = output.as_ref();
+        let site = Site::from(source);
+
         for static_entry in &source.static_entries {
             let dst = output.join(&static_entry.name[1..]);
             if let Some(parent) = dst.parent() {
@@ -135,6 +86,11 @@ pub trait Gazetta: Sized {
             }
             try_annotate!(self.render_static(&site, &static_entry.source, &dst), static_entry.source.clone());
         }
+
+        // In general, the system calls here will dwarf the cost of a couple of allocations.
+        // However, putting all content in a single string buffer may improve cache behavior.
+        // TODO: Test this.
+        let mut buf = String::with_capacity(4096);
 
         for entry in &source.entries {
             let content_len = try!(entry.content.read_into(&mut buf));
@@ -144,27 +100,7 @@ pub trait Gazetta: Sized {
 
             if let Some(ref index) = entry.index {
 
-                let mut child_entries: Vec<_> = source.entries.iter().filter(|child| {
-                    child.cc.contains(&entry.name) || index.directories.iter().any(|d| {
-                        d.matches_with(&child.name, &MATCH_OPTIONS)
-                    })
-                }).collect();
-
-                {
-                    use ::model::index::SortDirection::*;
-                    use ::model::index::SortField::*;
-
-                    match (index.sort.direction, index.sort.field) {
-                        (Ascending,     Title) => child_entries.sort_by(|e1, e2| e1.title.cmp(&e2.title)),
-                        (Descending,    Title) => child_entries.sort_by(|e1, e2| e2.title.cmp(&e1.title)),
-                        (Ascending,     Date)  => child_entries.sort_by(|e1, e2| e1.date.cmp(&e2.date)),
-                        (Descending,    Date)  => child_entries.sort_by(|e1, e2| e2.date.cmp(&e1.date)),
-                    }
-                }
-
-                if let Some(max) = index.max {
-                    child_entries.truncate(max as usize);
-                }
+                let child_entries = source.build_index(entry);
 
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
@@ -204,6 +140,7 @@ pub trait Gazetta: Sized {
                         {
                             let mut page_offsets = Vec::with_capacity(num_pages-1);
                             for page_num in 1..num_pages {
+                                use std::fmt::Write;
                                 let _ = write!(page_buf, "{}/index/{}", &entry.name, page_num);
                                 page_offsets.push(page_buf.len());
                             }

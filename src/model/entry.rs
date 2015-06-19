@@ -225,3 +225,11 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
     }
 }
 
+/// A static entry.
+///
+/// Represents a static file/directory to be deployed.
+#[derive(Debug, Clone)]
+pub struct StaticEntry {
+    pub name: String,
+    pub source: PathBuf,
+}

@@ -1,10 +1,12 @@
 use std::ops::Deref;
 use std::fmt;
 
+use ::render::Gazetta;
+use ::model::Date;
 use ::markdown::Markdown;
 use ::horrorshow::prelude::*;
-use ::model::{Date, Person};
-use ::Gazetta;
+
+use super::Index;
 
 /// Represents an indevidual page to be rendered.
 pub struct Page<'a, G>
@@ -37,6 +39,12 @@ pub struct Page<'a, G>
     /// }
     /// ```
     pub content: Content<'a>,
+}
+
+#[derive(Copy, Clone, Debug)]
+pub struct Content<'a> {
+    pub data: &'a str,
+    pub format: &'a str,
 }
 
 // Implement these manually. Derive requires that G: Trait.
@@ -72,13 +80,6 @@ impl<'a, G> fmt::Debug for Page<'a, G>
             .field("content", &self.content)
             .finish()
     }
-}
-
-
-#[derive(Copy, Clone, Debug)]
-pub struct Content<'a> {
-    pub data: &'a str,
-    pub format: &'a str,
 }
 
 impl<'a, G> RenderOnce for Page<'a, G>
@@ -130,109 +131,3 @@ impl<'a, G> Deref for Page<'a, G>
     }
 }
 
-/// Page pagination information.
-#[derive(Copy, Clone, Debug)]
-pub struct Paginate<'a> {
-    /// Index of current page.
-    pub current: usize,
-    /// The list of pages (links only) in this pagination.
-    pub pages: &'a [&'a str],
-}
-
-/// Page index information
-pub struct Index<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
-{
-    /// Pages to be indexed.
-    pub entries: &'a [Page<'a, G>],
-    /// Pagination information (if any).
-    pub paginate: Option<Paginate<'a>>,
-}
-
-// Implement these manually. Derive requires that G: Trait.
-
-impl<'a, G> Copy for Index<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
-{}
-
-impl<'a, G> Clone for Index<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a,
-{
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-// Manually implement because rust isn't correctly adding the Debug constraint when deriving.
-impl<'a, G> fmt::Debug for Index<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: fmt::Debug + 'a,
-          G::SiteMeta: 'a,
-{
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Index")
-            .field("entries", &self.entries)
-            .field("paginate", &self.paginate)
-            .finish()
-    }
-}
-
-/// A "website"
-pub struct Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-{
-    /// The website's title
-    pub title: &'a str,
-    /// The website's author
-    pub author: &'a Person,
-    /// Extra metadata specified in the Source.
-    pub meta: &'a G::SiteMeta,
-}
-
-impl<'a, G> Deref for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-{
-    type Target = G::SiteMeta;
-    fn deref(&self) -> &Self::Target {
-        self.meta
-    }
-}
-
-impl<'a, G> Copy for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
-{}
-
-impl<'a, G> Clone for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a,
-{
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-// Manually implement because rust isn't correctly adding the Debug constraint when deriving.
-impl<'a, G> fmt::Debug for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: fmt::Debug + 'a,
-{
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Page")
-            .field("title", &self.title)
-            .field("author", &self.author)
-            .field("meta", &self.meta)
-            .finish()
-    }
-}
