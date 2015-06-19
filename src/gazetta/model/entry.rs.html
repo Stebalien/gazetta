@@ -267,6 +267,14 @@
 <span id="225">225</span>
 <span id="226">226</span>
 <span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -495,6 +503,14 @@
     }
 }
 
+<span class='doccomment'>/// A static entry.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Represents a static file/directory to be deployed.</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>StaticEntry</span> {
+    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='kw'>pub</span> <span class='ident'>source</span>: <span class='ident'>PathBuf</span>,
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

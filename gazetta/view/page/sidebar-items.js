@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Content",""],["Page","Represents an indevidual page to be rendered."]]});
