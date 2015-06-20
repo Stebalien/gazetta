@@ -105,16 +105,12 @@
 <span id="63">63</span>
 <span id="64">64</span>
 <span id="65">65</span>
-<span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 
 <span class='kw'>use</span> ::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
-<span class='kw'>use</span> ::<span class='ident'>model</span>::{<span class='ident'>Person</span>, <span class='ident'>Source</span>};
+<span class='kw'>use</span> ::<span class='ident'>model</span>::<span class='ident'>Source</span>;
 
 <span class='doccomment'>/// A &quot;website&quot;</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Site</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>
@@ -123,8 +119,6 @@
 {
     <span class='doccomment'>/// The website&#39;s title</span>
     <span class='kw'>pub</span> <span class='ident'>title</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
-    <span class='doccomment'>/// The website&#39;s author</span>
-    <span class='kw'>pub</span> <span class='ident'>author</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Person</span>,
     <span class='doccomment'>/// Extra metadata specified in the Source.</span>
     <span class='kw'>pub</span> <span class='ident'>meta</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>,
 }
@@ -133,7 +127,6 @@
     <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>source</span>: <span class='kw-2'>&amp;</span><span class='ident'>Source</span><span class='op'>&lt;</span><span class='ident'>G</span>::<span class='ident'>SiteMeta</span>, <span class='ident'>G</span>::<span class='ident'>PageMeta</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Site</span><span class='op'>&lt;</span><span class='ident'>G</span><span class='op'>&gt;</span> {
         <span class='ident'>Site</span> {
             <span class='ident'>title</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>title</span>,
-            <span class='ident'>author</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>author</span>,
             <span class='ident'>meta</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>meta</span>,
         }
     }
@@ -174,7 +167,6 @@
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='ident'>f</span>.<span class='ident'>debug_struct</span>(<span class='string'>&quot;Page&quot;</span>)
             .<span class='ident'>field</span>(<span class='string'>&quot;title&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>title</span>)
-            .<span class='ident'>field</span>(<span class='string'>&quot;author&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>author</span>)
             .<span class='ident'>field</span>(<span class='string'>&quot;meta&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>meta</span>)
             .<span class='ident'>finish</span>()
     }

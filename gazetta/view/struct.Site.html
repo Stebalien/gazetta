@@ -45,17 +45,14 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-7448' class='srclink' href='../../src/gazetta/view/site.rs.html#8-18' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-6332' class='srclink' href='../../src/gazetta/view/site.rs.html#8-16' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Site&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta/prelude/trait.Gazetta.html' title='gazetta::prelude::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a</span> {
     pub title: &amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
-    pub author: &amp;'a <a class='struct' href='../../gazetta/model/struct.Person.html' title='gazetta::model::Person'>Person</a>,
     pub meta: &amp;'a G::SiteMeta,
 }</pre><div class='docblock'><p>A &quot;website&quot;</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
                                   <td id='structfield.title'><code>title</code></td><td><div class='docblock'><p>The website&#39;s title</p>
-</div></td></tr><tr class='stab '>
-                                  <td id='structfield.author'><code>author</code></td><td><div class='docblock'><p>The website&#39;s author</p>
 </div></td></tr><tr class='stab '>
                                   <td id='structfield.meta'><code>meta</code></td><td><div class='docblock'><p>Extra metadata specified in the Source.</p>
 </div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;&amp;'a <a class='struct' href='../../gazetta/model/struct.Source.html' title='gazetta::model::Source'>Source</a>&lt;G::SiteMeta, G::PageMeta&gt;&gt; for <a class='struct' href='../../gazetta/view/struct.Site.html' title='gazetta::view::Site'>Site</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta/prelude/trait.Gazetta.html' title='gazetta::prelude::Gazetta'>Gazetta</a></span></code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(source: &amp;<a class='struct' href='../../gazetta/model/struct.Source.html' title='gazetta::model::Source'>Source</a>&lt;G::SiteMeta, G::PageMeta&gt;) -&gt; <a class='struct' href='../../gazetta/view/struct.Site.html' title='gazetta::view::Site'>Site</a>&lt;G&gt;</code></h4>
