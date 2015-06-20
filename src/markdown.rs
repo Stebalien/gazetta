@@ -120,22 +120,28 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                 a(href = &*dest, title? = (&*title).iff(|&s|!s.is_empty())) : s
                             }
                         }
-                        Tag::Image(dest, title) => &mut *tmpl << html! {
-                            img(src = &*dest,
-                                title? = (&*title).iff(|&s|!s.is_empty()),
-                                alt = FnRenderer::new(|tmpl| {
-                                    let mut nest = 0;
-                                    while let Some(event) = s.iter.next() {
-                                        match event {
-                                            Start(_) => nest += 1,
-                                            End(_) if nest == 0 => break,
-                                            End(_) => nest -= 1,
-                                            Text(txt) | InlineHtml(txt) => {&mut *tmpl << &*txt;},
-                                            SoftBreak | HardBreak => {&mut *tmpl << " ";},
-                                            Html(_) => (),
+                        Tag::Image(mut dest, title) => {
+                            if !is_absolute(&*dest) {
+                                dest = Cow::Owned(format!("{}/{}", &*self.base, &*dest));
+                            }
+
+                            &mut *tmpl << html! {
+                                img(src = &*dest,
+                                    title? = (&*title).iff(|&s|!s.is_empty()),
+                                    alt = FnRenderer::new(|tmpl| {
+                                        let mut nest = 0;
+                                        while let Some(event) = s.iter.next() {
+                                            match event {
+                                                Start(_) => nest += 1,
+                                                End(_) if nest == 0 => break,
+                                                End(_) => nest -= 1,
+                                                Text(txt) | InlineHtml(txt) => {&mut *tmpl << &*txt;},
+                                                SoftBreak | HardBreak => {&mut *tmpl << " ";},
+                                                Html(_) => (),
+                                            }
                                         }
-                                    }
-                                }))
+                                    }))
+                            }
                         },
                         Tag::CodeBlock(info)    => {
                             // TODO Highlight code.
