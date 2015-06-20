@@ -49,8 +49,8 @@ pub enum ContentSource {
         content_offset: u64,
     },
     String {
-        data: Cow<'static, String>,
-        format: Cow<'static, String>,
+        data: Cow<'static, str>,
+        format: Cow<'static, str>,
     }
 }
 
