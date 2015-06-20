@@ -208,7 +208,10 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                 None => None,
             },
             cc: match meta.remove(&yaml::CC) {
-                Some(Yaml::String(cc)) => vec![cc],
+                Some(Yaml::String(mut cc)) => {
+                    cc.insert(0, '/');
+                    vec![cc]
+                },
                 Some(Yaml::Array(cc)) => try!(cc.into_iter().map(|v| match v {
                     Yaml::String(mut ci) => {
                         ci.insert(0, '/');
