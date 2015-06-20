@@ -2,7 +2,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use ::{AnnotatedError, SourceError};
-use super::{ Entry, Person, StaticEntry};
+use super::{ Entry, StaticEntry};
 use super::yaml::{self, Yaml};
 use super::Meta;
 
@@ -18,7 +18,6 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
           EntryMeta: Meta
 {
     pub title: String,
-    pub author: Person,
     pub root: PathBuf,
     pub entries: Vec<Entry<EntryMeta>>,
     pub static_entries: Vec<StaticEntry>,
@@ -75,26 +74,6 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         let mut config = try!(yaml::load(&config_path));
 
         Ok(Source {
-            author: match config.remove(&yaml::AUTHOR) {
-                Some(Yaml::Hash(mut author)) => Person {
-                    name: match author.remove(&yaml::NAME) {
-                        Some(Yaml::String(name)) => name,
-                        None => return Err("missing author name".into()),
-                        _ => return Err("author name must be a string".into()),
-                    },
-                    email: match author.remove(&yaml::EMAIL) {
-                        Some(Yaml::String(email)) => Some(email),
-                        None => None,
-                        _ => return Err("if specified, author email must be a string".into()),
-                    }
-                },
-                Some(Yaml::String(name)) => Person {
-                    name: name,
-                    email: None
-                },
-                Some(..) => return Err("invalid author".into()),
-                None => return Err("must specify author".into()),
-            },
             title: match config.remove(&yaml::TITLE) {
                 Some(Yaml::String(title)) => title,
                 Some(..) => return Err("title must be a string".into()),
