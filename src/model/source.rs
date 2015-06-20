@@ -120,6 +120,10 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 if full_path.ends_with("static") {
                     let path_str = try!(path_to_href(&self.root, &full_path));
                     self.static_entries.push(StaticEntry { name: path_str, source: full_path });
+                } else if full_path.ends_with("index") {
+                    return Err(AnnotatedError::new(
+                            full_path,
+                            "paths ending in index are reserved for indices".into()));
                 } else {
                     try!(self.load(&full_path));
                 }
