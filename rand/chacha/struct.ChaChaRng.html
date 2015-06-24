@@ -52,7 +52,7 @@
 
 <p>The ChaCha algorithm is widely accepted as suitable for
 cryptographic purposes, but this implementation has not been
-verified as such. Prefer a generator like <code>OsRng</code> that defers to
+verified as such. Prefer a generator like <code>OsRng</code>`OsRng` that defers to
 the operating system for cases that need high security.</p>
 
 <p>[1]: D. J. Bernstein, <a href="http://cr.yp.to/chacha.html"><em>ChaCha, a variant of
@@ -68,7 +68,7 @@ arbitrarily ahead (or backwards) in the pseudorandom stream.</p>
 <p>Since the nonce words are used to extend the counter to 128 bits,
 users wishing to obtain the conventional ChaCha pseudorandom stream
 associated with a particular nonce can call this function with
-arguments <code>0, desired_nonce</code>.</p>
+arguments <code>0, desired_nonce</code>`0, desired_nonce`.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../rand/trait.Rng.html' title='rand::Rng'>Rng</a> for <a class='struct' href='../../rand/chacha/struct.ChaChaRng.html' title='rand::chacha::ChaChaRng'>ChaChaRng</a></code></h3><div class='impl-items'><h4 id='method.next_u32' class='method'><code>fn <a href='../../rand/trait.Rng.html#method.next_u32' class='fnname'>next_u32</a>(&amp;mut self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
 <h4 id='method.next_u64' class='method'><code>fn <a href='../../rand/trait.Rng.html#method.next_u64' class='fnname'>next_u64</a>(&amp;mut self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></h4>
 <h4 id='method.next_f32' class='method'><code>fn <a href='../../rand/trait.Rng.html#method.next_f32' class='fnname'>next_f32</a>(&amp;mut self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.f32.html'>f32</a></code></h4>

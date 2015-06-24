@@ -48,11 +48,11 @@
         </span><a id='src-14484' class='srclink' href='../src/rand/lib.rs.html#876-878' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn random&lt;T: <a class='trait' href='../rand/trait.Rand.html' title='rand::Rand'>Rand</a>&gt;() -&gt; T</pre><div class='docblock'><p>Generates a random value using the thread-local random number generator.</p>
 
-<p><code>random()</code> can generate various types of random things, and so may require
+<p><code>random()</code>`random()` can generate various types of random things, and so may require
 type hinting to generate the specific type you want.</p>
 
 <p>This function uses the thread local random number generator. This means
-that if you&#39;re calling <code>random()</code> in a loop, caching the generator can
+that if you&#39;re calling <code>random()</code>`random()` in a loop, caching the generator can
 increase performance. An example is shown below.</p>
 
 <h1 id="examples" class='section-header'><a

@@ -48,10 +48,11 @@
         </span><a id='src-2131' class='srclink' href='../../../src/rand/distributions/gamma.rs.html#256-262' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct FisherF {
     // some fields omitted
-}</pre><div class='docblock'><p>The Fisher F distribution <code>F(m, n)</code>.</p>
+}</pre><div class='docblock'><p>The Fisher F distribution <code>F(m, n)</code>`F(m, n)`.</p>
 
 <p>This distribution is equivalent to the ratio of two normalised
-chi-squared distributions, that is, <code>F(m,n) = (χ²(m)/m) / (χ²(n)/n)</code>.</p>
+chi-squared distributions, that is, <code>F(m,n) = (χ²(m)/m) / (χ²(n)/n)</code>`F(m,n) = (χ²(m)/m) /
+(χ²(n)/n)`.</p>
 
 <h1 id="example" class='section-header'><a
                            href="#example">Example</a></h1><pre class='rust rust-example-rendered'>
@@ -62,8 +63,8 @@ chi-squared distributions, that is, <code>F(m,n) = (χ²(m)/m) / (χ²(n)/n)</co
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is from an F(2, 32) distribution&quot;</span>, <span class='ident'>v</span>)
 </pre>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(m: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>, n: <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>) -&gt; <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h4>
-<div class='docblock'><p>Create a new <code>FisherF</code> distribution, with the given
-parameter. Panics if either <code>m</code> or <code>n</code> are not positive.</p>
+<div class='docblock'><p>Create a new <code>FisherF</code>`FisherF<code>distribution, with the given parameter. Panics if either</code>` distribution, with the given
+parameter. Panics if either <code>m</code>`m<code>or</code>` or <code>n</code>`n` are not positive.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../rand/distributions/trait.Sample.html' title='rand::distributions::Sample'>Sample</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt; for <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h3><div class='impl-items'><h4 id='method.sample' class='method'><code>fn <a href='../../../rand/distributions/trait.Sample.html#method.sample' class='fnname'>sample</a>&lt;R: <a class='trait' href='../../../rand/trait.Rng.html' title='rand::Rng'>Rng</a>&gt;(&amp;mut self, rng: &amp;mut R) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='../../../rand/distributions/trait.IndependentSample.html' title='rand::distributions::IndependentSample'>IndependentSample</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt; for <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h3><div class='impl-items'><h4 id='method.ind_sample' class='method'><code>fn <a href='../../../rand/distributions/trait.IndependentSample.html#method.ind_sample' class='fnname'>ind_sample</a>&lt;R: <a class='trait' href='../../../rand/trait.Rng.html' title='rand::Rng'>Rng</a>&gt;(&amp;self, rng: &amp;mut R) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../rand/distributions/gamma/struct.FisherF.html' title='rand::distributions::gamma::FisherF'>FisherF</a></code></h4>
