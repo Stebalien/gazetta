@@ -65,8 +65,15 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 
         let mut source = try!(Source::from_config(root, &config_path).map_err(|e| AnnotatedError::new(config_path, e)));
 
-        try!(source.load("/"));
+        try!(source.reload());
         Ok(source)
+    }
+
+    /// Reload from the source directory.
+    pub fn reload(&mut self) -> Result<(), AnnotatedError<SourceError>> {
+        self.static_entries.clear();
+        self.entries.clear();
+        self.load("/")
     }
 
     #[inline(always)]
