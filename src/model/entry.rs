@@ -91,7 +91,7 @@ impl ContentSource {
 
 impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
 
-    pub fn from_file(full_path: PathBuf, name: String) -> Result<Self, SourceError> {
+    pub fn from_file(full_path: PathBuf, name: &str) -> Result<Self, SourceError> {
         // Helpers
 
         const U32_MAX_AS_I64: i64 = ::std::u32::MAX as i64;
@@ -201,7 +201,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                         }).collect()),
                         Some(Yaml::String(dir)) => vec![try!(dir_to_glob(dir))],
                         Some(..) => return Err("invalid directory list in index".into()),
-                        None => vec![name_to_glob(&name)],
+                        None => vec![name_to_glob(name)],
                     }
                 }),
                 Some(..) => return Err("invalid index value".into()),
@@ -223,7 +223,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                 None => Vec::new(),
             },
             meta: try!(EntryMeta::from_yaml(meta)),
-            name: name,
+            name: name.to_owned(),
         })
     }
 }

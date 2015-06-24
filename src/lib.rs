@@ -1,7 +1,5 @@
 //! TODO: Document.
 
-#![feature(path_relative_from)]
-
 extern crate chrono;
 extern crate glob;
 extern crate yaml_rust;

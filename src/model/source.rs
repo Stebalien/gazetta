@@ -63,14 +63,14 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 
         let config_path = root.join("config.yaml");
 
-        let mut site = try!(Source::new_inner(root, &config_path).map_err(|e| AnnotatedError::new(config_path, e)));
+        let mut source = try!(Source::from_config(root, &config_path).map_err(|e| AnnotatedError::new(config_path, e)));
 
-        try!(site.load(root));
-        Ok(site)
+        try!(source.load("/"));
+        Ok(source)
     }
 
     #[inline(always)]
-    fn new_inner(root: &Path, config_path: &Path) -> Result<Self, SourceError> {
+    fn from_config(root: &Path, config_path: &Path) -> Result<Self, SourceError> {
         let mut config = try!(yaml::load(&config_path));
 
         Ok(Source {
@@ -86,18 +86,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         })
     }
 
-    fn load(&mut self, dir: &Path) -> Result<(), AnnotatedError<SourceError>> {
-        fn path_to_href(root: &Path, path: &Path) -> Result<String, AnnotatedError<SourceError>> {
-            let mut path_str = String::with_capacity(256);
-            path_str.push('/');
-            let relative_path = path.relative_from(root).unwrap();
-            match relative_path.to_str() {
-                Some(s) => path_str.push_str(s),
-                None => return Err(AnnotatedError::new(path.to_owned(), "file names must be valid utf8".into())),
-            };
-            Ok(path_str)
-        }
-
+    fn load(&mut self, dir: &str) -> Result<(), AnnotatedError<SourceError>> {
         macro_rules! try_annotate {
             ($e:expr, $l:expr) => {
                 match $e {
@@ -106,27 +95,45 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 }
             }
         }
-        for dir_entry in try_annotate!(fs::read_dir(dir), dir) {
-            let dir_entry = try_annotate!(dir_entry, dir);
-            let full_path = dir_entry.path();
-            let file_type = try_annotate!(dir_entry.file_type(), full_path);
+        let base_dir = self.root.join(&dir[1..]);
+
+        for dir_entry in try_annotate!(fs::read_dir(&base_dir), base_dir) {
+            let dir_entry = try_annotate!(dir_entry, base_dir);
+            let file_name = match dir_entry.file_name().into_string() {
+                Ok(s) => if s.starts_with('.') { continue } else { s },
+                Err(s) => {
+                    // Can't possibly be a file we care about but, if it isn't hidden, we want to
+                    // return an error and bail.
+                    // FIXME: OsStr::starts_with
+                    if s.to_string_lossy().starts_with('.') {
+                        continue
+                    } else {
+                        return Err(AnnotatedError::new(dir_entry.path(), "file names must be valid utf8".into()));
+                    }
+                }
+            };
+
+            let file_type = try_annotate!(dir_entry.file_type(), dir_entry.path());
+
             if file_type.is_file() {
-                if full_path.file_stem().unwrap() == "index" {
-                    let path_str = try!(path_to_href(&self.root, full_path.parent().unwrap()));
-                    let entry = try_annotate!(Entry::from_file(full_path, path_str), dir_entry.path());
+                if Path::new(&file_name).file_stem().unwrap() == "index" {
+                    let entry = try_annotate!(Entry::from_file(dir_entry.path(), dir), dir_entry.path());
                     self.entries.push(entry);
                 }
             } else if file_type.is_dir() {
-                if full_path.ends_with("static") {
-                    let path_str = try!(path_to_href(&self.root, &full_path));
-                    self.static_entries.push(StaticEntry { name: path_str, source: full_path });
-                } else if full_path.ends_with("index") {
-                    return Err(AnnotatedError::new(
-                            full_path,
-                            "paths ending in index are reserved for indices".into()));
+                let name = if dir == "/" {
+                    format!("/{}", &file_name)
                 } else {
-                    try!(self.load(&full_path));
+                    format!("{}/{}", dir, &file_name)
+                };
+                match &file_name[..] {
+                    "static" => self.static_entries.push(StaticEntry { name: name, source: dir_entry.path() }),
+                    "index" => return Err(AnnotatedError::new(dir_entry.path(), "paths ending in index are reserved for indices".into())),
+                    _ => try!(self.load(&name)),
                 }
+            } else if file_type.is_symlink() {
+                // TODO: Symlinks
+                unimplemented!();
             }
         }
         Ok(())

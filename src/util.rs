@@ -21,8 +21,9 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
     try!(fs::create_dir(dest));
     for dir_entry in try!(fs::read_dir(src)) {
         let dir_entry = try!(dir_entry);
-        let from = dir_entry.path();
-        let to = dest.join(from.relative_from(src).unwrap());
+        let file_name = dir_entry.file_name();
+        let from = src.join(&file_name);
+        let to = dest.join(&file_name);
         if fs::metadata(&to).is_ok() {
             return Err(io::Error::new(io::ErrorKind::AlreadyExists, "target path already exists"));
         }
