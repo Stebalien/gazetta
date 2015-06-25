@@ -33,8 +33,16 @@ pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(u64, BTreeMap<Yaml, Yaml>)
                 Ok(len) => {
                     offset += len as u64;
 
-                    if buf[buf.len()-len..].trim_right() == "..." {
-                        break;
+                    match buf[buf.len()-len..].trim_right() {
+                        "..." => break,
+                        "---" => {
+                            let end = buf.len() - len;
+                            // Allow jekyll style metadata.
+                            buf.truncate(end);
+                            buf.push_str("...\n");
+                            break;
+                        },
+                        _ => ()
                     }
                 },
                 Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {},
