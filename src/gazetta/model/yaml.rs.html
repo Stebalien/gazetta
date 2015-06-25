@@ -112,6 +112,14 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>usize</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
@@ -148,8 +156,16 @@
                 <span class='prelude-val'>Ok</span>(<span class='ident'>len</span>) <span class='op'>=&gt;</span> {
                     <span class='ident'>offset</span> <span class='op'>+=</span> <span class='ident'>len</span> <span class='kw'>as</span> <span class='ident'>u64</span>;
 
-                    <span class='kw'>if</span> <span class='ident'>buf</span>[<span class='ident'>buf</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='ident'>len</span>..].<span class='ident'>trim_right</span>() <span class='op'>==</span> <span class='string'>&quot;...&quot;</span> {
-                        <span class='kw'>break</span>;
+                    <span class='kw'>match</span> <span class='ident'>buf</span>[<span class='ident'>buf</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='ident'>len</span>..].<span class='ident'>trim_right</span>() {
+                        <span class='string'>&quot;...&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+                        <span class='string'>&quot;---&quot;</span> <span class='op'>=&gt;</span> {
+                            <span class='kw'>let</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>len</span>;
+                            <span class='comment'>// Allow jekyll style metadata.</span>
+                            <span class='ident'>buf</span>.<span class='ident'>truncate</span>(<span class='ident'>end</span>);
+                            <span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;...\n&quot;</span>);
+                            <span class='kw'>break</span>;
+                        },
+                        _ <span class='op'>=&gt;</span> ()
                     }
                 },
                 <span class='prelude-val'>Err</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='kw'>if</span> <span class='ident'>e</span>.<span class='ident'>kind</span>() <span class='op'>==</span> <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Interrupted</span> <span class='op'>=&gt;</span> {},
