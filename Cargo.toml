@@ -9,7 +9,4 @@ glob = "*"
 yaml-rust = "*"
 lazy_static = "*"
 pulldown-cmark = "*"
-
-[dependencies.horrorshow]
-git = "https://github.com/Stebalien/horrorshow-rs.git"
-branch="next"
+horrorshow = "*"
