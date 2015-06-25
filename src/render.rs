@@ -105,7 +105,9 @@ pub trait Gazetta: Sized {
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
-                    let num_pages = (child_entries.len() / paginate) + if child_entries.len() % paginate == 0 { 0 } else { 1 };
+                    let num_pages = (child_entries.len() / paginate) +
+                        if child_entries.len() % paginate == 0 { 0 } else { 1 };
+
                     if num_pages == 0 {
                         let content = &buf[..content_len];
 
