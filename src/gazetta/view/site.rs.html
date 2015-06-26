@@ -255,13 +255,13 @@
             <span class='ident'>title</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>title</span>,
             <span class='ident'>meta</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>meta</span>,
             <span class='ident'>javascript</span>: <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>source</span>.<span class='ident'>javascript</span>.<span class='ident'>is_empty</span>() {
-                <span class='prelude-val'>Some</span>(<span class='string'>&quot;assets/javascript.js&quot;</span>)
+                <span class='prelude-val'>Some</span>(<span class='string'>&quot;/assets/javascript.js&quot;</span>)
             } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
             <span class='ident'>stylesheets</span>: <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>source</span>.<span class='ident'>stylesheets</span>.<span class='ident'>is_empty</span>() {
-                <span class='prelude-val'>Some</span>(<span class='string'>&quot;assets/stylesheets.css&quot;</span>)
+                <span class='prelude-val'>Some</span>(<span class='string'>&quot;/assets/stylesheets.css&quot;</span>)
             } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
             <span class='ident'>icon</span>: <span class='kw'>if</span> <span class='ident'>source</span>.<span class='ident'>icon</span>.<span class='ident'>is_some</span>() {
-                <span class='prelude-val'>Some</span>(<span class='string'>&quot;assets/icon.png&quot;</span>)
+                <span class='prelude-val'>Some</span>(<span class='string'>&quot;/assets/icon.png&quot;</span>)
             } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
         }
     }
