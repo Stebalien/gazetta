@@ -170,9 +170,6 @@
 <span id="128">128</span>
 <span id="129">129</span>
 <span id="130">130</span>
-<span id="131">131</span>
-<span id="132">132</span>
-<span id="133">133</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
@@ -288,11 +285,8 @@
             <span class='string'>&quot;mkd&quot;</span><span class='op'>|</span><span class='string'>&quot;md&quot;</span><span class='op'>|</span><span class='string'>&quot;markdown&quot;</span>   <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='ident'>Markdown</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>content</span>.<span class='ident'>data</span>, <span class='self'>self</span>.<span class='ident'>href</span>),
             <span class='string'>&quot;html&quot;</span>                  <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>raw</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>content</span>.<span class='ident'>data</span>),
             <span class='string'>&quot;&quot;</span><span class='op'>|</span><span class='string'>&quot;text&quot;</span><span class='op'>|</span><span class='string'>&quot;txt&quot;</span>         <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='self'>self</span>.<span class='ident'>content</span>.<span class='ident'>data</span>,
-            <span class='ident'>format</span> <span class='op'>=&gt;</span> {
-                <span class='ident'>tmpl</span>.<span class='ident'>record_error</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;unknown format &#39;{}&#39;&quot;</span>, <span class='ident'>format</span>));
-                <span class='ident'>tmpl</span>
-            }
-        };
+            <span class='ident'>format</span>                  <span class='op'>=&gt;</span> <span class='ident'>tmpl</span>.<span class='ident'>record_error</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;unknown format &#39;{}&#39;&quot;</span>, <span class='ident'>format</span>)),
+        }
     }
 }
 
