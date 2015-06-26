@@ -112,11 +112,8 @@ impl<'a, G> Render for Page<'a, G>
             "mkd"|"md"|"markdown"   => tmpl << Markdown::new(self.content.data, self.href),
             "html"                  => tmpl << raw!(self.content.data),
             ""|"text"|"txt"         => tmpl << self.content.data,
-            format => {
-                tmpl.record_error(format!("unknown format '{}'", format));
-                tmpl
-            }
-        };
+            format                  => tmpl.record_error(format!("unknown format '{}'", format)),
+        }
     }
 }
 

@@ -78,28 +78,30 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
         use pulldown_cmark::Tag;
 
         while let Some(event) = self.iter.next() {
+            // manually reborrow
+            let tmpl = &mut *tmpl;
             match event {
                 Start(tag) => {
                     // Because rust doesn't reborrow? (WTF?)
                     let s: &mut Self = &mut *self;
                     match tag {
-                        Tag::Paragraph          => &mut *tmpl << html! { p : s },
-                        Tag::Rule               => &mut *tmpl << html! { hr: s },
-                        Tag::BlockQuote         => &mut *tmpl << html! { blockquote : s },
-                        Tag::List(Some(0))      => &mut *tmpl << html! { ol : s },
-                        Tag::List(Some(start))  => &mut *tmpl << html! { ol(start = start) : s },
-                        Tag::List(None)         => &mut *tmpl << html! { ul : s },
-                        Tag::Item               => &mut *tmpl << html! { li : s },
-                        Tag::Emphasis           => &mut *tmpl << html! { em: s },
-                        Tag::Strong             => &mut *tmpl << html! { strong: s },
-                        Tag::Code               => &mut *tmpl << html! { code: s },
+                        Tag::Paragraph          => tmpl << html! { p : s },
+                        Tag::Rule               => tmpl << html! { hr: s },
+                        Tag::BlockQuote         => tmpl << html! { blockquote : s },
+                        Tag::List(Some(0))      => tmpl << html! { ol : s },
+                        Tag::List(Some(start))  => tmpl << html! { ol(start = start) : s },
+                        Tag::List(None)         => tmpl << html! { ul : s },
+                        Tag::Item               => tmpl << html! { li : s },
+                        Tag::Emphasis           => tmpl << html! { em: s },
+                        Tag::Strong             => tmpl << html! { strong: s },
+                        Tag::Code               => tmpl << html! { code: s },
                         Tag::Header(level) => match level {
-                            1 => &mut *tmpl << html! { h1 : s },
-                            2 => &mut *tmpl << html! { h2 : s },
-                            3 => &mut *tmpl << html! { h3 : s },
-                            4 => &mut *tmpl << html! { h4 : s },
-                            5 => &mut *tmpl << html! { h5 : s },
-                            6 => &mut *tmpl << html! { h6 : s },
+                            1 => tmpl << html! { h1 : s },
+                            2 => tmpl << html! { h2 : s },
+                            3 => tmpl << html! { h3 : s },
+                            4 => tmpl << html! { h4 : s },
+                            5 => tmpl << html! { h5 : s },
+                            6 => tmpl << html! { h6 : s },
                             _ => panic!(),
                         },
                         Tag::Link(mut dest, title)  => {
@@ -107,7 +109,7 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                 dest = Cow::Owned(format!("{}/{}", &*self.base, &*dest));
                             }
 
-                            &mut *tmpl << html! {
+                            tmpl << html! {
                                 // TODO: Escape href?
                                 a(href = &*dest, title? = if !title.is_empty() { Some(&*title) } else { None }) : s
                             }
@@ -117,18 +119,19 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                 dest = Cow::Owned(format!("{}/{}", &*self.base, &*dest));
                             }
 
-                            &mut *tmpl << html! {
+                            tmpl << html! {
                                 img(src = &*dest,
                                     title? = if !title.is_empty() { Some(&*title) } else { None },
                                     alt = FnRenderer::new(|tmpl| {
                                         let mut nest = 0;
                                         while let Some(event) = s.iter.next() {
+                                            let tmpl = &mut *tmpl;
                                             match event {
                                                 Start(_) => nest += 1,
                                                 End(_) if nest == 0 => break,
                                                 End(_) => nest -= 1,
-                                                Text(txt) | InlineHtml(txt) => {&mut *tmpl << &*txt;},
-                                                SoftBreak | HardBreak => {&mut *tmpl << " ";},
+                                                Text(txt) | InlineHtml(txt) => tmpl << &*txt,
+                                                SoftBreak | HardBreak => tmpl << " ",
                                                 Html(_) => (),
                                             }
                                         }
@@ -139,7 +142,7 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             // TODO Highlight code.
                             let lang = &*info.split(" ").next().unwrap();
                             // Why? Because the format_args...
-                            (|f| &mut *tmpl << html! {
+                            (|f| tmpl << html! {
                                 pre {
                                     code(class? = if !lang.is_empty() { Some(f) } else { None }) : s
                                 }
@@ -148,10 +151,10 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 },
                 End(_) => break,
-                Text(text) => &mut *tmpl << &*text,
-                Html(html) | InlineHtml(html) => &mut *tmpl << raw!(html),
-                SoftBreak => &mut *tmpl << "\n",
-                HardBreak => &mut *tmpl << html! { br },
+                Text(text) => tmpl << &*text,
+                Html(html) | InlineHtml(html) => tmpl << raw!(html),
+                SoftBreak => tmpl << "\n",
+                HardBreak => tmpl << html! { br },
             };
         }
     }
