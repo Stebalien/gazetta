@@ -55,14 +55,14 @@ has generated a certain number of random bytes.</p>
 <table><tr class='stab '>
                                   <td id='structfield.reseeder'><code>reseeder</code></td><td><div class='docblock'><p>Controls the behaviour when reseeding the RNG.</p>
 </div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;R: <a class='trait' href='../../rand/trait.Rng.html' title='rand::Rng'>Rng</a>, Rsdr: <a class='trait' href='../../rand/reseeding/trait.Reseeder.html' title='rand::reseeding::Reseeder'>Reseeder</a>&lt;R&gt;&gt; <a class='struct' href='../../rand/reseeding/struct.ReseedingRng.html' title='rand::reseeding::ReseedingRng'>ReseedingRng</a>&lt;R, Rsdr&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(rng: R, generation_threshold: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>, reseeder: Rsdr) -&gt; <a class='struct' href='../../rand/reseeding/struct.ReseedingRng.html' title='rand::reseeding::ReseedingRng'>ReseedingRng</a>&lt;R, Rsdr&gt;</code></h4>
-<div class='docblock'><p>Create a new <code>ReseedingRng</code>`ReseedingRng` with the given parameters.</p>
+<div class='docblock'><p>Create a new <code>ReseedingRng</code> with the given parameters.</p>
 
 <h1 id="arguments" class='section-header'><a
                            href="#arguments">Arguments</a></h1>
 <ul>
-<li><code>rng</code>`rng`: the random number generator to use.</li>
-<li><code>generation_threshold</code>`generation_threshold`: the number of bytes of entropy at which to reseed the RNG.</li>
-<li><code>reseeder</code>`reseeder`: the reseeding object to use.</li>
+<li><code>rng</code>: the random number generator to use.</li>
+<li><code>generation_threshold</code>: the number of bytes of entropy at which to reseed the RNG.</li>
+<li><code>reseeder</code>: the reseeding object to use.</li>
 </ul>
 </div><h4 id='method.reseed_if_necessary' class='method'><code>fn <a href='#method.reseed_if_necessary' class='fnname'>reseed_if_necessary</a>(&amp;mut self)</code></h4>
 <div class='docblock'><p>Reseed the internal RNG if the number of bytes that have been

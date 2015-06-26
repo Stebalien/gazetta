@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["copy_recursive","Recursivly copy a directory."]]});
+initSidebarItems({"fn":[["concat","Concatinate source paths into an output file."],["copy_recursive","Recursivly copy a directory."],["exists","Check if a file exists."],["walk_sorted","Walk a file tree and return a sorted vector of paths."]]});

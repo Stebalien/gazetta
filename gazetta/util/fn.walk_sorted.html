@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `Date` type in crate `gazetta`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, Date">
+    <meta name="description" content="API documentation for the Rust `walk_sorted` fn in crate `gazetta`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, walk_sorted">
 
-    <title>gazetta::model::Date - Rust</title>
+    <title>gazetta::util::walk_sorted - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>gazetta</a>::<wbr><a href='index.html'>model</a></p><script>window.sidebarCurrent = {name: 'Date', ty: 'type', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='../index.html'>gazetta</a>::<wbr><a href='index.html'>util</a></p><script>window.sidebarCurrent = {name: 'walk_sorted', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
     <nav class="sub">
@@ -40,13 +40,14 @@
         </form>
     </nav>
 
-    <section id='main' class="content type">
-<h1 class='fqn'><span class='in-band'><a href='../index.html'>gazetta</a>::<wbr><a href='index.html'>model</a>::<wbr><a class='type' href=''>Date</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>gazetta</a>::<wbr><a href='index.html'>util</a>::<wbr><a class='fn' href=''>walk_sorted</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-2187' class='srclink' href='../../src/gazetta/model/mod.rs.html#1' title='goto source code'>[src]</a></span></h1>
-<pre class='rust typedef'>type Date = <a class='struct' href='../../chrono/naive/date/struct.NaiveDate.html' title='chrono::naive::date::NaiveDate'>NaiveDate</a>;</pre></section>
+        </span><a id='src-6787' class='srclink' href='../../src/gazetta/util.rs.html#52-56' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn walk_sorted(path: &amp;<a class='struct' href='http://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>&gt;&gt;</pre><div class='docblock'><p>Walk a file tree and return a sorted vector of paths.</p>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
