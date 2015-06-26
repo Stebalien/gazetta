@@ -15,14 +15,6 @@ fn is_absolute(mut url: &str) -> bool {
     url.contains(':')
 }
 
-trait Iff: Sized {
-    fn iff<F: FnOnce(&Self) -> bool>(self, f: F) -> Option<Self> {
-        if (f)(&self) { Some(self) } else { None }
-    }
-}
-
-impl<T> Iff for T {}
-
 /// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Markdown<'a> {
@@ -117,7 +109,7 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
 
                             &mut *tmpl << html! {
                                 // TODO: Escape href?
-                                a(href = &*dest, title? = (&*title).iff(|&s|!s.is_empty())) : s
+                                a(href = &*dest, title? = if !title.is_empty() { Some(&*title) } else { None }) : s
                             }
                         }
                         Tag::Image(mut dest, title) => {
@@ -127,7 +119,7 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
 
                             &mut *tmpl << html! {
                                 img(src = &*dest,
-                                    title? = (&*title).iff(|&s|!s.is_empty()),
+                                    title? = if !title.is_empty() { Some(&*title) } else { None },
                                     alt = FnRenderer::new(|tmpl| {
                                         let mut nest = 0;
                                         while let Some(event) = s.iter.next() {
@@ -146,15 +138,12 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                         Tag::CodeBlock(info)    => {
                             // TODO Highlight code.
                             let lang = &*info.split(" ").next().unwrap();
-                            // Can't use map because format_args references the
-                            // stack... Bad macro! Bad!
-                            &mut *tmpl << html! {
+                            // Why? Because the format_args...
+                            (|f| &mut *tmpl << html! {
                                 pre {
-                                    code(class? = lang.iff(|&s| {
-                                        !s.is_empty()
-                                    }).and(Some(format_args!("language-{}", lang)))) : s
+                                    code(class? = if !lang.is_empty() { Some(f) } else { None }) : s
                                 }
-                            }
+                            })(format_args!("language-{}", lang))
                         },
                     }
                 },

@@ -2,6 +2,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use ::{AnnotatedError, SourceError};
+use ::util;
 use super::{ Entry, StaticEntry};
 use super::yaml::{self, Yaml};
 use super::Meta;
@@ -12,6 +13,15 @@ static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     require_literal_leading_dot: false,
 };
 
+macro_rules! try_annotate {
+    ($e:expr, $l:expr) => {
+        match $e {
+            Ok(v) => v,
+            Err(e) => return Err(AnnotatedError::new(($l).to_owned(), SourceError::from(e))),
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Source<SourceMeta=(), EntryMeta=()>
     where SourceMeta: Meta,
@@ -21,6 +31,9 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
     pub root: PathBuf,
     pub entries: Vec<Entry<EntryMeta>>,
     pub static_entries: Vec<StaticEntry>,
+    pub stylesheets: Vec<PathBuf>,
+    pub javascript: Vec<PathBuf>,
+    pub icon: Option<PathBuf>,
     pub meta: SourceMeta,
 }
 
@@ -73,7 +86,12 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
     pub fn reload(&mut self) -> Result<(), AnnotatedError<SourceError>> {
         self.static_entries.clear();
         self.entries.clear();
-        self.load("/")
+        self.stylesheets.clear();
+        self.javascript.clear();
+        self.icon = None;
+        try!(self.load_entries("/"));
+        try!(self.load_assets());
+        Ok(())
     }
 
     #[inline(always)]
@@ -89,19 +107,34 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             root: root.to_owned(),
             entries: Vec::new(),
             static_entries: Vec::new(),
+            stylesheets: Vec::new(),
+            javascript: Vec::new(),
+            icon: None,
             meta: try!(SourceMeta::from_yaml(config)),
         })
     }
 
-    fn load(&mut self, dir: &str) -> Result<(), AnnotatedError<SourceError>> {
-        macro_rules! try_annotate {
-            ($e:expr, $l:expr) => {
-                match $e {
-                    Ok(v) => v,
-                    Err(e) => return Err(AnnotatedError::new(($l).to_owned(), SourceError::from(e))),
-                }
-            }
+    fn load_assets(&mut self) -> Result<(), AnnotatedError<SourceError>> {
+        let mut path = self.root.join("assets");
+
+        path.push("icon.png");
+        if try_annotate!(util::exists(&path), path) {
+            self.icon = Some(path.clone());
         }
+
+        path.set_file_name("javascript");
+        if try_annotate!(util::exists(&path), path) {
+            self.javascript = try_annotate!(util::walk_sorted(&path), path);
+        }
+
+        path.set_file_name("stylesheets");
+        if try_annotate!(util::exists(&path), path) {
+            self.stylesheets = try_annotate!(util::walk_sorted(&path), path);
+        }
+        Ok(())
+    }
+
+    fn load_entries(&mut self, dir: &str) -> Result<(), AnnotatedError<SourceError>> {
         let base_dir = self.root.join(&dir[1..]);
 
         for dir_entry in try_annotate!(fs::read_dir(&base_dir), base_dir) {
@@ -120,6 +153,11 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 }
             };
 
+            // Skip assets.
+            if dir == "/" && file_name == "assets" {
+                continue;
+            }
+
             let file_type = try_annotate!(dir_entry.file_type(), dir_entry.path());
 
             if file_type.is_file() {
@@ -136,7 +174,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 match &file_name[..] {
                     "static" => self.static_entries.push(StaticEntry { name: name, source: dir_entry.path() }),
                     "index" => return Err(AnnotatedError::new(dir_entry.path(), "paths ending in index are reserved for indices".into())),
-                    _ => try!(self.load(&name)),
+                    _ => try!(self.load_entries(&name)),
                 }
             } else if file_type.is_symlink() {
                 // TODO: Symlinks

@@ -3,7 +3,7 @@ use std::fs::{self, File};
 use std::path::Path;
 
 use horrorshow::prelude::*;
-use util::copy_recursive;
+use util;
 use model::{Source, Meta};
 use view::{Site, Page, Index, Paginate, Content};
 use error::{RenderError, AnnotatedError};
@@ -20,7 +20,7 @@ pub trait Gazetta: Sized {
     /// By default, this just copies. Override to compile.
     #[allow(unused_variables)]
     fn render_static(&self, site: &Site<Self>, source: &Path, output: &Path) -> io::Result<()> {
-        copy_recursive(source, output)
+        util::copy_recursive(source, output)
     }
 
     /// Creates pages from a site defined by a source and renders them into output.
@@ -78,6 +78,28 @@ pub trait Gazetta: Sized {
 
         let output = output.as_ref();
         let site = Site::from(source);
+
+        {
+            let mut path = output.join("assets");
+            try_annotate!(fs::create_dir_all(&path), path);
+
+            path.push("_");
+            if !source.javascript.is_empty() {
+                path.set_file_name("javascript.js");
+                try_annotate!(util::concat(&source.javascript,
+                                           &mut try_annotate!(File::create(&path), path)), path);
+            }
+            if !source.stylesheets.is_empty() {
+                path.set_file_name("stylesheets.css");
+                try_annotate!(util::concat(&source.stylesheets,
+                                           &mut try_annotate!(File::create(&path), path)), path);
+            }
+            if let Some(ref icon) = source.icon {
+                path.set_file_name("icon.png");
+                try_annotate!(io::copy(&mut try_annotate!(File::open(icon), icon),
+                                       &mut try_annotate!(File::create(&path), path)), path);
+            }
+        }
 
         for static_entry in &source.static_entries {
             let dst = output.join(&static_entry.name[1..]);
