@@ -78,13 +78,13 @@ impl<'a, G> From<&'a Source<G::SiteMeta, G::PageMeta>> for Site<'a, G> where G: 
             title: &source.title,
             meta: &source.meta,
             javascript: if !source.javascript.is_empty() {
-                Some("assets/javascript.js")
+                Some("/assets/javascript.js")
             } else { None },
             stylesheets: if !source.stylesheets.is_empty() {
-                Some("assets/stylesheets.css")
+                Some("/assets/stylesheets.css")
             } else { None },
             icon: if source.icon.is_some() {
-                Some("assets/icon.png")
+                Some("/assets/icon.png")
             } else { None },
         }
     }
