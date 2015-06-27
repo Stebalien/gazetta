@@ -154,33 +154,12 @@
 <span id="112">112</span>
 <span id="113">113</span>
 <span id="114">114</span>
-<span id="115">115</span>
-<span id="116">116</span>
-<span id="117">117</span>
-<span id="118">118</span>
-<span id="119">119</span>
-<span id="120">120</span>
-<span id="121">121</span>
-<span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
-<span id="125">125</span>
-<span id="126">126</span>
-<span id="127">127</span>
-<span id="128">128</span>
-<span id="129">129</span>
-<span id="130">130</span>
-<span id="131">131</span>
-<span id="132">132</span>
-<span id="133">133</span>
-<span id="134">134</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 
 <span class='kw'>use</span> ::<span class='ident'>horrorshow</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> ::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
-<span class='kw'>use</span> ::<span class='ident'>model</span>::<span class='ident'>Source</span>;
 
 
 <span class='doccomment'>/// A &quot;website&quot;</span>
@@ -245,25 +224,6 @@
                 <span class='ident'>link</span>(<span class='ident'>rel</span><span class='op'>=</span><span class='string'>&quot;shortcut icon&quot;</span>, <span class='ident'>href</span><span class='op'>=</span><span class='ident'>icon</span>);
             }
         };
-    }
-}
-
-
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Source</span><span class='op'>&lt;</span><span class='ident'>G</span>::<span class='ident'>SiteMeta</span>, <span class='ident'>G</span>::<span class='ident'>PageMeta</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Site</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>source</span>: <span class='kw-2'>&amp;</span><span class='ident'>Source</span><span class='op'>&lt;</span><span class='ident'>G</span>::<span class='ident'>SiteMeta</span>, <span class='ident'>G</span>::<span class='ident'>PageMeta</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Site</span><span class='op'>&lt;</span><span class='ident'>G</span><span class='op'>&gt;</span> {
-        <span class='ident'>Site</span> {
-            <span class='ident'>title</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>title</span>,
-            <span class='ident'>meta</span>: <span class='kw-2'>&amp;</span><span class='ident'>source</span>.<span class='ident'>meta</span>,
-            <span class='ident'>javascript</span>: <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>source</span>.<span class='ident'>javascript</span>.<span class='ident'>is_empty</span>() {
-                <span class='prelude-val'>Some</span>(<span class='string'>&quot;/assets/javascript.js&quot;</span>)
-            } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
-            <span class='ident'>stylesheets</span>: <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>source</span>.<span class='ident'>stylesheets</span>.<span class='ident'>is_empty</span>() {
-                <span class='prelude-val'>Some</span>(<span class='string'>&quot;/assets/stylesheets.css&quot;</span>)
-            } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
-            <span class='ident'>icon</span>: <span class='kw'>if</span> <span class='ident'>source</span>.<span class='ident'>icon</span>.<span class='ident'>is_some</span>() {
-                <span class='prelude-val'>Some</span>(<span class='string'>&quot;/assets/icon.png&quot;</span>)
-            } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
-        }
     }
 }
 
