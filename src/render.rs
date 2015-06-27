@@ -3,10 +3,37 @@ use std::fs::{self, File};
 use std::path::Path;
 
 use horrorshow::prelude::*;
-use util;
+use util::{self, StreamHasher};
 use model::{Source, Meta};
 use view::{Site, Page, Index, Paginate, Content};
 use error::{RenderError, AnnotatedError};
+use std::hash::SipHasher;
+
+
+/// Compiles a set of files into a single asset by concatinating them.
+/// This function also hashes the files so they can be cached.
+fn compile_asset<P>(paths: &[P],
+                    target: &Path,
+                    prefix: &str,
+                    ext: &str) -> Result<String, AnnotatedError<io::Error>>
+    where P: AsRef<Path>
+{
+    let mut tmp_path = target.join("assets");
+    tmp_path.push(prefix);
+    tmp_path.set_extension(ext);
+
+    let hash = {
+        let output = try_annotate!(File::create(&tmp_path), tmp_path);
+        let mut output = StreamHasher::<_, SipHasher>::new(output);
+        try!(util::concat(paths, &mut output));
+        output.finish()
+    };
+
+    let href = format!("/assets/{}-{:x}.{}", prefix, hash, ext);
+    let final_path = target.join(&href[1..]);
+    try_annotate!(fs::rename(tmp_path, &final_path), final_path);
+    Ok(href)
+}
 
 pub trait Gazetta: Sized {
     type SiteMeta: Meta;
@@ -33,15 +60,6 @@ pub trait Gazetta: Sized {
                               source: &Source<Self::SiteMeta, Self::PageMeta>,
                               output: P) -> Result<(), AnnotatedError<RenderError>>
     {
-        macro_rules! try_annotate {
-            ($e:expr, $l:expr) => {
-                match $e {
-                    Ok(v) => v,
-                    Err(e) => return Err(AnnotatedError::new(($l).to_owned(), RenderError::from(e))),
-                }
-            }
-        }
-
         // Define this as a macro because we need to go from a mutable borrow to an immutable borrow...
         macro_rules! read_children {
             ($buf:ident, $entries:expr)  => {{
@@ -77,29 +95,31 @@ pub trait Gazetta: Sized {
         }
 
         let output = output.as_ref();
-        let site = Site::from(source);
 
         {
-            let mut path = output.join("assets");
-            try_annotate!(fs::create_dir_all(&path), path);
-
-            path.push("_");
-            if !source.javascript.is_empty() {
-                path.set_file_name("javascript.js");
-                try_annotate!(util::concat(&source.javascript,
-                                           &mut try_annotate!(File::create(&path), path)), path);
-            }
-            if !source.stylesheets.is_empty() {
-                path.set_file_name("stylesheets.css");
-                try_annotate!(util::concat(&source.stylesheets,
-                                           &mut try_annotate!(File::create(&path), path)), path);
-            }
-            if let Some(ref icon) = source.icon {
-                path.set_file_name("icon.png");
-                try_annotate!(io::copy(&mut try_annotate!(File::open(icon), icon),
-                                       &mut try_annotate!(File::create(&path), path)), path);
-            }
+            let assets_path = output.join("assets");
+            try_annotate!(fs::create_dir_all(&assets_path), assets_path);
         }
+
+        let js_href = if !source.javascript.is_empty() {
+            Some(try!(compile_asset(&source.javascript, output, "main", "js")))
+        } else { None };
+
+        let css_href = if !source.stylesheets.is_empty() {
+            Some(try!(compile_asset(&source.stylesheets, output, "main", "css")))
+        } else { None };
+
+        let icon_href = if let Some(ref icon) = source.icon {
+            Some(try!(compile_asset(&[&icon], output, "icon", "png")))
+        } else { None };
+
+        let site = Site {
+            title: &source.title,
+            meta: &source.meta,
+            javascript: js_href.as_ref().map(|s|&s[..]),
+            stylesheets: css_href.as_ref().map(|s|&s[..]),
+            icon: icon_href.as_ref().map(|s|&s[..]),
+        };
 
         for static_entry in &source.static_entries {
             let dst = output.join(&static_entry.name[1..]);

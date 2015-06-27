@@ -13,15 +13,6 @@ static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     require_literal_leading_dot: false,
 };
 
-macro_rules! try_annotate {
-    ($e:expr, $l:expr) => {
-        match $e {
-            Ok(v) => v,
-            Err(e) => return Err(AnnotatedError::new(($l).to_owned(), SourceError::from(e))),
-        }
-    }
-}
-
 #[derive(Debug, Clone)]
 pub struct Source<SourceMeta=(), EntryMeta=()>
     where SourceMeta: Meta,

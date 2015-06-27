@@ -2,6 +2,10 @@ use std::path::{Path, PathBuf};
 use std::fs::{self, File};
 use std::io;
 
+use std::hash::Hasher;
+
+use ::AnnotatedError;
+
 /// Recursivly copy a directory.
 ///
 /// Does not preserve permissions.
@@ -73,15 +77,48 @@ fn walk_into(path: &Path, out: &mut Vec<PathBuf>) -> io::Result<()> {
     Ok(())
 }
 
+pub struct StreamHasher<W, H> {
+    hash: H,
+    inner: W,
+}
+impl<W, H> StreamHasher<W, H> where H: Hasher, W: io::Write {
+    pub fn new(inner: W) -> Self where H: Default {
+        StreamHasher {
+            hash: H::default(),
+            inner: inner
+        }
+    }
+    pub fn with_hasher(inner: W, hash: H) -> Self {
+        StreamHasher {
+            hash: hash,
+            inner: inner
+        }
+    }
+    pub fn finish(&self) -> u64 {
+        self.hash.finish()
+    }
+}
+impl<W, H> io::Write for StreamHasher<W, H> where W: io::Write, H: Hasher {
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        let size = try!(self.inner.write(buf));
+        self.hash.write(&buf[..size]);
+        Ok(size)
+    }
+    fn flush(&mut self) -> io::Result<()> {
+        self.inner.flush()
+    }
+}
+
 /// Concatinate source paths into an output file.
-pub fn concat<W, I>(paths: I, output: &mut W) -> io::Result<u64>
+pub fn concat<W, I>(paths: I, output: &mut W) -> Result<u64, AnnotatedError<io::Error>>
     where W: io::Write,
           I: IntoIterator,
           I::Item: AsRef<Path>,
 {
     let mut bytes = 0;
     for p in paths {
-        bytes += try!(io::copy(&mut try!(File::open(p)), output))
+        let p = p.as_ref();
+        bytes += try_annotate!(io::copy(&mut try_annotate!(File::open(p), p), output), p)
     }
     Ok(bytes)
 }

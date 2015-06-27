@@ -9,6 +9,16 @@ use ::yaml::ScanError;
 
 use std::error::Error;
 
+macro_rules! try_annotate {
+    ($e:expr, $l:expr) => {
+        match $e {
+            Ok(v) => v,
+            Err(e) => return Err($crate::AnnotatedError::new(($l).to_owned(), From::from(e))),
+        }
+    }
+}
+
+
 #[derive(Debug)]
 pub enum SourceError {
     Parse(ScanError),

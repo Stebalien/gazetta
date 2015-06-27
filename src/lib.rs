@@ -11,7 +11,9 @@ extern crate horrorshow;
 #[macro_use]
 extern crate lazy_static;
 
+#[macro_use]
 mod error;
+
 mod render;
 
 pub mod model;

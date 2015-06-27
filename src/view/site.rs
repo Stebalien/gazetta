@@ -3,7 +3,6 @@ use std::fmt;
 
 use ::horrorshow::prelude::*;
 use ::render::Gazetta;
-use ::model::Source;
 
 
 /// A "website"
@@ -68,25 +67,6 @@ impl<'a, G> Render for Site<'a, G>
                 link(rel="shortcut icon", href=icon);
             }
         };
-    }
-}
-
-
-impl<'a, G> From<&'a Source<G::SiteMeta, G::PageMeta>> for Site<'a, G> where G: Gazetta {
-    fn from(source: &Source<G::SiteMeta, G::PageMeta>) -> Site<G> {
-        Site {
-            title: &source.title,
-            meta: &source.meta,
-            javascript: if !source.javascript.is_empty() {
-                Some("/assets/javascript.js")
-            } else { None },
-            stylesheets: if !source.stylesheets.is_empty() {
-                Some("/assets/stylesheets.css")
-            } else { None },
-            icon: if source.icon.is_some() {
-                Some("/assets/icon.png")
-            } else { None },
-        }
     }
 }
 
