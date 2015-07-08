@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.14/src/format/parse.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.15/src/format/parse.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>parse.rs.html -- source</title>
@@ -1036,13 +1036,13 @@
 
                     <span class='ident'>TimezoneName</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>BAD_FORMAT</span>),
 
-                    <span class='ident'>TimezoneOffset</span> <span class='op'>=&gt;</span> {
+                    <span class='ident'>TimezoneOffsetColon</span> <span class='op'>|</span> <span class='ident'>TimezoneOffset</span> <span class='op'>=&gt;</span> {
                         <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='macro'>try_consume</span><span class='macro'>!</span>(<span class='ident'>scan</span>::<span class='ident'>timezone_offset</span>(<span class='ident'>s</span>.<span class='ident'>trim_left</span>(),
                                                                         <span class='ident'>scan</span>::<span class='ident'>colon_or_space</span>));
                         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>parsed</span>.<span class='ident'>set_offset</span>(<span class='ident'>offset</span> <span class='kw'>as</span> <span class='ident'>i64</span>));
                     }
 
-                    <span class='ident'>TimezoneOffsetZ</span> <span class='op'>=&gt;</span> {
+                    <span class='ident'>TimezoneOffsetColonZ</span> <span class='op'>|</span> <span class='ident'>TimezoneOffsetZ</span> <span class='op'>=&gt;</span> {
                         <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='macro'>try_consume</span><span class='macro'>!</span>(<span class='ident'>scan</span>::<span class='ident'>timezone_offset_zulu</span>(<span class='ident'>s</span>.<span class='ident'>trim_left</span>(),
                                                                              <span class='ident'>scan</span>::<span class='ident'>colon_or_space</span>));
                         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>parsed</span>.<span class='ident'>set_offset</span>(<span class='ident'>offset</span> <span class='kw'>as</span> <span class='ident'>i64</span>));

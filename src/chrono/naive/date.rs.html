@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.14/src/naive/date.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.15/src/naive/date.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>date.rs.html -- source</title>
@@ -1873,6 +1873,211 @@
 <span id="1831">1831</span>
 <span id="1832">1832</span>
 <span id="1833">1833</span>
+<span id="1834">1834</span>
+<span id="1835">1835</span>
+<span id="1836">1836</span>
+<span id="1837">1837</span>
+<span id="1838">1838</span>
+<span id="1839">1839</span>
+<span id="1840">1840</span>
+<span id="1841">1841</span>
+<span id="1842">1842</span>
+<span id="1843">1843</span>
+<span id="1844">1844</span>
+<span id="1845">1845</span>
+<span id="1846">1846</span>
+<span id="1847">1847</span>
+<span id="1848">1848</span>
+<span id="1849">1849</span>
+<span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
+<span id="1875">1875</span>
+<span id="1876">1876</span>
+<span id="1877">1877</span>
+<span id="1878">1878</span>
+<span id="1879">1879</span>
+<span id="1880">1880</span>
+<span id="1881">1881</span>
+<span id="1882">1882</span>
+<span id="1883">1883</span>
+<span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
+<span id="1915">1915</span>
+<span id="1916">1916</span>
+<span id="1917">1917</span>
+<span id="1918">1918</span>
+<span id="1919">1919</span>
+<span id="1920">1920</span>
+<span id="1921">1921</span>
+<span id="1922">1922</span>
+<span id="1923">1923</span>
+<span id="1924">1924</span>
+<span id="1925">1925</span>
+<span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
+<span id="1938">1938</span>
+<span id="1939">1939</span>
+<span id="1940">1940</span>
+<span id="1941">1941</span>
+<span id="1942">1942</span>
+<span id="1943">1943</span>
+<span id="1944">1944</span>
+<span id="1945">1945</span>
+<span id="1946">1946</span>
+<span id="1947">1947</span>
+<span id="1948">1948</span>
+<span id="1949">1949</span>
+<span id="1950">1950</span>
+<span id="1951">1951</span>
+<span id="1952">1952</span>
+<span id="1953">1953</span>
+<span id="1954">1954</span>
+<span id="1955">1955</span>
+<span id="1956">1956</span>
+<span id="1957">1957</span>
+<span id="1958">1958</span>
+<span id="1959">1959</span>
+<span id="1960">1960</span>
+<span id="1961">1961</span>
+<span id="1962">1962</span>
+<span id="1963">1963</span>
+<span id="1964">1964</span>
+<span id="1965">1965</span>
+<span id="1966">1966</span>
+<span id="1967">1967</span>
+<span id="1968">1968</span>
+<span id="1969">1969</span>
+<span id="1970">1970</span>
+<span id="1971">1971</span>
+<span id="1972">1972</span>
+<span id="1973">1973</span>
+<span id="1974">1974</span>
+<span id="1975">1975</span>
+<span id="1976">1976</span>
+<span id="1977">1977</span>
+<span id="1978">1978</span>
+<span id="1979">1979</span>
+<span id="1980">1980</span>
+<span id="1981">1981</span>
+<span id="1982">1982</span>
+<span id="1983">1983</span>
+<span id="1984">1984</span>
+<span id="1985">1985</span>
+<span id="1986">1986</span>
+<span id="1987">1987</span>
+<span id="1988">1988</span>
+<span id="1989">1989</span>
+<span id="1990">1990</span>
+<span id="1991">1991</span>
+<span id="1992">1992</span>
+<span id="1993">1993</span>
+<span id="1994">1994</span>
+<span id="1995">1995</span>
+<span id="1996">1996</span>
+<span id="1997">1997</span>
+<span id="1998">1998</span>
+<span id="1999">1999</span>
+<span id="2000">2000</span>
+<span id="2001">2001</span>
+<span id="2002">2002</span>
+<span id="2003">2003</span>
+<span id="2004">2004</span>
+<span id="2005">2005</span>
+<span id="2006">2006</span>
+<span id="2007">2007</span>
+<span id="2008">2008</span>
+<span id="2009">2009</span>
+<span id="2010">2010</span>
+<span id="2011">2011</span>
+<span id="2012">2012</span>
+<span id="2013">2013</span>
+<span id="2014">2014</span>
+<span id="2015">2015</span>
+<span id="2016">2016</span>
+<span id="2017">2017</span>
+<span id="2018">2018</span>
+<span id="2019">2019</span>
+<span id="2020">2020</span>
+<span id="2021">2021</span>
+<span id="2022">2022</span>
+<span id="2023">2023</span>
+<span id="2024">2024</span>
+<span id="2025">2025</span>
+<span id="2026">2026</span>
+<span id="2027">2027</span>
+<span id="2028">2028</span>
+<span id="2029">2029</span>
+<span id="2030">2030</span>
+<span id="2031">2031</span>
+<span id="2032">2032</span>
+<span id="2033">2033</span>
+<span id="2034">2034</span>
+<span id="2035">2035</span>
+<span id="2036">2036</span>
+<span id="2037">2037</span>
+<span id="2038">2038</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
@@ -2079,6 +2284,45 @@
     <span class='doccomment'>/// The resulting `NaiveDate` may have a different year from the input year.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` on the out-of-range date and/or invalid week number.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, Weekday};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 0, Weekday::Sun), None);</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 10, Weekday::Sun),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 3, 8)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 30, Weekday::Mon),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 7, 20)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 60, Weekday::Mon), None);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// // out-of-range dates</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(400000, 10, Weekday::Fri), None);</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(-400000, 10, Weekday::Sat), None);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// // year boundary behaviors</span>
+    <span class='doccomment'>/// //</span>
+    <span class='doccomment'>/// //           Mo Tu We Th Fr Sa Su</span>
+    <span class='doccomment'>/// // 2014-W52  22 23 24 25 26 27 28    has 4+ days of new year,</span>
+    <span class='doccomment'>/// // 2015-W01  29 30 31  1  2  3  4 &lt;- so this is the first week</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2014, 52, Weekday::Sun),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2014, 12, 28)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2014, 53, Weekday::Mon), None);</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 1, Weekday::Mon),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2014, 12, 29)));</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// // 2015-W52  21 22 23 24 25 26 27    has 4+ days of old year,</span>
+    <span class='doccomment'>/// // 2015-W53  28 29 30 31  1  2  3 &lt;- so this is the last week</span>
+    <span class='doccomment'>/// // 2016-W01   4  5  6  7  8  9 10</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 52, Weekday::Sun),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 12, 27)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 53, Weekday::Sun),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2016, 1, 3)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 54, Weekday::Mon), None);</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2016, 1, Weekday::Mon),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2016, 1, 4)));</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_isoywd_opt</span>(<span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>week</span>: <span class='ident'>u32</span>, <span class='ident'>weekday</span>: <span class='ident'>Weekday</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>YearFlags</span>::<span class='ident'>from_year</span>(<span class='ident'>year</span>);
         <span class='kw'>let</span> <span class='ident'>nweeks</span> <span class='op'>=</span> <span class='ident'>flags</span>.<span class='ident'>nisoweeks</span>();
@@ -2144,6 +2388,8 @@
     <span class='doccomment'>///            Some(NaiveDate::from_ymd(1, 1, 1)));</span>
     <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(0),</span>
     <span class='doccomment'>///            Some(NaiveDate::from_ymd(0, 12, 31)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(-1),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(0, 12, 30)));</span>
     <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(100000000), None);</span>
     <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(-100000000), None);</span>
     <span class='doccomment'>/// ~~~~</span>
@@ -2165,6 +2411,19 @@
     }
 
     <span class='doccomment'>/// Makes a new `NaiveDateTime` from the current date and given `NaiveTime`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, NaiveTime, NaiveDateTime};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>/// let t = NaiveTime::from_hms_milli(12, 34, 56, 789);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let dt: NaiveDateTime = d.and_time(t);</span>
+    <span class='doccomment'>/// assert_eq!(dt.date(), d);</span>
+    <span class='doccomment'>/// assert_eq!(dt.time(), t);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_time</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>time</span>: <span class='ident'>NaiveTime</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDateTime</span> {
         <span class='ident'>NaiveDateTime</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>clone</span>(), <span class='ident'>time</span>)
@@ -2173,6 +2432,19 @@
     <span class='doccomment'>/// Makes a new `NaiveDateTime` from the current date, hour, minute and second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Fails on invalid hour, minute and/or second.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, NaiveDateTime, Datelike, Timelike, Weekday};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let dt: NaiveDateTime = d.and_hms(12, 34, 56);</span>
+    <span class='doccomment'>/// assert_eq!(dt.year(), 2015);</span>
+    <span class='doccomment'>/// assert_eq!(dt.weekday(), Weekday::Wed);</span>
+    <span class='doccomment'>/// assert_eq!(dt.second(), 56);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDateTime</span> {
         <span class='self'>self</span>.<span class='ident'>and_hms_opt</span>(<span class='ident'>hour</span>, <span class='ident'>min</span>, <span class='ident'>sec</span>).<span class='ident'>expect</span>(<span class='string'>&quot;invalid time&quot;</span>)
@@ -2181,6 +2453,18 @@
     <span class='doccomment'>/// Makes a new `NaiveDateTime` from the current date, hour, minute and second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` on invalid hour, minute and/or second.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>/// assert!(d.and_hms_opt(12, 34, 56).is_some());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_opt(12, 34, 60).is_none()); // use `and_hms_milli_opt` instead</span>
+    <span class='doccomment'>/// assert!(d.and_hms_opt(12, 60, 56).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_opt(24, 34, 56).is_none());</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_opt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDateTime</span><span class='op'>&gt;</span> {
         <span class='ident'>NaiveTime</span>::<span class='ident'>from_hms_opt</span>(<span class='ident'>hour</span>, <span class='ident'>min</span>, <span class='ident'>sec</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>time</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>and_time</span>(<span class='ident'>time</span>))
@@ -2190,6 +2474,20 @@
     <span class='doccomment'>/// The millisecond part can exceed 1,000 in order to represent the leap second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Fails on invalid hour, minute, second and/or millisecond.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, NaiveDateTime, Datelike, Timelike, Weekday};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let dt: NaiveDateTime = d.and_hms_milli(12, 34, 56, 789);</span>
+    <span class='doccomment'>/// assert_eq!(dt.year(), 2015);</span>
+    <span class='doccomment'>/// assert_eq!(dt.weekday(), Weekday::Wed);</span>
+    <span class='doccomment'>/// assert_eq!(dt.second(), 56);</span>
+    <span class='doccomment'>/// assert_eq!(dt.nanosecond(), 789_000_000);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_milli</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>, <span class='ident'>milli</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDateTime</span> {
         <span class='self'>self</span>.<span class='ident'>and_hms_milli_opt</span>(<span class='ident'>hour</span>, <span class='ident'>min</span>, <span class='ident'>sec</span>, <span class='ident'>milli</span>).<span class='ident'>expect</span>(<span class='string'>&quot;invalid time&quot;</span>)
@@ -2199,6 +2497,20 @@
     <span class='doccomment'>/// The millisecond part can exceed 1,000 in order to represent the leap second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` on invalid hour, minute, second and/or millisecond.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>/// assert!(d.and_hms_milli_opt(12, 34, 56,   789).is_some());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_milli_opt(12, 34, 59, 1_789).is_some()); // leap second</span>
+    <span class='doccomment'>/// assert!(d.and_hms_milli_opt(12, 34, 59, 2_789).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_milli_opt(12, 34, 60,   789).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_milli_opt(12, 60, 56,   789).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_milli_opt(24, 34, 56,   789).is_none());</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_milli_opt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>,
                              <span class='ident'>milli</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDateTime</span><span class='op'>&gt;</span> {
@@ -2209,6 +2521,20 @@
     <span class='doccomment'>/// The microsecond part can exceed 1,000,000 in order to represent the leap second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Fails on invalid hour, minute, second and/or microsecond.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, NaiveDateTime, Datelike, Timelike, Weekday};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let dt: NaiveDateTime = d.and_hms_micro(12, 34, 56, 789_012);</span>
+    <span class='doccomment'>/// assert_eq!(dt.year(), 2015);</span>
+    <span class='doccomment'>/// assert_eq!(dt.weekday(), Weekday::Wed);</span>
+    <span class='doccomment'>/// assert_eq!(dt.second(), 56);</span>
+    <span class='doccomment'>/// assert_eq!(dt.nanosecond(), 789_012_000);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_micro</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>, <span class='ident'>micro</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDateTime</span> {
         <span class='self'>self</span>.<span class='ident'>and_hms_micro_opt</span>(<span class='ident'>hour</span>, <span class='ident'>min</span>, <span class='ident'>sec</span>, <span class='ident'>micro</span>).<span class='ident'>expect</span>(<span class='string'>&quot;invalid time&quot;</span>)
@@ -2218,6 +2544,20 @@
     <span class='doccomment'>/// The microsecond part can exceed 1,000,000 in order to represent the leap second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` on invalid hour, minute, second and/or microsecond.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>/// assert!(d.and_hms_micro_opt(12, 34, 56,   789_012).is_some());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_micro_opt(12, 34, 59, 1_789_012).is_some()); // leap second</span>
+    <span class='doccomment'>/// assert!(d.and_hms_micro_opt(12, 34, 59, 2_789_012).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_micro_opt(12, 34, 60,   789_012).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_micro_opt(12, 60, 56,   789_012).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_micro_opt(24, 34, 56,   789_012).is_none());</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_micro_opt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>,
                              <span class='ident'>micro</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDateTime</span><span class='op'>&gt;</span> {
@@ -2228,6 +2568,20 @@
     <span class='doccomment'>/// The nanosecond part can exceed 1,000,000,000 in order to represent the leap second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Fails on invalid hour, minute, second and/or nanosecond.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, NaiveDateTime, Datelike, Timelike, Weekday};</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let dt: NaiveDateTime = d.and_hms_nano(12, 34, 56, 789_012_345);</span>
+    <span class='doccomment'>/// assert_eq!(dt.year(), 2015);</span>
+    <span class='doccomment'>/// assert_eq!(dt.weekday(), Weekday::Wed);</span>
+    <span class='doccomment'>/// assert_eq!(dt.second(), 56);</span>
+    <span class='doccomment'>/// assert_eq!(dt.nanosecond(), 789_012_345);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_nano</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>, <span class='ident'>nano</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDateTime</span> {
         <span class='self'>self</span>.<span class='ident'>and_hms_nano_opt</span>(<span class='ident'>hour</span>, <span class='ident'>min</span>, <span class='ident'>sec</span>, <span class='ident'>nano</span>).<span class='ident'>expect</span>(<span class='string'>&quot;invalid time&quot;</span>)
@@ -2237,6 +2591,20 @@
     <span class='doccomment'>/// The nanosecond part can exceed 1,000,000,000 in order to represent the leap second.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` on invalid hour, minute, second and/or nanosecond.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 6, 3);</span>
+    <span class='doccomment'>/// assert!(d.and_hms_nano_opt(12, 34, 56,   789_012_345).is_some());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_nano_opt(12, 34, 59, 1_789_012_345).is_some()); // leap second</span>
+    <span class='doccomment'>/// assert!(d.and_hms_nano_opt(12, 34, 59, 2_789_012_345).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_nano_opt(12, 34, 60,   789_012_345).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_nano_opt(12, 60, 56,   789_012_345).is_none());</span>
+    <span class='doccomment'>/// assert!(d.and_hms_nano_opt(24, 34, 56,   789_012_345).is_none());</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>and_hms_nano_opt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hour</span>: <span class='ident'>u32</span>, <span class='ident'>min</span>: <span class='ident'>u32</span>, <span class='ident'>sec</span>: <span class='ident'>u32</span>,
                             <span class='ident'>nano</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDateTime</span><span class='op'>&gt;</span> {
@@ -2279,6 +2647,16 @@
     <span class='doccomment'>/// Makes a new `NaiveDate` for the next date.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Fails when `self` is the last representable date.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).succ(), NaiveDate::from_ymd(2015, 6, 4));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 30).succ(), NaiveDate::from_ymd(2015, 7, 1));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 12, 31).succ(), NaiveDate::from_ymd(2016, 1, 1));</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>succ</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDate</span> {
         <span class='self'>self</span>.<span class='ident'>succ_opt</span>().<span class='ident'>expect</span>(<span class='string'>&quot;out of bound&quot;</span>)
@@ -2287,6 +2665,17 @@
     <span class='doccomment'>/// Makes a new `NaiveDate` for the next date.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` when `self` is the last representable date.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>/// use chrono::naive::date::MAX;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).succ_opt(),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 6, 4)));</span>
+    <span class='doccomment'>/// assert_eq!(MAX.succ_opt(), None);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>succ_opt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>with_of</span>(<span class='self'>self</span>.<span class='ident'>of</span>().<span class='ident'>succ</span>()).<span class='ident'>or_else</span>(<span class='op'>||</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd_opt</span>(<span class='self'>self</span>.<span class='ident'>year</span>() <span class='op'>+</span> <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>))
@@ -2295,6 +2684,16 @@
     <span class='doccomment'>/// Makes a new `NaiveDate` for the prior date.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Fails when `self` is the first representable date.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).pred(), NaiveDate::from_ymd(2015, 6, 2));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 1).pred(), NaiveDate::from_ymd(2015, 5, 31));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 1, 1).pred(), NaiveDate::from_ymd(2014, 12, 31));</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pred</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>NaiveDate</span> {
         <span class='self'>self</span>.<span class='ident'>pred_opt</span>().<span class='ident'>expect</span>(<span class='string'>&quot;out of bound&quot;</span>)
@@ -2303,6 +2702,17 @@
     <span class='doccomment'>/// Makes a new `NaiveDate` for the prior date.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` when `self` is the first representable date.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>/// use chrono::naive::date::MIN;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).pred_opt(),</span>
+    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 6, 2)));</span>
+    <span class='doccomment'>/// assert_eq!(MIN.pred_opt(), None);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pred_opt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>with_of</span>(<span class='self'>self</span>.<span class='ident'>of</span>().<span class='ident'>pred</span>()).<span class='ident'>or_else</span>(<span class='op'>||</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd_opt</span>(<span class='self'>self</span>.<span class='ident'>year</span>() <span class='op'>-</span> <span class='number'>1</span>, <span class='number'>12</span>, <span class='number'>31</span>))

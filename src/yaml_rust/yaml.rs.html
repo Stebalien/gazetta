@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/yaml-rust-0.2.0/src/yaml.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/yaml-rust-0.2.1/src/yaml.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>yaml.rs.html -- source</title>
@@ -422,9 +422,6 @@
 <span id="380">380</span>
 <span id="381">381</span>
 <span id="382">382</span>
-<span id="383">383</span>
-<span id="384">384</span>
-<span id="385">385</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Index</span>;
@@ -436,14 +433,14 @@
 
 <span class='doccomment'>/// An YAML node is store as this `Yaml` enumeration, it provides an easy way to</span>
 <span class='doccomment'>/// access your YAML document.</span>
-<span class='doccomment'>/// </span>
+<span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>/// </span>
+<span class='doccomment'>///</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// use yaml_rust::Yaml;</span>
 <span class='doccomment'>/// let foo = Yaml::from_str(&quot;-123&quot;); // convert the string to the appropriate YAML type</span>
 <span class='doccomment'>/// assert_eq!(foo.as_i64().unwrap(), -123);</span>
-<span class='doccomment'>/// </span>
+<span class='doccomment'>///</span>
 <span class='doccomment'>/// // iterator over an Array</span>
 <span class='doccomment'>/// let vec = Yaml::Array(vec![Yaml::Integer(1), Yaml::Integer(2)]);</span>
 <span class='doccomment'>/// for v in vec.as_vec().unwrap() {</span>
@@ -700,8 +697,6 @@
     }
 }
 
-
-
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
     <span class='kw'>use</span> <span class='ident'>yaml</span>::<span class='op'>*</span>;
@@ -745,7 +740,7 @@ a7: 你好
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_multi_doc</span>() {
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> 
+        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span>
 <span class='string'>&quot;
 &#39;a scalar&#39;
 ---
@@ -810,7 +805,6 @@ a7: 你好
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>doc</span>[<span class='number'>20</span>].<span class='ident'>is_badvalue</span>());
     }
 }
-
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

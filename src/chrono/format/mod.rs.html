@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.14/src/format/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.15/src/format/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -484,6 +484,18 @@
 <span id="442">442</span>
 <span id="443">443</span>
 <span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
@@ -574,6 +586,7 @@
     <span class='doccomment'>/// Note that this is *not* left-aligned; see also `Fixed::Nanosecond`.</span>
     <span class='ident'>Nanosecond</span>,
     <span class='doccomment'>/// The number of non-leap seconds since January 1, 1970 0:00:00 UTC (FW=1, PW=infinity).</span>
+    <span class='doccomment'>/// For formatting, it assumes UTC upon the absence of time zone offset.</span>
     <span class='ident'>Timestamp</span>,
 }
 
@@ -619,12 +632,16 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// In the parser, the colon can be omitted and/or surrounded with any amount of whitespaces.</span>
     <span class='doccomment'>/// The offset is limited from `-24:00` to `+24:00`, which is same to `FixedOffset`&#39;s range.</span>
-    <span class='ident'>TimezoneOffset</span>,
+    <span class='ident'>TimezoneOffsetColon</span>,
     <span class='doccomment'>/// Offset from the local time to UTC (`+09:00` or `-04:00` or `Z`).</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// In the parser, the colon can be omitted and/or surrounded with any amount of whitespaces,</span>
     <span class='doccomment'>/// and `Z` can be either in upper case or in lower case.</span>
     <span class='doccomment'>/// The offset is limited from `-24:00` to `+24:00`, which is same to `FixedOffset`&#39;s range.</span>
+    <span class='ident'>TimezoneOffsetColonZ</span>,
+    <span class='doccomment'>/// Same to `TimezoneOffsetColon` but prints no colon. Parsing allows an optional colon.</span>
+    <span class='ident'>TimezoneOffset</span>,
+    <span class='doccomment'>/// Same to `TimezoneOffsetColonZ` but prints no colon. Parsing allows an optional colon.</span>
     <span class='ident'>TimezoneOffsetZ</span>,
     <span class='doccomment'>/// RFC 2822 date and time syntax. Commonly used for email and MIME date and time.</span>
     <span class='ident'>RFC2822</span>,
@@ -771,9 +788,12 @@
                     <span class='ident'>Second</span>         <span class='op'>=&gt;</span> (<span class='number'>2</span>, <span class='ident'>time</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> (<span class='ident'>t</span>.<span class='ident'>second</span>() <span class='op'>+</span>
                                                         <span class='ident'>t</span>.<span class='ident'>nanosecond</span>() <span class='op'>/</span> <span class='number'>1_000_000_000</span>) <span class='kw'>as</span> <span class='ident'>i64</span>)),
                     <span class='ident'>Nanosecond</span>     <span class='op'>=&gt;</span> (<span class='number'>9</span>, <span class='ident'>time</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> (<span class='ident'>t</span>.<span class='ident'>nanosecond</span>() <span class='op'>%</span> <span class='number'>1_000_000_000</span>) <span class='kw'>as</span> <span class='ident'>i64</span>)),
-                    <span class='ident'>Timestamp</span>      <span class='op'>=&gt;</span> (<span class='number'>1</span>, <span class='kw'>match</span> (<span class='ident'>date</span>, <span class='ident'>time</span>) {
-                        (<span class='prelude-val'>Some</span>(<span class='ident'>d</span>), <span class='prelude-val'>Some</span>(<span class='ident'>t</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>d</span>.<span class='ident'>and_time</span>(<span class='op'>*</span><span class='ident'>t</span>).<span class='ident'>timestamp</span>()),
-                        (_, _) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
+                    <span class='ident'>Timestamp</span>      <span class='op'>=&gt;</span> (<span class='number'>1</span>, <span class='kw'>match</span> (<span class='ident'>date</span>, <span class='ident'>time</span>, <span class='ident'>off</span>) {
+                        (<span class='prelude-val'>Some</span>(<span class='ident'>d</span>), <span class='prelude-val'>Some</span>(<span class='ident'>t</span>), <span class='prelude-val'>None</span>) <span class='op'>=&gt;</span>
+                            <span class='prelude-val'>Some</span>(<span class='ident'>d</span>.<span class='ident'>and_time</span>(<span class='op'>*</span><span class='ident'>t</span>).<span class='ident'>timestamp</span>()),
+                        (<span class='prelude-val'>Some</span>(<span class='ident'>d</span>), <span class='prelude-val'>Some</span>(<span class='ident'>t</span>), <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>(_, <span class='ident'>off</span>))) <span class='op'>=&gt;</span>
+                            <span class='prelude-val'>Some</span>((<span class='ident'>d</span>.<span class='ident'>and_time</span>(<span class='op'>*</span><span class='ident'>t</span>) <span class='op'>-</span> <span class='ident'>off</span>).<span class='ident'>timestamp</span>()),
+                        (_, _, _) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
                     }),
                 };
 
@@ -847,6 +867,10 @@
                         }),
                     <span class='ident'>TimezoneName</span> <span class='op'>=&gt;</span>
                         <span class='ident'>off</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>, _)<span class='op'>|</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='op'>*</span><span class='ident'>name</span>)),
+                    <span class='ident'>TimezoneOffsetColon</span> <span class='op'>=&gt;</span>
+                        <span class='ident'>off</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_, <span class='ident'>off</span>)<span class='op'>|</span> <span class='ident'>write_local_minus_utc</span>(<span class='ident'>w</span>, <span class='ident'>off</span>, <span class='boolval'>false</span>, <span class='boolval'>true</span>)),
+                    <span class='ident'>TimezoneOffsetColonZ</span> <span class='op'>=&gt;</span>
+                        <span class='ident'>off</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_, <span class='ident'>off</span>)<span class='op'>|</span> <span class='ident'>write_local_minus_utc</span>(<span class='ident'>w</span>, <span class='ident'>off</span>, <span class='boolval'>true</span>, <span class='boolval'>true</span>)),
                     <span class='ident'>TimezoneOffset</span> <span class='op'>=&gt;</span>
                         <span class='ident'>off</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_, <span class='ident'>off</span>)<span class='op'>|</span> <span class='ident'>write_local_minus_utc</span>(<span class='ident'>w</span>, <span class='ident'>off</span>, <span class='boolval'>false</span>, <span class='boolval'>false</span>)),
                     <span class='ident'>TimezoneOffsetZ</span> <span class='op'>=&gt;</span>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/yaml-rust-0.2.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/yaml-rust-0.2.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -147,6 +147,12 @@
 <span id="105">105</span>
 <span id="106">106</span>
 <span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2015, Yuheng Chen. See the LICENSE file at the top-level</span>
 <span class='comment'>// directory of this distribution.</span>
@@ -179,13 +185,12 @@
 <span class='doccomment'>//! let docs = YamlLoader::load_from_str(&quot;[1, 2, 3]&quot;).unwrap();</span>
 <span class='doccomment'>//! let doc = &amp;docs[0]; // select the first document</span>
 <span class='doccomment'>//! assert_eq!(doc[0].as_i64().unwrap(), 1); // access elements by index</span>
-<span class='doccomment'>//! </span>
+<span class='doccomment'>//!</span>
 <span class='doccomment'>//! let mut out_str = String::new();</span>
 <span class='doccomment'>//! let mut emitter = YamlEmitter::new(&amp;mut out_str);</span>
 <span class='doccomment'>//! emitter.dump(doc).unwrap(); // dump the YAML object to a String</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```</span>
-
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>yaml</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>scanner</span>;
@@ -201,6 +206,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
     <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_api</span>() {
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span>
@@ -242,6 +248,11 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span>);
     }
 
+    <span class='kw'>fn</span> <span class='ident'>try_fail</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Yaml</span><span class='op'>&gt;</span>, <span class='ident'>ScanError</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>s</span>));
+        <span class='prelude-val'>Ok</span>(<span class='ident'>t</span>)
+    }
+
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_fail</span>() {
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span>
@@ -252,6 +263,7 @@ key: [1, 2]]
 key1:a2
 &quot;</span>;
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>s</span>).<span class='ident'>is_err</span>());
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>try_fail</span>(<span class='ident'>s</span>).<span class='ident'>is_err</span>());
     }
 
 }

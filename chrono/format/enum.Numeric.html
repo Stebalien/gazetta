@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-16173' class='srclink' href='../../src/chrono/format/mod.rs.html#47-91' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-16173' class='srclink' href='../../src/chrono/format/mod.rs.html#47-92' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Numeric {
     Year,
     YearDiv100,
@@ -102,7 +102,8 @@ May accept years before 1 BCE or after 9999 CE, given an initial sign.</p>
 </div></td></tr><tr><td id='variant.Second'><code>Second</code></td><td><div class='docblock'><p>The number of seconds since the last whole minute (FW=PW=2).</p>
 </div></td></tr><tr><td id='variant.Nanosecond'><code>Nanosecond</code></td><td><div class='docblock'><p>The number of nanoseconds since the last whole second (FW=PW=9).
 Note that this is <em>not</em> left-aligned; see also <code>Fixed::Nanosecond</code>.</p>
-</div></td></tr><tr><td id='variant.Timestamp'><code>Timestamp</code></td><td><div class='docblock'><p>The number of non-leap seconds since January 1, 1970 0:00:00 UTC (FW=1, PW=infinity).</p>
+</div></td></tr><tr><td id='variant.Timestamp'><code>Timestamp</code></td><td><div class='docblock'><p>The number of non-leap seconds since January 1, 1970 0:00:00 UTC (FW=1, PW=infinity).
+For formatting, it assumes UTC upon the absence of time zone offset.</p>
 </div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../chrono/format/enum.Numeric.html' title='chrono::format::Numeric'>Numeric</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='enum' href='../../chrono/format/enum.Numeric.html' title='chrono::format::Numeric'>Numeric</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../../chrono/format/enum.Numeric.html' title='chrono::format::Numeric'>Numeric</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../chrono/format/enum.Numeric.html' title='chrono::format::Numeric'>Numeric</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.ne' class='method'><code>fn <a href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../chrono/format/enum.Numeric.html' title='chrono::format::Numeric'>Numeric</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
