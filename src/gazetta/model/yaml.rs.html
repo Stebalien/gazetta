@@ -135,6 +135,7 @@
 <span id="93">93</span>
 <span id="94">94</span>
 <span id="95">95</span>
+<span id="96">96</span>
 </pre><pre class='rust '>
 <span class='comment'>/* Copyright (2015) Stevem Allen
  *
@@ -172,6 +173,7 @@
     <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>ref</span> <span class='ident'>PAGINATE</span>: <span class='ident'>Yaml</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='string'>&quot;paginate&quot;</span>.<span class='ident'>into</span>());
     <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>ref</span> <span class='ident'>CC</span>: <span class='ident'>Yaml</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='string'>&quot;cc&quot;</span>.<span class='ident'>into</span>());
     <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>ref</span> <span class='ident'>MAX</span>: <span class='ident'>Yaml</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='string'>&quot;max&quot;</span>.<span class='ident'>into</span>());
+    <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>ref</span> <span class='ident'>BASE</span>: <span class='ident'>Yaml</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='string'>&quot;base&quot;</span>.<span class='ident'>into</span>());
 }
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_front</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>path</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>u64</span>, <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>), <span class='ident'>SourceError</span><span class='op'>&gt;</span> {

@@ -169,6 +169,11 @@
 <span id="127">127</span>
 <span id="128">128</span>
 <span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
 </pre><pre class='rust '>
 <span class='comment'>/* Copyright (2015) Stevem Allen
  *
@@ -191,18 +196,17 @@
 <span class='kw'>use</span> ::<span class='ident'>horrorshow</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> ::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
 
-
 <span class='doccomment'>/// A &quot;website&quot;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// You should include this view in your websites &quot;head&quot;. It renders into script, stylesheet, icon</span>
-<span class='doccomment'>/// tags metadata tags.</span>
+<span class='doccomment'>/// You should include this view at the top of your websites &quot;head&quot;. It renders into script, stylesheet, icon</span>
+<span class='doccomment'>/// tags, metadata tags, and *importantly* the base tag.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// ```norun</span>
 <span class='doccomment'>/// html! {</span>
 <span class='doccomment'>///     html {</span>
 <span class='doccomment'>///         head {</span>
-<span class='doccomment'>///             // ...</span>
 <span class='doccomment'>///             : site;</span>
+<span class='doccomment'>///             // ...</span>
 <span class='doccomment'>///         }</span>
 <span class='doccomment'>///     }</span>
 <span class='doccomment'>/// }</span>
@@ -213,6 +217,11 @@
 {
     <span class='doccomment'>/// The website&#39;s title</span>
     <span class='kw'>pub</span> <span class='ident'>title</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
+    <span class='doccomment'>/// The &quot;canonical&quot; origin for the website. (i.e. the `&lt;protocol&gt;://&lt;domain&gt;:&lt;port&gt;` part of</span>
+    <span class='doccomment'>/// the url)</span>
+    <span class='kw'>pub</span> <span class='ident'>origin</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
+    <span class='doccomment'>/// The path prefix at wich we&#39;re serving this website.</span>
+    <span class='kw'>pub</span> <span class='ident'>prefix</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
     <span class='doccomment'>/// The concatinated stylesheets.</span>
     <span class='kw'>pub</span> <span class='ident'>stylesheets</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;</span>,
     <span class='doccomment'>/// The concatinated javascript.</span>
@@ -244,6 +253,7 @@
     <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
             <span class='ident'>meta</span>(<span class='ident'>charset</span><span class='op'>=</span><span class='string'>&quot;utf-8&quot;</span>);
+            <span class='ident'>base</span>(<span class='ident'>href</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>prefix</span>);
             <span class='kw-2'>@</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>css</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stylesheets</span> {
                 <span class='ident'>link</span>(<span class='ident'>rel</span><span class='op'>=</span><span class='string'>&quot;stylesheet&quot;</span>, <span class='ident'>href</span><span class='op'>=</span><span class='ident'>css</span>);
             }

@@ -45,23 +45,25 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-7598' class='srclink' href='../../src/gazetta/view/site.rs.html#38-52' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-7925' class='srclink' href='../../src/gazetta/view/site.rs.html#37-56' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Site&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta/prelude/trait.Gazetta.html' title='gazetta::prelude::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a</span> {
     pub title: &amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
+    pub origin: &amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
+    pub prefix: &amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
     pub stylesheets: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;,
     pub javascript: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;,
     pub icon: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;,
     pub meta: &amp;'a G::SiteMeta,
 }</pre><div class='docblock'><p>A &quot;website&quot;</p>
 
-<p>You should include this view in your websites &quot;head&quot;. It renders into script, stylesheet, icon
-tags metadata tags.</p>
+<p>You should include this view at the top of your websites &quot;head&quot;. It renders into script, stylesheet, icon
+tags, metadata tags, and <em>importantly</em> the base tag.</p>
 
 <pre><code class="language-norun">html! {
     html {
         head {
-            // ...
             : site;
+            // ...
         }
     }
 }
@@ -69,6 +71,11 @@ tags metadata tags.</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
                                   <td id='structfield.title'><code>title</code></td><td><div class='docblock'><p>The website&#39;s title</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.origin'><code>origin</code></td><td><div class='docblock'><p>The &quot;canonical&quot; origin for the website. (i.e. the <code>&lt;protocol&gt;://&lt;domain&gt;:&lt;port&gt;</code> part of
+the url)</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.prefix'><code>prefix</code></td><td><div class='docblock'><p>The path prefix at wich we&#39;re serving this website.</p>
 </div></td></tr><tr class='stab '>
                                   <td id='structfield.stylesheets'><code>stylesheets</code></td><td><div class='docblock'><p>The concatinated stylesheets.</p>
 </div></td></tr><tr class='stab '>

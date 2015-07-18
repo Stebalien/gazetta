@@ -45,10 +45,12 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-4416' class='srclink' href='../../src/gazetta/model/source.rs.html#32-44' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-4435' class='srclink' href='../../src/gazetta/model/source.rs.html#35-49' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Source&lt;SourceMeta = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, EntryMeta = <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; <span class='where'>where SourceMeta: <a class='trait' href='../../gazetta/model/trait.Meta.html' title='gazetta::model::Meta'>Meta</a>, EntryMeta: <a class='trait' href='../../gazetta/model/trait.Meta.html' title='gazetta::model::Meta'>Meta</a></span> {
     pub title: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
     pub root: <a class='struct' href='http://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>,
+    pub origin: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    pub prefix: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
     pub entries: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../gazetta/model/struct.Entry.html' title='gazetta::model::Entry'>Entry</a>&lt;EntryMeta&gt;&gt;,
     pub static_entries: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../gazetta/model/struct.StaticEntry.html' title='gazetta::model::StaticEntry'>StaticEntry</a>&gt;,
     pub stylesheets: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>&gt;,
@@ -59,6 +61,8 @@
 <table><tr class='stab '>
                                   <td id='structfield.title'><code>title</code></td><td></td></tr><tr class='stab '>
                                   <td id='structfield.root'><code>root</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.origin'><code>origin</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.prefix'><code>prefix</code></td><td></td></tr><tr class='stab '>
                                   <td id='structfield.entries'><code>entries</code></td><td></td></tr><tr class='stab '>
                                   <td id='structfield.static_entries'><code>static_entries</code></td><td></td></tr><tr class='stab '>
                                   <td id='structfield.stylesheets'><code>stylesheets</code></td><td></td></tr><tr class='stab '>
