@@ -44,8 +44,8 @@ fn compile_asset<P>(paths: &[P],
         output.finish()
     };
 
-    let href = format!("/assets/{}-{:x}.{}", prefix, hash, ext);
-    let final_path = target.join(&href[1..]);
+    let href = format!("assets/{}-{:x}.{}", prefix, hash, ext);
+    let final_path = target.join(&href);
     try_annotate!(fs::rename(tmp_path, &final_path), final_path);
     Ok(href)
 }
@@ -130,6 +130,8 @@ pub trait Gazetta: Sized {
 
         let site = Site {
             title: &source.title,
+            origin: &source.origin,
+            prefix: &source.prefix,
             meta: &source.meta,
             javascript: js_href.as_ref().map(|s|&s[..]),
             stylesheets: css_href.as_ref().map(|s|&s[..]),
@@ -137,7 +139,7 @@ pub trait Gazetta: Sized {
         };
 
         for static_entry in &source.static_entries {
-            let dst = output.join(&static_entry.name[1..]);
+            let dst = output.join(&static_entry.name);
             if let Some(parent) = dst.parent() {
                 try_annotate!(fs::create_dir_all(parent), parent.clone());
             }
@@ -152,7 +154,7 @@ pub trait Gazetta: Sized {
         for entry in &source.entries {
             let content_len = try!(entry.content.read_into(&mut buf));
 
-            let dest_dir = output.join(&entry.name[1..]);
+            let dest_dir = output.join(&entry.name);
             try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
 
             if let Some(ref index) = entry.index {
@@ -216,7 +218,7 @@ pub trait Gazetta: Sized {
                             let children = read_children!(buf, chunk);
                             let content = &buf[..content_len];
 
-                            let mut index_file_path = output.join(&href[1..]);
+                            let mut index_file_path = output.join(&href);
                             try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
                             index_file_path.push("index.html");
 

@@ -34,6 +34,7 @@ lazy_static! {
     pub static ref PAGINATE: Yaml = Yaml::String("paginate".into());
     pub static ref CC: Yaml = Yaml::String("cc".into());
     pub static ref MAX: Yaml = Yaml::String("max".into());
+    pub static ref BASE: Yaml = Yaml::String("base".into());
 }
 
 pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(u64, BTreeMap<Yaml, Yaml>), SourceError> {

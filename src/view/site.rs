@@ -19,18 +19,17 @@ use std::fmt;
 use ::horrorshow::prelude::*;
 use ::render::Gazetta;
 
-
 /// A "website"
 ///
-/// You should include this view in your websites "head". It renders into script, stylesheet, icon
-/// tags metadata tags.
+/// You should include this view at the top of your websites "head". It renders into script, stylesheet, icon
+/// tags, metadata tags, and *importantly* the base tag.
 ///
 /// ```norun
 /// html! {
 ///     html {
 ///         head {
-///             // ...
 ///             : site;
+///             // ...
 ///         }
 ///     }
 /// }
@@ -41,6 +40,11 @@ pub struct Site<'a, G>
 {
     /// The website's title
     pub title: &'a str,
+    /// The "canonical" origin for the website. (i.e. the `<protocol>://<domain>:<port>` part of
+    /// the url)
+    pub origin: &'a str,
+    /// The path prefix at wich we're serving this website.
+    pub prefix: &'a str,
     /// The concatinated stylesheets.
     pub stylesheets: Option<&'a str>,
     /// The concatinated javascript.
@@ -72,6 +76,7 @@ impl<'a, G> Render for Site<'a, G>
     fn render(&self, tmpl: &mut TemplateBuffer) {
         tmpl << html! {
             meta(charset="utf-8");
+            base(href=self.prefix);
             @ if let Some(css) = self.stylesheets {
                 link(rel="stylesheet", href=css);
             }

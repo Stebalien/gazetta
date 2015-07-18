@@ -112,9 +112,6 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
         const U32_MAX_AS_I64: i64 = ::std::u32::MAX as i64;
 
         fn dir_to_glob(mut dir: String) -> Result<glob::Pattern, SourceError> {
-            if !dir.starts_with("/") {
-                dir.insert(0, '/');
-            }
             if !dir.ends_with("/") {
                 dir.push('/');
             }
@@ -223,15 +220,9 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                 None => None,
             },
             cc: match meta.remove(&yaml::CC) {
-                Some(Yaml::String(mut cc)) => {
-                    cc.insert(0, '/');
-                    vec![cc]
-                },
+                Some(Yaml::String(cc)) => vec![cc],
                 Some(Yaml::Array(cc)) => try!(cc.into_iter().map(|v| match v {
-                    Yaml::String(mut ci) => {
-                        ci.insert(0, '/');
-                        Ok(ci)
-                    },
+                    Yaml::String(ci) => Ok(ci),
                     _ => Err(SourceError::from("invlaid cc value")),
                 }).collect()),
                 Some(..) => return Err("invalid cc value".into()),

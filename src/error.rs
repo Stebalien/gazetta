@@ -117,6 +117,12 @@ impl From<io::Error> for SourceError {
     }
 }
 
+impl From<::url::ParseError> for SourceError {
+    fn from(e: ::url::ParseError) -> SourceError {
+        SourceError::Config(Cow::Owned(format!("{}", e)))
+    }
+}
+
 impl From<ScanError> for SourceError {
     fn from(e: ScanError) -> SourceError {
         SourceError::Parse(e)

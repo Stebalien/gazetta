@@ -16,6 +16,9 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use ::url::{Url, SchemeData};
+use std::fmt::Write as WriteFmt;
+
 use ::{AnnotatedError, SourceError};
 use ::util;
 use super::{ Entry, StaticEntry};
@@ -35,6 +38,8 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
 {
     pub title: String,
     pub root: PathBuf,
+    pub origin: String,
+    pub prefix: String,
     pub entries: Vec<Entry<EntryMeta>>,
     pub static_entries: Vec<StaticEntry>,
     pub stylesheets: Vec<PathBuf>,
@@ -95,7 +100,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         self.stylesheets.clear();
         self.javascript.clear();
         self.icon = None;
-        try!(self.load_entries("/"));
+        try!(self.load_entries(""));
         try!(self.load_assets());
         Ok(())
     }
@@ -103,6 +108,46 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
     #[inline(always)]
     fn from_config(root: &Path, config_path: &Path) -> Result<Self, SourceError> {
         let mut config = try!(yaml::load(&config_path));
+        let (origin, prefix) = match config.remove(&yaml::BASE) {
+            Some(Yaml::String(base)) => match try!(Url::parse(&base)) {
+                Url {
+                    scheme,
+                    scheme_data: SchemeData::Relative(scheme_data),
+                    fragment: None,
+                    query: None,
+                } => {
+                    let prefix = scheme_data.serialize_path();
+
+                    let mut origin = scheme;
+                    if !origin.is_empty() {
+                        origin.push(':')
+                    }
+                    origin.push_str("//");
+                    if !scheme_data.username.is_empty() {
+                        origin.push_str(&scheme_data.username);
+                        if let Some(ref pw) = scheme_data.password {
+                            origin.push(':');
+                            origin.push_str(&pw);
+                        }
+                        origin.push('@');
+                    }
+                    write!(origin, "{}", scheme_data.host).unwrap();
+                    if let Some(port) = scheme_data.port {
+                        write!(origin, ":{}", port).unwrap();
+                    }
+
+                    (origin, prefix)
+                },
+                Url {
+                    scheme_data: SchemeData::NonRelative(..),
+                    ..
+                } => return Err("base url must use a relative scheme".into()),
+                Url { fragment: Some(..), ..  } => return Err("base url must not specify a fragment".into()),
+                Url { query: Some(..), ..  } => return Err("base url must not specify a query".into())
+            },
+            Some(..) => return Err("the base url must be a string".into()),
+            None => return Err("you must specify a base url".into()),
+        };
 
         Ok(Source {
             title: match config.remove(&yaml::TITLE) {
@@ -110,6 +155,8 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 Some(..) => return Err("title must be a string".into()),
                 None => return Err("must specify title".into()),
             },
+            origin: origin,
+            prefix: prefix,
             root: root.to_owned(),
             entries: Vec::new(),
             static_entries: Vec::new(),
@@ -141,7 +188,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
     }
 
     fn load_entries(&mut self, dir: &str) -> Result<(), AnnotatedError<SourceError>> {
-        let base_dir = self.root.join(&dir[1..]);
+        let base_dir = self.root.join(&dir);
 
         for dir_entry in try_annotate!(fs::read_dir(&base_dir), base_dir) {
             let dir_entry = try_annotate!(dir_entry, base_dir);
@@ -160,7 +207,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             };
 
             // Skip assets.
-            if dir == "/" && file_name == "assets" {
+            if dir == "" && file_name == "assets" {
                 continue;
             }
 
@@ -172,8 +219,8 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                     self.entries.push(entry);
                 }
             } else if file_type.is_dir() {
-                let name = if dir == "/" {
-                    format!("/{}", &file_name)
+                let name = if dir.is_empty() {
+                    file_name.to_owned()
                 } else {
                     format!("{}/{}", dir, &file_name)
                 };

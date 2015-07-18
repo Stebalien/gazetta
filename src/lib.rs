@@ -19,6 +19,7 @@ extern crate chrono;
 extern crate glob;
 extern crate yaml_rust;
 extern crate pulldown_cmark;
+extern crate url;
 
 #[macro_use]
 extern crate horrorshow;

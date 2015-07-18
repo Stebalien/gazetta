@@ -17,19 +17,6 @@ use pulldown_cmark::{Parser, Event};
 use horrorshow::prelude::*;
 use std::borrow::Cow;
 
-fn is_absolute(mut url: &str) -> bool {
-    if url.starts_with("/") {
-        return true;
-    }
-    // strip hash
-    if let Some(hash) = url.find('#') {
-        url = &url[..hash];
-    }
-    // If there is a protocol, we should see a ':'.
-    // This will obviously only work for well-formed urls.
-    url.contains(':')
-}
-
 /// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Markdown<'a> {
@@ -81,6 +68,28 @@ struct RenderMarkdown<'a, I> {
     base: &'a str,
 }
 
+impl<'a, I> RenderMarkdown<'a, I> {
+    fn make_relative<'b>(&self, dest: Cow<'b, str>) -> Cow<'b, str> {
+        if dest.starts_with("./") {
+            if self.base.is_empty() {
+                match dest {
+                    Cow::Borrowed(v) => Cow::Borrowed(&v[2..]),
+                    Cow::Owned(mut v) => {
+                        // There has to be a better way...
+                        v.remove(0);
+                        v.remove(0);
+                        Cow::Owned(v)
+                    }
+                }
+            } else {
+                Cow::Owned(format!("{}/{}", self.base, &dest[2..]))
+            }
+        } else {
+            dest
+        }
+    }
+}
+
 impl<'a, I: Iterator<Item=Event<'a>>> RenderOnce for RenderMarkdown<'a, I> {
     fn render_once(mut self, mut tmpl: &mut TemplateBuffer) {
         self.render_mut(tmpl)
@@ -119,39 +128,28 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             6 => tmpl << html! { h6 : s },
                             _ => panic!(),
                         },
-                        Tag::Link(mut dest, title)  => {
-                            if !is_absolute(&*dest) {
-                                dest = Cow::Owned(format!("{}/{}", &*self.base, &*dest));
-                            }
-
-                            tmpl << html! {
-                                // TODO: Escape href?
-                                a(href = &*dest, title? = if !title.is_empty() { Some(&*title) } else { None }) : s
-                            }
-                        }
-                        Tag::Image(mut dest, title) => {
-                            if !is_absolute(&*dest) {
-                                dest = Cow::Owned(format!("{}/{}", &*self.base, &*dest));
-                            }
-
-                            tmpl << html! {
-                                img(src = &*dest,
-                                    title? = if !title.is_empty() { Some(&*title) } else { None },
-                                    alt = FnRenderer::new(|tmpl| {
-                                        let mut nest = 0;
-                                        while let Some(event) = s.iter.next() {
-                                            let tmpl = &mut *tmpl;
-                                            match event {
-                                                Start(_) => nest += 1,
-                                                End(_) if nest == 0 => break,
-                                                End(_) => nest -= 1,
-                                                Text(txt) | InlineHtml(txt) => tmpl << &*txt,
-                                                SoftBreak | HardBreak => tmpl << " ",
-                                                Html(_) => (),
-                                            }
+                        Tag::Link(dest, title)  => tmpl << html! {
+                            // TODO: Escape href?
+                            a(href = &*s.make_relative(dest),
+                            title? = if !title.is_empty() { Some(&*title) } else { None }) : s
+                        },
+                        Tag::Image(dest, title) => tmpl << html! {
+                            img(src = &*s.make_relative(dest),
+                                title? = if !title.is_empty() { Some(&*title) } else { None },
+                                alt = FnRenderer::new(|tmpl| {
+                                    let mut nest = 0;
+                                    while let Some(event) = s.iter.next() {
+                                        let tmpl = &mut *tmpl;
+                                        match event {
+                                            Start(_) => nest += 1,
+                                            End(_) if nest == 0 => break,
+                                            End(_) => nest -= 1,
+                                            Text(txt) | InlineHtml(txt) => tmpl << &*txt,
+                                            SoftBreak | HardBreak => tmpl << " ",
+                                            Html(_) => (),
                                         }
-                                    }))
-                            }
+                                    }
+                                }))
                         },
                         Tag::CodeBlock(info)    => {
                             // TODO Highlight code.
