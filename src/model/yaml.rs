@@ -37,18 +37,15 @@ lazy_static! {
     pub static ref BASE: Yaml = Yaml::String("base".into());
 }
 
-pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(u64, BTreeMap<Yaml, Yaml>), SourceError> {
+pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
     let mut buf = String::with_capacity(100);
     let mut file = BufReader::new(try!(File::open(path.as_ref())));
-    let mut offset: u64 = 0;
-    offset += try!(file.read_line(&mut buf)) as u64;
+    try!(file.read_line(&mut buf)) as u64;
     if buf.trim_right() == "---" {
         // Parse yaml header.
         loop {
             match file.read_line(&mut buf) {
                 Ok(len) => {
-                    offset += len as u64;
-
                     match buf[buf.len()-len..].trim_right() {
                         "..." => break,
                         "---" => {
@@ -66,14 +63,19 @@ pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(u64, BTreeMap<Yaml, Yaml>)
             }
         }
     } else {
-        return Ok((0, BTreeMap::new()));
+        return Ok((BTreeMap::new(), String::new()));
     }
+    // Parse yaml
     let mut docs = try!(YamlLoader::load_from_str(&buf));
     docs.truncate(1);
-    match docs.pop() {
-        Some(Yaml::Hash(data)) => Ok((offset, data)),
-        _ => Err("Yaml must be a key -> value mapping".into()),
-    }
+    let meta = match docs.pop() {
+        Some(Yaml::Hash(data)) => data,
+        _ => return Err("Yaml must be a key -> value mapping".into()),
+    };
+
+    buf.clear();
+    try!(file.read_to_string(&mut buf));
+    Ok((meta, buf))
 }
 
 pub fn load<P: AsRef<Path>>(path: P) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {

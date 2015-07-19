@@ -13,13 +13,9 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io;
 use std::path::PathBuf;
-use std::borrow::Cow;
 
-use ::{glob, SourceError, AnnotatedError};
+use ::{glob, SourceError};
 
 use super::{Meta, Date};
 use super::index::{self, Index};
@@ -54,54 +50,10 @@ pub struct Entry<EntryMeta> where EntryMeta: Meta {
     pub name: String,
 
     /// The content
-    pub content: ContentSource,
-}
+    pub content: String,
 
-#[derive(Debug, Clone)]
-pub enum ContentSource {
-    File {
-        content_path: PathBuf,
-        content_offset: u64,
-    },
-    String {
-        data: Cow<'static, str>,
-        format: Cow<'static, str>,
-    }
-}
-
-impl ContentSource {
-    /// Read the content into the specified buffer.
-    pub fn read_into(&self, buf: &mut String) -> Result<usize, AnnotatedError<io::Error>> {
-        match *self {
-            ContentSource::File { ref content_path, content_offset } => (|| {
-                let mut f = try!(File::open(&content_path));
-                if content_offset != try!(f.seek(io::SeekFrom::Start(content_offset))) {
-                    return Err(io::Error::new(io::ErrorKind::Other, "content missing"));
-                }
-                f.read_to_string(buf)
-            })().map_err(|e| AnnotatedError::new(content_path.clone(), e)),
-            ContentSource::String { ref data, .. } => {
-                buf.push_str(&data);
-                Ok(data.len())
-            }
-        }
-    }
-
-    /// The content format.
-    ///
-    /// If this is a file, this returns the file extension.
-    /// If this content exists in-memory, this returns the format.
-    ///
-    /// Note: if the file extension is not UTF-8 encoded, this returns an empty string.
-    ///
-    pub fn format(&self) -> &str {
-        match *self {
-            ContentSource::File { ref content_path, .. } => {
-                content_path.extension().and_then(|e|e.to_str()).unwrap_or("")
-            },
-            ContentSource::String { ref format, .. } => &format,
-        }
-    }
+    /// Content format
+    pub format: String, // TODO: Use atoms (intern).
 }
 
 impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
@@ -127,13 +79,11 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
 
         // Load metadata
 
-        let (offset, mut meta) = try!(yaml::load_front(&full_path));
+        let (mut meta, content) = try!(yaml::load_front(&full_path));
 
         Ok(Entry {
-            content: ContentSource::File {
-                content_offset: offset,
-                content_path: full_path,
-            },
+            content: content,
+            format: full_path.extension().and_then(|e|e.to_str()).unwrap_or("").to_owned(),
             title: match meta.remove(&yaml::TITLE) {
                 Some(Yaml::String(title)) => title,
                 Some(..) => return Err("titles must be strings".into()),

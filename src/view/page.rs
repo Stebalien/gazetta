@@ -21,6 +21,8 @@ use ::model::Date;
 use ::markdown::Markdown;
 use ::horrorshow::prelude::*;
 
+use ::model::Entry;
+
 use super::Index;
 
 /// Represents an indevidual page to be rendered.
@@ -54,6 +56,27 @@ pub struct Page<'a, G>
     /// }
     /// ```
     pub content: Content<'a>,
+}
+
+impl<'a, G> Page<'a, G>
+    where G: Gazetta + 'a,
+          G::PageMeta: 'a,
+          G::SiteMeta: 'a,
+{
+    /// Creates a page for an entry. This does *not* fill in the index.
+    pub fn for_entry(entry: &'a Entry<G::PageMeta>) -> Self {
+        Page {
+            title: &entry.title,
+            date: entry.date.as_ref(),
+            content: Content { 
+                data: &entry.content,
+                format: &entry.format
+            },
+            href: &entry.name,
+            index: None,
+            meta: &entry.meta,
+        }
+    }
 }
 
 #[derive(Copy, Clone, Debug)]

@@ -11,3 +11,7 @@ lazy_static = "*"
 pulldown-cmark = "*"
 horrorshow = "*"
 url = "*"
+
+[dependencies.str_stack]
+git = "https://github.com/Stebalien/str_stack.git"
+

@@ -20,9 +20,10 @@ use std::path::Path;
 use horrorshow::prelude::*;
 use util::{self, StreamHasher};
 use model::{Source, Meta};
-use view::{Site, Page, Index, Paginate, Content};
+use view::{Site, Page, Index, Paginate};
 use error::{RenderError, AnnotatedError};
 use std::hash::SipHasher;
+use str_stack::StrStack;
 
 
 /// Compiles a set of files into a single asset by concatinating them.
@@ -75,40 +76,6 @@ pub trait Gazetta: Sized {
                               source: &Source<Self::SiteMeta, Self::PageMeta>,
                               output: P) -> Result<(), AnnotatedError<RenderError>>
     {
-        // Define this as a macro because we need to go from a mutable borrow to an immutable borrow...
-        macro_rules! read_children {
-            ($buf:ident, $entries:expr)  => {{
-                let mut children = Vec::with_capacity($entries.len());
-                let mut strides = Vec::with_capacity($entries.len());
-
-                let mut start = $buf.len();
-
-                {
-                    for child in $entries {
-                        strides.push(try!(child.content.read_into(&mut $buf)));
-                        children.push(Page {
-                            title: &child.title,
-                            date: child.date.as_ref(),
-                            content: Content { 
-                                data: "",
-                                format: child.content.format()
-                            },
-                            href: &child.name,
-                            index: None,
-                            meta: &child.meta,
-                        });
-                    }
-                }
-
-                for (&len, child_entry) in strides.iter().zip(children.iter_mut()) {
-                    let s  = &$buf[start..(start + len)];
-                    start += len;
-                    child_entry.content.data = s;
-                }
-                children
-            }}
-        }
-
         let output = output.as_ref();
 
         {
@@ -146,30 +113,26 @@ pub trait Gazetta: Sized {
             try_annotate!(self.render_static(&site, &static_entry.source, &dst), static_entry.source.clone());
         }
 
-        // In general, the system calls here will dwarf the cost of a couple of allocations.
-        // However, putting all content in a single string buffer may improve cache behavior.
-        // TODO: Test this.
-        let mut buf = String::with_capacity(4096);
-
         for entry in &source.entries {
-            let content_len = try!(entry.content.read_into(&mut buf));
-
             let dest_dir = output.join(&entry.name);
             try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
 
+            let page = Page::for_entry(&entry);
+
             if let Some(ref index) = entry.index {
 
-                let child_entries = source.build_index(entry);
+                let children: Vec<_> = source.build_index(entry)
+                                             .into_iter()
+                                             .map(Page::for_entry)
+                                             .collect();
 
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
-                    let num_pages = (child_entries.len() / paginate) +
-                        if child_entries.len() % paginate == 0 { 0 } else { 1 };
+                    let num_pages = (children.len() / paginate) +
+                        if children.len() % paginate == 0 { 0 } else { 1 };
 
                     if num_pages == 0 {
-                        let content = &buf[..content_len];
-
                         let mut index_file_path = dest_dir;
                         index_file_path.push("index.html");
 
@@ -177,78 +140,49 @@ pub trait Gazetta: Sized {
 
                         try_annotate!(html! {
                             |tmpl| self.render_page(&site, &Page {
-                                title: &entry.title,
-                                date: entry.date.as_ref(),
-                                content: Content {
-                                    data: content,
-                                    format: entry.content.format(),
-                                },
-                                href: &entry.name,
                                 index: Some(Index {
                                     paginate: Some(Paginate {
-                                        pages: &[&entry.name],
+                                        pages: &[&page.href],
                                         current: 0,
                                     }),
-                                    entries: &[]
+                                    entries: &[],
                                 }),
-                                meta: &entry.meta,
+                                ..page
                             }, tmpl);
                         }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+
                     } else {
-                        let mut page_buf = String::with_capacity((num_pages-1) * (entry.name.len() + 10));
-                        let mut pages: Vec<&str> = Vec::with_capacity(num_pages);
-                        pages.push(&entry.name);
-                        {
-                            let mut page_offsets = Vec::with_capacity(num_pages-1);
-                            for page_num in 1..num_pages {
-                                use std::fmt::Write;
-                                let _ = write!(page_buf, "{}/index/{}", &entry.name, page_num);
-                                page_offsets.push(page_buf.len());
-                            }
-                            let mut start = 0;
-                            for end in page_offsets {
-                                pages.push(&page_buf[start..end]);
-                                start = end;
-                            }
+                        let mut page_stack = StrStack::with_capacity((num_pages-1)*(entry.name.len() + 10), num_pages);
+                        for page_num in 1..num_pages {
+                            use std::fmt::Write;
+                            let _ = write!(page_stack, "{}/index/{}", &entry.name, page_num);
                         }
+                        let mut pages = Vec::with_capacity(num_pages);
+                        pages.push(&*entry.name);
+                        pages.extend(&page_stack);
 
-                        for (page_num, (chunk, href)) in child_entries.chunks(paginate).zip(&pages).enumerate() {
-                            buf.truncate(content_len);
-
-                            let children = read_children!(buf, chunk);
-                            let content = &buf[..content_len];
-
+                        for (page_num, (children_range, href)) in children.chunks(paginate).zip(&pages).enumerate() {
                             let mut index_file_path = output.join(&href);
                             try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
                             index_file_path.push("index.html");
 
                             let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
-
                             try_annotate!(html! {
                                 |tmpl| self.render_page(&site, &Page {
-                                    title: &entry.title,
-                                    date: entry.date.as_ref(),
-                                    content: Content {
-                                        data: content,
-                                        format: entry.content.format(),
-                                    },
-                                    href: &href,
                                     index: Some(Index {
                                         paginate: Some(Paginate {
                                             pages: &pages,
                                             current: page_num,
                                         }),
-                                        entries: &children[..]
+                                        entries: children_range,
                                     }),
-                                    meta: &entry.meta,
+                                    href: &href,
+                                    ..page
                                 }, tmpl);
                             }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
                         }
                     }
                 } else {
-                    let children = read_children!(buf, &child_entries);
-                    let content = &buf[..content_len];
-
                     let mut index_file_path = dest_dir;
                     index_file_path.push("index.html");
 
@@ -256,18 +190,11 @@ pub trait Gazetta: Sized {
 
                     try_annotate!(html! {
                         |tmpl| self.render_page(&site, &Page {
-                            title: &entry.title,
-                            date: entry.date.as_ref(),
-                            content: Content {
-                                data: content,
-                                format: entry.content.format(),
-                            },
-                            href: &entry.name,
-                            meta: &entry.meta,
-                            index: Some(Index {
+                            index:  Some(Index {
                                 paginate: None,
-                                entries: &children[..]
-                            })
+                                entries: &children[..],
+                            }),
+                            ..page
                         }, tmpl);
                     }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
                 }
@@ -278,20 +205,9 @@ pub trait Gazetta: Sized {
                 let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
 
                 try_annotate!(html! {
-                    |tmpl| self.render_page(&site, &Page {
-                        title: &entry.title,
-                        date: entry.date.as_ref(),
-                        content: Content {
-                            data: &buf[..],
-                            format: entry.content.format(),
-                        },
-                        href: &entry.name,
-                        meta: &entry.meta,
-                        index: None,
-                    }, tmpl);
+                    |tmpl| self.render_page(&site, &page, tmpl);
                 }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
             }
-            buf.clear();
         }
         Ok(())
     }

@@ -23,5 +23,5 @@ mod source;
 mod yaml;
 
 pub use self::source::Source;
-pub use self::entry::{Entry, StaticEntry, ContentSource};
+pub use self::entry::{Entry, StaticEntry};
 pub use self::meta::Meta;
