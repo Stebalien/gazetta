@@ -234,56 +234,6 @@
 <span id="192">192</span>
 <span id="193">193</span>
 <span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
-<span id="226">226</span>
-<span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
-<span id="234">234</span>
-<span id="235">235</span>
-<span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
-<span id="239">239</span>
-<span id="240">240</span>
-<span id="241">241</span>
-<span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
 </pre><pre class='rust '>
 <span class='comment'>/* Copyright (2015) Stevem Allen
  *
@@ -300,13 +250,9 @@
  * not, see &lt;http://www.gnu.org/licenses/&gt;.
  */</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
 
-<span class='kw'>use</span> ::{<span class='ident'>glob</span>, <span class='ident'>SourceError</span>, <span class='ident'>AnnotatedError</span>};
+<span class='kw'>use</span> ::{<span class='ident'>glob</span>, <span class='ident'>SourceError</span>};
 
 <span class='kw'>use</span> <span class='ident'>super</span>::{<span class='ident'>Meta</span>, <span class='ident'>Date</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>index</span>::{<span class='self'>self</span>, <span class='ident'>Index</span>};
@@ -341,54 +287,10 @@
     <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
 
     <span class='doccomment'>/// The content</span>
-    <span class='kw'>pub</span> <span class='ident'>content</span>: <span class='ident'>ContentSource</span>,
-}
+    <span class='kw'>pub</span> <span class='ident'>content</span>: <span class='ident'>String</span>,
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ContentSource</span> {
-    <span class='ident'>File</span> {
-        <span class='ident'>content_path</span>: <span class='ident'>PathBuf</span>,
-        <span class='ident'>content_offset</span>: <span class='ident'>u64</span>,
-    },
-    <span class='ident'>String</span> {
-        <span class='ident'>data</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;</span>,
-        <span class='ident'>format</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;</span>,
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>ContentSource</span> {
-    <span class='doccomment'>/// Read the content into the specified buffer.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>read_into</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>usize</span>, <span class='ident'>AnnotatedError</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>ContentSource</span>::<span class='ident'>File</span> { <span class='kw-2'>ref</span> <span class='ident'>content_path</span>, <span class='ident'>content_offset</span> } <span class='op'>=&gt;</span> (<span class='op'>||</span> {
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='kw-2'>&amp;</span><span class='ident'>content_path</span>));
-                <span class='kw'>if</span> <span class='ident'>content_offset</span> <span class='op'>!=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>seek</span>(<span class='ident'>io</span>::<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='ident'>content_offset</span>))) {
-                    <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='string'>&quot;content missing&quot;</span>));
-                }
-                <span class='ident'>f</span>.<span class='ident'>read_to_string</span>(<span class='ident'>buf</span>)
-            })().<span class='ident'>map_err</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='ident'>AnnotatedError</span>::<span class='ident'>new</span>(<span class='ident'>content_path</span>.<span class='ident'>clone</span>(), <span class='ident'>e</span>)),
-            <span class='ident'>ContentSource</span>::<span class='ident'>String</span> { <span class='kw-2'>ref</span> <span class='ident'>data</span>, .. } <span class='op'>=&gt;</span> {
-                <span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>);
-                <span class='prelude-val'>Ok</span>(<span class='ident'>data</span>.<span class='ident'>len</span>())
-            }
-        }
-    }
-
-    <span class='doccomment'>/// The content format.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// If this is a file, this returns the file extension.</span>
-    <span class='doccomment'>/// If this content exists in-memory, this returns the format.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note: if the file extension is not UTF-8 encoded, this returns an empty string.</span>
-    <span class='doccomment'>///</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>format</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>ContentSource</span>::<span class='ident'>File</span> { <span class='kw-2'>ref</span> <span class='ident'>content_path</span>, .. } <span class='op'>=&gt;</span> {
-                <span class='ident'>content_path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span><span class='ident'>e</span>.<span class='ident'>to_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>)
-            },
-            <span class='ident'>ContentSource</span>::<span class='ident'>String</span> { <span class='kw-2'>ref</span> <span class='ident'>format</span>, .. } <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>format</span>,
-        }
-    }
+    <span class='doccomment'>/// Content format</span>
+    <span class='kw'>pub</span> <span class='ident'>format</span>: <span class='ident'>String</span>, <span class='comment'>// TODO: Use atoms (intern).</span>
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>EntryMeta</span><span class='op'>&gt;</span> <span class='ident'>Entry</span><span class='op'>&lt;</span><span class='ident'>EntryMeta</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='ident'>EntryMeta</span>: <span class='ident'>Meta</span> {
@@ -414,13 +316,11 @@
 
         <span class='comment'>// Load metadata</span>
 
-        <span class='kw'>let</span> (<span class='ident'>offset</span>, <span class='kw-2'>mut</span> <span class='ident'>meta</span>) <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>yaml</span>::<span class='ident'>load_front</span>(<span class='kw-2'>&amp;</span><span class='ident'>full_path</span>));
+        <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>meta</span>, <span class='ident'>content</span>) <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>yaml</span>::<span class='ident'>load_front</span>(<span class='kw-2'>&amp;</span><span class='ident'>full_path</span>));
 
         <span class='prelude-val'>Ok</span>(<span class='ident'>Entry</span> {
-            <span class='ident'>content</span>: <span class='ident'>ContentSource</span>::<span class='ident'>File</span> {
-                <span class='ident'>content_offset</span>: <span class='ident'>offset</span>,
-                <span class='ident'>content_path</span>: <span class='ident'>full_path</span>,
-            },
+            <span class='ident'>content</span>: <span class='ident'>content</span>,
+            <span class='ident'>format</span>: <span class='ident'>full_path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span><span class='ident'>e</span>.<span class='ident'>to_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>to_owned</span>(),
             <span class='ident'>title</span>: <span class='kw'>match</span> <span class='ident'>meta</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>yaml</span>::<span class='ident'>TITLE</span>) {
                 <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>title</span>)) <span class='op'>=&gt;</span> <span class='ident'>title</span>,
                 <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;titles must be strings&quot;</span>.<span class='ident'>into</span>()),
