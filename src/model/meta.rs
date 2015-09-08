@@ -15,7 +15,7 @@
 
 use ::yaml;
 
-pub trait Meta {
+pub trait Meta: Sized {
     fn from_yaml(yaml: yaml::Hash) -> Result<Self, &'static str>;
 }
 
