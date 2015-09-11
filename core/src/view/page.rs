@@ -2,7 +2,7 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
  * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
@@ -18,8 +18,6 @@ use std::fmt;
 
 use ::render::Gazetta;
 use ::model::Date;
-use ::markdown::Markdown;
-use ::horrorshow::prelude::*;
 
 use ::model::Entry;
 
@@ -117,41 +115,6 @@ impl<'a, G> fmt::Debug for Page<'a, G>
             .field("meta", &self.meta)
             .field("content", &self.content)
             .finish()
-    }
-}
-
-impl<'a, G> RenderOnce for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
-{
-    fn render_once( self, tmpl: &mut TemplateBuffer) {
-        self.render(tmpl);
-    }
-}
-
-impl<'a, G> RenderMut for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
-{
-    fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
-        self.render(tmpl);
-    }
-}
-
-impl<'a, G> Render for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
-{
-    fn render(&self, tmpl: &mut TemplateBuffer) {
-        match self.content.format {
-            "mkd"|"md"|"markdown"   => tmpl << Markdown::new(self.content.data, self.href),
-            "html"                  => tmpl << raw!(self.content.data),
-            ""|"text"|"txt"         => tmpl << self.content.data,
-            format                  => tmpl.record_error(format!("unknown format '{}'", format)),
-        }
     }
 }
 

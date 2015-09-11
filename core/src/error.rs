@@ -2,7 +2,7 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
  * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
@@ -28,7 +28,7 @@ macro_rules! try_annotate {
     ($e:expr, $l:expr) => {
         match $e {
             Ok(v) => v,
-            Err(e) => return Err($crate::AnnotatedError::new(($l).to_owned(), From::from(e))),
+            Err(e) => return Err($crate::error::AnnotatedError::new(($l).to_owned(), From::from(e))),
         }
     }
 }
@@ -43,7 +43,7 @@ pub enum SourceError {
 
 impl Error for SourceError {
     fn description(&self) -> &str {
-        use SourceError::*;
+        use self::SourceError::*;
         match *self {
             Parse(..) => "yaml parse error",
             Read(..) => "read error",
@@ -51,7 +51,7 @@ impl Error for SourceError {
         }
     }
     fn cause(&self) -> Option<&Error> {
-        use SourceError::*;
+        use self::SourceError::*;
         match *self {
             Read(ref e) => Some(e),
             // Parse(ref e) => e, // TODO: wait for upstream
@@ -62,7 +62,7 @@ impl Error for SourceError {
 
 impl fmt::Display for SourceError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        use SourceError::*;
+        use self::SourceError::*;
         match *self {
             Parse(ref e) => write!(f, "yaml parse error '{:?}'", e),
             Read(ref e) => write!(f, "read error '{}'", e),

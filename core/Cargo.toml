@@ -1,0 +1,16 @@
+[package]
+name = "gazetta-core"
+version = "0.1.0"
+authors = ["Steven Allen <steven@stebalien.com>"]
+
+[dependencies]
+chrono = "*"
+glob = "*"
+yaml-rust = "*"
+lazy_static = "*"
+horrorshow = "*"
+url = "*"
+
+[dependencies.str_stack]
+git = "https://github.com/Stebalien/str_stack.git"
+

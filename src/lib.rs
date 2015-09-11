@@ -2,49 +2,52 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
- * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * gazetta is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero
  * General Public License for more details.
  * 
- * You should have received a copy of the GNU Affero General Public License along with Foobar.  If
+ * You should have received a copy of the GNU Affero General Public License along with gazetta.  If
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-//! TODO: Document.
+extern crate gazetta_core;
+extern crate gazetta_cli;
+extern crate gazetta_render_ext;
+extern crate gazetta_model_ext;
 
-extern crate chrono;
-extern crate glob;
-extern crate yaml_rust;
-extern crate pulldown_cmark;
-extern crate str_stack;
-extern crate url;
-
-#[macro_use]
-extern crate horrorshow;
-
-#[macro_use]
-extern crate lazy_static;
-
-#[macro_use]
-mod error;
-
-mod render;
-
-pub mod model;
-pub mod util;
-pub mod yaml;
-pub mod view;
-pub mod markdown;
-
-pub mod prelude {
-    pub use chrono::Datelike;
-    pub use render::Gazetta;
+pub mod view {
+    pub use gazetta_core::view::*;
 }
 
+pub mod error {
+    pub use gazetta_core::error::*;
+}
+
+pub mod model {
+    pub use gazetta_core::model::*;
+    pub use gazetta_model_ext::*;
+}
+
+pub mod render {
+    pub use gazetta_core::render::*;
+    pub use gazetta_render_ext::*;
+}
+
+pub mod prelude {
+    pub use gazetta_core::prelude::*;
+}
+
+pub use gazetta_cli as cli;
+
+#[doc(no_inline)]
 pub use render::Gazetta;
+#[doc(no_inline)]
 pub use view::{Page, Site};
-pub use model::{Source, Meta};
+#[doc(no_inline)]
+pub use model::{Source, Meta, SourceMeta, EntryMeta};
+#[doc(no_inline)]
 pub use error::{AnnotatedError, SourceError, RenderError};
+

@@ -2,7 +2,7 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
  * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
@@ -13,10 +13,15 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-mod index;
-mod site;
-mod page;
+pub type Date = ::chrono::naive::date::NaiveDate;
 
-pub use self::index::{Paginate, Index};
-pub use self::site::Site;
-pub use self::page::{Page, Content};
+pub mod index;
+
+mod meta;
+mod entry;
+mod source;
+mod yaml;
+
+pub use self::source::Source;
+pub use self::entry::{Entry, StaticEntry};
+pub use self::meta::Meta;

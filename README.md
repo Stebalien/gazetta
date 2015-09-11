@@ -1,7 +1,7 @@
 Gazetta is a static site generator written in rust. There are four parts:
 
 1. [Horrorshow][horrorshow], a rust-macro based HTML generator.
-2. The core [framework][framework]. This library contains the bulk of the
+2. The [framework][framework]. This set of libraries contains the bulk of the
    logic and is responsible for generating models and views from your site's
    data files.
 3. The [renderer][bin]. This is where the logic to actually render static site

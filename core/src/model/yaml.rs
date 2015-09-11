@@ -2,7 +2,7 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
  * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
@@ -20,11 +20,11 @@ use std::io::prelude::*;
 use std::path::Path;
 use std::collections::BTreeMap;
 
-use ::yaml_rust::YamlLoader;
+use yaml_rust::YamlLoader;
 
-use ::SourceError;
+use error::SourceError;
 
-pub use ::yaml::*;
+pub use yaml::*;
 
 lazy_static! {
     pub static ref TITLE: Yaml = Yaml::String("title".into());

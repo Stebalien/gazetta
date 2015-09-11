@@ -2,7 +2,7 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
  * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
@@ -16,7 +16,6 @@
 use std::ops::Deref;
 use std::fmt;
 
-use ::horrorshow::prelude::*;
 use ::render::Gazetta;
 
 /// A "website"
@@ -53,41 +52,6 @@ pub struct Site<'a, G>
     pub icon: Option<&'a str>,
     /// Extra metadata specified in the Source.
     pub meta: &'a G::SiteMeta,
-}
-
-impl<'a, G> RenderOnce for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-{
-    fn render_once(self, tmpl: &mut TemplateBuffer) { self.render(tmpl) }
-}
-
-impl<'a, G> RenderMut for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-{
-    fn render_mut(&mut self, tmpl: &mut TemplateBuffer) { self.render(tmpl) }
-}
-
-impl<'a, G> Render for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-{
-    fn render(&self, tmpl: &mut TemplateBuffer) {
-        tmpl << html! {
-            meta(charset="utf-8");
-            base(href=self.prefix);
-            @ if let Some(css) = self.stylesheets {
-                link(rel="stylesheet", href=css);
-            }
-            @ if let Some(js) = self.javascript {
-                script(src=js) {}
-            }
-            @ if let Some(icon) = self.icon {
-                link(rel="shortcut icon", href=icon);
-            }
-        };
-    }
 }
 
 impl<'a, G> Deref for Site<'a, G>

@@ -2,7 +2,7 @@
  *
  * This file is part of gazetta.
  * 
- * gazetta-bin is free software: you can redistribute it and/or modify it under the terms of the
+ * gazetta is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Affero General Public License (version 3) as published by the Free Software Foundation.
  * 
  * Foobar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
@@ -19,8 +19,8 @@ use std::path::{Path, PathBuf};
 use ::url::{Url, SchemeData};
 use std::fmt::Write as WriteFmt;
 
-use ::{AnnotatedError, SourceError};
-use ::util;
+use error::{AnnotatedError, SourceError};
+use util;
 use super::{ Entry, StaticEntry};
 use super::yaml::{self, Yaml};
 use super::Meta;

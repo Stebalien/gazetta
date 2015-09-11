@@ -3,15 +3,14 @@ name = "gazetta"
 version = "0.1.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 
-[dependencies]
-chrono = "*"
-glob = "*"
-yaml-rust = "*"
-lazy_static = "*"
-pulldown-cmark = "*"
-horrorshow = "*"
-url = "*"
+[dependencies.gazetta-core]
+path = "core"
 
-[dependencies.str_stack]
-git = "https://github.com/Stebalien/str_stack.git"
+[dependencies.gazetta-render-ext]
+path = "render-ext"
 
+[dependencies.gazetta-model-ext]
+path = "model-ext"
+
+[dependencies.gazetta-cli]
+path = "cli"

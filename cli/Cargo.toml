@@ -1,0 +1,14 @@
+[package]
+name = "gazetta-cli"
+version = "0.1.0"
+authors = ["Steven Allen <steven@stebalien.com>"]
+
+[dependencies.gazetta-core]
+path = "../core"
+
+[dependencies]
+slug = "*"
+lazy_static = "*"
+chrono = "*"
+clap = "*"
+horrorshow = "*"
