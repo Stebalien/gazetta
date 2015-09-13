@@ -32,20 +32,65 @@ static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     require_literal_leading_dot: false,
 };
 
+/// The Source object reads and interprets a source directory.
+///
+/// The fields are intentionally public. Feel free to manually generate or modify this structure.
 #[derive(Debug, Clone)]
 pub struct Source<SourceMeta=(), EntryMeta=()>
     where SourceMeta: Meta,
           EntryMeta: Meta
 {
+    /// The website's title.
+    ///
+    /// By default, this field is read from `config.yaml`.
     pub title: String,
+    /// The source root directory.
+    ///
+    /// This is specified on construction.
     pub root: PathBuf,
+    /// The website origin (http://mydomain.com:1234)
+    ///
+    /// By default, this field is derived from the value of `base` in `config.yaml`.
     pub origin: String,
+    /// The directory under the origin at which this site will be hosted (e.g. "/").
+    ///
+    /// By default, this field is derived from the value of `base` in `config.yaml`.
     pub prefix: String,
+    /// The website content to be rendered.
+    ///
+    /// By default, this list is populated with Entries generated from files with the basename
+    /// index under the root directory excluding:
+    ///
+    ///  1. Files *under* directories named "static".
+    ///
+    ///  2. Files under `assets/`.
     pub entries: Vec<Entry<EntryMeta>>,
+    /// The website content to be deployed as-is (no rendering).
+    ///
+    /// By default, this list is populated with directories under the root directory named "static"
+    /// excluding:
+    ///
+    ///  1. Directories *under* directories named "static".
+    ///
+    ///  2. Directories under `assets/`.
     pub static_entries: Vec<StaticEntry>,
+    /// The website stylesheets. When rendered, these will be concatinated into a single
+    /// stylesheet.
+    ///
+    /// By default, this list is populated by the files in is `assets/stylesheets/` in
+    /// lexicographical order.
     pub stylesheets: Vec<PathBuf>,
+    /// The website javascript. When rendered, these will be concatenated into a single
+    /// javascript file.
+    ///
+    /// By default, this list is populated by the files in is `assets/javascript/` in
+    /// lexicographical order.
     pub javascript: Vec<PathBuf>,
+    /// The path website's icon.
+    ///
+    /// By default, this points to `assets/icon.png` (if it exists).
     pub icon: Option<PathBuf>,
+    /// Additional metadata read from `config.yaml`.
     pub meta: SourceMeta,
 }
 
@@ -54,6 +99,9 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
           EntryMeta: Meta
 {
     /// Build an index for an entry.
+    ///
+    /// This index includes all entries that "cc" this entry and all entries specified in this
+    /// entry's index pattern.
     pub fn build_index(&self, entry: &Entry<EntryMeta>) -> Vec<&Entry<EntryMeta>> {
         use ::model::index::SortDirection::*;
         use ::model::index::SortField::*;
@@ -82,7 +130,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         }
     }
 
-    /// Parse a data directory to create a new source.
+    /// Parse a source directory to create a new source.
     pub fn new<P: AsRef<Path>>(root: P) -> Result<Self, AnnotatedError<SourceError>> {
         let root = root.as_ref();
 
@@ -95,6 +143,8 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
     }
 
     /// Reload from the source directory.
+    ///
+    /// Call this after changing source files.
     pub fn reload(&mut self) -> Result<(), AnnotatedError<SourceError>> {
         self.static_entries.clear();
         self.entries.clear();
