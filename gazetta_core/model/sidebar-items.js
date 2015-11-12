@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["index",""]],"struct":[["Entry","An entry in the website."],["Source","The Source object reads and interprets a source directory."],["StaticEntry","A static entry."]],"trait":[["Meta",""]],"type":[["Date",""]]});

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Gazetta` trait in crate `gazetta_core`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Gazetta">
+
+    <title>gazetta_core::render::Gazetta - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>render</a></p><script>window.sidebarCurrent = {name: 'Gazetta', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>render</a>::<wbr><a class='trait' href=''>Gazetta</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-154' class='srclink' href='../../src/gazetta_core/render.rs.html#55-215' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Gazetta: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
+    type SiteMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>;
+    type PageMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>;
+    fn <a href='#tymethod.render_page' class='fnname'>render_page</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, page: &amp;<a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;Self&gt;, tmpl: &amp;mut <a class='struct' href='../../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>);
+
+    fn <a href='#method.render_static' class='fnname'>render_static</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, source: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>, output: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; { ... }
+    fn <a href='#method.render' class='fnname'>render</a>&lt;P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(&amp;self, source: &amp;<a class='struct' href='../../gazetta_core/model/struct.Source.html' title='gazetta_core::model::Source'>Source</a>&lt;Self::<a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>SiteMeta</a>, Self::<a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>PageMeta</a>&gt;, output: P) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='../../gazetta_core/error/struct.AnnotatedError.html' title='gazetta_core::error::AnnotatedError'>AnnotatedError</a>&lt;<a class='type' href='../../gazetta_core/error/type.RenderError.html' title='gazetta_core::error::RenderError'>RenderError</a>&gt;&gt; { ... }
+}</pre>
+            <h2 id='associated-types'>Associated Types</h2>
+            <div class='methods'>
+        <h3 id='associatedtype.SiteMeta' class='method stab '><code>type SiteMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></code></h3><h3 id='associatedtype.PageMeta' class='method stab '><code>type PageMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></code></h3></div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.render_page' class='method stab '><code>fn <a href='#tymethod.render_page' class='fnname'>render_page</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, page: &amp;<a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;Self&gt;, tmpl: &amp;mut <a class='struct' href='../../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></h3><div class='docblock'><p>The page rendering function.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.render_static' class='method stab '><code>fn <a href='#method.render_static' class='fnname'>render_static</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, source: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>, output: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h3><div class='docblock'><p>Render static content.</p>
+
+<p>By default, this just copies. Override to compile.</p>
+</div><h3 id='method.render' class='method stab '><code>fn <a href='#method.render' class='fnname'>render</a>&lt;P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(&amp;self, source: &amp;<a class='struct' href='../../gazetta_core/model/struct.Source.html' title='gazetta_core::model::Source'>Source</a>&lt;Self::<a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>SiteMeta</a>, Self::<a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>PageMeta</a>&gt;, output: P) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='../../gazetta_core/error/struct.AnnotatedError.html' title='gazetta_core::error::AnnotatedError'>AnnotatedError</a>&lt;<a class='type' href='../../gazetta_core/error/type.RenderError.html' title='gazetta_core::error::RenderError'>RenderError</a>&gt;&gt;</code></h3><div class='docblock'><p>Creates pages from a site defined by a source and renders them into output.</p>
+
+<p>Call this to render your site.</p>
+
+<p>Note: You <em>can</em> override this but you <strong>really</strong> shouldn&#39;t. This function contains pretty
+much all of the provided render logic.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    </ul><script type="text/javascript" async
+                              src="../../implementors/gazetta_core/render/trait.Gazetta.js">
+                      </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "gazetta_core";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

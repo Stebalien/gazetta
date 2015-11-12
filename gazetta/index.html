@@ -24,10 +24,10 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         <p class='location'></p><script>window.sidebarCurrent = {name: 'gazetta', ty: 'mod', relpath: '../'};</script>
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
@@ -45,14 +45,21 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/gazetta/lib.rs.html#16-50' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>TODO: Document.</p>
-</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
-<table><tr><td><code>pub use render::<a class='trait' href='../gazetta/prelude/trait.Gazetta.html' title='gazetta::prelude::Gazetta'>Gazetta</a>;</code></td></tr><tr><td><code>pub use view::{<a class='struct' href='../gazetta/view/struct.Page.html' title='gazetta::view::Page'>Page</a>, <a class='struct' href='../gazetta/view/struct.Site.html' title='gazetta::view::Site'>Site</a>};</code></td></tr><tr><td><code>pub use model::{<a class='struct' href='../gazetta/model/struct.Source.html' title='gazetta::model::Source'>Source</a>, <a class='trait' href='../gazetta/model/trait.Meta.html' title='gazetta::model::Meta'>Meta</a>};</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+        </span><a id='src-0' class='srclink' href='../src/gazetta/lib.rs.html#17-53' title='goto source code'>[src]</a></span></h1>
+<h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use render::<a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a>;</code></td></tr><tr><td><code>pub use view::{<a class='struct' href='../gazetta_core/view/page/struct.Page.html' title='gazetta_core::view::page::Page'>Page</a>, <a class='struct' href='../gazetta_core/view/site/struct.Site.html' title='gazetta_core::view::site::Site'>Site</a>};</code></td></tr><tr><td><code>pub use model::{<a class='struct' href='../gazetta_core/model/source/struct.Source.html' title='gazetta_core::model::source::Source'>Source</a>, <a class='trait' href='../gazetta_core/model/meta/trait.Meta.html' title='gazetta_core::model::meta::Meta'>Meta</a>, <a class='struct' href='../gazetta_model_ext/meta/struct.SourceMeta.html' title='gazetta_model_ext::meta::SourceMeta'>SourceMeta</a>, <a class='struct' href='../gazetta_model_ext/meta/struct.EntryMeta.html' title='gazetta_model_ext::meta::EntryMeta'>EntryMeta</a>};</code></td></tr><tr><td><code>pub use error::{<a class='struct' href='../gazetta_core/error/struct.AnnotatedError.html' title='gazetta_core::error::AnnotatedError'>AnnotatedError</a>, <a class='enum' href='../gazetta_core/error/enum.SourceError.html' title='gazetta_core::error::SourceError'>SourceError</a>, <a class='type' href='../gazetta_core/error/type.RenderError.html' title='gazetta_core::error::RenderError'>RenderError</a>};</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                     <tr class=' module-item'>
-                        <td><a class='mod' href='markdown/index.html'
-                               title='gazetta::markdown'>markdown</a></td>
+                        <td><a class='mod' href='cli/index.html'
+                               title='gazetta::cli'>cli</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='error/index.html'
+                               title='gazetta::error'>error</a></td>
                         <td class='docblock short'>
                              
                         </td>
@@ -75,8 +82,8 @@
                     </tr>
                 
                     <tr class=' module-item'>
-                        <td><a class='mod' href='util/index.html'
-                               title='gazetta::util'>util</a></td>
+                        <td><a class='mod' href='render/index.html'
+                               title='gazetta::render'>render</a></td>
                         <td class='docblock short'>
                              
                         </td>
@@ -89,80 +96,54 @@
                              
                         </td>
                     </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='yaml/index.html'
-                               title='gazetta::yaml'>yaml</a></td>
-                        <td class='docblock short'>
-                             
-                        </td>
-                    </tr>
-                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
-<table>
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.AnnotatedError.html'
-                               title='gazetta::AnnotatedError'>AnnotatedError</a></td>
-                        <td class='docblock short'>
-                             
-                        </td>
-                    </tr>
-                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
-<table>
-                    <tr class=' module-item'>
-                        <td><a class='enum' href='enum.SourceError.html'
-                               title='gazetta::SourceError'>SourceError</a></td>
-                        <td class='docblock short'>
-                             
-                        </td>
-                    </tr>
-                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table>
-                    <tr class=' module-item'>
-                        <td><a class='type' href='type.RenderError.html'
-                               title='gazetta::RenderError'>RenderError</a></td>
-                        <td class='docblock short'>
-                             
-                        </td>
-                    </tr>
                 </table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard Shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search Tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Gazetta",""]]});
+initSidebarItems({});

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Content` struct in crate `gazetta_render_ext`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Content">
+
+    <title>gazetta_render_ext::Content - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>gazetta_render_ext</a></p><script>window.sidebarCurrent = {name: 'Content', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gazetta_render_ext</a>::<wbr><a class='struct' href=''>Content</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-279' class='srclink' href='../src/gazetta_render_ext/content.rs.html#21-24' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Content&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a, G::PageMeta: 'a</span>(pub &amp;'a <a class='struct' href='../gazetta_core/view/page/struct.Page.html' title='gazetta_core::view::page::Page'>Page</a>&lt;'a, G&gt;);</pre><div class='docblock'><p>Renders a page&#39;s content</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='../horrorshow/render/trait.RenderOnce.html' title='horrorshow::render::RenderOnce'>RenderOnce</a> for <a class='struct' href='../gazetta_render_ext/struct.Content.html' title='gazetta_render_ext::Content'>Content</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a, G::PageMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.render_once' class='method'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#method.render_once' class='fnname'>render_once</a>(self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></h4>
+<h4 id='method.size_hint' class='method'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#method.size_hint' class='fnname'>size_hint</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='../horrorshow/render/trait.RenderMut.html' title='horrorshow::render::RenderMut'>RenderMut</a> for <a class='struct' href='../gazetta_render_ext/struct.Content.html' title='gazetta_render_ext::Content'>Content</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a, G::PageMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.render_mut' class='method'><code>fn <a href='../horrorshow/render/trait.RenderMut.html#method.render_mut' class='fnname'>render_mut</a>(&amp;mut self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='../horrorshow/render/trait.Render.html' title='horrorshow::render::Render'>Render</a> for <a class='struct' href='../gazetta_render_ext/struct.Content.html' title='gazetta_render_ext::Content'>Content</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a, G::PageMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.render' class='method'><code>fn <a href='../horrorshow/render/trait.Render.html#method.render' class='fnname'>render</a>(&amp;self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "gazetta_render_ext";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

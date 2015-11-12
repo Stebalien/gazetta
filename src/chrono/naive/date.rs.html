@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.15/src/naive/date.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.16/src/naive/date.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>date.rs.html -- source</title>
@@ -24,10 +24,10 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
@@ -2078,6 +2078,199 @@
 <span id="2036">2036</span>
 <span id="2037">2037</span>
 <span id="2038">2038</span>
+<span id="2039">2039</span>
+<span id="2040">2040</span>
+<span id="2041">2041</span>
+<span id="2042">2042</span>
+<span id="2043">2043</span>
+<span id="2044">2044</span>
+<span id="2045">2045</span>
+<span id="2046">2046</span>
+<span id="2047">2047</span>
+<span id="2048">2048</span>
+<span id="2049">2049</span>
+<span id="2050">2050</span>
+<span id="2051">2051</span>
+<span id="2052">2052</span>
+<span id="2053">2053</span>
+<span id="2054">2054</span>
+<span id="2055">2055</span>
+<span id="2056">2056</span>
+<span id="2057">2057</span>
+<span id="2058">2058</span>
+<span id="2059">2059</span>
+<span id="2060">2060</span>
+<span id="2061">2061</span>
+<span id="2062">2062</span>
+<span id="2063">2063</span>
+<span id="2064">2064</span>
+<span id="2065">2065</span>
+<span id="2066">2066</span>
+<span id="2067">2067</span>
+<span id="2068">2068</span>
+<span id="2069">2069</span>
+<span id="2070">2070</span>
+<span id="2071">2071</span>
+<span id="2072">2072</span>
+<span id="2073">2073</span>
+<span id="2074">2074</span>
+<span id="2075">2075</span>
+<span id="2076">2076</span>
+<span id="2077">2077</span>
+<span id="2078">2078</span>
+<span id="2079">2079</span>
+<span id="2080">2080</span>
+<span id="2081">2081</span>
+<span id="2082">2082</span>
+<span id="2083">2083</span>
+<span id="2084">2084</span>
+<span id="2085">2085</span>
+<span id="2086">2086</span>
+<span id="2087">2087</span>
+<span id="2088">2088</span>
+<span id="2089">2089</span>
+<span id="2090">2090</span>
+<span id="2091">2091</span>
+<span id="2092">2092</span>
+<span id="2093">2093</span>
+<span id="2094">2094</span>
+<span id="2095">2095</span>
+<span id="2096">2096</span>
+<span id="2097">2097</span>
+<span id="2098">2098</span>
+<span id="2099">2099</span>
+<span id="2100">2100</span>
+<span id="2101">2101</span>
+<span id="2102">2102</span>
+<span id="2103">2103</span>
+<span id="2104">2104</span>
+<span id="2105">2105</span>
+<span id="2106">2106</span>
+<span id="2107">2107</span>
+<span id="2108">2108</span>
+<span id="2109">2109</span>
+<span id="2110">2110</span>
+<span id="2111">2111</span>
+<span id="2112">2112</span>
+<span id="2113">2113</span>
+<span id="2114">2114</span>
+<span id="2115">2115</span>
+<span id="2116">2116</span>
+<span id="2117">2117</span>
+<span id="2118">2118</span>
+<span id="2119">2119</span>
+<span id="2120">2120</span>
+<span id="2121">2121</span>
+<span id="2122">2122</span>
+<span id="2123">2123</span>
+<span id="2124">2124</span>
+<span id="2125">2125</span>
+<span id="2126">2126</span>
+<span id="2127">2127</span>
+<span id="2128">2128</span>
+<span id="2129">2129</span>
+<span id="2130">2130</span>
+<span id="2131">2131</span>
+<span id="2132">2132</span>
+<span id="2133">2133</span>
+<span id="2134">2134</span>
+<span id="2135">2135</span>
+<span id="2136">2136</span>
+<span id="2137">2137</span>
+<span id="2138">2138</span>
+<span id="2139">2139</span>
+<span id="2140">2140</span>
+<span id="2141">2141</span>
+<span id="2142">2142</span>
+<span id="2143">2143</span>
+<span id="2144">2144</span>
+<span id="2145">2145</span>
+<span id="2146">2146</span>
+<span id="2147">2147</span>
+<span id="2148">2148</span>
+<span id="2149">2149</span>
+<span id="2150">2150</span>
+<span id="2151">2151</span>
+<span id="2152">2152</span>
+<span id="2153">2153</span>
+<span id="2154">2154</span>
+<span id="2155">2155</span>
+<span id="2156">2156</span>
+<span id="2157">2157</span>
+<span id="2158">2158</span>
+<span id="2159">2159</span>
+<span id="2160">2160</span>
+<span id="2161">2161</span>
+<span id="2162">2162</span>
+<span id="2163">2163</span>
+<span id="2164">2164</span>
+<span id="2165">2165</span>
+<span id="2166">2166</span>
+<span id="2167">2167</span>
+<span id="2168">2168</span>
+<span id="2169">2169</span>
+<span id="2170">2170</span>
+<span id="2171">2171</span>
+<span id="2172">2172</span>
+<span id="2173">2173</span>
+<span id="2174">2174</span>
+<span id="2175">2175</span>
+<span id="2176">2176</span>
+<span id="2177">2177</span>
+<span id="2178">2178</span>
+<span id="2179">2179</span>
+<span id="2180">2180</span>
+<span id="2181">2181</span>
+<span id="2182">2182</span>
+<span id="2183">2183</span>
+<span id="2184">2184</span>
+<span id="2185">2185</span>
+<span id="2186">2186</span>
+<span id="2187">2187</span>
+<span id="2188">2188</span>
+<span id="2189">2189</span>
+<span id="2190">2190</span>
+<span id="2191">2191</span>
+<span id="2192">2192</span>
+<span id="2193">2193</span>
+<span id="2194">2194</span>
+<span id="2195">2195</span>
+<span id="2196">2196</span>
+<span id="2197">2197</span>
+<span id="2198">2198</span>
+<span id="2199">2199</span>
+<span id="2200">2200</span>
+<span id="2201">2201</span>
+<span id="2202">2202</span>
+<span id="2203">2203</span>
+<span id="2204">2204</span>
+<span id="2205">2205</span>
+<span id="2206">2206</span>
+<span id="2207">2207</span>
+<span id="2208">2208</span>
+<span id="2209">2209</span>
+<span id="2210">2210</span>
+<span id="2211">2211</span>
+<span id="2212">2212</span>
+<span id="2213">2213</span>
+<span id="2214">2214</span>
+<span id="2215">2215</span>
+<span id="2216">2216</span>
+<span id="2217">2217</span>
+<span id="2218">2218</span>
+<span id="2219">2219</span>
+<span id="2220">2220</span>
+<span id="2221">2221</span>
+<span id="2222">2222</span>
+<span id="2223">2223</span>
+<span id="2224">2224</span>
+<span id="2225">2225</span>
+<span id="2226">2226</span>
+<span id="2227">2227</span>
+<span id="2228">2228</span>
+<span id="2229">2229</span>
+<span id="2230">2230</span>
+<span id="2231">2231</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
@@ -2199,12 +2392,13 @@
     <span class='doccomment'>/// ~~~~</span>
     <span class='doccomment'>/// use chrono::NaiveDate;</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_ymd_opt(2015, 3, 14).is_some());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_ymd_opt(2015, 0, 14).is_none());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_ymd_opt(2015, 2, 29).is_none());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_ymd_opt(-4, 2, 29).is_some()); // 5 BCE is a leap year</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_ymd_opt(400000, 1, 1).is_none());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_ymd_opt(-400000, 1, 1).is_none());</span>
+    <span class='doccomment'>/// let ymd = |y,m,d| NaiveDate::from_ymd_opt(y, m, d);</span>
+    <span class='doccomment'>/// assert!(ymd(2015, 3, 14).is_some());</span>
+    <span class='doccomment'>/// assert!(ymd(2015, 0, 14).is_none());</span>
+    <span class='doccomment'>/// assert!(ymd(2015, 2, 29).is_none());</span>
+    <span class='doccomment'>/// assert!(ymd(-4, 2, 29).is_some()); // 5 BCE is a leap year</span>
+    <span class='doccomment'>/// assert!(ymd(400000, 1, 1).is_none());</span>
+    <span class='doccomment'>/// assert!(ymd(-400000, 1, 1).is_none());</span>
     <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_ymd_opt</span>(<span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>month</span>: <span class='ident'>u32</span>, <span class='ident'>day</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>YearFlags</span>::<span class='ident'>from_year</span>(<span class='ident'>year</span>);
@@ -2243,13 +2437,14 @@
     <span class='doccomment'>/// ~~~~</span>
     <span class='doccomment'>/// use chrono::NaiveDate;</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(2015, 100).is_some());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(2015, 0).is_none());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(2015, 365).is_some());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(2015, 366).is_none());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(-4, 366).is_some()); // 5 BCE is a leap year</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(400000, 1).is_none());</span>
-    <span class='doccomment'>/// assert!(NaiveDate::from_yo_opt(-400000, 1).is_none());</span>
+    <span class='doccomment'>/// let yo = |y,o| NaiveDate::from_yo_opt(y, o);</span>
+    <span class='doccomment'>/// assert!(yo(2015, 100).is_some());</span>
+    <span class='doccomment'>/// assert!(yo(2015, 0).is_none());</span>
+    <span class='doccomment'>/// assert!(yo(2015, 365).is_some());</span>
+    <span class='doccomment'>/// assert!(yo(2015, 366).is_none());</span>
+    <span class='doccomment'>/// assert!(yo(-4, 366).is_some()); // 5 BCE is a leap year</span>
+    <span class='doccomment'>/// assert!(yo(400000, 1).is_none());</span>
+    <span class='doccomment'>/// assert!(yo(-400000, 1).is_none());</span>
     <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yo_opt</span>(<span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>ordinal</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>YearFlags</span>::<span class='ident'>from_year</span>(<span class='ident'>year</span>);
@@ -2290,38 +2485,34 @@
     <span class='doccomment'>/// ~~~~</span>
     <span class='doccomment'>/// use chrono::{NaiveDate, Weekday};</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 0, Weekday::Sun), None);</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 10, Weekday::Sun),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 3, 8)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 30, Weekday::Mon),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 7, 20)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 60, Weekday::Mon), None);</span>
+    <span class='doccomment'>/// let ymd = |y,m,d| NaiveDate::from_ymd(y, m, d);</span>
+    <span class='doccomment'>/// let isoywd = |y,w,d| NaiveDate::from_isoywd_opt(y, w, d);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 0, Weekday::Sun), None);</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 10, Weekday::Sun), Some(ymd(2015, 3, 8)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 30, Weekday::Mon), Some(ymd(2015, 7, 20)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 60, Weekday::Mon), None);</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// // out-of-range dates</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(400000, 10, Weekday::Fri), None);</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(-400000, 10, Weekday::Sat), None);</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(400000, 10, Weekday::Fri), None);</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(-400000, 10, Weekday::Sat), None);</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// // year boundary behaviors</span>
     <span class='doccomment'>/// //</span>
     <span class='doccomment'>/// //           Mo Tu We Th Fr Sa Su</span>
     <span class='doccomment'>/// // 2014-W52  22 23 24 25 26 27 28    has 4+ days of new year,</span>
     <span class='doccomment'>/// // 2015-W01  29 30 31  1  2  3  4 &lt;- so this is the first week</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2014, 52, Weekday::Sun),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2014, 12, 28)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2014, 53, Weekday::Mon), None);</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 1, Weekday::Mon),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2014, 12, 29)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2014, 52, Weekday::Sun), Some(ymd(2014, 12, 28)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2014, 53, Weekday::Mon), None);</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 1, Weekday::Mon), Some(ymd(2014, 12, 29)));</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// // 2015-W52  21 22 23 24 25 26 27    has 4+ days of old year,</span>
     <span class='doccomment'>/// // 2015-W53  28 29 30 31  1  2  3 &lt;- so this is the last week</span>
     <span class='doccomment'>/// // 2016-W01   4  5  6  7  8  9 10</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 52, Weekday::Sun),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2015, 12, 27)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 53, Weekday::Sun),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2016, 1, 3)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2015, 54, Weekday::Mon), None);</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_isoywd_opt(2016, 1, Weekday::Mon),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(2016, 1, 4)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 52, Weekday::Sun), Some(ymd(2015, 12, 27)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 53, Weekday::Sun), Some(ymd(2016, 1, 3)));</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2015, 54, Weekday::Mon), None);</span>
+    <span class='doccomment'>/// assert_eq!(isoywd(2016, 1, Weekday::Mon), Some(ymd(2016, 1, 4)));</span>
     <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_isoywd_opt</span>(<span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>week</span>: <span class='ident'>u32</span>, <span class='ident'>weekday</span>: <span class='ident'>Weekday</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>flags</span> <span class='op'>=</span> <span class='ident'>YearFlags</span>::<span class='ident'>from_year</span>(<span class='ident'>year</span>);
@@ -2382,16 +2573,13 @@
     <span class='doccomment'>/// ~~~~</span>
     <span class='doccomment'>/// use chrono::NaiveDate;</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(730000),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(1999, 9, 3)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(1),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(1, 1, 1)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(0),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(0, 12, 31)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(-1),</span>
-    <span class='doccomment'>///            Some(NaiveDate::from_ymd(0, 12, 30)));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(100000000), None);</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_num_days_from_ce_opt(-100000000), None);</span>
+    <span class='doccomment'>/// let days = |ndays| NaiveDate::from_num_days_from_ce_opt(ndays);</span>
+    <span class='doccomment'>/// assert_eq!(days(730000),     Some(NaiveDate::from_ymd(1999, 9, 3)));</span>
+    <span class='doccomment'>/// assert_eq!(days(1),          Some(NaiveDate::from_ymd(1, 1, 1)));</span>
+    <span class='doccomment'>/// assert_eq!(days(0),          Some(NaiveDate::from_ymd(0, 12, 31)));</span>
+    <span class='doccomment'>/// assert_eq!(days(-1),         Some(NaiveDate::from_ymd(0, 12, 30)));</span>
+    <span class='doccomment'>/// assert_eq!(days(100000000),  None);</span>
+    <span class='doccomment'>/// assert_eq!(days(-100000000), None);</span>
     <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_num_days_from_ce_opt</span>(<span class='ident'>days</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>days</span> <span class='op'>=</span> <span class='ident'>days</span> <span class='op'>+</span> <span class='number'>365</span>; <span class='comment'>// make December 31, 1 BCE equal to day 0</span>
@@ -2403,7 +2591,30 @@
     }
 
     <span class='doccomment'>/// Parses a string with the specified format string and returns a new `NaiveDate`.</span>
-    <span class='doccomment'>/// See the `format::strftime` module on the supported escape sequences.</span>
+    <span class='doccomment'>/// See the [`format::strftime` module](../../format/strftime/index.html)</span>
+    <span class='doccomment'>/// on the supported escape sequences.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::parse_from_str(&quot;2015-09-05&quot;, &quot;%Y-%m-%d&quot;),</span>
+    <span class='doccomment'>///            Ok(NaiveDate::from_ymd(2015, 9, 5)));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::parse_from_str(&quot;5sep2015&quot;, &quot;%d%b%Y&quot;),</span>
+    <span class='doccomment'>///            Ok(NaiveDate::from_ymd(2015, 9, 5)));</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// // time and offset is ignored for the purpose of parsing</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::parse_from_str(&quot;2014-5-17T12:34:56+09:30&quot;, &quot;%Y-%m-%dT%H:%M:%S%z&quot;),</span>
+    <span class='doccomment'>///            Ok(NaiveDate::from_ymd(2014, 5, 17)));</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// // either out-of-bound dates or insufficient fields are errors</span>
+    <span class='doccomment'>/// assert!(NaiveDate::parse_from_str(&quot;2015/9&quot;, &quot;%Y/%m&quot;).is_err());</span>
+    <span class='doccomment'>/// assert!(NaiveDate::parse_from_str(&quot;2015/9/31&quot;, &quot;%Y/%m/%d&quot;).is_err());</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// // all parsed fields should be consistent to each other, otherwise it&#39;s an error</span>
+    <span class='doccomment'>/// assert!(NaiveDate::parse_from_str(&quot;Sat, 09 Aug 2013&quot;, &quot;%a, %d %b %Y&quot;).is_err());</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse_from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>parsed</span> <span class='op'>=</span> <span class='ident'>Parsed</span>::<span class='ident'>new</span>();
         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>parse</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>parsed</span>, <span class='ident'>s</span>, <span class='ident'>StrftimeItems</span>::<span class='ident'>new</span>(<span class='ident'>fmt</span>)));
@@ -2653,8 +2864,8 @@
     <span class='doccomment'>/// ~~~~</span>
     <span class='doccomment'>/// use chrono::NaiveDate;</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).succ(), NaiveDate::from_ymd(2015, 6, 4));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 30).succ(), NaiveDate::from_ymd(2015, 7, 1));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015,  6,  3).succ(), NaiveDate::from_ymd(2015, 6, 4));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015,  6, 30).succ(), NaiveDate::from_ymd(2015, 7, 1));</span>
     <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 12, 31).succ(), NaiveDate::from_ymd(2016, 1, 1));</span>
     <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -2690,8 +2901,8 @@
     <span class='doccomment'>/// ~~~~</span>
     <span class='doccomment'>/// use chrono::NaiveDate;</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).pred(), NaiveDate::from_ymd(2015, 6, 2));</span>
-    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 1).pred(), NaiveDate::from_ymd(2015, 5, 31));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 3).pred(), NaiveDate::from_ymd(2015,  6,  2));</span>
+    <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 6, 1).pred(), NaiveDate::from_ymd(2015,  5, 31));</span>
     <span class='doccomment'>/// assert_eq!(NaiveDate::from_ymd(2015, 1, 1).pred(), NaiveDate::from_ymd(2014, 12, 31));</span>
     <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -2721,6 +2932,20 @@
     <span class='doccomment'>/// Adds the `days` part of given `Duration` to the current date.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` when it will result in overflow.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, Duration};</span>
+    <span class='doccomment'>/// use chrono::naive::date::MAX;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 9, 5);</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_add(Duration::days(40)), Some(NaiveDate::from_ymd(2015, 10, 15)));</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_add(Duration::days(-40)), Some(NaiveDate::from_ymd(2015, 7, 27)));</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_add(Duration::days(1000_000_000)), None);</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_add(Duration::days(-1000_000_000)), None);</span>
+    <span class='doccomment'>/// assert_eq!(MAX.checked_add(Duration::days(1)), None);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>checked_add</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>Duration</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>year</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>year</span>();
         <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>year_div_400</span>, <span class='ident'>year_mod_400</span>) <span class='op'>=</span> <span class='ident'>div_mod_floor</span>(<span class='ident'>year</span>, <span class='number'>400</span>);
@@ -2738,6 +2963,20 @@
     <span class='doccomment'>/// Subtracts the `days` part of given `Duration` from the current date.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns `None` when it will result in overflow.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::{NaiveDate, Duration};</span>
+    <span class='doccomment'>/// use chrono::naive::date::MIN;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 9, 5);</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_sub(Duration::days(40)), Some(NaiveDate::from_ymd(2015, 7, 27)));</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_sub(Duration::days(-40)), Some(NaiveDate::from_ymd(2015, 10, 15)));</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_sub(Duration::days(1000_000_000)), None);</span>
+    <span class='doccomment'>/// assert_eq!(d.checked_sub(Duration::days(-1000_000_000)), None);</span>
+    <span class='doccomment'>/// assert_eq!(MIN.checked_sub(Duration::days(1)), None);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>checked_sub</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>Duration</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>year</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>year</span>();
         <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>year_div_400</span>, <span class='ident'>year_mod_400</span>) <span class='op'>=</span> <span class='ident'>div_mod_floor</span>(<span class='ident'>year</span>, <span class='number'>400</span>);
@@ -2753,6 +2992,22 @@
     }
 
     <span class='doccomment'>/// Formats the date with the specified formatting items.</span>
+    <span class='doccomment'>/// Otherwise it is same to the ordinary `format` method.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The `Iterator` of items should be `Clone`able,</span>
+    <span class='doccomment'>/// since the resulting `DelayedFormat` value may be formatted multiple times.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>/// use chrono::format::strftime::StrftimeItems;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let fmt = StrftimeItems::new(&quot;%Y-%m-%d&quot;);</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 9, 5);</span>
+    <span class='doccomment'>/// assert_eq!(d.format_with_items(fmt.clone()).to_string(), &quot;2015-09-05&quot;);</span>
+    <span class='doccomment'>/// assert_eq!(d.format(&quot;%Y-%m-%d&quot;).to_string(), &quot;2015-09-05&quot;);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>format_with_items</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>items</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>DelayedFormat</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>
             <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>Item</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> <span class='op'>+</span> <span class='ident'>Clone</span> {
@@ -2760,7 +3015,28 @@
     }
 
     <span class='doccomment'>/// Formats the date with the specified format string.</span>
-    <span class='doccomment'>/// See the `format::strftime` module on the supported escape sequences.</span>
+    <span class='doccomment'>/// See the [`format::strftime` module](../../format/strftime/index.html)</span>
+    <span class='doccomment'>/// on the supported escape sequences.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This returns a `DelayedFormat`,</span>
+    <span class='doccomment'>/// which gets converted to a string only when actual formatting happens.</span>
+    <span class='doccomment'>/// You may use the `to_string` method to get a `String`,</span>
+    <span class='doccomment'>/// or just feed it into `print!` and other formatting macros.</span>
+    <span class='doccomment'>/// (In this way it avoids the excees memory allocation.)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// A wrong format string does *not* issue an error immediately.</span>
+    <span class='doccomment'>/// Rather, converting or formatting the `DelayedFormat` fails.</span>
+    <span class='doccomment'>/// You are recommended to immediately use `DelayedFormat` for this reason.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Example</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ~~~~</span>
+    <span class='doccomment'>/// use chrono::NaiveDate;</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 9, 5);</span>
+    <span class='doccomment'>/// assert_eq!(d.format(&quot;%Y-%m-%d&quot;).to_string(), &quot;2015-09-05&quot;);</span>
+    <span class='doccomment'>/// assert_eq!(d.format(&quot;%A, %-d %B, %C%y&quot;).to_string(), &quot;Saturday, 5 September, 2015&quot;);</span>
+    <span class='doccomment'>/// ~~~~</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>format</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>DelayedFormat</span><span class='op'>&lt;</span><span class='ident'>StrftimeItems</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>format_with_items</span>(<span class='ident'>StrftimeItems</span>::<span class='ident'>new</span>(<span class='ident'>fmt</span>))
@@ -2841,6 +3117,27 @@
     <span class='kw'>fn</span> <span class='ident'>hash</span><span class='op'>&lt;</span><span class='ident'>H</span>: <span class='ident'>hash</span>::<span class='ident'>Hasher</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>H</span>) { <span class='self'>self</span>.<span class='ident'>ymdf</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>) }
 }
 
+<span class='doccomment'>/// An addition of `Duration` to `NaiveDate` discards the fractional days,</span>
+<span class='doccomment'>/// rounding to the closest integral number of days towards `Duration::zero()`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Fails on underflow or overflow.</span>
+<span class='doccomment'>/// Use `NaiveDate::checked_add` for detecting that.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ~~~~</span>
+<span class='doccomment'>/// use chrono::{NaiveDate, Duration};</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let ymd = |y,m,d| NaiveDate::from_ymd(y, m, d);</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::zero(),             ymd(2014, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::seconds(86399),     ymd(2014, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::seconds(-86399),    ymd(2014, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::days(1),            ymd(2014, 1, 2));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::days(-1),           ymd(2013, 12, 31));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::days(364),          ymd(2014, 12, 31));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::days(365*4 + 1),    ymd(2018, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) + Duration::days(365*400 + 97), ymd(2414, 1, 1));</span>
+<span class='doccomment'>/// ~~~~</span>
 <span class='kw'>impl</span> <span class='ident'>Add</span><span class='op'>&lt;</span><span class='ident'>Duration</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>NaiveDate</span> {
     <span class='kw'>type</span> <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>;
 
@@ -2850,6 +3147,23 @@
     }
 }
 
+<span class='doccomment'>/// A subtraction of `NaiveDate` from `NaiveDate` yields a `Duration` of integral numbers,</span>
+<span class='doccomment'>/// and does not overflow or underflow at all.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ~~~~</span>
+<span class='doccomment'>/// use chrono::{NaiveDate, Duration};</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let ymd = |y,m,d| NaiveDate::from_ymd(y, m, d);</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(2014, 1, 1),   Duration::zero());</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(2013, 12, 31), Duration::days(1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(2014, 1, 2),   Duration::days(-1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(2013, 9, 23),  Duration::days(100));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(2013, 1, 1),   Duration::days(365));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(2010, 1, 1),   Duration::days(365*4 + 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - ymd(1614, 1, 1),   Duration::days(365*400 + 97));</span>
+<span class='doccomment'>/// ~~~~</span>
 <span class='kw'>impl</span> <span class='ident'>Sub</span><span class='op'>&lt;</span><span class='ident'>NaiveDate</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>NaiveDate</span> {
     <span class='kw'>type</span> <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>Duration</span>;
 
@@ -2864,6 +3178,27 @@
     }
 }
 
+<span class='doccomment'>/// A subtraction of `Duration` from `NaiveDate` discards the fractional days,</span>
+<span class='doccomment'>/// rounding to the closest integral number of days towards `Duration::zero()`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Fails on underflow or overflow.</span>
+<span class='doccomment'>/// Use `NaiveDate::checked_sub` for detecting that.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ~~~~</span>
+<span class='doccomment'>/// use chrono::{NaiveDate, Duration};</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let ymd = |y,m,d| NaiveDate::from_ymd(y, m, d);</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::zero(),             ymd(2014, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::seconds(86399),     ymd(2014, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::seconds(-86399),    ymd(2014, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::days(1),            ymd(2013, 12, 31));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::days(-1),           ymd(2014, 1, 2));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::days(364),          ymd(2013, 1, 2));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::days(365*4 + 1),    ymd(2010, 1, 1));</span>
+<span class='doccomment'>/// assert_eq!(ymd(2014, 1, 1) - Duration::days(365*400 + 97), ymd(1614, 1, 1));</span>
+<span class='doccomment'>/// ~~~~</span>
 <span class='kw'>impl</span> <span class='ident'>Sub</span><span class='op'>&lt;</span><span class='ident'>Duration</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>NaiveDate</span> {
     <span class='kw'>type</span> <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>;
 
@@ -2873,6 +3208,24 @@
     }
 }
 
+<span class='doccomment'>/// The `Debug` output of the naive date `d` is same to `d.format(&quot;%Y-%m-%d&quot;)`.</span>
+<span class='doccomment'>/// Note that ISO 8601 requires an explicit sign for years before 1 BCE or after 9999 CE.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The string printed can be readily parsed via the `parse` method on `str`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ~~~~</span>
+<span class='doccomment'>/// use chrono::NaiveDate;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{:?}&quot;, NaiveDate::from_ymd(2015,  9,  5)), &quot;2015-09-05&quot;);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{:?}&quot;, NaiveDate::from_ymd(   0,  1,  1)), &quot;0000-01-01&quot;);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{:?}&quot;, NaiveDate::from_ymd(9999, 12, 31)), &quot;9999-12-31&quot;);</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// // examples of an explicit year sign</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{:?}&quot;, NaiveDate::from_ymd(   -1,  1,  1)),  &quot;-0001-01-01&quot;);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{:?}&quot;, NaiveDate::from_ymd(10000, 12, 31)), &quot;+10000-12-31&quot;);</span>
+<span class='doccomment'>/// ~~~~</span>
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>NaiveDate</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='kw'>let</span> <span class='ident'>year</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>year</span>();
@@ -2886,10 +3239,43 @@
     }
 }
 
+<span class='doccomment'>/// The `Display` output of the naive date `d` is same to `d.format(&quot;%Y-%m-%d&quot;)`.</span>
+<span class='doccomment'>/// Note that ISO 8601 requires an explicit sign for years before 1 BCE or after 9999 CE.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The string printed can be readily parsed via the `parse` method on `str`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ~~~~</span>
+<span class='doccomment'>/// use chrono::NaiveDate;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, NaiveDate::from_ymd(2015,  9,  5)), &quot;2015-09-05&quot;);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, NaiveDate::from_ymd(   0,  1,  1)), &quot;0000-01-01&quot;);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, NaiveDate::from_ymd(9999, 12, 31)), &quot;9999-12-31&quot;);</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// // examples of an explicit year sign</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, NaiveDate::from_ymd(   -1,  1,  1)),  &quot;-0001-01-01&quot;);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, NaiveDate::from_ymd(10000, 12, 31)), &quot;+10000-12-31&quot;);</span>
+<span class='doccomment'>/// ~~~~</span>
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>NaiveDate</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> { <span class='ident'>fmt</span>::<span class='ident'>Debug</span>::<span class='ident'>fmt</span>(<span class='self'>self</span>, <span class='ident'>f</span>) }
 }
 
+<span class='doccomment'>/// Parsing a str into a `NaiveDate` uses the same format, `%Y-%m-%d`, as `Debug` and `Display`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Example</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ~~~~</span>
+<span class='doccomment'>/// use chrono::NaiveDate;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let d = NaiveDate::from_ymd(2015, 9, 18);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, d).parse::&lt;NaiveDate&gt;(), Ok(d));</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let d = NaiveDate::from_ymd(12345, 6, 7);</span>
+<span class='doccomment'>/// assert_eq!(format!(&quot;{}&quot;, d).parse::&lt;NaiveDate&gt;(), Ok(d));</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// assert!(&quot;foo&quot;.parse::&lt;NaiveDate&gt;().is_err());</span>
+<span class='doccomment'>/// ~~~~</span>
 <span class='kw'>impl</span> <span class='ident'>str</span>::<span class='ident'>FromStr</span> <span class='kw'>for</span> <span class='ident'>NaiveDate</span> {
     <span class='kw'>type</span> <span class='prelude-val'>Err</span> <span class='op'>=</span> <span class='ident'>ParseError</span>;
 
@@ -4123,40 +4509,49 @@
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard Shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search Tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.15/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.16/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -24,10 +24,10 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
@@ -668,6 +668,10 @@
 <span id="626">626</span>
 <span id="627">627</span>
 <span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
@@ -675,7 +679,7 @@
 
 <span class='doccomment'>/*!
 
-# Chrono 0.2.15
+# Chrono 0.2.16
 
 Date and time handling for Rust. (also known as `rust-chrono`)
 It aims to be a feature-complete superset of the [time](https://github.com/rust-lang/time) library.
@@ -688,7 +692,8 @@ In particular,
 There were several previous attempts to bring a good date and time library to Rust,
 which Chrono builts upon and should acknowledge:
 
-* [Initial research on the wiki](https://github.com/rust-lang/rust/wiki/Lib-datetime)
+* [Initial research on
+   the wiki](https://github.com/rust-lang/rust-wiki-backup/blob/master/Lib-datetime.md)
 * Dietrich Epp&#39;s [datetime-rs](https://github.com/depp/datetime-rs)
 * Luis de Bethencourt&#39;s [rust-datetime](https://github.com/luisbg/rust-datetime)
 
@@ -1094,6 +1099,9 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
     }
 }
 
+<span class='doccomment'>/// Any weekday can be represented as an integer from 0 to 6,</span>
+<span class='doccomment'>/// which equals to `Weekday::num_days_from_monday` in this implementation.</span>
+<span class='doccomment'>/// Do not heavily depend on this though; use explicit methods whenever possible.</span>
 <span class='kw'>impl</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>FromPrimitive</span> <span class='kw'>for</span> <span class='ident'>Weekday</span> {
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -1127,7 +1135,7 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
 
 
 <span class='doccomment'>/// The common set of methods for date component.</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Datelike</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Datelike</span>: <span class='ident'>Sized</span> {
     <span class='doccomment'>/// Returns the year number.</span>
     <span class='kw'>fn</span> <span class='ident'>year</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>;
 
@@ -1220,7 +1228,7 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
 }
 
 <span class='doccomment'>/// The common set of methods for time component.</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Timelike</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Timelike</span>: <span class='ident'>Sized</span> {
     <span class='doccomment'>/// Returns the hour number from 0 to 23.</span>
     <span class='kw'>fn</span> <span class='ident'>hour</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>;
 
@@ -1303,40 +1311,49 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard Shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search Tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

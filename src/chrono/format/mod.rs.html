@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.15/src/format/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.16/src/format/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -24,10 +24,10 @@
 
     
 
-    <section class="sidebar">
+    <nav class="sidebar">
         
         
-    </section>
+    </nav>
 
     <nav class="sub">
         <form class="search-form js-only">
@@ -496,6 +496,39 @@
 <span id="454">454</span>
 <span id="455">455</span>
 <span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
@@ -624,6 +657,12 @@
     <span class='doccomment'>/// May print nothing, 3, 6 or 9 digits according to the available accuracy.</span>
     <span class='doccomment'>/// See also `Numeric::Nanosecond`.</span>
     <span class='ident'>Nanosecond</span>,
+    <span class='doccomment'>/// Fixed prescision at Nanosecond3 where 3 is the left aligned accuracy.</span>
+    <span class='ident'>Nanosecond3</span>,
+    <span class='doccomment'>/// Fixed prescision at Nanosecond6 where 6 is the left aligned accuracy.</span>
+    <span class='ident'>Nanosecond6</span>,
+    <span class='doccomment'>/// Fixed prescision at Nanosecond9 where 9 is the left aligned accuracy.</span>
+    <span class='ident'>Nanosecond9</span>,
     <span class='doccomment'>/// Timezone name.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// It does not support parsing, its use in the parser is an immediate failure.</span>
@@ -865,6 +904,33 @@
                                 <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.{:09}&quot;</span>, <span class='ident'>nano</span>)
                             }
                         }),
+                    <span class='ident'>Nanosecond3</span> <span class='op'>=&gt;</span>
+                        <span class='ident'>time</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
+                            <span class='kw'>let</span> <span class='ident'>nano</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>nanosecond</span>() <span class='op'>%</span> <span class='number'>1_000_000_000</span>;
+                            <span class='kw'>if</span> <span class='ident'>nano</span> <span class='op'>==</span> <span class='number'>0</span> {
+                                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.000&quot;</span>)
+                            } <span class='kw'>else</span> {
+                                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.{:03}&quot;</span>, <span class='ident'>nano</span> <span class='op'>/</span> <span class='number'>1_000_000</span>)
+                            }
+                        }),
+                    <span class='ident'>Nanosecond6</span> <span class='op'>=&gt;</span>
+                        <span class='ident'>time</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
+                            <span class='kw'>let</span> <span class='ident'>nano</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>nanosecond</span>() <span class='op'>%</span> <span class='number'>1_000_000_000</span>;
+                            <span class='kw'>if</span> <span class='ident'>nano</span> <span class='op'>==</span> <span class='number'>0</span> {
+                                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.000&quot;</span>)
+                            } <span class='kw'>else</span> {
+                                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.{:06}&quot;</span>, <span class='ident'>nano</span> <span class='op'>/</span> <span class='number'>1_000</span>)
+                            }
+                        }),
+                    <span class='ident'>Nanosecond9</span> <span class='op'>=&gt;</span>
+                        <span class='ident'>time</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> {
+                            <span class='kw'>let</span> <span class='ident'>nano</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>nanosecond</span>() <span class='op'>%</span> <span class='number'>1_000_000_000</span>;
+                            <span class='kw'>if</span> <span class='ident'>nano</span> <span class='op'>==</span> <span class='number'>0</span> {
+                                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.000&quot;</span>)
+                            } <span class='kw'>else</span> {
+                                <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;.{:09}&quot;</span>, <span class='ident'>nano</span>)
+                            }
+                        }),
                     <span class='ident'>TimezoneName</span> <span class='op'>=&gt;</span>
                         <span class='ident'>off</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>, _)<span class='op'>|</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='op'>*</span><span class='ident'>name</span>)),
                     <span class='ident'>TimezoneOffsetColon</span> <span class='op'>=&gt;</span>
@@ -959,40 +1025,49 @@
 
     <section class="footer"></section>
 
-    <div id="help" class="hidden">
-        <div class="shortcuts">
-            <h1>Keyboard Shortcuts</h1>
-            <dl>
-                <dt>?</dt>
-                <dd>Show this help dialog</dd>
-                <dt>S</dt>
-                <dd>Focus the search field</dd>
-                <dt>&larrb;</dt>
-                <dd>Move up in search results</dd>
-                <dt>&rarrb;</dt>
-                <dd>Move down in search results</dd>
-                <dt>&#9166;</dt>
-                <dd>Go to active search result</dd>
-            </dl>
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
         </div>
-        <div class="infos">
-            <h1>Search Tricks</h1>
-            <p>
-                Prefix searches with a type followed by a colon (e.g.
-                <code>fn:</code>) to restrict the search to a given type.
-            </p>
-            <p>
-                Accepted types are: <code>fn</code>, <code>mod</code>,
-                <code>struct</code>, <code>enum</code>,
-                <code>trait</code>, <code>typedef</code> (or
-                <code>tdef</code>).
-            </p>
-            <p>
-                Search functions by type signature (e.g.
-                <code>vec -> usize</code>)
-            </p>
-        </div>
-    </div>
+    </aside>
 
     
 

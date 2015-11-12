@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["SourceError",""]],"mod":[["markdown",""],["model",""],["prelude",""],["util",""],["view",""],["yaml",""]],"struct":[["AnnotatedError",""]],"type":[["RenderError",""]]});
+initSidebarItems({"mod":[["cli",""],["error",""],["model",""],["prelude",""],["render",""],["view",""]]});
