@@ -18,6 +18,19 @@ I've only tested Gazetta on 64bit Linux but it should work on all *nix
 platforms. However, it probably won't on windows (I assume forward slashes in
 paths). Patches welcome!
 
+## Quick Start
+
+1. Download and compile [gazetta-bin][bin] (`cargo build --release`). Build in
+   release mode unless you want to pay a 15x-30x performance penalty.
+2. Fork and clone [gazetta-bootstrap][bootstrap]. This project also documents
+   the file format.
+3. Edit the config, homepage, and theme to your liking.
+4. Create some new pages either manually or using the gazetta binary. For
+   example: `gazetta new blog "Hello World"` will create a hello world blog
+   post.
+5. Run `gazetta render /path/to/output` (in the root of the repository) to
+   render your website.
+
 ## Code quality
 
 I'm happy with the overall architecture but some of the code could use a little
@@ -36,18 +49,6 @@ progress. However, there is room for improvement:
    this only makes sense if we can keep the constant multiplier in the new
    algorithm's runtime low.
 4. Do we even care? My website (~75 pages) builds in 50ms on my laptop.
-
-## Quick Start
-
-1. Download and compile [gazetta-bin][bin] (`cargo build --release`). Build in
-   release mode unless you want to pay a 15x-30x performance penalty.
-2. Fork and clone [gazetta-bootstrap][bootstrap].
-3. Edit the config, homepage, and theme to your liking.
-4. Create some new pages either manually or using the gazetta binary. For
-   example: `gazetta new blog "Hello World"` will create a hello world blog
-   post.
-5. Run `gazetta render /path/to/output` (in the root of the repository) to
-   render your website.
 
 
 [framework]: https://github.com/Stebalien/gazetta
