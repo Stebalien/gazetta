@@ -34,7 +34,9 @@ paths). Patches welcome!
 
 The general data flow is:
 
-    Input Files → Models → Views → Output HTML
+```text
+Input Files → Models → Views → Output HTML
+```
 
 ### Input Files
 
@@ -51,7 +53,7 @@ available when rendering any page on the site. It must specify:
 If you're using the default renderer ([gazetta-bin][bin]), you must also specify
 an `author` in the format:
 
-```
+```text
 author:
   (mandatory) name: My Name
   (opt) email: email
@@ -65,7 +67,7 @@ author:
 
 And may specify a set of navigational links:
 
-```
+```text
 nav:
   - Blog: blog
   - Projects: projects
@@ -76,7 +78,7 @@ nav:
 
 files:
 
-```
+```text
 assets/
 ├── javascript/
 │   ├── 0-example1.js

@@ -27,7 +27,9 @@
 //!
 //! Gazetta's data flow is as follows:
 //!
-//!     Input → Models (Entries) → Views (Pages) → Output
+//! ```text
+//! Input → Models (Entries) → Views (Pages) → Output
+//! ```
 //!
 //! TODO: Actually fill this in.
 //!
