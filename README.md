@@ -52,7 +52,7 @@ progress. However, there is room for improvement:
 
 
 [framework]: https://github.com/Stebalien/gazetta
-[bin]: https://github.com/Stebalien/gazetta
+[bin]: https://github.com/Stebalien/gazetta-bin
 [data]: https://github.com/Stebalien/www
 [horrorshow]: https://github.com/Stebalien/horrorshow-rs
 [bootstrap]: https://github.com/Stebalien/gazetta-bootstrap
