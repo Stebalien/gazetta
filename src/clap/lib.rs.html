@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/clap-1.4.7/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/clap-1.5.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -696,6 +696,35 @@
 <span id="654">654</span>
 <span id="655">655</span>
 <span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Command Line Argument Parser for Rust</span>
 <span class='doccomment'>//!</span>
@@ -737,31 +766,43 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ### Comparisons</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! First, let me say that these comparisons are highly subjective, and not meant</span>
+<span class='doccomment'>//! First, let me say that these comparisons are highly subjective, and not</span>
+<span class='doccomment'>//! meant</span>
 <span class='doccomment'>//! in a critical or harsh manner. All the argument parsing libraries out there</span>
-<span class='doccomment'>//! (to include `clap`) have their own strengths and weaknesses. Sometimes it just</span>
-<span class='doccomment'>//! comes down to personal taste when all other factors are equal. When in doubt,</span>
-<span class='doccomment'>//! try them all and pick one that you enjoy :) There&#39;s plenty of room in the Rust</span>
+<span class='doccomment'>//! (to include `clap`) have their own strengths and weaknesses. Sometimes it</span>
+<span class='doccomment'>//! just</span>
+<span class='doccomment'>//! comes down to personal taste when all other factors are equal. When in</span>
+<span class='doccomment'>//! doubt,</span>
+<span class='doccomment'>//! try them all and pick one that you enjoy :) There&#39;s plenty of room in the</span>
+<span class='doccomment'>//! Rust</span>
 <span class='doccomment'>//! community for multiple implementations!</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! #### How does `clap` compare to `getopts`?</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! [getopts](https://github.com/rust-lang-nursery/getopts) is a very basic, fairly</span>
+<span class='doccomment'>//! [getopts](https://github.com/rust-lang-nursery/getopts) is a very basic,</span>
+<span class='doccomment'>//! fairly</span>
 <span class='doccomment'>//! minimalist argument parsing library. This isn&#39;t a bad thing, sometimes you</span>
-<span class='doccomment'>//! don&#39;t need tons of features, you just want to parse some simple arguments, and</span>
+<span class='doccomment'>//! don&#39;t need tons of features, you just want to parse some simple arguments,</span>
+<span class='doccomment'>//! and</span>
 <span class='doccomment'>//! have some help text generated for you based on valid arguments you specify.</span>
 <span class='doccomment'>//! When using `getopts` you must manually implement most of the common features</span>
-<span class='doccomment'>//! (such as checking to display help messages, usage strings, etc.). If you want a</span>
-<span class='doccomment'>//! highly custom argument parser, and don&#39;t mind writing most the argument parser</span>
+<span class='doccomment'>//! (such as checking to display help messages, usage strings, etc.). If you</span>
+<span class='doccomment'>//! want a</span>
+<span class='doccomment'>//! highly custom argument parser, and don&#39;t mind writing most the argument</span>
+<span class='doccomment'>//! parser</span>
 <span class='doccomment'>//! yourself, `getopts` is an excellent base.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Due to it&#39;s lack of features, `getopts` also doesn&#39;t allocate much, or at all.</span>
+<span class='doccomment'>//! Due to it&#39;s lack of features, `getopts` also doesn&#39;t allocate much, or at</span>
+<span class='doccomment'>//! all.</span>
 <span class='doccomment'>//! This gives it somewhat of a performance boost. Although, as you start</span>
-<span class='doccomment'>//! implementing those features you need manually, that boost quickly disappears.</span>
+<span class='doccomment'>//! implementing those features you need manually, that boost quickly</span>
+<span class='doccomment'>//! disappears.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Personally, I find many, many people that use `getopts` are manually</span>
-<span class='doccomment'>//! implementing features that `clap` has by default. Using `clap` simplifies your</span>
-<span class='doccomment'>//! codebase allowing you to focus on your application, and not argument parsing.</span>
+<span class='doccomment'>//! implementing features that `clap` has by default. Using `clap` simplifies</span>
+<span class='doccomment'>//! your</span>
+<span class='doccomment'>//! codebase allowing you to focus on your application, and not argument</span>
+<span class='doccomment'>//! parsing.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Reasons to use `getopts` instead of `clap`</span>
 <span class='doccomment'>//!</span>
@@ -774,28 +815,39 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! I first want to say I&#39;m a big a fan of BurntSushi&#39;s work, the creator of</span>
 <span class='doccomment'>//! [Docopt.rs](https://github.com/docopt/docopt.rs). I aspire to produce the</span>
-<span class='doccomment'>//! quality of libraries that this man does! When it comes to comparing these two</span>
+<span class='doccomment'>//! quality of libraries that this man does! When it comes to comparing these</span>
+<span class='doccomment'>//! two</span>
 <span class='doccomment'>//! libraries they are very different. `docopt` tasks you with writing a help</span>
 <span class='doccomment'>//! message, and then it parsers that message for you to determine all valid</span>
-<span class='doccomment'>//! arguments and their use. Some people LOVE this, others not so much. If you&#39;re</span>
-<span class='doccomment'>//! willing to write a detailed help message, it&#39;s nice that you can stick that in</span>
-<span class='doccomment'>//! your program and have `docopt` do the rest. On the downside, it&#39;s somewhat less</span>
-<span class='doccomment'>//! flexible than other options out there, and requires the help message change if</span>
+<span class='doccomment'>//! arguments and their use. Some people LOVE this, others not so much. If</span>
+<span class='doccomment'>//! you&#39;re</span>
+<span class='doccomment'>//! willing to write a detailed help message, it&#39;s nice that you can stick that</span>
+<span class='doccomment'>//! in</span>
+<span class='doccomment'>//! your program and have `docopt` do the rest. On the downside, it&#39;s somewhat</span>
+<span class='doccomment'>//! less</span>
+<span class='doccomment'>//! flexible than other options out there, and requires the help message change</span>
+<span class='doccomment'>//! if</span>
 <span class='doccomment'>//! you need to make changes.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! `docopt` is also excellent at translating arguments into Rust types</span>
-<span class='doccomment'>//! automatically. There is even a syntax extension which will do all this for you,</span>
-<span class='doccomment'>//! ifou to manually translate from arguments to Rust types). To use BurntSushi&#39;s</span>
-<span class='doccomment'>//! words, `docopt` is also somewhat of a black box. You get what you get, and it&#39;s</span>
+<span class='doccomment'>//! automatically. There is even a syntax extension which will do all this for</span>
+<span class='doccomment'>//! you,</span>
+<span class='doccomment'>//! ifou to manually translate from arguments to Rust types). To use</span>
+<span class='doccomment'>//! BurntSushi&#39;s</span>
+<span class='doccomment'>//! words, `docopt` is also somewhat of a black box. You get what you get, and</span>
+<span class='doccomment'>//! it&#39;s</span>
 <span class='doccomment'>//! hard to tweak implementation or customise your experience for your use case.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Because `docopt` is doing a ton of work to parse your help messages and</span>
-<span class='doccomment'>//! determine what you were trying to communicate as valid arguments, it&#39;s also one</span>
-<span class='doccomment'>//! of the more heavy weight parsers performance-wise. For most applications this</span>
+<span class='doccomment'>//! determine what you were trying to communicate as valid arguments, it&#39;s also</span>
+<span class='doccomment'>//! one</span>
+<span class='doccomment'>//! of the more heavy weight parsers performance-wise. For most applications</span>
+<span class='doccomment'>//! this</span>
 <span class='doccomment'>//! isn&#39;t a concern, but it&#39;s something to keep in mind.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Reasons to use `docopt` instead of `clap`</span>
-<span class='doccomment'>//!  * You want automatic translation from arguments to Rust types, and are using a</span>
+<span class='doccomment'>//! * You want automatic translation from arguments to Rust types, and are</span>
+<span class='doccomment'>//! using a</span>
 <span class='doccomment'>//!    nightly compiler</span>
 <span class='doccomment'>//!  * Performance isn&#39;t a concern</span>
 <span class='doccomment'>//!  * You don&#39;t have any complex relationships between arguments</span>
@@ -804,7 +856,8 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! `clap` is fast, and as lightweight as possible while still giving all the</span>
 <span class='doccomment'>//! features you&#39;d expect from a modern argument parser. If you use `clap` when</span>
-<span class='doccomment'>//! just need some simple arguments parsed, you&#39;ll find it a walk in the park. But</span>
+<span class='doccomment'>//! just need some simple arguments parsed, you&#39;ll find it a walk in the park.</span>
+<span class='doccomment'>//! But</span>
 <span class='doccomment'>//! `clap` also makes it possible to represent extremely complex, and advanced</span>
 <span class='doccomment'>//! requirements, without too much thought. `clap` aims to be intuitive, easy to</span>
 <span class='doccomment'>//! use, and fully capable for wide variety use cases and needs.</span>
@@ -1323,12 +1376,13 @@
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>explicit_iter_loop</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>should_implement_trait</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>deny</span>(<span class='ident'>warnings</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)), <span class='ident'>deny</span>(<span class='ident'>unstable_features</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>,
         <span class='ident'>missing_debug_implementations</span>,
         <span class='ident'>missing_copy_implementations</span>,
-        <span class='ident'>trivial_casts</span>, <span class='ident'>trivial_numeric_casts</span>,
+        <span class='ident'>trivial_casts</span>,
+        <span class='ident'>trivial_numeric_casts</span>,
         <span class='ident'>unsafe_code</span>,
-        <span class='ident'>unstable_features</span>,
         <span class='ident'>unused_import_braces</span>,
         <span class='ident'>unused_qualifications</span>)]</span>
 
@@ -1340,12 +1394,14 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>yaml_rust</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>vec_map</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>yaml_rust</span>::<span class='ident'>YamlLoader</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>Arg</span>, <span class='ident'>ArgGroup</span>, <span class='ident'>ArgMatches</span>, <span class='ident'>SubCommand</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>app</span>::{<span class='ident'>App</span>, <span class='ident'>AppSettings</span>, <span class='ident'>ClapError</span>, <span class='ident'>ClapErrorType</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>app</span>::{<span class='ident'>App</span>, <span class='ident'>AppSettings</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>fmt</span>::<span class='ident'>Format</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>ClapError</span>, <span class='ident'>ClapErrorType</span>};
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>mod</span> <span class='ident'>macros</span>;
@@ -1353,6 +1409,8 @@
 <span class='kw'>mod</span> <span class='ident'>args</span>;
 <span class='kw'>mod</span> <span class='ident'>usageparser</span>;
 <span class='kw'>mod</span> <span class='ident'>fmt</span>;
+<span class='kw'>mod</span> <span class='ident'>suggestions</span>;
+<span class='kw'>mod</span> <span class='ident'>errors</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/ansi_term-0.6.3/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/ansi_term-0.7.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -749,6 +749,57 @@
 <span id="707">707</span>
 <span id="708">708</span>
 <span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_name</span> <span class='op'>=</span> <span class='string'>&quot;ansi_term&quot;</span>]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;rlib&quot;</span>]</span>
@@ -757,101 +808,136 @@
 <span class='doccomment'>//! This is a library for controlling colours and formatting, such as</span>
 <span class='doccomment'>//! red bold text or blue underlined text, on ANSI terminals.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! extern crate ansi_term;</span>
-<span class='doccomment'>//! use ansi_term::Colour::{Black, Red, Green, Yellow, Blue, Purple, Cyan, Fixed};</span>
-<span class='doccomment'>//! use ansi_term::Style;</span>
-<span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Simple Colours</span>
-<span class='doccomment'>//! --------------</span>
+<span class='doccomment'>//! ## Basic usage</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! You can format strings by calling the `paint` method on a Colour</span>
-<span class='doccomment'>//! or a Style object, passing in the string you want to format. For</span>
-<span class='doccomment'>//! example, to get some red text, call the `paint` method on `Red`:</span>
+<span class='doccomment'>//! There are two main data structures in this crate that you need to be</span>
+<span class='doccomment'>//! concerned with: `ANSIString` and `Style`. A `Style` holds stylistic</span>
+<span class='doccomment'>//! information: colours, whether the text should be bold, or blinking, or</span>
+<span class='doccomment'>//! whatever. There are also `Colour` variants that represent simple foreground</span>
+<span class='doccomment'>//! colour styles. An `ANSIString` is a string paired with a `Style`.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! println!(&quot;This is in red: {}!&quot;, Red.paint(&quot;a red string&quot;));</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! (Yes, it’s British English, but you won’t have to write “colour” very often.</span>
+<span class='doccomment'>//! `Style` is used the majority of the time.)</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! The `paint` method returns an `ANSIString` object, which will get</span>
-<span class='doccomment'>//! automatically converted to the correct sequence of escape codes when</span>
-<span class='doccomment'>//! used in a `println!` or `format!` macro, or anything else that</span>
-<span class='doccomment'>//! supports using the `Show` trait. This means that if you just want a</span>
-<span class='doccomment'>//! string of the escape codes without anything else, you can still use</span>
-<span class='doccomment'>//! the `to_string` method:</span>
+<span class='doccomment'>//! To format a string, call the `paint` method on a `Style` or a `Colour`,</span>
+<span class='doccomment'>//! passing in the string you want to format as the argument. For example,</span>
+<span class='doccomment'>//! here’s how to get some red text:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! let red_string: String = Red.paint(&quot;another red string&quot;).to_string();</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!     use ansi_term::Colour::Red;</span>
+<span class='doccomment'>//!     println!(&quot;This is in red: {}&quot;, Red.paint(&quot;a red string&quot;));</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Bold, Underline, and Background</span>
-<span class='doccomment'>//! -------------------------------</span>
+<span class='doccomment'>//! It’s important to note that the `paint` method does *not* actually return a</span>
+<span class='doccomment'>//! string with the ANSI control characters surrounding it. Instead, it returns</span>
+<span class='doccomment'>//! an `ANSIString` value that has a `Display` implementation that, when</span>
+<span class='doccomment'>//! formatted, returns the characters. This allows strings to be printed with a</span>
+<span class='doccomment'>//! minimum of `String` allocations being performed behind the scenes.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! To do anything more complex than just foreground colours, you need</span>
-<span class='doccomment'>//! to use Style objects. Calling the `bold` or `underline` method on</span>
-<span class='doccomment'>//! a Colour returns a Style that has the appropriate property set on</span>
-<span class='doccomment'>//! it:</span>
+<span class='doccomment'>//! If you *do* want to get at the escape codes, then you can convert the</span>
+<span class='doccomment'>//! `ANSIString` to a string as you would any other `Display` value:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! println!(&quot;Demonstrating {} and {}!&quot;,</span>
-<span class='doccomment'>//!          Blue.bold().paint(&quot;blue bold&quot;),</span>
-<span class='doccomment'>//!          Yellow.underline().paint(&quot;yellow underline&quot;));</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!     use ansi_term::Colour::Red;</span>
+<span class='doccomment'>//!     use std::string::ToString;</span>
+<span class='doccomment'>//!     let red_string = Red.paint(&quot;a red string&quot;).to_string();</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! These methods chain, so you can call them on existing Style</span>
-<span class='doccomment'>//! objects to set more than one particular properly, like so:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! Blue.underline().bold().paint(&quot;Blue underline bold!&quot;)</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! ## Bold, underline, background, and other styles</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! You can set the background colour of a Style by using the `on`</span>
-<span class='doccomment'>//! method:</span>
+<span class='doccomment'>//! For anything more complex than plain foreground colour changes, you need to</span>
+<span class='doccomment'>//! construct `Style` objects themselves, rather than beginning with a `Colour`.</span>
+<span class='doccomment'>//! You can do this by chaining methods based on a new `Style`, created with</span>
+<span class='doccomment'>//! `Style::new()`. Each method creates a new style that has that specific</span>
+<span class='doccomment'>//! property set. For example:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! Blue.on(Yellow).paint(&quot;Blue on yellow!&quot;)</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!     use ansi_term::Style;</span>
+<span class='doccomment'>//!     println!(&quot;How about some {} and {}?&quot;,</span>
+<span class='doccomment'>//!              Style::new().bold().paint(&quot;bold&quot;),</span>
+<span class='doccomment'>//!              Style::new().underline().paint(&quot;underline&quot;));</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Finally, you can turn a Colour into a Style with the `normal`</span>
-<span class='doccomment'>//! method, though it&#39;ll produce the exact same string if you just use</span>
-<span class='doccomment'>//! the Colour. It&#39;s only useful if you&#39;re writing a method that can</span>
-<span class='doccomment'>//! return either normal or bold (or underline) styles, and need to</span>
-<span class='doccomment'>//! return a Style object from it.</span>
+<span class='doccomment'>//! For brevity, these methods have also been implemented for `Colour` values,</span>
+<span class='doccomment'>//! so you can give your styles a foreground colour without having to begin with</span>
+<span class='doccomment'>//! an empty `Style` value:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! Red.normal().paint(&quot;yet another red string&quot;)</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!     use ansi_term::Colour::{Blue, Yellow};</span>
+<span class='doccomment'>//!     println!(&quot;Demonstrating {} and {}!&quot;,</span>
+<span class='doccomment'>//!              Blue.bold().paint(&quot;blue bold&quot;),</span>
+<span class='doccomment'>//!              Yellow.underline().paint(&quot;yellow underline&quot;));</span>
+<span class='doccomment'>//!     println!(&quot;Yellow on blue: {}&quot;, Yellow.on(Blue).paint(&quot;wow!&quot;));</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Extended Colours</span>
-<span class='doccomment'>//! ----------------</span>
+<span class='doccomment'>//! The complete list of styles you can use are: `bold`, `dimmed`, `italic`,</span>
+<span class='doccomment'>//! `underline`, `blink`, `reverse`, `hidden`, and `on` for background colours.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! You can access the extended range of 256 colours by using the</span>
-<span class='doccomment'>//! Fixed constructor, which takes an argument of the colour number to</span>
-<span class='doccomment'>//! use. This can be used wherever you would use a Colour:</span>
+<span class='doccomment'>//! Finally, you can turn a `Colour` into a `Style` with the `normal` method.</span>
+<span class='doccomment'>//! This will produce the exact same `ANSIString` as if you just used the</span>
+<span class='doccomment'>//! `paint` method on the `Colour` directly, but it’s useful in certain cases:</span>
+<span class='doccomment'>//! for example, you may have a method that returns `Styles`, and need to</span>
+<span class='doccomment'>//! represent both the “red bold” and “red, but not bold” styles with values of</span>
+<span class='doccomment'>//! the same type. The `Style` struct also has a `Default` implementation if you</span>
+<span class='doccomment'>//! want to have a style with *nothing* set.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! Fixed(134).paint(&quot;A sort of light purple.&quot;)</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!     use ansi_term::Style;</span>
+<span class='doccomment'>//!     use ansi_term::Colour::Red;</span>
+<span class='doccomment'>//!     Red.normal().paint(&quot;yet another red string&quot;);</span>
+<span class='doccomment'>//!     Style::default().paint(&quot;a completely regular string&quot;);</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! This even works for background colours:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! Fixed(221).on(Fixed(124)).paint(&quot;Mustard in the ketchup.&quot;)</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! ## Extended colours</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! No Formatting</span>
-<span class='doccomment'>//! -------------</span>
+<span class='doccomment'>//! You can access the extended range of 256 colours by using the `Fixed` colour</span>
+<span class='doccomment'>//! variant, which takes an argument of the colour number to use. This can be</span>
+<span class='doccomment'>//! included wherever you would use a `Colour`:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Finally, for the sake of completeness, the default style provides</span>
-<span class='doccomment'>//! neither colours nor formatting.</span>
+<span class='doccomment'>//!     use ansi_term::Colour::Fixed;</span>
+<span class='doccomment'>//!     Fixed(134).paint(&quot;A sort of light purple&quot;);</span>
+<span class='doccomment'>//!     Fixed(221).on(Fixed(124)).paint(&quot;Mustard in the ketchup&quot;);</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! Style::default().paint(&quot;No colours here.&quot;)</span>
-<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! The first sixteen of these values are the same as the normal and bold</span>
+<span class='doccomment'>//! standard colour variants. There’s nothing stopping you from using these as</span>
+<span class='doccomment'>//! `Fixed` colours instead, but there’s nothing to be gained by doing so</span>
+<span class='doccomment'>//! either.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ## Combining successive coloured strings</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! The benefit of writing ANSI escape codes to the terminal is that they</span>
+<span class='doccomment'>//! *stack*: you do not need to end every coloured string with a reset code if</span>
+<span class='doccomment'>//! the text that follows it is of a similar style. For example, if you want to</span>
+<span class='doccomment'>//! have some blue text followed by some blue bold text, it’s possible to send</span>
+<span class='doccomment'>//! the ANSI code for blue, followed by the ANSI code for bold, and finishing</span>
+<span class='doccomment'>//! with a reset code without having to have an extra one between the two</span>
+<span class='doccomment'>//! strings.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! This crate can optimise the ANSI codes that get printed in situations like</span>
+<span class='doccomment'>//! this, making life easier for your terminal renderer. The `ANSIStrings`</span>
+<span class='doccomment'>//! struct takes a slice of several `ANSIString` values, and will iterate over</span>
+<span class='doccomment'>//! each of them, printing only the codes for the styles that need to be updated</span>
+<span class='doccomment'>//! as part of its formatting routine.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! The following code snippet uses this to enclose a binary number displayed in</span>
+<span class='doccomment'>//! red bold text inside some red, but not bold, brackets:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//!     use ansi_term::Colour::Red;</span>
+<span class='doccomment'>//!     use ansi_term::{ANSIString, ANSIStrings};</span>
+<span class='doccomment'>//!     let some_value = format!(&quot;{:b}&quot;, 42);</span>
+<span class='doccomment'>//!     let strings: &amp;[ANSIString&lt;&#39;static&gt;] = &amp;[</span>
+<span class='doccomment'>//!         Red.paint(&quot;[&quot;),</span>
+<span class='doccomment'>//!         Red.bold().paint(some_value),</span>
+<span class='doccomment'>//!         Red.paint(&quot;]&quot;),</span>
+<span class='doccomment'>//!     ];</span>
+<span class='doccomment'>//!     println!(&quot;Value: {}&quot;, ANSIStrings(strings));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! There are several things to note here. Firstly, the `paint` method can take</span>
+<span class='doccomment'>//! *either* an owned `String` or a borrowed `&amp;str`. Internally, an `ANSIString`</span>
+<span class='doccomment'>//! holds a copy-on-write (`Cow`) string value to deal with both owned and</span>
+<span class='doccomment'>//! borrowed strings at the same time. This is used here to display a `String`,</span>
+<span class='doccomment'>//! the result of the `format!` call, using the same mechanism as some</span>
+<span class='doccomment'>//! statically-available `&amp;str` slices. Secondly, that the `ANSIStrings` value</span>
+<span class='doccomment'>//! works in the same way as its singular counterpart, with a `Display`</span>
+<span class='doccomment'>//! implementation that only performs the formatting when required.</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>default</span>::<span class='ident'>Default</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 
 <span class='kw'>use</span> <span class='ident'>Colour</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>Difference</span>::<span class='op'>*</span>;
@@ -862,17 +948,10 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Although not technically a string itself, it can be turned into</span>
 <span class='doccomment'>/// one with the `to_string` method.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Copy</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='ident'>string</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
+    <span class='ident'>string</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;</span>,
     <span class='ident'>style</span>: <span class='ident'>Style</span>,
-}
-
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Creates a new ANSI String with the given contents and style.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>contents</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>, <span class='ident'>style</span>: <span class='ident'>Style</span>) <span class='op'>-&gt;</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-        <span class='ident'>ANSIString</span> { <span class='ident'>string</span>: <span class='ident'>contents</span>, <span class='ident'>style</span>: <span class='ident'>style</span> }
-    }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
@@ -880,6 +959,16 @@
         <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>style</span>.<span class='ident'>write_prefix</span>(<span class='ident'>f</span>));
         <span class='macro'>try</span><span class='macro'>!</span>(<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='self'>self</span>.<span class='ident'>string</span>));
         <span class='self'>self</span>.<span class='ident'>style</span>.<span class='ident'>write_suffix</span>(<span class='ident'>f</span>)
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>
+<span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>input</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+        <span class='ident'>ANSIString</span> {
+            <span class='ident'>string</span>: <span class='ident'>input</span>.<span class='ident'>into</span>(),
+            <span class='ident'>style</span>:  <span class='ident'>Style</span>::<span class='ident'>default</span>(),
+        }
     }
 }
 
@@ -900,31 +989,31 @@
 <span class='comment'>// Only *after* they&#39;d installed it.</span>
 
 <span class='kw'>impl</span> <span class='ident'>Colour</span> {
-    <span class='kw'>fn</span> <span class='ident'>foreground_code</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+    <span class='kw'>fn</span> <span class='ident'>write_foreground_code</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Black</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;30&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Red</span>    <span class='op'>=&gt;</span> <span class='string'>&quot;31&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Green</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;32&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Yellow</span> <span class='op'>=&gt;</span> <span class='string'>&quot;33&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Blue</span>   <span class='op'>=&gt;</span> <span class='string'>&quot;34&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Purple</span> <span class='op'>=&gt;</span> <span class='string'>&quot;35&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Cyan</span>   <span class='op'>=&gt;</span> <span class='string'>&quot;36&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>White</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;37&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Fixed</span>(<span class='ident'>num</span>) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;38;5;{}&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>num</span>),
+            <span class='ident'>Black</span>      <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;30&quot;</span>),
+            <span class='ident'>Red</span>        <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;31&quot;</span>),
+            <span class='ident'>Green</span>      <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;32&quot;</span>),
+            <span class='ident'>Yellow</span>     <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;33&quot;</span>),
+            <span class='ident'>Blue</span>       <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;34&quot;</span>),
+            <span class='ident'>Purple</span>     <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;35&quot;</span>),
+            <span class='ident'>Cyan</span>       <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;36&quot;</span>),
+            <span class='ident'>White</span>      <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;37&quot;</span>),
+            <span class='ident'>Fixed</span>(<span class='ident'>num</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;38;5;{}&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>num</span>),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>background_code</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+    <span class='kw'>fn</span> <span class='ident'>write_background_code</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
-            <span class='ident'>Black</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;40&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Red</span>    <span class='op'>=&gt;</span> <span class='string'>&quot;41&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Green</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;42&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Yellow</span> <span class='op'>=&gt;</span> <span class='string'>&quot;43&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Blue</span>   <span class='op'>=&gt;</span> <span class='string'>&quot;44&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Purple</span> <span class='op'>=&gt;</span> <span class='string'>&quot;45&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Cyan</span>   <span class='op'>=&gt;</span> <span class='string'>&quot;46&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>White</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;47&quot;</span>.<span class='ident'>to_string</span>(),
-            <span class='ident'>Fixed</span>(<span class='ident'>num</span>) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;48;5;{}&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>num</span>),
+            <span class='ident'>Black</span>      <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;40&quot;</span>),
+            <span class='ident'>Red</span>        <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;41&quot;</span>),
+            <span class='ident'>Green</span>      <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;42&quot;</span>),
+            <span class='ident'>Yellow</span>     <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;43&quot;</span>),
+            <span class='ident'>Blue</span>       <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;44&quot;</span>),
+            <span class='ident'>Purple</span>     <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;45&quot;</span>),
+            <span class='ident'>Cyan</span>       <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;46&quot;</span>),
+            <span class='ident'>White</span>      <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;47&quot;</span>),
+            <span class='ident'>Fixed</span>(<span class='ident'>num</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;48;5;{}&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>num</span>),
         }
     }
 
@@ -936,8 +1025,12 @@
     <span class='doccomment'>/// Paints the given text with this colour, returning an ANSI string.</span>
     <span class='doccomment'>/// This is a short-cut so you don&#39;t have to use Blue.normal() just</span>
     <span class='doccomment'>/// to get blue text.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>paint</span>(<span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>ANSIString</span> {
-        <span class='ident'>ANSIString</span>::<span class='ident'>new</span>(<span class='ident'>input</span>, <span class='self'>self</span>.<span class='ident'>normal</span>())
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>paint</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>input</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>
+    <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;&gt;</span> {
+        <span class='ident'>ANSIString</span> {
+            <span class='ident'>string</span>: <span class='ident'>input</span>.<span class='ident'>into</span>(),
+            <span class='ident'>style</span>:  <span class='self'>self</span>.<span class='ident'>normal</span>(),
+        }
     }
 
     <span class='doccomment'>/// Returns a Style with the bold property set.</span>
@@ -1003,8 +1096,12 @@
     }
 
     <span class='doccomment'>/// Paints the given text with this colour, returning an ANSI string.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>paint</span>(<span class='self'>self</span>, <span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>ANSIString</span> {
-        <span class='ident'>ANSIString</span>::<span class='ident'>new</span>(<span class='ident'>input</span>, <span class='self'>self</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>paint</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>input</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='ident'>ANSIString</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>
+    <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;&gt;</span> {
+        <span class='ident'>ANSIString</span> {
+            <span class='ident'>string</span>: <span class='ident'>input</span>.<span class='ident'>into</span>(),
+            <span class='ident'>style</span>:  <span class='self'>self</span>,
+        }
     }
 
     <span class='doccomment'>/// Returns a Style with the bold property set.</span>
@@ -1047,73 +1144,78 @@
         <span class='ident'>Style</span> { <span class='ident'>background</span>: <span class='prelude-val'>Some</span>(<span class='ident'>background</span>), .. <span class='op'>*</span><span class='self'>self</span> }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>prefix</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prefix</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+    <span class='kw'>fn</span> <span class='ident'>write_prefix</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
+        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
+
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_plain</span>() {
+            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+        }
+
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='macro'>try</span><span class='macro'>!</span>(<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;\x1B[&quot;</span>));
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_bold</span> {
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;1&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;1&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_dimmed</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>) }
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;2&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)) }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;2&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_italic</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>) }
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;3&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)) }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;3&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_underline</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>) }
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;4&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)) }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;4&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_blink</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>) }
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;5&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)) }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;5&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_reverse</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>) }
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;6&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)) }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;6&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_hidden</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>) }
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;7&#39;</span>);
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)) }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;7&#39;</span>));
         }
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>bg</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>background</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>); }
-            <span class='ident'>prefix</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>bg</span>.<span class='ident'>background_code</span>());
-            <span class='ident'>semicolon</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)); }
+            <span class='ident'>written_anything</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>bg</span>.<span class='ident'>write_background_code</span>(<span class='ident'>f</span>));
         }
 
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>fg</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>foreground</span> {
-            <span class='kw'>if</span> <span class='ident'>semicolon</span> { <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;;&#39;</span>); }
-            <span class='ident'>prefix</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>fg</span>.<span class='ident'>foreground_code</span>());
+            <span class='kw'>if</span> <span class='ident'>written_anything</span> { <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;;&#39;</span>)); }
+
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fg</span>.<span class='ident'>write_foreground_code</span>(<span class='ident'>f</span>));
         }
 
-        <span class='kw'>if</span> <span class='ident'>prefix</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='number'>0</span> {
-            <span class='ident'>prefix</span> <span class='op'>=</span> <span class='string'>&quot;\x1B[&quot;</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>prefix</span>;
-            <span class='ident'>prefix</span>.<span class='ident'>push</span>(<span class='string'>&#39;m&#39;</span>);
-            <span class='ident'>prefix</span>
-        } <span class='kw'>else</span> {
-            <span class='ident'>prefix</span>
-        }
-    }
-
-    <span class='kw'>fn</span> <span class='ident'>write_prefix</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='self'>self</span>.<span class='ident'>prefix</span>())
+        <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>f</span>.<span class='ident'>write_char</span>(<span class='string'>&#39;m&#39;</span>));
+        <span class='prelude-val'>Ok</span>(())
     }
 
     <span class='kw'>fn</span> <span class='ident'>write_suffix</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {

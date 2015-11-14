@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/clap-1.4.7/src/args/arg.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/clap-1.5.2/src/args/arg.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg.rs.html -- source</title>
@@ -1059,33 +1059,6 @@
 <span id="1017">1017</span>
 <span id="1018">1018</span>
 <span id="1019">1019</span>
-<span id="1020">1020</span>
-<span id="1021">1021</span>
-<span id="1022">1022</span>
-<span id="1023">1023</span>
-<span id="1024">1024</span>
-<span id="1025">1025</span>
-<span id="1026">1026</span>
-<span id="1027">1027</span>
-<span id="1028">1028</span>
-<span id="1029">1029</span>
-<span id="1030">1030</span>
-<span id="1031">1031</span>
-<span id="1032">1032</span>
-<span id="1033">1033</span>
-<span id="1034">1034</span>
-<span id="1035">1035</span>
-<span id="1036">1036</span>
-<span id="1037">1037</span>
-<span id="1038">1038</span>
-<span id="1039">1039</span>
-<span id="1040">1040</span>
-<span id="1041">1041</span>
-<span id="1042">1042</span>
-<span id="1043">1043</span>
-<span id="1044">1044</span>
-<span id="1045">1045</span>
-<span id="1046">1046</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>IntoIterator</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
@@ -1129,6 +1102,7 @@
 <span class='doccomment'>/// Arg::from_usage(&quot;-i --input=[input] &#39;Provides an input file to the program&#39;&quot;)</span>
 <span class='doccomment'>/// # ).get_matches();</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_debug_implementations</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Default</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;n</span>, <span class='lifetime'>&#39;l</span>, <span class='lifetime'>&#39;h</span>, <span class='lifetime'>&#39;g</span>, <span class='lifetime'>&#39;p</span>, <span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// The unique name of the argument</span>
     <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;n</span> <span class='ident'>str</span>,
@@ -1209,26 +1183,8 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_name</span>(<span class='ident'>n</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;n</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
         <span class='ident'>Arg</span> {
             <span class='ident'>name</span>: <span class='ident'>n</span>,
-            <span class='ident'>short</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>long</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>help</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>required</span>: <span class='boolval'>false</span>,
-            <span class='ident'>takes_value</span>: <span class='boolval'>false</span>,
-            <span class='ident'>multiple</span>: <span class='boolval'>false</span>,
-            <span class='ident'>index</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>possible_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>blacklist</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>requires</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>num_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>min_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>max_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>val_names</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>group</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>global</span>: <span class='boolval'>false</span>,
             <span class='ident'>empty_vals</span>: <span class='boolval'>true</span>,
-            <span class='ident'>validator</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>overrides</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>hidden</span>: <span class='boolval'>false</span>,
+            ..<span class='ident'>Default</span>::<span class='ident'>default</span>()
         }
     }
 
@@ -1459,10 +1415,7 @@
             <span class='ident'>required</span>: <span class='ident'>required</span>,
             <span class='ident'>takes_value</span>: <span class='ident'>takes_value</span>,
             <span class='ident'>multiple</span>: <span class='ident'>multiple</span>,
-            <span class='ident'>index</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>possible_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>blacklist</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>requires</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>empty_vals</span>: <span class='boolval'>true</span>,
             <span class='ident'>num_vals</span>: <span class='kw'>if</span> <span class='ident'>num_names</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
                 <span class='prelude-val'>Some</span>(<span class='ident'>num_names</span>)
             } <span class='kw'>else</span> {
@@ -1473,14 +1426,7 @@
             } <span class='kw'>else</span> {
                 <span class='prelude-val'>None</span>
             },
-            <span class='ident'>max_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>min_vals</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>group</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>global</span>: <span class='boolval'>false</span>,
-            <span class='ident'>empty_vals</span>: <span class='boolval'>true</span>,
-            <span class='ident'>validator</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>overrides</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>hidden</span>: <span class='boolval'>false</span>,
+            ..<span class='ident'>Default</span>::<span class='ident'>default</span>()
         }
     }
 

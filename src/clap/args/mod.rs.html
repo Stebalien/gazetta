@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/clap-1.4.7/src/args/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/clap-1.5.2/src/args/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -55,19 +55,27 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
 </pre><pre class='rust '>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>arg</span>::<span class='ident'>Arg</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>argmatches</span>::<span class='ident'>ArgMatches</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>arg_matches</span>::<span class='ident'>ArgMatches</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>arg_matcher</span>::<span class='ident'>ArgMatcher</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>subcommand</span>::<span class='ident'>SubCommand</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>argbuilder</span>::{<span class='ident'>FlagBuilder</span>, <span class='ident'>OptBuilder</span>, <span class='ident'>PosBuilder</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>matchedarg</span>::<span class='ident'>MatchedArg</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>arg_builder</span>::{<span class='ident'>FlagBuilder</span>, <span class='ident'>OptBuilder</span>, <span class='ident'>PosBuilder</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>matched_arg</span>::<span class='ident'>MatchedArg</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>group</span>::<span class='ident'>ArgGroup</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>any_arg</span>::<span class='ident'>AnyArg</span>;
 
 <span class='kw'>mod</span> <span class='ident'>arg</span>;
-<span class='kw'>mod</span> <span class='ident'>argmatches</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>any_arg</span>;
+<span class='kw'>mod</span> <span class='ident'>arg_matches</span>;
+<span class='kw'>mod</span> <span class='ident'>arg_matcher</span>;
 <span class='kw'>mod</span> <span class='ident'>subcommand</span>;
-<span class='kw'>mod</span> <span class='ident'>argbuilder</span>;
-<span class='kw'>mod</span> <span class='ident'>matchedarg</span>;
+<span class='kw'>mod</span> <span class='ident'>arg_builder</span>;
+<span class='kw'>mod</span> <span class='ident'>matched_arg</span>;
 <span class='kw'>mod</span> <span class='ident'>group</span>;
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>settings</span>;

@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-36' class='srclink' href='../src/ansi_term/lib.rs.html#140-142' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-35' class='srclink' href='../src/ansi_term/lib.rs.html#178-180' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum Colour {
     Black,
     Red,
@@ -64,7 +64,7 @@ See <a href="http://invisible-island.net/xterm/ctlseqs/ctlseqs.html">http://invi
 </div><h2 class='variants'>Variants</h2>
 <table><tr><td id='variant.Black'><code>Black</code></td><td></td></tr><tr><td id='variant.Red'><code>Red</code></td><td></td></tr><tr><td id='variant.Green'><code>Green</code></td><td></td></tr><tr><td id='variant.Yellow'><code>Yellow</code></td><td></td></tr><tr><td id='variant.Blue'><code>Blue</code></td><td></td></tr><tr><td id='variant.Purple'><code>Purple</code></td><td></td></tr><tr><td id='variant.Cyan'><code>Cyan</code></td><td></td></tr><tr><td id='variant.White'><code>White</code></td><td></td></tr><tr><td id='variant.Fixed'><code>Fixed</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='enum' href='../ansi_term/enum.Colour.html' title='ansi_term::Colour'>Colour</a></code></h3><div class='impl-items'><h4 id='method.normal' class='method'><code>fn <a href='#method.normal' class='fnname'>normal</a>(self) -&gt; <a class='struct' href='../ansi_term/struct.Style.html' title='ansi_term::Style'>Style</a></code></h4>
 <div class='docblock'><p>Return a Style with the foreground colour set to this colour.</p>
-</div><h4 id='method.paint' class='method'><code>fn <a href='#method.paint' class='fnname'>paint</a>(self, input: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../ansi_term/struct.ANSIString.html' title='ansi_term::ANSIString'>ANSIString</a></code></h4>
+</div><h4 id='method.paint' class='method'><code>fn <a href='#method.paint' class='fnname'>paint</a>&lt;'a, S&gt;(self, input: S) -&gt; <a class='struct' href='../ansi_term/struct.ANSIString.html' title='ansi_term::ANSIString'>ANSIString</a>&lt;'a&gt; <span class='where'>where S: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html' title='core::convert::Into'>Into</a>&lt;<a class='enum' href='https://doc.rust-lang.org/nightly/collections/borrow/enum.Cow.html' title='collections::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;&gt;</span></code></h4>
 <div class='docblock'><p>Paints the given text with this colour, returning an ANSI string.
 This is a short-cut so you don&#39;t have to use Blue.normal() just
 to get blue text.</p>

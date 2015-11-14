@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["AppSettings","Application level settings, which affect how `App` operates"],["ClapErrorType","Command line argument parser error types"]],"struct":[["App","Used to create a representation of a command line program and all possible command line arguments."],["ClapError","Command line argument parser error"]]});
+initSidebarItems({"enum":[["AppSettings","Application level settings, which affect how `App` operates"]],"struct":[["App","Used to create a representation of a command line program and all possible command line arguments."]]});

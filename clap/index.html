@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#1-656' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#1-685' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Command Line Argument Parser for Rust</p>
 
 <p>It is a simple to use, efficient, and full featured library for parsing
@@ -84,30 +84,42 @@ validity of the arguments.</p>
 <a href="https://github.com/kbknapp/clap-rs/wiki/FAQ">the wiki page</a></p>
 
 <h3 id='comparisons' class='section-header'><a href='#comparisons'>Comparisons</a></h3>
-<p>First, let me say that these comparisons are highly subjective, and not meant
+<p>First, let me say that these comparisons are highly subjective, and not
+meant
 in a critical or harsh manner. All the argument parsing libraries out there
-(to include <code>clap</code>) have their own strengths and weaknesses. Sometimes it just
-comes down to personal taste when all other factors are equal. When in doubt,
-try them all and pick one that you enjoy :) There&#39;s plenty of room in the Rust
+(to include <code>clap</code>) have their own strengths and weaknesses. Sometimes it
+just
+comes down to personal taste when all other factors are equal. When in
+doubt,
+try them all and pick one that you enjoy :) There&#39;s plenty of room in the
+Rust
 community for multiple implementations!</p>
 
 <h4 id='how-does-clap-compare-to-getopts' class='section-header'><a href='#how-does-clap-compare-to-getopts'>How does <code>clap</code> compare to <code>getopts</code>?</a></h4>
-<p><a href="https://github.com/rust-lang-nursery/getopts">getopts</a> is a very basic, fairly
+<p><a href="https://github.com/rust-lang-nursery/getopts">getopts</a> is a very basic,
+fairly
 minimalist argument parsing library. This isn&#39;t a bad thing, sometimes you
-don&#39;t need tons of features, you just want to parse some simple arguments, and
+don&#39;t need tons of features, you just want to parse some simple arguments,
+and
 have some help text generated for you based on valid arguments you specify.
 When using <code>getopts</code> you must manually implement most of the common features
-(such as checking to display help messages, usage strings, etc.). If you want a
-highly custom argument parser, and don&#39;t mind writing most the argument parser
+(such as checking to display help messages, usage strings, etc.). If you
+want a
+highly custom argument parser, and don&#39;t mind writing most the argument
+parser
 yourself, <code>getopts</code> is an excellent base.</p>
 
-<p>Due to it&#39;s lack of features, <code>getopts</code> also doesn&#39;t allocate much, or at all.
+<p>Due to it&#39;s lack of features, <code>getopts</code> also doesn&#39;t allocate much, or at
+all.
 This gives it somewhat of a performance boost. Although, as you start
-implementing those features you need manually, that boost quickly disappears.</p>
+implementing those features you need manually, that boost quickly
+disappears.</p>
 
 <p>Personally, I find many, many people that use <code>getopts</code> are manually
-implementing features that <code>clap</code> has by default. Using <code>clap</code> simplifies your
-codebase allowing you to focus on your application, and not argument parsing.</p>
+implementing features that <code>clap</code> has by default. Using <code>clap</code> simplifies
+your
+codebase allowing you to focus on your application, and not argument
+parsing.</p>
 
 <p>Reasons to use <code>getopts</code> instead of <code>clap</code></p>
 
@@ -121,28 +133,39 @@ parser as a base</li>
 <h4 id='how-does-clap-compare-to-docoptrs' class='section-header'><a href='#how-does-clap-compare-to-docoptrs'>How does <code>clap</code> compare to <code>docopt.rs</code>?</a></h4>
 <p>I first want to say I&#39;m a big a fan of BurntSushi&#39;s work, the creator of
 <a href="https://github.com/docopt/docopt.rs">Docopt.rs</a>. I aspire to produce the
-quality of libraries that this man does! When it comes to comparing these two
+quality of libraries that this man does! When it comes to comparing these
+two
 libraries they are very different. <code>docopt</code> tasks you with writing a help
 message, and then it parsers that message for you to determine all valid
-arguments and their use. Some people LOVE this, others not so much. If you&#39;re
-willing to write a detailed help message, it&#39;s nice that you can stick that in
-your program and have <code>docopt</code> do the rest. On the downside, it&#39;s somewhat less
-flexible than other options out there, and requires the help message change if
+arguments and their use. Some people LOVE this, others not so much. If
+you&#39;re
+willing to write a detailed help message, it&#39;s nice that you can stick that
+in
+your program and have <code>docopt</code> do the rest. On the downside, it&#39;s somewhat
+less
+flexible than other options out there, and requires the help message change
+if
 you need to make changes.</p>
 
 <p><code>docopt</code> is also excellent at translating arguments into Rust types
-automatically. There is even a syntax extension which will do all this for you,
-ifou to manually translate from arguments to Rust types). To use BurntSushi&#39;s
-words, <code>docopt</code> is also somewhat of a black box. You get what you get, and it&#39;s
+automatically. There is even a syntax extension which will do all this for
+you,
+ifou to manually translate from arguments to Rust types). To use
+BurntSushi&#39;s
+words, <code>docopt</code> is also somewhat of a black box. You get what you get, and
+it&#39;s
 hard to tweak implementation or customise your experience for your use case.</p>
 
 <p>Because <code>docopt</code> is doing a ton of work to parse your help messages and
-determine what you were trying to communicate as valid arguments, it&#39;s also one
-of the more heavy weight parsers performance-wise. For most applications this
+determine what you were trying to communicate as valid arguments, it&#39;s also
+one
+of the more heavy weight parsers performance-wise. For most applications
+this
 isn&#39;t a concern, but it&#39;s something to keep in mind.</p>
 
 <p>Reasons to use <code>docopt</code> instead of <code>clap</code>
- * You want automatic translation from arguments to Rust types, and are using a
+* You want automatic translation from arguments to Rust types, and are
+using a
    nightly compiler
  * Performance isn&#39;t a concern
  * You don&#39;t have any complex relationships between arguments</p>
@@ -150,7 +173,8 @@ isn&#39;t a concern, but it&#39;s something to keep in mind.</p>
 <h4 id='all-else-being-equal-what-are-some-reasons-to-use-clap' class='section-header'><a href='#all-else-being-equal-what-are-some-reasons-to-use-clap'>All else being equal, what are some reasons to use <code>clap</code>?</a></h4>
 <p><code>clap</code> is fast, and as lightweight as possible while still giving all the
 features you&#39;d expect from a modern argument parser. If you use <code>clap</code> when
-just need some simple arguments parsed, you&#39;ll find it a walk in the park. But
+just need some simple arguments parsed, you&#39;ll find it a walk in the park.
+But
 <code>clap</code> also makes it possible to represent extremely complex, and advanced
 requirements, without too much thought. <code>clap</code> aims to be intuitive, easy to
 use, and fully capable for wide variety use cases and needs.</p>
