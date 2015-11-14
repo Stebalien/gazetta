@@ -8,6 +8,7 @@ A static site generator framework.
 If you want to use or extend gazetta, see the gazetta-bin crate.
 """
 documentation = "https://stebalien.github.io/gazetta/gazetta/"
+homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
 keywords = ["staticsite", "website", "blog"]
 license = "GPL-3.0"
