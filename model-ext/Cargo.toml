@@ -11,6 +11,7 @@ license = "GPL-3.0"
 
 [dependencies.gazetta-core]
 path = "../core"
+version = "0.1"
 
 [dependencies]
 lazy_static = "0.1"

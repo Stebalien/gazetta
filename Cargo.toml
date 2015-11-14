@@ -15,12 +15,16 @@ license = "GPL-3.0"
 
 [dependencies.gazetta-core]
 path = "core"
+version = "0.1"
 
 [dependencies.gazetta-render-ext]
 path = "render-ext"
+version = "0.1"
 
 [dependencies.gazetta-model-ext]
 path = "model-ext"
+version = "0.1"
 
 [dependencies.gazetta-cli]
 path = "cli"
+version = "0.1"
