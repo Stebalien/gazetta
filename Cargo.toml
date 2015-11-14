@@ -2,6 +2,11 @@
 name = "gazetta"
 version = "0.1.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
+description = "A static site generator framework."
+documentation = "https://stebalien.github.io/gazetta/gazetta/"
+repository = "https://github.com/Stebalien/gazetta"
+keywords = ["staticsite", "website", "blog"]
+license = "GPL-3.0"
 
 [dependencies.gazetta-core]
 path = "core"

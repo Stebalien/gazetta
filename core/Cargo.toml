@@ -2,6 +2,11 @@
 name = "gazetta-core"
 version = "0.1.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
+description = "A static site generator framework. Core."
+documentation = "https://stebalien.github.io/gazetta/gazetta_core/"
+repository = "https://github.com/Stebalien/gazetta"
+keywords = ["staticsite", "website", "blog"]
+license = "GPL-3.0"
 
 [dependencies]
 chrono = "0.2"
@@ -10,7 +15,4 @@ yaml-rust = "0.2"
 lazy_static = "0.1"
 horrorshow = "0.5"
 url = "0.2"
-
-[dependencies.str_stack]
-git = "https://github.com/Stebalien/str_stack.git"
-
+str_stack = "0.1"
