@@ -4,12 +4,12 @@ version = "0.1.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 
 [dependencies]
-chrono = "*"
-glob = "*"
-yaml-rust = "*"
-lazy_static = "*"
-horrorshow = "*"
-url = "*"
+chrono = "0.2"
+glob = "0.2"
+yaml-rust = "0.2"
+lazy_static = "0.1"
+horrorshow = "0.5"
+url = "0.2"
 
 [dependencies.str_stack]
 git = "https://github.com/Stebalien/str_stack.git"
