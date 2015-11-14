@@ -14,6 +14,9 @@
  *  not, see <http://www.gnu.org/licenses/>.
  */
 
+//! This is the API documentation for gazetta. If you just want to use gazetta, see the
+//! [homepage](http://stebalien.com/projects/gazetta).
+
 extern crate gazetta_core;
 extern crate gazetta_cli;
 extern crate gazetta_render_ext;
