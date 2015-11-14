@@ -22,17 +22,6 @@
 //! [gazetta][] documentation. [gazetta][] contains some extra abstractions for generating static
 //! websites but aren't absolutely essential (so they aren't built-in to gazetta-core).
 //!
-//!
-//! # Design
-//!
-//! Gazetta's data flow is as follows:
-//!
-//! ```text
-//! Input → Models (Entries) → Views (Pages) → Output
-//! ```
-//!
-//! TODO: Actually fill this in.
-//!
 //! [gazetta-bin]: https://github.com/Stebalien/gazetta-bin
 //! [project]: http://stebalien.com/projects/gazetta
 //! [gazetta]: http://github.com/Stebalien/gazetta
