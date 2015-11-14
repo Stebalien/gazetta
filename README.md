@@ -42,7 +42,7 @@ Input Files → Models → Views → Output HTML
 
 #### Config
 
-file: `config.yaml`
+`config.yaml`
 
 This is the website's core config. It can be used to specify shared variables
 available when rendering any page on the site. It must specify:
@@ -51,42 +51,28 @@ available when rendering any page on the site. It must specify:
 * base: the website's base url.
 
 If you're using the default renderer ([gazetta-bin][bin]), you must also specify
-an `author` in the format:
-
-```text
-author:
-  (mandatory) name: My Name
-  (opt) email: email
-  (opt) photo: photo
-  (opt) key: pgp_key_url
-  (opt) nicknames: author nicknames
-  (opt) also: 
-     - "GitHub": github url (example)
-     - "reddit": reddit profile url (example)
-```
+an `author` (see the Person section) format:
 
 And may specify a set of navigational links:
 
 ```text
 nav:
-  - Blog: blog
-  - Projects: projects
-  - Github: http://github.com/Bitdiddle
+# If relative, href is relative to the site base.
+  - title: href
 ```
 
 #### Assets
 
-files:
-
 ```text
-assets/
-├── javascript/
-│   ├── 0-example1.js
-│   └── 1-example2.js
-├── stylesheets/
-│   ├── 0-example1.css
-│   └── 1-example2.css
-└── icon.png
+/
+└── assets/
+    ├── javascript/
+    │   ├── 0-example1.js
+    │   └── 1-example2.js
+    ├── stylesheets/
+    │   ├── 0-example1.css
+    │   └── 1-example2.css
+    └── icon.png
 ```
 
 All files are optional.
@@ -114,23 +100,57 @@ also include:
 * date: A date in the format `YYYY-MM-DD`.
 * index: This indicates that the current page is an index. If specified, all
   children will be appended to the page as sub pages. See indexing for more
-  info.
+  information.
 * cc: Link this page into the specified index page as if it were a child. This
   is useful for making pages show up in multiple tags/categories.
 
 If you're using the default renderer, the header may also include:
 
-* author: Author information in the same format as the site author.
-* about: A person description (in the same format as the site author). This
-  description will be rendered at the top of the page. This is useful for
-  profile pages. TODO: I'd like to generalize this. It feels a bit hacky.
+* author: The page author.
+* about: This field indicates that this page is about someone. The provided
+  person information will be rendered at the top of the page.
 
 Directories and files inside the static directory will be copied as-is to the
 output directory. This is a good place to put per-page static media. 
 
 #### Indexing
 
-*TODO*
+The index field can either be a boolean or a table with the following optional
+fields:
+
+```yaml
+# The sort direction and field: [+-](date|title)
+sort: date
+
+# How many entries to list per page or false to not paginate.
+paginate: false
+
+# The directories to include in the index (in addition to explicitly CCed
+# entries).
+directories: .
+
+# The maximum number of entries to include in the index or false to include all
+# entries.
+max: false
+```
+
+#### Person
+
+When specifying people, you can either just write their name or use the
+following table:
+
+```yaml
+name: My Name # Mandatory
+email: email
+photo: photo
+key: pgp_key_url
+nicknames:
+  - first nick
+  - second nick
+also: # A list of profiles around the web.
+ - "GitHub": github_url # example
+ - "reddit": reddit_profile_url  # example
+```
 
 ## Code quality
 
@@ -144,7 +164,8 @@ progress. However, there is room for improvement:
 
 1. Gazetta makes a lot of system calls (file IO). We could probably reduce this
    significantly. On my machine, more then half the runtime is system time.
-2. yaml-rust is slow (according to callgrind).
+2. yaml-rust is slow (according to callgrind). I've considered toml but
+   switching would be a pain.
 3. The index building algorithm is `Θ(num_indices*num_entries)`. This could be
    reduced to `Θ(num_entries)` however, `num_indices` is usually rather low so
    this only makes sense if we can keep the constant multiplier in the new
