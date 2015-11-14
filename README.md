@@ -4,19 +4,19 @@ Gazetta is a static site generator written in rust. There are four parts:
 2. The [framework][framework]. This set of libraries contains the bulk of the
    logic and is responsible for generating models and views from your site's
    data files.
-3. The [renderer][bin]. This is where the logic to actually render static site
-   views into html lives. If you need fine control over your website's html, you
-   should fork this repo. However, 99% of the time, you should be able to
-   sufficiently customize your site without modifying this project.
+3. The [renderer][bin]. This is where the logic to actually render the html
+   lives. If you need fine control over your website's html, you should fork
+   this repo. However, 99% of the time, you should be able to sufficiently
+   customize your site without modifying this project.
 4. Your website data. This includes both your website's content and assets
-   (stylesheets/javascript). You can find mine [here][data] and a relatively
-   clean repository [here][bootstrap].
+   (stylesheets/javascript). You can find mine [here][data] and a simple example
+   site for bootstrapping [here][bootstrap].
 
 ## Platforms
 
 I've only tested Gazetta on 64bit Linux but it should work on all *nix
-platforms. However, it probably won't on windows (I assume forward slashes in
-paths). Patches welcome!
+platforms. However, it probably won't work on windows (I assume forward slashes
+in paths). Patches welcome!
 
 ## Quick Start
 
@@ -24,25 +24,21 @@ paths). Patches welcome!
    release mode unless you want to pay a 15x-30x performance penalty.
 2. Fork and clone [gazetta-bootstrap][bootstrap].
 3. Edit the config, homepage, and theme to your liking.
-4. Create some new pages either manually or using the gazetta binary. For
+4. Create some new pages either manually or by using the gazetta binary. For
    example: `gazetta new blog "Hello World"` will create a hello world blog
    post.
 5. Run `gazetta render /path/to/output` (in the root of the repository) to
    render your website.
 
-## Directory Layout and File Format
+## Data Directory Layout and File Format
 
-The general data flow is:
+That's *your* website data.
+
+### Config
 
 ```text
-Input Files → Models → Views → Output HTML
+config.yaml
 ```
-
-### Input Files
-
-#### Config
-
-`config.yaml`
 
 This is the website's core config. It can be used to specify shared variables
 available when rendering any page on the site. It must specify:
@@ -55,13 +51,13 @@ an `author` (see the Person section) format:
 
 And may specify a set of navigational links:
 
-```text
+```yaml
 nav:
 # If relative, href is relative to the site base.
   - title: href
 ```
 
-#### Assets
+### Assets
 
 ```text
 /
@@ -85,7 +81,7 @@ All files are optional.
 
 All other files in `assets` will be ignored.
 
-#### Entries
+### Entries
 
 An entry consists of:
 
@@ -113,7 +109,7 @@ If you're using the default renderer, the header may also include:
 Directories and files inside the static directory will be copied as-is to the
 output directory. This is a good place to put per-page static media. 
 
-#### Indexing
+### Indexing
 
 The index field can either be a boolean or a table with the following optional
 fields:
@@ -134,7 +130,7 @@ directories: .
 max: false
 ```
 
-#### Person
+### Person
 
 When specifying people, you can either just write their name or use the
 following table:
