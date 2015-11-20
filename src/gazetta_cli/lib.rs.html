@@ -183,6 +183,21 @@
 <span id="141">141</span>
 <span id="142">142</span>
 <span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -219,26 +234,42 @@
 
 <span class='kw'>use</span> <span class='ident'>chrono</span>::<span class='ident'>offset</span>::<span class='ident'>local</span>::<span class='ident'>Local</span> <span class='kw'>as</span> <span class='ident'>Date</span>;
 
-<span class='doccomment'>/// Run the CLI.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>run</span><span class='op'>&lt;</span><span class='ident'>G</span>: <span class='ident'>Gazetta</span><span class='op'>&gt;</span>(<span class='ident'>gazetta</span>: <span class='ident'>G</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
-    <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>try_exit</span> {
-        (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>e</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
-            <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>e</span> {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
-                <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>bail</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>e</span>),
-            }
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>try_exit</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>e</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
+        <span class='kw'>match</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>e</span> {
+            <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='ident'>v</span>,
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>bail</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>e</span>),
         }
     }
+}
 
-    <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>bail</span> {
-        ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>toks</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> {{
-            <span class='kw'>let</span> <span class='ident'>stderr</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='ident'>stderr</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stderr</span> <span class='op'>=</span> <span class='ident'>stderr</span>.<span class='ident'>lock</span>();
-            <span class='kw'>let</span> _ <span class='op'>=</span> <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>stderr</span>, $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>toks</span>)<span class='op'>*</span>);
-            <span class='ident'>process</span>::<span class='ident'>exit</span>(<span class='number'>1</span>)
-        }}
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>bail</span> {
+    ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>toks</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> {{
+        <span class='kw'>let</span> <span class='ident'>stderr</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='ident'>stderr</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stderr</span> <span class='op'>=</span> <span class='ident'>stderr</span>.<span class='ident'>lock</span>();
+        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>stderr</span>, $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>toks</span>)<span class='op'>*</span>);
+        <span class='ident'>process</span>::<span class='ident'>exit</span>(<span class='number'>1</span>)
+    }}
+}
+
+<span class='comment'>// Internal trait to use dynamic dispatch instead of monomorphizing run.</span>
+<span class='kw'>trait</span> <span class='ident'>RenderPaths</span> {
+    <span class='kw'>fn</span> <span class='ident'>render_paths</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>source_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>, <span class='ident'>dest_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>);
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>G</span>: <span class='ident'>Gazetta</span><span class='op'>&gt;</span> <span class='ident'>RenderPaths</span> <span class='kw'>for</span> <span class='ident'>G</span> {
+    <span class='kw'>fn</span> <span class='ident'>render_paths</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>source_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>, <span class='ident'>dest_path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) {
+        <span class='kw'>let</span> <span class='ident'>source</span> <span class='op'>=</span> <span class='macro'>try_exit</span><span class='macro'>!</span>(<span class='ident'>Source</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>source_path</span>));
+        <span class='macro'>try_exit</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='ident'>source</span>, <span class='kw-2'>&amp;</span><span class='ident'>dest_path</span>));
     }
+}
 
+<span class='doccomment'>/// Run the CLI.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>run</span><span class='op'>&lt;</span><span class='ident'>G</span>: <span class='ident'>Gazetta</span><span class='op'>&gt;</span>(<span class='ident'>gazetta</span>: <span class='ident'>G</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
+    <span class='ident'>_run</span>(<span class='kw-2'>&amp;</span><span class='ident'>gazetta</span>)
+}
+
+<span class='kw'>fn</span> <span class='ident'>_run</span>(<span class='ident'>render_paths</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderPaths</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
     <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>env</span>::<span class='ident'>args</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
     <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>)
         .<span class='ident'>version</span>(<span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION&quot;</span>))
@@ -286,8 +317,7 @@
                     <span class='macro'>bail</span><span class='macro'>!</span>(<span class='string'>&quot;Target &#39;{}&#39; exists.&quot;</span>, <span class='ident'>dest_path</span>.<span class='ident'>display</span>());
                 }
             }
-            <span class='kw'>let</span> <span class='ident'>source</span> <span class='op'>=</span> <span class='macro'>try_exit</span><span class='macro'>!</span>(<span class='ident'>Source</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>source_path</span>));
-            <span class='macro'>try_exit</span><span class='macro'>!</span>(<span class='ident'>gazetta</span>.<span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='ident'>source</span>, <span class='kw-2'>&amp;</span><span class='ident'>dest_path</span>));
+            <span class='ident'>render_paths</span>.<span class='ident'>render_paths</span>(<span class='kw-2'>&amp;</span><span class='ident'>source_path</span>, <span class='kw-2'>&amp;</span><span class='ident'>dest_path</span>);
         }
         (<span class='string'>&quot;new&quot;</span>, <span class='prelude-val'>Some</span>(<span class='ident'>matches</span>)) <span class='op'>=&gt;</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>path</span>: <span class='ident'>PathBuf</span> <span class='op'>=</span> <span class='ident'>matches</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;WHERE&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
