@@ -39,8 +39,12 @@ lazy_static! {
 }
 
 pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
+    _load_front(path.as_ref())
+}
+
+fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
     let mut buf = String::with_capacity(100);
-    let mut file = BufReader::new(try!(File::open(path.as_ref())));
+    let mut file = BufReader::new(try!(File::open(path)));
     try!(file.read_line(&mut buf)) as u64;
     if buf.trim_right() == "---" {
         // Parse yaml header.
@@ -80,7 +84,10 @@ pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(BTreeMap<Yaml, Yaml>, Stri
 }
 
 pub fn load<P: AsRef<Path>>(path: P) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {
-    let mut file = try!(File::open(path.as_ref()));
+    _load(path.as_ref())
+}
+fn _load(path: &Path) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {
+    let mut file = try!(File::open(path));
     let mut buf = String::with_capacity(file.metadata().ok().map_or(100, |m| {
         let len = m.len();
         if len > usize::MAX as u64 {

@@ -33,26 +33,42 @@ use slug::slugify;
 
 use chrono::offset::local::Local as Date;
 
-/// Run the CLI.
-pub fn run<G: Gazetta>(gazetta: G) -> ! {
-    macro_rules! try_exit {
-        ($e:expr) => {
-            match $e {
-                Ok(v) => v,
-                Err(e) => bail!("{}", e),
-            }
+macro_rules! try_exit {
+    ($e:expr) => {
+        match $e {
+            Ok(v) => v,
+            Err(e) => bail!("{}", e),
         }
     }
+}
 
-    macro_rules! bail {
-        ($($toks:tt)*) => {{
-            let stderr = io::stderr();
-            let mut stderr = stderr.lock();
-            let _ = writeln!(stderr, $($toks)*);
-            process::exit(1)
-        }}
+macro_rules! bail {
+    ($($toks:tt)*) => {{
+        let stderr = io::stderr();
+        let mut stderr = stderr.lock();
+        let _ = writeln!(stderr, $($toks)*);
+        process::exit(1)
+    }}
+}
+
+// Internal trait to use dynamic dispatch instead of monomorphizing run.
+trait RenderPaths {
+    fn render_paths(&self, source_path: &Path, dest_path: &Path);
+}
+
+impl<G: Gazetta> RenderPaths for G {
+    fn render_paths(&self, source_path: &Path, dest_path: &Path) {
+        let source = try_exit!(Source::new(&source_path));
+        try_exit!(self.render(&source, &dest_path));
     }
+}
 
+/// Run the CLI.
+pub fn run<G: Gazetta>(gazetta: G) -> ! {
+    _run(&gazetta)
+}
+
+fn _run(render_paths: &RenderPaths) -> ! {
     let name = &env::args().next().unwrap();
     let matches = App::new(&name)
         .version(env!("CARGO_PKG_VERSION"))
@@ -100,8 +116,7 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
                     bail!("Target '{}' exists.", dest_path.display());
                 }
             }
-            let source = try_exit!(Source::new(&source_path));
-            try_exit!(gazetta.render(&source, &dest_path));
+            render_paths.render_paths(&source_path, &dest_path);
         }
         ("new", Some(matches)) => {
             let mut path: PathBuf = matches.value_of("WHERE").unwrap().into();

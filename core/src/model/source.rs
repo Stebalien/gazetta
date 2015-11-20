@@ -132,12 +132,16 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 
     /// Parse a source directory to create a new source.
     pub fn new<P: AsRef<Path>>(root: P) -> Result<Self, AnnotatedError<SourceError>> {
-        let root = root.as_ref();
+        Self::_new(root.as_ref())
+    }
 
+    // avoid exporting large generic functions.
+    fn _new(root: &Path) -> Result<Self, AnnotatedError<SourceError>> {
         let config_path = root.join("config.yaml");
-
-        let mut source = try!(Source::from_config(root, &config_path).map_err(|e| AnnotatedError::new(config_path, e)));
-
+        let mut source = try! {
+            Source::from_config(root, &config_path)
+                .map_err(|e| AnnotatedError::new(config_path, e))
+        };
         try!(source.reload());
         Ok(source)
     }
