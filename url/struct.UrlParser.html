@@ -9,6 +9,7 @@
 
     <title>url::UrlParser - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -93,7 +94,7 @@ Overriding the scheme type mapper can allow, for example,
 parsing URLs in the <code>git</code> or <code>irc</code> scheme as relative.</p>
 </div><h4 id='method.parse' class='method'><code>fn <a href='#method.parse' class='fnname'>parse</a>(&amp;self, input: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../url/type.ParseResult.html' title='url::ParseResult'>ParseResult</a>&lt;<a class='struct' href='../url/struct.Url.html' title='url::Url'>Url</a>&gt;</code></h4>
 <div class='docblock'><p>Parse <code>input</code> as an URL, with all the parameters previously set in the <code>UrlParser</code>.</p>
-</div><h4 id='method.parse_path' class='method'><code>fn <a href='#method.parse_path' class='fnname'>parse_path</a>(&amp;self, input: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../url/type.ParseResult.html' title='url::ParseResult'>ParseResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;)</a>&gt;</code></h4>
+</div><h4 id='method.parse_path' class='method'><code>fn <a href='#method.parse_path' class='fnname'>parse_path</a>(&amp;self, input: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../url/type.ParseResult.html' title='url::ParseResult'>ParseResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;, <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>&gt;</code></h4>
 <div class='docblock'><p>Parse <code>input</code> as a “standalone” URL path,
 with an optional query string and fragment identifier.</p>
 
@@ -163,6 +164,6 @@ servers typically parse it and ignore it
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

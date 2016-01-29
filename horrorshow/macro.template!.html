@@ -9,6 +9,7 @@
 
     <title>horrorshow::template! - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -48,57 +49,9 @@
         </span><a id='src-681' class='srclink' href='../src/horrorshow/macros.rs.html#357-409' title='goto source code'>[src]</a></span></h1>
 <pre class='rust macro'>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>template</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>:<span class='ident'>ident</span> : <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>:<span class='ident'>ty</span>),<span class='op'>*</span>) { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tmpl</span>:<span class='ident'>tt</span>)<span class='op'>*</span> } $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>struct</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> { $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>),<span class='op'>*</span> }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>),<span class='op'>*</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> { $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>),<span class='op'>*</span> }
-            }
-        }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>RenderOnce</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>render_once</span>(<span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span>) {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>Render</span>::<span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>);
-            }
-        }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>RenderMut</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>render_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span>) {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>Render</span>::<span class='ident'>render</span>(<span class='self'>self</span>, <span class='ident'>tmpl</span>);
-            }
-        }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>Render</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span>) {
-                <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>),<span class='op'>*</span> } <span class='op'>=</span> <span class='self'>self</span>;
-                <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tmpl</span>)<span class='op'>*</span> };
-            }
-        }
-        <span class='macro'>template</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>)<span class='op'>*</span>);
-    };
-    (<span class='kw'>pub</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>:<span class='ident'>ident</span> : <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>:<span class='ident'>ty</span>),<span class='op'>*</span>) { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tmpl</span>:<span class='ident'>tt</span>)<span class='op'>*</span> } $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>struct</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> { $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>),<span class='op'>*</span> }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>),<span class='op'>*</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> { $( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>: <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>),<span class='op'>*</span> }
-            }
-        }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>RenderOnce</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>render_once</span>(<span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span>) {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>Render</span>::<span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>);
-            }
-        }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>RenderMut</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>render_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span>) {
-                <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>Render</span>::<span class='ident'>render</span>(<span class='self'>self</span>, <span class='ident'>tmpl</span>);
-            }
-        }
-        <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>Render</span> <span class='kw'>for</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-            <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span>) {
-                <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span> { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>),<span class='op'>*</span> } <span class='op'>=</span> <span class='self'>self</span>; 
-                <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tmpl</span>)<span class='op'>*</span> };
-            }
-        }
-        <span class='macro'>template</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>)<span class='op'>*</span>);
-    };
-    () <span class='op'>=&gt;</span> {}
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>:<span class='ident'>ident</span> : <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>:<span class='ident'>ty</span>),<span class='op'>*</span>) { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tmpl</span>:<span class='ident'>tt</span>)<span class='op'>*</span> } $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> { ... };
+    (<span class='kw'>pub</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>field</span>:<span class='ident'>ident</span> : <span class='kw-2'>&amp;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>typ</span>:<span class='ident'>ty</span>),<span class='op'>*</span>) { $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>tmpl</span>:<span class='ident'>tt</span>)<span class='op'>*</span> } $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> { ... };
+    () <span class='op'>=&gt;</span> { ... };
 }</pre>
 <div class='docblock'><p>Create a new template.</p>
 
@@ -183,6 +136,6 @@ this feature &quot;experimental&quot;.</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

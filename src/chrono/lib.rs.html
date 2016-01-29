@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.16/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.18/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
@@ -672,274 +673,277 @@
 <span id="630">630</span>
 <span id="631">631</span>
 <span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
 <span class='comment'>// See README.md and LICENSE.txt for details.</span>
 
-<span class='doccomment'>/*!
-
-# Chrono 0.2.16
-
-Date and time handling for Rust. (also known as `rust-chrono`)
-It aims to be a feature-complete superset of the [time](https://github.com/rust-lang/time) library.
-In particular,
-
-* Chrono strictly adheres to ISO 8601.
-* Chrono is timezone-aware by default, with separate timezone-naive types.
-* Chrono is space-optimal and (while not being the primary goal) reasonably efficient.
-
-There were several previous attempts to bring a good date and time library to Rust,
-which Chrono builts upon and should acknowledge:
-
-* [Initial research on
-   the wiki](https://github.com/rust-lang/rust-wiki-backup/blob/master/Lib-datetime.md)
-* Dietrich Epp&#39;s [datetime-rs](https://github.com/depp/datetime-rs)
-* Luis de Bethencourt&#39;s [rust-datetime](https://github.com/luisbg/rust-datetime)
-
-## Usage
-
-Put this in your `Cargo.toml`:
-
-```toml
-[dependencies]
-chrono = &quot;0.2&quot;
-```
-
-And put this in your crate root:
-
-```rust
-extern crate chrono;
-```
-
-## Overview
-
-### Duration
-
-Chrono used to have a `Duration` type, which represents the time span.
-This is a simple reexport of
-[`time::Duration`](http://doc.rust-lang.org/time/time/struct.Duration.html) type
-provided by crates.io `time` crate (which originally comes from Chrono).
-
-### Date and Time
-
-Chrono provides a `DateTime` type for the combined date and time.
-
-`DateTime`, among others, is timezone-aware and
-must be constructed from the `TimeZone` object.
-`DateTime`s with different time zones do not mix, but can be converted to each other.
-
-You can get the current date and time in the UTC time zone (`UTC::now()`)
-or in the local time zone (`Local::now()`).
-
-~~~~ {.rust}
-use chrono::*;
-
-let utc: DateTime&lt;UTC&gt; = UTC::now();       // e.g. `2014-11-28T12:45:59.324310806Z`
-let local: DateTime&lt;Local&gt; = Local::now(); // e.g. `2014-11-28T21:45:59.324310806+09:00`
-# let _ = utc; let _ = local;
-~~~~
-
-Alternatively, you can create your own date and time.
-This is a bit verbose due to Rust&#39;s lack of function and method overloading,
-but in turn we get a rich combination of initialization methods.
-
-~~~~ {.rust}
-use chrono::*;
-
-let dt = UTC.ymd(2014, 7, 8).and_hms(9, 10, 11); // `2014-07-08T09:10:11Z`
-// July 8 is 188th day of the year 2014 (`o` for &quot;ordinal&quot;)
-assert_eq!(dt, UTC.yo(2014, 189).and_hms(9, 10, 11));
-// July 8 is Tuesday in ISO week 28 of the year 2014.
-assert_eq!(dt, UTC.isoywd(2014, 28, Weekday::Tue).and_hms(9, 10, 11));
-
-let dt = UTC.ymd(2014, 7, 8).and_hms_milli(9, 10, 11, 12); // `2014-07-08T09:10:11.012Z`
-assert_eq!(dt, UTC.ymd(2014, 7, 8).and_hms_micro(9, 10, 11, 12_000));
-assert_eq!(dt, UTC.ymd(2014, 7, 8).and_hms_nano(9, 10, 11, 12_000_000));
-
-// dynamic verification
-assert_eq!(UTC.ymd_opt(2014, 7, 8).and_hms_opt(21, 15, 33),
-           LocalResult::Single(UTC.ymd(2014, 7, 8).and_hms(21, 15, 33)));
-assert_eq!(UTC.ymd_opt(2014, 7, 8).and_hms_opt(80, 15, 33), LocalResult::None);
-assert_eq!(UTC.ymd_opt(2014, 7, 38).and_hms_opt(21, 15, 33), LocalResult::None);
-
-// other time zone objects can be used to construct a local datetime.
-// obviously, `local_dt` is normally different from `dt`, but `fixed_dt` should be identical.
-let local_dt = Local.ymd(2014, 7, 8).and_hms_milli(9, 10, 11, 12);
-let fixed_dt = FixedOffset::east(9 * 3600).ymd(2014, 7, 8).and_hms_milli(18, 10, 11, 12);
-assert_eq!(dt, fixed_dt);
-# let _ = local_dt;
-~~~~
-
-Various properties are available to the date and time, and can be altered individually.
-Most of them are defined in the traits `Datelike` and `Timelike` which you should `use` before.
-Addition and subtraction is also supported.
-The following illustrates most supported operations to the date and time:
-
-~~~~ {.rust}
-use chrono::*;
-
-# /* we intentionally fake the datetime...
-// assume this returned `2014-11-28T21:45:59.324310806+09:00`:
-let dt = Local::now();
-# */ // up to here. we now define a fixed datetime for the illustrative purpose.
-# let dt = FixedOffset::east(9*3600).ymd(2014, 11, 28).and_hms_nano(21, 45, 59, 324310806);
-
-// property accessors
-assert_eq!((dt.year(), dt.month(), dt.day()), (2014, 11, 28));
-assert_eq!((dt.month0(), dt.day0()), (10, 27)); // for unfortunate souls
-assert_eq!((dt.hour(), dt.minute(), dt.second()), (21, 45, 59));
-assert_eq!(dt.weekday(), Weekday::Fri);
-assert_eq!(dt.weekday().number_from_monday(), 5); // Mon=1, ..., Sat=7
-assert_eq!(dt.ordinal(), 332); // the day of year
-assert_eq!(dt.num_days_from_ce(), 735565); // the number of days from and including Jan 1, 1
-
-// time zone accessor and manipulation
-assert_eq!(dt.offset().local_minus_utc(), Duration::hours(9));
-assert_eq!(dt.timezone(), FixedOffset::east(9 * 3600));
-assert_eq!(dt.with_timezone(&amp;UTC), UTC.ymd(2014, 11, 28).and_hms_nano(12, 45, 59, 324310806));
-
-// a sample of property manipulations (validates dynamically)
-assert_eq!(dt.with_day(29).unwrap().weekday(), Weekday::Sat); // 2014-11-29 is Saturday
-assert_eq!(dt.with_day(32), None);
-assert_eq!(dt.with_year(-300).unwrap().num_days_from_ce(), -109606); // November 29, 301 BCE
-
-// arithmetic operations
-assert_eq!(UTC.ymd(2014, 11, 14).and_hms(8, 9, 10) - UTC.ymd(2014, 11, 14).and_hms(10, 9, 8),
-           Duration::seconds(-2 * 3600 + 2));
-assert_eq!(UTC.ymd(1970, 1, 1).and_hms(0, 0, 0) + Duration::seconds(1_000_000_000),
-           UTC.ymd(2001, 9, 9).and_hms(1, 46, 40));
-assert_eq!(UTC.ymd(1970, 1, 1).and_hms(0, 0, 0) - Duration::seconds(1_000_000_000),
-           UTC.ymd(1938, 4, 24).and_hms(22, 13, 20));
-~~~~
-
-Formatting is done via the `format` method,
-which format is equivalent to the familiar `strftime` format.
-(See the `format::strftime` module documentation for full syntax.)
-
-The default `to_string` method and `{:?}` specifier also give a reasonable representation.
-Chrono also provides `to_rfc{2822,3339}` methods for well-known formats.
-
-~~~~ {.rust}
-use chrono::*;
-
-let dt = UTC.ymd(2014, 11, 28).and_hms(12, 0, 9);
-assert_eq!(dt.format(&quot;%Y-%m-%d %H:%M:%S&quot;).to_string(), &quot;2014-11-28 12:00:09&quot;);
-assert_eq!(dt.format(&quot;%a %b %e %T %Y&quot;).to_string(), &quot;Fri Nov 28 12:00:09 2014&quot;);
-assert_eq!(dt.format(&quot;%a %b %e %T %Y&quot;).to_string(), dt.format(&quot;%c&quot;).to_string());
-
-assert_eq!(dt.to_string(), &quot;2014-11-28 12:00:09 UTC&quot;);
-assert_eq!(dt.to_rfc2822(), &quot;Fri, 28 Nov 2014 12:00:09 +0000&quot;);
-assert_eq!(dt.to_rfc3339(), &quot;2014-11-28T12:00:09+00:00&quot;);
-assert_eq!(format!(&quot;{:?}&quot;, dt), &quot;2014-11-28T12:00:09Z&quot;);
-~~~~
-
-Parsing can be done with three methods:
-
-1. The standard `FromStr` trait (and `parse` method on a string) can be used for
-   parsing `DateTime&lt;FixedOffset&gt;`, `DateTime&lt;UTC&gt;` and `DateTime&lt;Local&gt;` values.
-   This parses what the `{:?}` (`std::fmt::Debug`) format specifier prints,
-   and requires the offset to be present.
-
-2. `DateTime::parse_from_str` parses a date and time with offsets and
-   returns `DateTime&lt;FixedOffset&gt;`.
-   This should be used when the offset is a part of input and the caller cannot guess that.
-   It *cannot* be used when the offset can be missing.
-   `DateTime::parse_from_rfc{2822,3339}` are similar but for well-known formats.
-
-3. `Offset::datetime_from_str` is similar but returns `DateTime` of given offset.
-   When the explicit offset is missing from the input, it simply uses given offset.
-   It issues an error when the input contains an explicit offset different from the current offset.
-
-More detailed control over the parsing process is available via `format` module.
-
-~~~~ {.rust}
-use chrono::*;
-
-let dt = UTC.ymd(2014, 11, 28).and_hms(12, 0, 9);
-let fixed_dt = dt.with_timezone(&amp;FixedOffset::east(9*3600));
-
-// method 1
-assert_eq!(&quot;2014-11-28T12:00:09Z&quot;.parse::&lt;DateTime&lt;UTC&gt;&gt;(), Ok(dt.clone()));
-assert_eq!(&quot;2014-11-28T21:00:09+09:00&quot;.parse::&lt;DateTime&lt;UTC&gt;&gt;(), Ok(dt.clone()));
-assert_eq!(&quot;2014-11-28T21:00:09+09:00&quot;.parse::&lt;DateTime&lt;FixedOffset&gt;&gt;(), Ok(fixed_dt.clone()));
-
-// method 2
-assert_eq!(DateTime::parse_from_str(&quot;2014-11-28 21:00:09 +09:00&quot;, &quot;%Y-%m-%d %H:%M:%S %z&quot;),
-           Ok(fixed_dt.clone()));
-assert_eq!(DateTime::parse_from_rfc2822(&quot;Fri, 28 Nov 2014 21:00:09 +0900&quot;), Ok(fixed_dt.clone()));
-assert_eq!(DateTime::parse_from_rfc3339(&quot;2014-11-28T21:00:09+09:00&quot;), Ok(fixed_dt.clone()));
-
-// method 3
-assert_eq!(UTC.datetime_from_str(&quot;2014-11-28 12:00:09&quot;, &quot;%Y-%m-%d %H:%M:%S&quot;), Ok(dt.clone()));
-assert_eq!(UTC.datetime_from_str(&quot;Fri Nov 28 12:00:09 2014&quot;, &quot;%a %b %e %T %Y&quot;), Ok(dt.clone()));
-
-// oops, the year is missing!
-assert!(UTC.datetime_from_str(&quot;Fri Nov 28 12:00:09&quot;, &quot;%a %b %e %T %Y&quot;).is_err());
-// oops, the format string does not include the year at all!
-assert!(UTC.datetime_from_str(&quot;Fri Nov 28 12:00:09&quot;, &quot;%a %b %e %T&quot;).is_err());
-// oops, the weekday is incorrect!
-assert!(UTC.datetime_from_str(&quot;Sat Nov 28 12:00:09 2014&quot;, &quot;%a %b %e %T %Y&quot;).is_err());
-~~~~
-
-### Individual date
-
-Chrono also provides an individual date type (`Date`).
-It also has time zones attached, and have to be constructed via time zones.
-Most operations available to `DateTime` are also available to `Date` whenever appropriate.
-
-~~~~ {.rust}
-use chrono::*;
-
-# // these *may* fail, but only very rarely. just rerun the test if you were that unfortunate ;)
-assert_eq!(UTC::today(), UTC::now().date());
-assert_eq!(Local::today(), Local::now().date());
-
-assert_eq!(UTC.ymd(2014, 11, 28).weekday(), Weekday::Fri);
-assert_eq!(UTC.ymd_opt(2014, 11, 31), LocalResult::None);
-assert_eq!(UTC.ymd(2014, 11, 28).and_hms_milli(7, 8, 9, 10).format(&quot;%H%M%S&quot;).to_string(),
-           &quot;070809&quot;);
-~~~~
-
-There is no timezone-aware `Time` due to the lack of usefulness and also the complexity.
-
-`DateTime` has `date` method which returns a `Date` which represents its date component.
-There is also a `time` method, which simply returns a naive local time described below.
-
-### Naive date and time
-
-Chrono provides naive counterparts to `Date`, (non-existent) `Time` and `DateTime`
-as `NaiveDate`, `NaiveTime` and `NaiveDateTime` respectively.
-
-They have almost equivalent interfaces as their timezone-aware twins,
-but are not associated to time zones obviously and can be quite low-level.
-They are mostly useful for building blocks for higher-level types.
-
-Timezone-aware `DateTime` and `Date` types have two methods returning naive versions:
-`naive_local` returns a view to the naive local time,
-and `naive_utc` returns a view to the naive UTC time.
-
-## Limitations
-
-Only proleptic Gregorian calendar (i.e. extended to support older dates) is supported.
-Be very careful if you really have to deal with pre-20C dates, they can be in Julian or others.
-
-Date types are limited in about +/- 262,000 years from the common epoch.
-Time types are limited in the nanosecond accuracy.
-
-Leap seconds are supported in the representation but Chrono doesn&#39;t try to make use of them.
-(The main reason is that leap seconds are not really predictable.)
-Almost *every* operation over the possible leap seconds will ignore them.
-Consider using `NaiveDateTime` with the implicit TAI (International Atomic Time) scale if you want.
-
-Chrono inherently does not support an inaccurate or partial date and time representation.
-Any operation that can be ambiguous will return `None` in such cases.
-For example, &quot;a month later&quot; of 2014-01-30 is not well-defined
-and consequently `UTC.ymd(2014, 1, 30).with_month(2)` returns `None`.
-
-Advanced time zone handling is not yet supported (but is planned in 0.3).
-
-*/</span>
+<span class='doccomment'>//! # Chrono 0.2.18</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Date and time handling for Rust. (also known as `rust-chrono`)</span>
+<span class='doccomment'>//! It aims to be a feature-complete superset of</span>
+<span class='doccomment'>//! the [time](https://github.com/rust-lang/time) library.</span>
+<span class='doccomment'>//! In particular,</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! * Chrono strictly adheres to ISO 8601.</span>
+<span class='doccomment'>//! * Chrono is timezone-aware by default, with separate timezone-naive types.</span>
+<span class='doccomment'>//! * Chrono is space-optimal and (while not being the primary goal) reasonably efficient.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! There were several previous attempts to bring a good date and time library to Rust,</span>
+<span class='doccomment'>//! which Chrono builts upon and should acknowledge:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! * [Initial research on</span>
+<span class='doccomment'>//!    the wiki](https://github.com/rust-lang/rust-wiki-backup/blob/master/Lib-datetime.md)</span>
+<span class='doccomment'>//! * Dietrich Epp&#39;s [datetime-rs](https://github.com/depp/datetime-rs)</span>
+<span class='doccomment'>//! * Luis de Bethencourt&#39;s [rust-datetime](https://github.com/luisbg/rust-datetime)</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ## Usage</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Put this in your `Cargo.toml`:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```toml</span>
+<span class='doccomment'>//! [dependencies]</span>
+<span class='doccomment'>//! chrono = &quot;0.2&quot;</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! And put this in your crate root:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```rust</span>
+<span class='doccomment'>//! extern crate chrono;</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ## Overview</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ### Duration</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Chrono used to have a `Duration` type, which represents the time span.</span>
+<span class='doccomment'>//! This is a simple reexport of</span>
+<span class='doccomment'>//! [`time::Duration`](http://doc.rust-lang.org/time/time/struct.Duration.html) type</span>
+<span class='doccomment'>//! provided by crates.io `time` crate (which originally comes from Chrono).</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ### Date and Time</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Chrono provides a `DateTime` type for the combined date and time.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! `DateTime`, among others, is timezone-aware and</span>
+<span class='doccomment'>//! must be constructed from the `TimeZone` object.</span>
+<span class='doccomment'>//! `DateTime`s with different time zones do not mix, but can be converted to each other.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! You can get the current date and time in the UTC time zone (`UTC::now()`)</span>
+<span class='doccomment'>//! or in the local time zone (`Local::now()`).</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ~~~~ {.rust}</span>
+<span class='doccomment'>//! use chrono::*;</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let utc: DateTime&lt;UTC&gt; = UTC::now();       // e.g. `2014-11-28T12:45:59.324310806Z`</span>
+<span class='doccomment'>//! let local: DateTime&lt;Local&gt; = Local::now(); // e.g. `2014-11-28T21:45:59.324310806+09:00`</span>
+<span class='doccomment'>//! # let _ = utc; let _ = local;</span>
+<span class='doccomment'>//! ~~~~</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Alternatively, you can create your own date and time.</span>
+<span class='doccomment'>//! This is a bit verbose due to Rust&#39;s lack of function and method overloading,</span>
+<span class='doccomment'>//! but in turn we get a rich combination of initialization methods.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ~~~~ {.rust}</span>
+<span class='doccomment'>//! use chrono::*;</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let dt = UTC.ymd(2014, 7, 8).and_hms(9, 10, 11); // `2014-07-08T09:10:11Z`</span>
+<span class='doccomment'>//! // July 8 is 188th day of the year 2014 (`o` for &quot;ordinal&quot;)</span>
+<span class='doccomment'>//! assert_eq!(dt, UTC.yo(2014, 189).and_hms(9, 10, 11));</span>
+<span class='doccomment'>//! // July 8 is Tuesday in ISO week 28 of the year 2014.</span>
+<span class='doccomment'>//! assert_eq!(dt, UTC.isoywd(2014, 28, Weekday::Tue).and_hms(9, 10, 11));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let dt = UTC.ymd(2014, 7, 8).and_hms_milli(9, 10, 11, 12); // `2014-07-08T09:10:11.012Z`</span>
+<span class='doccomment'>//! assert_eq!(dt, UTC.ymd(2014, 7, 8).and_hms_micro(9, 10, 11, 12_000));</span>
+<span class='doccomment'>//! assert_eq!(dt, UTC.ymd(2014, 7, 8).and_hms_nano(9, 10, 11, 12_000_000));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // dynamic verification</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd_opt(2014, 7, 8).and_hms_opt(21, 15, 33),</span>
+<span class='doccomment'>//!            LocalResult::Single(UTC.ymd(2014, 7, 8).and_hms(21, 15, 33)));</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd_opt(2014, 7, 8).and_hms_opt(80, 15, 33), LocalResult::None);</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd_opt(2014, 7, 38).and_hms_opt(21, 15, 33), LocalResult::None);</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // other time zone objects can be used to construct a local datetime.</span>
+<span class='doccomment'>//! // obviously, `local_dt` is normally different from `dt`, but `fixed_dt` should be identical.</span>
+<span class='doccomment'>//! let local_dt = Local.ymd(2014, 7, 8).and_hms_milli(9, 10, 11, 12);</span>
+<span class='doccomment'>//! let fixed_dt = FixedOffset::east(9 * 3600).ymd(2014, 7, 8).and_hms_milli(18, 10, 11, 12);</span>
+<span class='doccomment'>//! assert_eq!(dt, fixed_dt);</span>
+<span class='doccomment'>//! # let _ = local_dt;</span>
+<span class='doccomment'>//! ~~~~</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Various properties are available to the date and time, and can be altered individually.</span>
+<span class='doccomment'>//! Most of them are defined in the traits `Datelike` and `Timelike` which you should `use` before.</span>
+<span class='doccomment'>//! Addition and subtraction is also supported.</span>
+<span class='doccomment'>//! The following illustrates most supported operations to the date and time:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ~~~~ {.rust}</span>
+<span class='doccomment'>//! use chrono::*;</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! # /* we intentionally fake the datetime...</span>
+<span class='doccomment'>//! // assume this returned `2014-11-28T21:45:59.324310806+09:00`:</span>
+<span class='doccomment'>//! let dt = Local::now();</span>
+<span class='doccomment'>//! # */ // up to here. we now define a fixed datetime for the illustrative purpose.</span>
+<span class='doccomment'>//! # let dt = FixedOffset::east(9*3600).ymd(2014, 11, 28).and_hms_nano(21, 45, 59, 324310806);</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // property accessors</span>
+<span class='doccomment'>//! assert_eq!((dt.year(), dt.month(), dt.day()), (2014, 11, 28));</span>
+<span class='doccomment'>//! assert_eq!((dt.month0(), dt.day0()), (10, 27)); // for unfortunate souls</span>
+<span class='doccomment'>//! assert_eq!((dt.hour(), dt.minute(), dt.second()), (21, 45, 59));</span>
+<span class='doccomment'>//! assert_eq!(dt.weekday(), Weekday::Fri);</span>
+<span class='doccomment'>//! assert_eq!(dt.weekday().number_from_monday(), 5); // Mon=1, ..., Sat=7</span>
+<span class='doccomment'>//! assert_eq!(dt.ordinal(), 332); // the day of year</span>
+<span class='doccomment'>//! assert_eq!(dt.num_days_from_ce(), 735565); // the number of days from and including Jan 1, 1</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // time zone accessor and manipulation</span>
+<span class='doccomment'>//! assert_eq!(dt.offset().local_minus_utc(), Duration::hours(9));</span>
+<span class='doccomment'>//! assert_eq!(dt.timezone(), FixedOffset::east(9 * 3600));</span>
+<span class='doccomment'>//! assert_eq!(dt.with_timezone(&amp;UTC), UTC.ymd(2014, 11, 28).and_hms_nano(12, 45, 59, 324310806));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // a sample of property manipulations (validates dynamically)</span>
+<span class='doccomment'>//! assert_eq!(dt.with_day(29).unwrap().weekday(), Weekday::Sat); // 2014-11-29 is Saturday</span>
+<span class='doccomment'>//! assert_eq!(dt.with_day(32), None);</span>
+<span class='doccomment'>//! assert_eq!(dt.with_year(-300).unwrap().num_days_from_ce(), -109606); // November 29, 301 BCE</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // arithmetic operations</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd(2014, 11, 14).and_hms(8, 9, 10) - UTC.ymd(2014, 11, 14).and_hms(10, 9, 8),</span>
+<span class='doccomment'>//!            Duration::seconds(-2 * 3600 + 2));</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd(1970, 1, 1).and_hms(0, 0, 0) + Duration::seconds(1_000_000_000),</span>
+<span class='doccomment'>//!            UTC.ymd(2001, 9, 9).and_hms(1, 46, 40));</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd(1970, 1, 1).and_hms(0, 0, 0) - Duration::seconds(1_000_000_000),</span>
+<span class='doccomment'>//!            UTC.ymd(1938, 4, 24).and_hms(22, 13, 20));</span>
+<span class='doccomment'>//! ~~~~</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Formatting is done via the `format` method,</span>
+<span class='doccomment'>//! which format is equivalent to the familiar `strftime` format.</span>
+<span class='doccomment'>//! (See the `format::strftime` module documentation for full syntax.)</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! The default `to_string` method and `{:?}` specifier also give a reasonable representation.</span>
+<span class='doccomment'>//! Chrono also provides `to_rfc{2822,3339}` methods for well-known formats.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ~~~~ {.rust}</span>
+<span class='doccomment'>//! use chrono::*;</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let dt = UTC.ymd(2014, 11, 28).and_hms(12, 0, 9);</span>
+<span class='doccomment'>//! assert_eq!(dt.format(&quot;%Y-%m-%d %H:%M:%S&quot;).to_string(), &quot;2014-11-28 12:00:09&quot;);</span>
+<span class='doccomment'>//! assert_eq!(dt.format(&quot;%a %b %e %T %Y&quot;).to_string(), &quot;Fri Nov 28 12:00:09 2014&quot;);</span>
+<span class='doccomment'>//! assert_eq!(dt.format(&quot;%a %b %e %T %Y&quot;).to_string(), dt.format(&quot;%c&quot;).to_string());</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! assert_eq!(dt.to_string(), &quot;2014-11-28 12:00:09 UTC&quot;);</span>
+<span class='doccomment'>//! assert_eq!(dt.to_rfc2822(), &quot;Fri, 28 Nov 2014 12:00:09 +0000&quot;);</span>
+<span class='doccomment'>//! assert_eq!(dt.to_rfc3339(), &quot;2014-11-28T12:00:09+00:00&quot;);</span>
+<span class='doccomment'>//! assert_eq!(format!(&quot;{:?}&quot;, dt), &quot;2014-11-28T12:00:09Z&quot;);</span>
+<span class='doccomment'>//! ~~~~</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Parsing can be done with three methods:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! 1. The standard `FromStr` trait (and `parse` method on a string) can be used for</span>
+<span class='doccomment'>//!    parsing `DateTime&lt;FixedOffset&gt;`, `DateTime&lt;UTC&gt;` and `DateTime&lt;Local&gt;` values.</span>
+<span class='doccomment'>//!    This parses what the `{:?}` (`std::fmt::Debug`) format specifier prints,</span>
+<span class='doccomment'>//!    and requires the offset to be present.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! 2. `DateTime::parse_from_str` parses a date and time with offsets and</span>
+<span class='doccomment'>//!    returns `DateTime&lt;FixedOffset&gt;`.</span>
+<span class='doccomment'>//!    This should be used when the offset is a part of input and the caller cannot guess that.</span>
+<span class='doccomment'>//!    It *cannot* be used when the offset can be missing.</span>
+<span class='doccomment'>//!    `DateTime::parse_from_rfc{2822,3339}` are similar but for well-known formats.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! 3. `Offset::datetime_from_str` is similar but returns `DateTime` of given offset.</span>
+<span class='doccomment'>//!    When the explicit offset is missing from the input, it simply uses given offset.</span>
+<span class='doccomment'>//!    It issues an error when the input contains an explicit offset different</span>
+<span class='doccomment'>//!    from the current offset.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! More detailed control over the parsing process is available via `format` module.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ~~~~ {.rust}</span>
+<span class='doccomment'>//! use chrono::*;</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! let dt = UTC.ymd(2014, 11, 28).and_hms(12, 0, 9);</span>
+<span class='doccomment'>//! let fixed_dt = dt.with_timezone(&amp;FixedOffset::east(9*3600));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // method 1</span>
+<span class='doccomment'>//! assert_eq!(&quot;2014-11-28T12:00:09Z&quot;.parse::&lt;DateTime&lt;UTC&gt;&gt;(), Ok(dt.clone()));</span>
+<span class='doccomment'>//! assert_eq!(&quot;2014-11-28T21:00:09+09:00&quot;.parse::&lt;DateTime&lt;UTC&gt;&gt;(), Ok(dt.clone()));</span>
+<span class='doccomment'>//! assert_eq!(&quot;2014-11-28T21:00:09+09:00&quot;.parse::&lt;DateTime&lt;FixedOffset&gt;&gt;(), Ok(fixed_dt.clone()));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // method 2</span>
+<span class='doccomment'>//! assert_eq!(DateTime::parse_from_str(&quot;2014-11-28 21:00:09 +09:00&quot;, &quot;%Y-%m-%d %H:%M:%S %z&quot;),</span>
+<span class='doccomment'>//!            Ok(fixed_dt.clone()));</span>
+<span class='doccomment'>//! assert_eq!(DateTime::parse_from_rfc2822(&quot;Fri, 28 Nov 2014 21:00:09 +0900&quot;),</span>
+<span class='doccomment'>//!            Ok(fixed_dt.clone()));</span>
+<span class='doccomment'>//! assert_eq!(DateTime::parse_from_rfc3339(&quot;2014-11-28T21:00:09+09:00&quot;), Ok(fixed_dt.clone()));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // method 3</span>
+<span class='doccomment'>//! assert_eq!(UTC.datetime_from_str(&quot;2014-11-28 12:00:09&quot;, &quot;%Y-%m-%d %H:%M:%S&quot;), Ok(dt.clone()));</span>
+<span class='doccomment'>//! assert_eq!(UTC.datetime_from_str(&quot;Fri Nov 28 12:00:09 2014&quot;, &quot;%a %b %e %T %Y&quot;), Ok(dt.clone()));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // oops, the year is missing!</span>
+<span class='doccomment'>//! assert!(UTC.datetime_from_str(&quot;Fri Nov 28 12:00:09&quot;, &quot;%a %b %e %T %Y&quot;).is_err());</span>
+<span class='doccomment'>//! // oops, the format string does not include the year at all!</span>
+<span class='doccomment'>//! assert!(UTC.datetime_from_str(&quot;Fri Nov 28 12:00:09&quot;, &quot;%a %b %e %T&quot;).is_err());</span>
+<span class='doccomment'>//! // oops, the weekday is incorrect!</span>
+<span class='doccomment'>//! assert!(UTC.datetime_from_str(&quot;Sat Nov 28 12:00:09 2014&quot;, &quot;%a %b %e %T %Y&quot;).is_err());</span>
+<span class='doccomment'>//! ~~~~</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ### Individual date</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Chrono also provides an individual date type (`Date`).</span>
+<span class='doccomment'>//! It also has time zones attached, and have to be constructed via time zones.</span>
+<span class='doccomment'>//! Most operations available to `DateTime` are also available to `Date` whenever appropriate.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ~~~~ {.rust}</span>
+<span class='doccomment'>//! use chrono::*;</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! # // these *may* fail, but only very rarely. just rerun the test if you were that unfortunate ;)</span>
+<span class='doccomment'>//! assert_eq!(UTC::today(), UTC::now().date());</span>
+<span class='doccomment'>//! assert_eq!(Local::today(), Local::now().date());</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd(2014, 11, 28).weekday(), Weekday::Fri);</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd_opt(2014, 11, 31), LocalResult::None);</span>
+<span class='doccomment'>//! assert_eq!(UTC.ymd(2014, 11, 28).and_hms_milli(7, 8, 9, 10).format(&quot;%H%M%S&quot;).to_string(),</span>
+<span class='doccomment'>//!            &quot;070809&quot;);</span>
+<span class='doccomment'>//! ~~~~</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! There is no timezone-aware `Time` due to the lack of usefulness and also the complexity.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! `DateTime` has `date` method which returns a `Date` which represents its date component.</span>
+<span class='doccomment'>//! There is also a `time` method, which simply returns a naive local time described below.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ### Naive date and time</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Chrono provides naive counterparts to `Date`, (non-existent) `Time` and `DateTime`</span>
+<span class='doccomment'>//! as `NaiveDate`, `NaiveTime` and `NaiveDateTime` respectively.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! They have almost equivalent interfaces as their timezone-aware twins,</span>
+<span class='doccomment'>//! but are not associated to time zones obviously and can be quite low-level.</span>
+<span class='doccomment'>//! They are mostly useful for building blocks for higher-level types.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Timezone-aware `DateTime` and `Date` types have two methods returning naive versions:</span>
+<span class='doccomment'>//! `naive_local` returns a view to the naive local time,</span>
+<span class='doccomment'>//! and `naive_utc` returns a view to the naive UTC time.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ## Limitations</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Only proleptic Gregorian calendar (i.e. extended to support older dates) is supported.</span>
+<span class='doccomment'>//! Be very careful if you really have to deal with pre-20C dates, they can be in Julian or others.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Date types are limited in about +/- 262,000 years from the common epoch.</span>
+<span class='doccomment'>//! Time types are limited in the nanosecond accuracy.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Leap seconds are supported in the representation but Chrono doesn&#39;t try to make use of them.</span>
+<span class='doccomment'>//! (The main reason is that leap seconds are not really predictable.)</span>
+<span class='doccomment'>//! Almost *every* operation over the possible leap seconds will ignore them.</span>
+<span class='doccomment'>//! Consider using `NaiveDateTime` with the implicit TAI (International Atomic Time) scale</span>
+<span class='doccomment'>//! if you want.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Chrono inherently does not support an inaccurate or partial date and time representation.</span>
+<span class='doccomment'>//! Any operation that can be ambiguous will return `None` in such cases.</span>
+<span class='doccomment'>//! For example, &quot;a month later&quot; of 2014-01-30 is not well-defined</span>
+<span class='doccomment'>//! and consequently `UTC.ymd(2014, 1, 30).with_month(2)` returns `None`.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Advanced time zone handling is not yet supported (but is planned in 0.3).</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://lifthrasiir.github.io/rust-chrono/&quot;</span>)]</span>
 
@@ -950,6 +954,8 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>num</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rustc-serialize&quot;</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_serialize</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;serde&quot;</span>)]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>duration</span>::<span class='ident'>Duration</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>offset</span>::{<span class='ident'>TimeZone</span>, <span class='ident'>Offset</span>, <span class='ident'>LocalResult</span>};
@@ -1103,7 +1109,6 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
 <span class='doccomment'>/// which equals to `Weekday::num_days_from_monday` in this implementation.</span>
 <span class='doccomment'>/// Do not heavily depend on this though; use explicit methods whenever possible.</span>
 <span class='kw'>impl</span> <span class='ident'>num</span>::<span class='ident'>traits</span>::<span class='ident'>FromPrimitive</span> <span class='kw'>for</span> <span class='ident'>Weekday</span> {
-
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>from_i64</span>(<span class='ident'>n</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Weekday</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='ident'>n</span> {
@@ -1238,7 +1243,9 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
     <span class='kw'>fn</span> <span class='ident'>hour12</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>bool</span>, <span class='ident'>u32</span>) {
         <span class='kw'>let</span> <span class='ident'>hour</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>hour</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hour12</span> <span class='op'>=</span> <span class='ident'>hour</span> <span class='op'>%</span> <span class='number'>12</span>;
-        <span class='kw'>if</span> <span class='ident'>hour12</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='ident'>hour12</span> <span class='op'>=</span> <span class='number'>12</span>; }
+        <span class='kw'>if</span> <span class='ident'>hour12</span> <span class='op'>==</span> <span class='number'>0</span> {
+            <span class='ident'>hour12</span> <span class='op'>=</span> <span class='number'>12</span>;
+        }
         (<span class='ident'>hour</span> <span class='op'>&gt;=</span> <span class='number'>12</span>, <span class='ident'>hour12</span>)
     }
 
@@ -1285,20 +1292,20 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
 
     <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='ident'>range_inclusive</span>(<span class='ident'>naive</span>::<span class='ident'>date</span>::<span class='ident'>MIN</span>.<span class='ident'>year</span>(), <span class='ident'>naive</span>::<span class='ident'>date</span>::<span class='ident'>MAX</span>.<span class='ident'>year</span>()) {
         <span class='comment'>// even months</span>
-        <span class='kw'>let</span> <span class='ident'>d4</span>   <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>4</span>,  <span class='number'>4</span>);
-        <span class='kw'>let</span> <span class='ident'>d6</span>   <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>6</span>,  <span class='number'>6</span>);
-        <span class='kw'>let</span> <span class='ident'>d8</span>   <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>8</span>,  <span class='number'>8</span>);
-        <span class='kw'>let</span> <span class='ident'>d10</span>  <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>10</span>, <span class='number'>10</span>);
-        <span class='kw'>let</span> <span class='ident'>d12</span>  <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>12</span>, <span class='number'>12</span>);
+        <span class='kw'>let</span> <span class='ident'>d4</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>4</span>, <span class='number'>4</span>);
+        <span class='kw'>let</span> <span class='ident'>d6</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>6</span>, <span class='number'>6</span>);
+        <span class='kw'>let</span> <span class='ident'>d8</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>8</span>, <span class='number'>8</span>);
+        <span class='kw'>let</span> <span class='ident'>d10</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>10</span>, <span class='number'>10</span>);
+        <span class='kw'>let</span> <span class='ident'>d12</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>12</span>, <span class='number'>12</span>);
 
         <span class='comment'>// nine to five, seven-eleven</span>
-        <span class='kw'>let</span> <span class='ident'>d59</span>  <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>5</span>,  <span class='number'>9</span>);
-        <span class='kw'>let</span> <span class='ident'>d95</span>  <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>9</span>,  <span class='number'>5</span>);
-        <span class='kw'>let</span> <span class='ident'>d711</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>7</span>, <span class='number'>11</span>);
-        <span class='kw'>let</span> <span class='ident'>d117</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>11</span>,  <span class='number'>7</span>);
+        <span class='kw'>let</span> <span class='ident'>d59</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>5</span>, <span class='number'>9</span>);
+        <span class='kw'>let</span> <span class='ident'>d95</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>9</span>, <span class='number'>5</span>);
+        <span class='kw'>let</span> <span class='ident'>d711</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>7</span>, <span class='number'>11</span>);
+        <span class='kw'>let</span> <span class='ident'>d117</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>11</span>, <span class='number'>7</span>);
 
         <span class='comment'>// &quot;March 0&quot;</span>
-        <span class='kw'>let</span> <span class='ident'>d30</span>  <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>,  <span class='number'>3</span>,  <span class='number'>1</span>).<span class='ident'>pred</span>();
+        <span class='kw'>let</span> <span class='ident'>d30</span> <span class='op'>=</span> <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='ident'>y</span>, <span class='number'>3</span>, <span class='number'>1</span>).<span class='ident'>pred</span>();
 
         <span class='kw'>let</span> <span class='ident'>weekday</span> <span class='op'>=</span> <span class='ident'>d30</span>.<span class='ident'>weekday</span>();
         <span class='kw'>let</span> <span class='ident'>other_dates</span> <span class='op'>=</span> [<span class='ident'>d4</span>, <span class='ident'>d6</span>, <span class='ident'>d8</span>, <span class='ident'>d10</span>, <span class='ident'>d12</span>, <span class='ident'>d59</span>, <span class='ident'>d95</span>, <span class='ident'>d711</span>, <span class='ident'>d117</span>];
@@ -1365,6 +1372,6 @@ Advanced time zone handling is not yet supported (but is planned in 0.3).
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

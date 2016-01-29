@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
@@ -270,8 +271,8 @@
 }
 
 <span class='kw'>fn</span> <span class='ident'>_run</span>(<span class='ident'>render_paths</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderPaths</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
-    <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>env</span>::<span class='ident'>args</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
-    <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>)
+    <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>env</span>::<span class='ident'>args</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>name</span>)
         .<span class='ident'>version</span>(<span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION&quot;</span>))
         .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;SOURCE&quot;</span>)
              .<span class='ident'>short</span>(<span class='string'>&quot;s&quot;</span>)
@@ -417,6 +418,6 @@
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>

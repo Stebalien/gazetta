@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.16/src/offset/fixed.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.18/src/offset/fixed.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>fixed.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
@@ -171,7 +172,7 @@
     <span class='doccomment'>/// Makes a new `FixedOffset` for the Eastern Hemisphere with given timezone difference.</span>
     <span class='doccomment'>/// The negative `secs` means the Western Hemisphere.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Fails on the out-of-bound `secs`.</span>
+    <span class='doccomment'>/// Panics on the out-of-bound `secs`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>east</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> {
         <span class='ident'>FixedOffset</span>::<span class='ident'>east_opt</span>(<span class='ident'>secs</span>).<span class='ident'>expect</span>(<span class='string'>&quot;FixedOffset::east out of bounds&quot;</span>)
     }
@@ -191,7 +192,7 @@
     <span class='doccomment'>/// Makes a new `FixedOffset` for the Western Hemisphere with given timezone difference.</span>
     <span class='doccomment'>/// The negative `secs` means the Eastern Hemisphere.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Fails on the out-of-bound `secs`.</span>
+    <span class='doccomment'>/// Panics on the out-of-bound `secs`.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>west</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> {
         <span class='ident'>FixedOffset</span>::<span class='ident'>west_opt</span>(<span class='ident'>secs</span>).<span class='ident'>expect</span>(<span class='string'>&quot;FixedOffset::west out of bounds&quot;</span>)
     }
@@ -307,6 +308,6 @@
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     
-    <script async src="../../../search-index.js"></script>
+    <script defer src="../../../search-index.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 
     <title>chrono - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -45,11 +46,12 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/chrono/lib.rs.html#5-632' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/chrono/lib.rs.html#5-635' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'>
-<h1 id='chrono-0216' class='section-header'><a href='#chrono-0216'>Chrono 0.2.16</a></h1>
+<h1 id='chrono-0218' class='section-header'><a href='#chrono-0218'>Chrono 0.2.18</a></h1>
 <p>Date and time handling for Rust. (also known as <code>rust-chrono</code>)
-It aims to be a feature-complete superset of the <a href="https://github.com/rust-lang/time">time</a> library.
+It aims to be a feature-complete superset of
+the <a href="https://github.com/rust-lang/time">time</a> library.
 In particular,</p>
 
 <ul>
@@ -199,7 +201,8 @@ It <em>cannot</em> be used when the offset can be missing.
 <code>DateTime::parse_from_rfc{2822,3339}</code> are similar but for well-known formats.</p></li>
 <li><p><code>Offset::datetime_from_str</code> is similar but returns <code>DateTime</code> of given offset.
 When the explicit offset is missing from the input, it simply uses given offset.
-It issues an error when the input contains an explicit offset different from the current offset.</p></li>
+It issues an error when the input contains an explicit offset different
+from the current offset.</p></li>
 </ol>
 
 <p>More detailed control over the parsing process is available via <code>format</code> module.</p>
@@ -217,7 +220,8 @@ It issues an error when the input contains an explicit offset different from the
 <span class='comment'>// method 2</span>
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>DateTime</span>::<span class='ident'>parse_from_str</span>(<span class='string'>&quot;2014-11-28 21:00:09 +09:00&quot;</span>, <span class='string'>&quot;%Y-%m-%d %H:%M:%S %z&quot;</span>),
            <span class='prelude-val'>Ok</span>(<span class='ident'>fixed_dt</span>.<span class='ident'>clone</span>()));
-<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>DateTime</span>::<span class='ident'>parse_from_rfc2822</span>(<span class='string'>&quot;Fri, 28 Nov 2014 21:00:09 +0900&quot;</span>), <span class='prelude-val'>Ok</span>(<span class='ident'>fixed_dt</span>.<span class='ident'>clone</span>()));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>DateTime</span>::<span class='ident'>parse_from_rfc2822</span>(<span class='string'>&quot;Fri, 28 Nov 2014 21:00:09 +0900&quot;</span>),
+           <span class='prelude-val'>Ok</span>(<span class='ident'>fixed_dt</span>.<span class='ident'>clone</span>()));
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>DateTime</span>::<span class='ident'>parse_from_rfc3339</span>(<span class='string'>&quot;2014-11-28T21:00:09+09:00&quot;</span>), <span class='prelude-val'>Ok</span>(<span class='ident'>fixed_dt</span>.<span class='ident'>clone</span>()));
 
 <span class='comment'>// method 3</span>
@@ -273,7 +277,8 @@ Time types are limited in the nanosecond accuracy.</p>
 <p>Leap seconds are supported in the representation but Chrono doesn&#39;t try to make use of them.
 (The main reason is that leap seconds are not really predictable.)
 Almost <em>every</em> operation over the possible leap seconds will ignore them.
-Consider using <code>NaiveDateTime</code> with the implicit TAI (International Atomic Time) scale if you want.</p>
+Consider using <code>NaiveDateTime</code> with the implicit TAI (International Atomic Time) scale
+if you want.</p>
 
 <p>Chrono inherently does not support an inaccurate or partial date and time representation.
 Any operation that can be ambiguous will return <code>None</code> in such cases.
@@ -436,6 +441,6 @@ This also allows for the negative duration; see individual methods for details.<
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

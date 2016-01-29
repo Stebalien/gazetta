@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-0a35038f75765ae4/chrono-0.2.16/src/offset/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.18/src/offset/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
 
     
@@ -522,7 +523,7 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>fmt</span>::<span class='ident'>Debug</span><span class='op'>&gt;</span> <span class='ident'>LocalResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Returns the single unique conversion result, or fails accordingly.</span>
+    <span class='doccomment'>/// Returns the single unique conversion result, or panics accordingly.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unwrap</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
         <span class='kw'>match</span> <span class='self'>self</span> {
             <span class='ident'>LocalResult</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;No such local time&quot;</span>),
@@ -553,7 +554,7 @@
     <span class='doccomment'>/// The time zone normally does not affect the date (unless it is between UTC-24 and UTC+24),</span>
     <span class='doccomment'>/// but it will propagate to the `DateTime` values constructed via this date.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Fails on the out-of-range date, invalid month and/or day.</span>
+    <span class='doccomment'>/// Panics on the out-of-range date, invalid month and/or day.</span>
     <span class='kw'>fn</span> <span class='ident'>ymd</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>month</span>: <span class='ident'>u32</span>, <span class='ident'>day</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Date</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>ymd_opt</span>(<span class='ident'>year</span>, <span class='ident'>month</span>, <span class='ident'>day</span>).<span class='ident'>unwrap</span>()
     }
@@ -578,7 +579,7 @@
     <span class='doccomment'>/// The time zone normally does not affect the date (unless it is between UTC-24 and UTC+24),</span>
     <span class='doccomment'>/// but it will propagate to the `DateTime` values constructed via this date.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Fails on the out-of-range date and/or invalid DOY.</span>
+    <span class='doccomment'>/// Panics on the out-of-range date and/or invalid DOY.</span>
     <span class='kw'>fn</span> <span class='ident'>yo</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>ordinal</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Date</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>yo_opt</span>(<span class='ident'>year</span>, <span class='ident'>ordinal</span>).<span class='ident'>unwrap</span>()
     }
@@ -605,7 +606,7 @@
     <span class='doccomment'>/// The time zone normally does not affect the date (unless it is between UTC-24 and UTC+24),</span>
     <span class='doccomment'>/// but it will propagate to the `DateTime` values constructed via this date.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Fails on the out-of-range date and/or invalid week number.</span>
+    <span class='doccomment'>/// Panics on the out-of-range date and/or invalid week number.</span>
     <span class='kw'>fn</span> <span class='ident'>isoywd</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>year</span>: <span class='ident'>i32</span>, <span class='ident'>week</span>: <span class='ident'>u32</span>, <span class='ident'>weekday</span>: <span class='ident'>Weekday</span>) <span class='op'>-&gt;</span> <span class='ident'>Date</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>isoywd_opt</span>(<span class='ident'>year</span>, <span class='ident'>week</span>, <span class='ident'>weekday</span>).<span class='ident'>unwrap</span>()
     }
@@ -630,7 +631,7 @@
     <span class='doccomment'>/// since January 1, 1970 0:00:00 UTC (aka &quot;UNIX timestamp&quot;)</span>
     <span class='doccomment'>/// and the number of nanoseconds since the last whole non-leap second.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Fails on the out-of-range number of seconds and/or invalid nanosecond.</span>
+    <span class='doccomment'>/// Panics on the out-of-range number of seconds and/or invalid nanosecond.</span>
     <span class='kw'>fn</span> <span class='ident'>timestamp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>secs</span>: <span class='ident'>i64</span>, <span class='ident'>nsecs</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>DateTime</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='ident'>timestamp_opt</span>(<span class='ident'>secs</span>, <span class='ident'>nsecs</span>).<span class='ident'>unwrap</span>()
     }
@@ -769,6 +770,6 @@
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     
-    <script async src="../../../search-index.js"></script>
+    <script defer src="../../../search-index.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 
     <title>horrorshow::box_html! - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -48,15 +49,7 @@
         </span><a id='src-674' class='srclink' href='../src/horrorshow/macros.rs.html#52-62' title='goto source code'>[src]</a></span></h1>
 <pre class='rust macro'>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>box_html</span> {
-    ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inner</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> {{
-        <span class='comment'>// Define this up here to prevent rust from saying:</span>
-        <span class='comment'>// Hey look, it&#39;s an FnOnce (this could be Fn/FnMut).</span>
-        <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>TemplateBuffer</span><span class='op'>|</span> <span class='op'>-&gt;</span> () {
-            <span class='macro'>__horrorshow__append_html</span><span class='macro'>!</span>(<span class='ident'>tmpl</span>, $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inner</span>)<span class='op'>*</span>);
-        };
-        <span class='comment'>// Stringify the template content to get a hint at how much we should allocate...</span>
-        <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>FnRenderer</span>::<span class='ident'>with_capacity</span>(<span class='macro'>stringify</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inner</span>)<span class='op'>*</span>).<span class='ident'>len</span>(), <span class='ident'>f</span>))
-    }}
+    ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inner</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> { ... };
 }</pre>
 <div class='docblock'><p>Crate a new owned html template.</p>
 
@@ -147,6 +140,6 @@ from a function, use this.</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

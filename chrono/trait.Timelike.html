@@ -9,6 +9,7 @@
 
     <title>chrono::Timelike - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
     
@@ -45,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3866' class='srclink' href='../src/chrono/lib.rs.html#556-605' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-3866' class='srclink' href='../src/chrono/lib.rs.html#557-608' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Timelike: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
     fn <a href='#tymethod.hour' class='fnname'>hour</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>;
     fn <a href='#tymethod.minute' class='fnname'>minute</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>;
@@ -56,7 +57,7 @@
     fn <a href='#tymethod.with_second' class='fnname'>with_second</a>(&amp;self, sec: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
     fn <a href='#tymethod.with_nanosecond' class='fnname'>with_nanosecond</a>(&amp;self, nano: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
 
-    fn <a href='#method.hour12' class='fnname'>hour12</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</a> { ... }
+    fn <a href='#method.hour12' class='fnname'>hour12</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a> { ... }
     fn <a href='#method.num_seconds_from_midnight' class='fnname'>num_seconds_from_midnight</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a> { ... }
 }</pre><div class='docblock'><p>The common set of methods for time component.</p>
 </div>
@@ -82,7 +83,7 @@ The range from 1,000,000,000 to 1,999,999,999 represents the leap second.</p>
 </div></div>
             <h2 id='provided-methods'>Provided Methods</h2>
             <div class='methods'>
-        <h3 id='method.hour12' class='method stab '><code>fn <a href='#method.hour12' class='fnname'>hour12</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>)</a></code></h3><div class='docblock'><p>Returns the hour number from 1 to 12 with a boolean flag,
+        <h3 id='method.hour12' class='method stab '><code>fn <a href='#method.hour12' class='fnname'>hour12</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></code></h3><div class='docblock'><p>Returns the hour number from 1 to 12 with a boolean flag,
 which is false for AM and true for PM.</p>
 </div><h3 id='method.num_seconds_from_midnight' class='method stab '><code>fn <a href='#method.num_seconds_from_midnight' class='fnname'>num_seconds_from_midnight</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h3><div class='docblock'><p>Returns the number of non-leap seconds past the last midnight.</p>
 </div></div>
@@ -152,6 +153,6 @@ which is false for AM and true for PM.</p>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     
-    <script async src="../search-index.js"></script>
+    <script defer src="../search-index.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 
     <title>chrono::offset::TimeZone - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
     
@@ -91,7 +92,7 @@ This assumes the proleptic Gregorian calendar, with the year 0 being 1 BCE.</p>
 <p>The time zone normally does not affect the date (unless it is between UTC-24 and UTC+24),
 but it will propagate to the <code>DateTime</code> values constructed via this date.</p>
 
-<p>Fails on the out-of-range date, invalid month and/or day.</p>
+<p>Panics on the out-of-range date, invalid month and/or day.</p>
 </div><h3 id='method.ymd_opt' class='method stab '><code>fn <a href='#method.ymd_opt' class='fnname'>ymd_opt</a>(&amp;self, year: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, month: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, day: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;<a class='struct' href='../../chrono/date/struct.Date.html' title='chrono::date::Date'>Date</a>&lt;Self&gt;&gt;</code></h3><div class='docblock'><p>Makes a new <code>Date</code> from year, month, day and the current time zone.
 This assumes the proleptic Gregorian calendar, with the year 0 being 1 BCE.</p>
 
@@ -105,7 +106,7 @@ This assumes the proleptic Gregorian calendar, with the year 0 being 1 BCE.</p>
 <p>The time zone normally does not affect the date (unless it is between UTC-24 and UTC+24),
 but it will propagate to the <code>DateTime</code> values constructed via this date.</p>
 
-<p>Fails on the out-of-range date and/or invalid DOY.</p>
+<p>Panics on the out-of-range date and/or invalid DOY.</p>
 </div><h3 id='method.yo_opt' class='method stab '><code>fn <a href='#method.yo_opt' class='fnname'>yo_opt</a>(&amp;self, year: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, ordinal: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;<a class='struct' href='../../chrono/date/struct.Date.html' title='chrono::date::Date'>Date</a>&lt;Self&gt;&gt;</code></h3><div class='docblock'><p>Makes a new <code>Date</code> from year, day of year (DOY or &quot;ordinal&quot;) and the current time zone.
 This assumes the proleptic Gregorian calendar, with the year 0 being 1 BCE.</p>
 
@@ -121,7 +122,7 @@ The resulting <code>Date</code> may have a different year from the input year.</
 <p>The time zone normally does not affect the date (unless it is between UTC-24 and UTC+24),
 but it will propagate to the <code>DateTime</code> values constructed via this date.</p>
 
-<p>Fails on the out-of-range date and/or invalid week number.</p>
+<p>Panics on the out-of-range date and/or invalid week number.</p>
 </div><h3 id='method.isoywd_opt' class='method stab '><code>fn <a href='#method.isoywd_opt' class='fnname'>isoywd_opt</a>(&amp;self, year: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>, week: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>, weekday: <a class='enum' href='../../chrono/enum.Weekday.html' title='chrono::Weekday'>Weekday</a>) -&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;<a class='struct' href='../../chrono/date/struct.Date.html' title='chrono::date::Date'>Date</a>&lt;Self&gt;&gt;</code></h3><div class='docblock'><p>Makes a new <code>Date</code> from ISO week date (year and week number), day of the week (DOW) and
 the current time zone.
 This assumes the proleptic Gregorian calendar, with the year 0 being 1 BCE.
@@ -135,7 +136,7 @@ but it will propagate to the <code>DateTime</code> values constructed via this d
 since January 1, 1970 0:00:00 UTC (aka &quot;UNIX timestamp&quot;)
 and the number of nanoseconds since the last whole non-leap second.</p>
 
-<p>Fails on the out-of-range number of seconds and/or invalid nanosecond.</p>
+<p>Panics on the out-of-range number of seconds and/or invalid nanosecond.</p>
 </div><h3 id='method.timestamp_opt' class='method stab '><code>fn <a href='#method.timestamp_opt' class='fnname'>timestamp_opt</a>(&amp;self, secs: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i64.html'>i64</a>, nsecs: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;<a class='struct' href='../../chrono/datetime/struct.DateTime.html' title='chrono::datetime::DateTime'>DateTime</a>&lt;Self&gt;&gt;</code></h3><div class='docblock'><p>Makes a new <code>DateTime</code> from the number of non-leap seconds
 since January 1, 1970 0:00:00 UTC (aka &quot;UNIX timestamp&quot;)
 and the number of nanoseconds since the last whole non-leap second.</p>
@@ -224,6 +225,6 @@ The UTC is continuous and thus this cannot fail (but can give the duplicate loca
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     
-    <script async src="../../search-index.js"></script>
+    <script defer src="../../search-index.js"></script>
 </body>
 </html>
