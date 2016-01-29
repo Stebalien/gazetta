@@ -69,8 +69,8 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
 }
 
 fn _run(render_paths: &RenderPaths) -> ! {
-    let name = &env::args().next().unwrap();
-    let matches = App::new(&name)
+    let name = env::args().next().unwrap();
+    let matches = App::new(name)
         .version(env!("CARGO_PKG_VERSION"))
         .arg(Arg::with_name("SOURCE")
              .short("s")
