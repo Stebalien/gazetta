@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-279' class='srclink' href='../src/gazetta_render_ext/content.rs.html#21-24' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-279' class='srclink' href='../src/gazetta_render_ext/render-ext/src/content.rs.html#21-24' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Content&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a, G::PageMeta: 'a</span>(pub &amp;'a <a class='struct' href='../gazetta_core/view/page/struct.Page.html' title='gazetta_core::view::page::Page'>Page</a>&lt;'a, G&gt;);</pre><div class='docblock'><p>Renders a page&#39;s content</p>
 </div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='../horrorshow/render/trait.RenderOnce.html' title='horrorshow::render::RenderOnce'>RenderOnce</a> for <a class='struct' href='../gazetta_render_ext/struct.Content.html' title='gazetta_render_ext::Content'>Content</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::SiteMeta: 'a, G::PageMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.render_once' class='method'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#method.render_once' class='fnname'>render_once</a>(self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></h4>
 <h4 id='method.size_hint' class='method'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#method.size_hint' class='fnname'>size_hint</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
@@ -95,7 +95,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

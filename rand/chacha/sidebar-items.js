@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ChaChaRng","A random number generator that uses the ChaCha20 algorithm [1]."]]});
+initSidebarItems({"struct":[["ChaChaRng","A random number generator that uses the ChaCha20 algorithm [1].The ChaCha algorithm is widely accepted as suitable for cryptographic purposes, but this implementation has not been verified as such. Prefer a generator like `OsRng` that defers to the operating system for cases that need high security.[1]: D. J. Bernstein, *ChaCha, a variant of Salsa20*"]]});

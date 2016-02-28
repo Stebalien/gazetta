@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Entry","An entry in the website."],["StaticEntry","A static entry."]]});
+initSidebarItems({"struct":[["Entry","An entry in the website.Note: *Pages* do not correspond one-to-one to Entries (due to pagination)."],["StaticEntry","A static entry.Represents a static file/directory to be deployed."]]});

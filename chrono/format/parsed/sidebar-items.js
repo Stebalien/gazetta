@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Parsed","Parsed parts of date and time. There are two classes of methods:"]]});
+initSidebarItems({"struct":[["Parsed","Parsed parts of date and time. There are two classes of methods:`set_*` methods try to set given field(s) while checking for the consistency. It may or may not check for the range constraint immediately (for efficiency reasons). `to_*` methods try to make a concrete date and time value out of set fields. It fully checks any remaining out-of-range conditions and inconsistent/impossible fields,"]]});

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.0.0/src/app/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.1.2/src/app/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -852,6 +852,18 @@
 <span id="809">809</span>
 <span id="810">810</span>
 <span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>dead_code</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>settings</span>;
@@ -905,7 +917,11 @@
 <span class='doccomment'>/// // Your program logic starts here...</span>
 <span class='doccomment'>/// ```</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_debug_implementations</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='ident'>Parser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>) <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span>;
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span> {
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='kw'>pub</span> <span class='ident'>p</span>: <span class='ident'>Parser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>
+}
+
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// Creates a new instance of an application requiring a name. The name may be, but doesn&#39;t</span>
@@ -919,7 +935,7 @@
     <span class='doccomment'>/// let prog = App::new(&quot;My Program&quot;)</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='ident'>n</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> { <span class='ident'>App</span>(<span class='ident'>Parser</span>::<span class='ident'>with_name</span>(<span class='ident'>n</span>.<span class='ident'>into</span>())) }
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='ident'>n</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> { <span class='ident'>App</span> { <span class='ident'>p</span>: <span class='ident'>Parser</span>::<span class='ident'>with_name</span>(<span class='ident'>n</span>.<span class='ident'>into</span>()) } }
 
     <span class='doccomment'>/// Creates a new instace of `App` from a .yml (YAML) file. A full example of supported YAML</span>
     <span class='doccomment'>/// objects can be found in `examples/17_yaml.rs` and `examples/17_yaml.yml`. One great use for</span>
@@ -953,74 +969,8 @@
     <span class='doccomment'>/// // continued logic goes here, such as `app.get_matches()` etc.</span>
     <span class='doccomment'>/// ```</span>
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yaml</span><span class='op'>&lt;</span><span class='lifetime'>&#39;y</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='ident'>yaml</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;y</span> <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;y</span>, <span class='lifetime'>&#39;y</span><span class='op'>&gt;</span> {
-        <span class='kw'>use</span> <span class='ident'>args</span>::<span class='ident'>SubCommand</span>;
-        <span class='comment'>// We WANT this to panic on error...so expect() is good.</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_sc</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;name&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>name</span>)
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>yaml_hash</span> <span class='op'>=</span> <span class='ident'>yaml</span>.<span class='ident'>as_hash</span>().<span class='ident'>unwrap</span>();
-            <span class='kw'>let</span> <span class='ident'>sc_key</span> <span class='op'>=</span> <span class='ident'>yaml_hash</span>.<span class='ident'>keys</span>().<span class='ident'>nth</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>();
-            <span class='ident'>is_sc</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>yaml_hash</span>.<span class='ident'>get</span>(<span class='ident'>sc_key</span>).<span class='ident'>unwrap</span>());
-            <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>sc_key</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>())
-        };
-        <span class='ident'>yaml</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>sc</span>) <span class='op'>=</span> <span class='ident'>is_sc</span> {
-            <span class='ident'>sc</span>
-        } <span class='kw'>else</span> {
-            <span class='ident'>yaml</span>
-        };
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;version&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>version</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;author&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>author</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;bin_name&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>bin_name</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;about&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>about</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;after_help&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>after_help</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;usage&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>usage</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;help&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>help</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;help_short&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>help_short</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;version_short&quot;</span>].<span class='ident'>as_str</span>() {
-            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>version_short</span>(<span class='ident'>v</span>);
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;settings&quot;</span>].<span class='ident'>as_vec</span>() {
-            <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span> {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                    <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>setting</span>(<span class='ident'>s</span>.<span class='ident'>parse</span>().<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;unknown AppSetting found in YAML file&quot;</span>));
-                }
-            }
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;args&quot;</span>].<span class='ident'>as_vec</span>() {
-            <span class='kw'>for</span> <span class='ident'>arg_yaml</span> <span class='kw'>in</span> <span class='ident'>v</span> {
-                <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>from_yaml</span>(<span class='kw-2'>&amp;</span><span class='ident'>arg_yaml</span>.<span class='ident'>as_hash</span>().<span class='ident'>unwrap</span>()));
-            }
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;subcommands&quot;</span>].<span class='ident'>as_vec</span>() {
-            <span class='kw'>for</span> <span class='ident'>sc_yaml</span> <span class='kw'>in</span> <span class='ident'>v</span> {
-                <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>subcommand</span>(<span class='ident'>SubCommand</span>::<span class='ident'>from_yaml</span>(<span class='kw-2'>&amp;</span><span class='ident'>sc_yaml</span>));
-            }
-        }
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;groups&quot;</span>].<span class='ident'>as_vec</span>() {
-            <span class='kw'>for</span> <span class='ident'>ag_yaml</span> <span class='kw'>in</span> <span class='ident'>v</span> {
-                <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>group</span>(<span class='ident'>ArgGroup</span>::<span class='ident'>from_yaml</span>(<span class='kw-2'>&amp;</span><span class='ident'>ag_yaml</span>.<span class='ident'>as_hash</span>().<span class='ident'>unwrap</span>()));
-            }
-        }
-
-        <span class='ident'>a</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yaml</span>(<span class='ident'>yaml</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+        <span class='ident'>App</span>::<span class='ident'>from</span>(<span class='ident'>yaml</span>)
     }
 
     <span class='doccomment'>/// Sets a string of author(s) that will be displayed to the user when they request the help</span>
@@ -1035,7 +985,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>author</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>author</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>author</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>author</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>author</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>author</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1057,7 +1007,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bin_name</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1073,7 +1023,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>about</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>about</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>about</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>about</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>about</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>about</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1090,7 +1040,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>after_help</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>help</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>more_help</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>help</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>more_help</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>help</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1110,7 +1060,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ver</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>version</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>ver</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>version</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>ver</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1138,7 +1088,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>usage</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>usage</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>usage_str</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>usage</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>usage_str</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>usage</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1176,7 +1126,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>help</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>help</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>help_str</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>help</span>.<span class='ident'>into</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>help_str</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>help</span>.<span class='ident'>into</span>());
         <span class='self'>self</span>
     }
 
@@ -1198,7 +1148,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>help_short</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>help_short</span>(<span class='ident'>s</span>.<span class='ident'>as_ref</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>help_short</span>(<span class='ident'>s</span>.<span class='ident'>as_ref</span>());
         <span class='self'>self</span>
     }
 
@@ -1220,7 +1170,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version_short</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>version_short</span>(<span class='ident'>s</span>.<span class='ident'>as_ref</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>version_short</span>(<span class='ident'>s</span>.<span class='ident'>as_ref</span>());
         <span class='self'>self</span>
     }
 
@@ -1238,7 +1188,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>setting</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>setting</span>: <span class='ident'>AppSettings</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>set</span>(<span class='ident'>setting</span>);
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>set</span>(<span class='ident'>setting</span>);
         <span class='self'>self</span>
     }
 
@@ -1257,7 +1207,7 @@
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>settings</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>settings</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>AppSettings</span>]) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
         <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>settings</span> {
-            <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>set</span>(<span class='op'>*</span><span class='ident'>s</span>);
+            <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>set</span>(<span class='op'>*</span><span class='ident'>s</span>);
         }
         <span class='self'>self</span>
     }
@@ -1283,7 +1233,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>arg</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>Borrow</span><span class='op'>&lt;</span><span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>a</span>: <span class='ident'>A</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_arg</span>(<span class='ident'>a</span>.<span class='ident'>borrow</span>());
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_arg</span>(<span class='ident'>a</span>.<span class='ident'>borrow</span>());
         <span class='self'>self</span>
     }
 
@@ -1302,7 +1252,7 @@
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>args</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>]) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
         <span class='kw'>for</span> <span class='ident'>arg</span> <span class='kw'>in</span> <span class='ident'>args</span> {
-            <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_arg</span>(<span class='ident'>arg</span>);
+            <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_arg</span>(<span class='ident'>arg</span>);
         }
         <span class='self'>self</span>
     }
@@ -1322,7 +1272,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>arg_from_usage</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_arg</span>(<span class='kw-2'>&amp;</span><span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='ident'>usage</span>));
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_arg</span>(<span class='kw-2'>&amp;</span><span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='ident'>usage</span>));
         <span class='self'>self</span>
     }
 
@@ -1346,7 +1296,8 @@
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>args_from_usage</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
         <span class='kw'>for</span> <span class='ident'>l</span> <span class='kw'>in</span> <span class='ident'>usage</span>.<span class='ident'>lines</span>() {
-            <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_arg</span>(<span class='kw-2'>&amp;</span><span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='ident'>l</span>.<span class='ident'>trim</span>()));
+            <span class='kw'>if</span> <span class='ident'>l</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>continue</span>; }
+            <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_arg</span>(<span class='kw-2'>&amp;</span><span class='ident'>Arg</span>::<span class='ident'>from_usage</span>(<span class='ident'>l</span>.<span class='ident'>trim</span>()));
         }
         <span class='self'>self</span>
     }
@@ -1384,7 +1335,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>group</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>group</span>: <span class='ident'>ArgGroup</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_group</span>(<span class='ident'>group</span>);
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_group</span>(<span class='ident'>group</span>);
         <span class='self'>self</span>
     }
 
@@ -1434,7 +1385,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>subcommand</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>subcmd</span>: <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_subcommand</span>(<span class='ident'>subcmd</span>);
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_subcommand</span>(<span class='ident'>subcmd</span>);
         <span class='self'>self</span>
     }
 
@@ -1456,7 +1407,7 @@
         <span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;&gt;</span>
     {
         <span class='kw'>for</span> <span class='ident'>subcmd</span> <span class='kw'>in</span> <span class='ident'>subcmds</span>.<span class='ident'>into_iter</span>() {
-            <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>add_subcommand</span>(<span class='ident'>subcmd</span>);
+            <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>add_subcommand</span>(<span class='ident'>subcmd</span>);
         }
         <span class='self'>self</span>
     }
@@ -1489,7 +1440,7 @@
     <span class='doccomment'>/// app.write_help(&amp;mut out).ok().expect(&quot;failed to write to stdout&quot;);</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_help</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>w</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>ClapResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>write_help</span>(<span class='ident'>w</span>)
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>write_help</span>(<span class='ident'>w</span>)
     }
 
     <span class='doccomment'>/// Starts the parsing process, upon a failed parse an error will be displayed to the user and</span>
@@ -1610,10 +1561,10 @@
               <span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>OsString</span><span class='op'>&gt;</span>
     {
         <span class='comment'>// Verify all positional assertions pass</span>
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>verify_positionals</span>();
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>verify_positionals</span>();
         <span class='comment'>// If there are global arguments, we need to propgate them down to subcommands</span>
         <span class='comment'>// before parsing incase we run into a subcommand</span>
-        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>propogate_globals</span>();
+        <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>propogate_globals</span>();
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>matcher</span> <span class='op'>=</span> <span class='ident'>ArgMatcher</span>::<span class='ident'>new</span>();
 
@@ -1625,14 +1576,14 @@
         <span class='comment'>// will have two arguments, &#39;./target/release/my_prog&#39;, &#39;-a&#39; but we don&#39;t want</span>
         <span class='comment'>// to display</span>
         <span class='comment'>// the full path when displaying help messages and such</span>
-        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>is_set</span>(<span class='ident'>AppSettings</span>::<span class='ident'>NoBinaryName</span>) {
+        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>is_set</span>(<span class='ident'>AppSettings</span>::<span class='ident'>NoBinaryName</span>) {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>) <span class='op'>=</span> <span class='ident'>it</span>.<span class='ident'>next</span>() {
                 <span class='kw'>let</span> <span class='ident'>bn_os</span> <span class='op'>=</span> <span class='ident'>name</span>.<span class='ident'>into</span>();
                 <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>bn_os</span>);
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>f</span>) <span class='op'>=</span> <span class='ident'>p</span>.<span class='ident'>file_name</span>() {
                     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>f</span>.<span class='ident'>to_os_string</span>().<span class='ident'>to_str</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>None</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span> {
-                            <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>.<span class='ident'>to_owned</span>());
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>None</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span> {
+                            <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>.<span class='ident'>to_owned</span>());
                         }
                     }
                 }
@@ -1640,7 +1591,7 @@
         }
 
         <span class='comment'>// do the real parsing</span>
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>get_matches_with</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>matcher</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>it</span>) {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>get_matches_with</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>matcher</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>it</span>) {
             <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>);
         }
 
@@ -1652,7 +1603,7 @@
     <span class='kw'>fn</span> <span class='ident'>maybe_wait_for_exit</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>e</span>: <span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
         <span class='kw'>if</span> <span class='ident'>e</span>.<span class='ident'>use_stderr</span>() {
             <span class='macro'>wlnerr</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>e</span>.<span class='ident'>message</span>);
-            <span class='kw'>if</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>is_set</span>(<span class='ident'>AppSettings</span>::<span class='ident'>WaitOnError</span>) {
+            <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>is_set</span>(<span class='ident'>AppSettings</span>::<span class='ident'>WaitOnError</span>) {
                 <span class='macro'>wlnerr</span><span class='macro'>!</span>(<span class='string'>&quot;\nPress [ENTER] / [RETURN] to continue...&quot;</span>);
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
                 <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>io</span>::<span class='ident'>stdin</span>();
@@ -1662,6 +1613,79 @@
         }
 
         <span class='ident'>e</span>.<span class='ident'>exit</span>()
+    }
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Yaml</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>App</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='kw-2'>mut</span> <span class='ident'>yaml</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+        <span class='kw'>use</span> <span class='ident'>args</span>::<span class='ident'>SubCommand</span>;
+        <span class='comment'>// We WANT this to panic on error...so expect() is good.</span>
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_sc</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;name&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>name</span>)
+        } <span class='kw'>else</span> {
+            <span class='kw'>let</span> <span class='ident'>yaml_hash</span> <span class='op'>=</span> <span class='ident'>yaml</span>.<span class='ident'>as_hash</span>().<span class='ident'>unwrap</span>();
+            <span class='kw'>let</span> <span class='ident'>sc_key</span> <span class='op'>=</span> <span class='ident'>yaml_hash</span>.<span class='ident'>keys</span>().<span class='ident'>nth</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>is_sc</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>yaml_hash</span>.<span class='ident'>get</span>(<span class='ident'>sc_key</span>).<span class='ident'>unwrap</span>());
+            <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>sc_key</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>())
+        };
+        <span class='ident'>yaml</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>sc</span>) <span class='op'>=</span> <span class='ident'>is_sc</span> {
+            <span class='ident'>sc</span>
+        } <span class='kw'>else</span> {
+            <span class='ident'>yaml</span>
+        };
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;version&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>version</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;author&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>author</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;bin_name&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>bin_name</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;about&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>about</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;after_help&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>after_help</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;usage&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>usage</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;help&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>help</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;help_short&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>help_short</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;version_short&quot;</span>].<span class='ident'>as_str</span>() {
+            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>version_short</span>(<span class='ident'>v</span>);
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;settings&quot;</span>].<span class='ident'>as_vec</span>() {
+            <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
+                    <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>setting</span>(<span class='ident'>s</span>.<span class='ident'>parse</span>().<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;unknown AppSetting found in YAML file&quot;</span>));
+                }
+            }
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;args&quot;</span>].<span class='ident'>as_vec</span>() {
+            <span class='kw'>for</span> <span class='ident'>arg_yaml</span> <span class='kw'>in</span> <span class='ident'>v</span> {
+                <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>from_yaml</span>(<span class='kw-2'>&amp;</span><span class='ident'>arg_yaml</span>.<span class='ident'>as_hash</span>().<span class='ident'>unwrap</span>()));
+            }
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;subcommands&quot;</span>].<span class='ident'>as_vec</span>() {
+            <span class='kw'>for</span> <span class='ident'>sc_yaml</span> <span class='kw'>in</span> <span class='ident'>v</span> {
+                <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>subcommand</span>(<span class='ident'>SubCommand</span>::<span class='ident'>from_yaml</span>(<span class='kw-2'>&amp;</span><span class='ident'>sc_yaml</span>));
+            }
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;groups&quot;</span>].<span class='ident'>as_vec</span>() {
+            <span class='kw'>for</span> <span class='ident'>ag_yaml</span> <span class='kw'>in</span> <span class='ident'>v</span> {
+                <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>group</span>(<span class='ident'>ArgGroup</span>::<span class='ident'>from</span>(<span class='ident'>ag_yaml</span>.<span class='ident'>as_hash</span>().<span class='ident'>unwrap</span>()));
+            }
+        }
+
+        <span class='ident'>a</span>
     }
 }
 </pre>
@@ -1708,7 +1732,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

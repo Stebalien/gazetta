@@ -267,7 +267,6 @@ steps it will indeed confirm that it is better to switch.</p>
                                title='rand::chacha'>chacha</a></td>
                         <td class='docblock short'>
                              <p>The ChaCha random number generator.</p>
-
                         </td>
                     </tr>
                 
@@ -276,7 +275,6 @@ steps it will indeed confirm that it is better to switch.</p>
                                title='rand::distributions'>distributions</a></td>
                         <td class='docblock short'>
                              <p>Sampling from random distributions.</p>
-
                         </td>
                     </tr>
                 
@@ -285,7 +283,6 @@ steps it will indeed confirm that it is better to switch.</p>
                                title='rand::isaac'>isaac</a></td>
                         <td class='docblock short'>
                              <p>The ISAAC random number generator.</p>
-
                         </td>
                     </tr>
                 
@@ -295,7 +292,6 @@ steps it will indeed confirm that it is better to switch.</p>
                         <td class='docblock short'>
                              <p>Interfaces to the operating system provided random number
 generators.</p>
-
                         </td>
                     </tr>
                 
@@ -304,7 +300,6 @@ generators.</p>
                                title='rand::read'>read</a></td>
                         <td class='docblock short'>
                              <p>A wrapper around any Read to treat it as an RNG.</p>
-
                         </td>
                     </tr>
                 
@@ -314,7 +309,6 @@ generators.</p>
                         <td class='docblock short'>
                              <p>A wrapper around another RNG that reseeds it after it
 generates a certain number of random bytes.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -324,7 +318,6 @@ generates a certain number of random bytes.</p>
                                title='rand::AsciiGenerator'>AsciiGenerator</a></td>
                         <td class='docblock short'>
                              <p>Iterator which will continuously generate random ascii characters.</p>
-
                         </td>
                     </tr>
                 
@@ -334,7 +327,6 @@ generates a certain number of random bytes.</p>
                         <td class='docblock short'>
                              <p>A wrapper for generating floating point numbers uniformly in the
 closed interval <code>[0,1]</code> (including both endpoints).</p>
-
                         </td>
                     </tr>
                 
@@ -343,7 +335,6 @@ closed interval <code>[0,1]</code> (including both endpoints).</p>
                                title='rand::Generator'>Generator</a></td>
                         <td class='docblock short'>
                              <p>Iterator which will generate a stream of random items.</p>
-
                         </td>
                     </tr>
                 
@@ -353,7 +344,6 @@ closed interval <code>[0,1]</code> (including both endpoints).</p>
                         <td class='docblock short'>
                              <p>A wrapper for generating floating point numbers uniformly in the
 open interval <code>(0,1)</code> (not including either endpoint).</p>
-
                         </td>
                     </tr>
                 
@@ -363,7 +353,6 @@ open interval <code>(0,1)</code> (not including either endpoint).</p>
                         <td class='docblock short'>
                              <p>The standard RNG. This is designed to be efficient on the current
 platform.</p>
-
                         </td>
                     </tr>
                 
@@ -372,7 +361,6 @@ platform.</p>
                                title='rand::ThreadRng'>ThreadRng</a></td>
                         <td class='docblock short'>
                              <p>The thread-local RNG.</p>
-
                         </td>
                     </tr>
                 
@@ -382,7 +370,6 @@ platform.</p>
                         <td class='docblock short'>
                              <p>An Xorshift[1] random number
 generator.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
@@ -392,7 +379,6 @@ generator.</p>
                                title='rand::Rand'>Rand</a></td>
                         <td class='docblock short'>
                              <p>A type that can be randomly generated using an <code>Rng</code>.</p>
-
                         </td>
                     </tr>
                 
@@ -401,7 +387,6 @@ generator.</p>
                                title='rand::Rng'>Rng</a></td>
                         <td class='docblock short'>
                              <p>A random number generator.</p>
-
                         </td>
                     </tr>
                 
@@ -411,7 +396,6 @@ generator.</p>
                         <td class='docblock short'>
                              <p>A random number generator that can be explicitly seeded to produce
 the same stream of randomness multiple times.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
@@ -421,7 +405,6 @@ the same stream of randomness multiple times.</p>
                                title='rand::random'>random</a></td>
                         <td class='docblock short'>
                              <p>Generates a random value using the thread-local random number generator.</p>
-
                         </td>
                     </tr>
                 
@@ -430,7 +413,6 @@ the same stream of randomness multiple times.</p>
                                title='rand::sample'>sample</a></td>
                         <td class='docblock short'>
                              <p>Randomly sample up to <code>amount</code> elements from an iterator.</p>
-
                         </td>
                     </tr>
                 
@@ -441,7 +423,6 @@ the same stream of randomness multiple times.</p>
                              <p>Retrieve the lazily-initialized thread-local random number
 generator, seeded by the system. Intended to be used in method
 chaining style, e.g. <code>thread_rng().gen::&lt;i32&gt;()</code>.</p>
-
                         </td>
                     </tr>
                 
@@ -450,7 +431,6 @@ chaining style, e.g. <code>thread_rng().gen::&lt;i32&gt;()</code>.</p>
                                title='rand::weak_rng'>weak_rng</a></td>
                         <td class='docblock short'>
                              <p>Create a weak random number generator with a default algorithm and seed.</p>
-
                         </td>
                     </tr>
                 </table></section>
@@ -496,7 +476,7 @@ chaining style, e.g. <code>thread_rng().gen::&lt;i32&gt;()</code>.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

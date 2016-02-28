@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["ext","Experimental extensions to `std` for Unix platforms."],["linux","Linux-specific definitions"],["raw","Raw OS-specific types for the current platform/architecture"]]});
+initSidebarItems({"mod":[["ext","Experimental extensions to `std` for Unix platforms.For now, this module is limited to extracting file descriptors, but its functionality will grow over time.Example"],["linux","Linux-specific definitions"],["raw","Raw OS-specific types for the current platform/architecture"]]});

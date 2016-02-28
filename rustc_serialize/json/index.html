@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -26,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../../rustc_serialize/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../../rustc_serialize/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'><a href='../index.html'>rustc_serialize</a></p><script>window.sidebarCurrent = {name: 'json', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
     </nav>
 
@@ -46,13 +46,13 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-5129' class='srclink' href='../../src/rustc_serialize/json.rs.html#14-3931' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-5150' class='srclink' href='../../src/rustc_serialize/json.rs.html#14-3940' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>JSON parsing and serialization</p>
 
 <h1 id='what-is-json' class='section-header'><a href='#what-is-json'>What is JSON?</a></h1>
 <p>JSON (JavaScript Object Notation) is a way to write data in Javascript.
-Like XML, it allows to encode structured data in a text format that can be
-easily read by humans Its simple syntax and native compatibility with
+Like XML, it allows encoding structured data in a text format that can be
+easily read by humans. Its simple syntax and native compatibility with
 JavaScript have made it a widely used format.</p>
 
 <p>Data types that can be encoded are JavaScript types (see the <code>Json</code> enum
@@ -106,7 +106,7 @@ object into a <code>json::Json</code> value.  A <code>json::Json</code> value ca
 string or buffer using the functions described above.  You can also use the
 <code>json::Encoder</code> object, which implements the <code>Encoder</code> trait.</p>
 
-<p>When using <code>ToJson</code> the <code>Encodable</code> trait implementation is not
+<p>When using <code>ToJson</code>, the <code>Encodable</code> trait implementation is not
 mandatory.</p>
 
 <h1 id='examples-of-use' class='section-header'><a href='#examples-of-use'>Examples of use</a></h1>
@@ -141,7 +141,7 @@ from JSON using the serialization API, using the derived serialization code.</p>
 }</pre>
 
 <h2 id='using-the-tojson-trait' class='section-header'><a href='#using-the-tojson-trait'>Using the <code>ToJson</code> trait</a></h2>
-<p>The examples above use the <code>ToJson</code> trait to generate the JSON string,
+<p>The examples below use the <code>ToJson</code> trait to generate the JSON string,
 which is required for custom mappings.</p>
 
 <h3 id='simple-example-of-tojson-usage' class='section-header'><a href='#simple-example-of-tojson-usage'>Simple example of <code>ToJson</code> usage</a></h3><pre class='rust rust-example-rendered'>
@@ -253,7 +253,7 @@ which is required for custom mappings.</p>
 <p>While this library is the standard way of working with JSON in Rust,
 there is a next-generation library called Serde that&#39;s in the works (it&#39;s
 faster, overcomes some design limitations of rustc-serialize and has more
-features). You might consider using it when starting new project or
+features). You might consider using it when starting a new project or
 evaluating Rust JSON performance.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -278,7 +278,6 @@ evaluating Rust JSON performance.</p>
                                title='rustc_serialize::json::Builder'>Builder</a></td>
                         <td class='docblock short'>
                              <p>A Builder consumes a json::Parser to create a generic Json structure.</p>
-
                         </td>
                     </tr>
                 
@@ -287,7 +286,6 @@ evaluating Rust JSON performance.</p>
                                title='rustc_serialize::json::Decoder'>Decoder</a></td>
                         <td class='docblock short'>
                              <p>A structure to decode JSON to values in rust.</p>
-
                         </td>
                     </tr>
                 
@@ -296,7 +294,6 @@ evaluating Rust JSON performance.</p>
                                title='rustc_serialize::json::Encoder'>Encoder</a></td>
                         <td class='docblock short'>
                              <p>A structure for implementing serialization to JSON.</p>
-
                         </td>
                     </tr>
                 
@@ -306,7 +303,6 @@ evaluating Rust JSON performance.</p>
                         <td class='docblock short'>
                              <p>A streaming JSON parser implemented as an iterator of JsonEvent, consuming
 an iterator of char.</p>
-
                         </td>
                     </tr>
                 
@@ -325,7 +321,6 @@ an iterator of char.</p>
                              <p>A Stack represents the current position of the parser in the logical
 structure of the JSON stream.
 For example foo.bar[3].x</p>
-
                         </td>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
@@ -351,7 +346,6 @@ For example foo.bar[3].x</p>
                                title='rustc_serialize::json::ErrorCode'>ErrorCode</a></td>
                         <td class='docblock short'>
                              <p>The errors that can arise while parsing a JSON stream.</p>
-
                         </td>
                     </tr>
                 
@@ -360,7 +354,6 @@ For example foo.bar[3].x</p>
                                title='rustc_serialize::json::Json'>Json</a></td>
                         <td class='docblock short'>
                              <p>Represents a json value</p>
-
                         </td>
                     </tr>
                 
@@ -369,7 +362,6 @@ For example foo.bar[3].x</p>
                                title='rustc_serialize::json::JsonEvent'>JsonEvent</a></td>
                         <td class='docblock short'>
                              <p>The output of the streaming parser.</p>
-
                         </td>
                     </tr>
                 
@@ -388,7 +380,6 @@ For example foo.bar[3].x</p>
                              <p>StackElements compose a Stack.
 For example, Key(&quot;foo&quot;), Key(&quot;bar&quot;), Index(3) and Key(&quot;x&quot;) are the
 StackElements compositing the stack that represents foo.bar[3].x</p>
-
                         </td>
                     </tr>
                 </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
@@ -398,7 +389,6 @@ StackElements compositing the stack that represents foo.bar[3].x</p>
                                title='rustc_serialize::json::ToJson'>ToJson</a></td>
                         <td class='docblock short'>
                              <p>A trait for converting values to JSON</p>
-
                         </td>
                     </tr>
                 </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
@@ -409,7 +399,6 @@ StackElements compositing the stack that represents foo.bar[3].x</p>
                         <td class='docblock short'>
                              <p>Create an <code>AsJson</code> wrapper which can be used to print a value as JSON
 on-the-fly via <code>write!</code></p>
-
                         </td>
                     </tr>
                 
@@ -419,7 +408,6 @@ on-the-fly via <code>write!</code></p>
                         <td class='docblock short'>
                              <p>Create an <code>AsPrettyJson</code> wrapper which can be used to print a value as JSON
 on-the-fly via <code>write!</code></p>
-
                         </td>
                     </tr>
                 
@@ -428,7 +416,6 @@ on-the-fly via <code>write!</code></p>
                                title='rustc_serialize::json::decode'>decode</a></td>
                         <td class='docblock short'>
                              <p>Shortcut function to decode a JSON <code>&amp;str</code> into an object</p>
-
                         </td>
                     </tr>
                 
@@ -437,7 +424,6 @@ on-the-fly via <code>write!</code></p>
                                title='rustc_serialize::json::encode'>encode</a></td>
                         <td class='docblock short'>
                              <p>Shortcut function to encode a <code>T</code> into a JSON <code>String</code></p>
-
                         </td>
                     </tr>
                 
@@ -446,7 +432,6 @@ on-the-fly via <code>write!</code></p>
                                title='rustc_serialize::json::error_str'>error_str</a></td>
                         <td class='docblock short'>
                              <p>Returns a readable error string for a given error code.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
@@ -533,7 +518,7 @@ on-the-fly via <code>write!</code></p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

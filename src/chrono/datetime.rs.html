@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.18/src/datetime.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.19/src/datetime.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>datetime.rs.html -- source</title>
@@ -646,6 +646,25 @@
 <span id="603">603</span>
 <span id="604">604</span>
 <span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
@@ -692,7 +711,7 @@
     <span class='doccomment'>/// Retrieves a date component.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>date</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Date</span><span class='op'>&lt;</span><span class='ident'>Tz</span><span class='op'>&gt;</span> {
-        <span class='ident'>Date</span>::<span class='ident'>from_utc</span>(<span class='self'>self</span>.<span class='ident'>datetime</span>.<span class='ident'>date</span>().<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>offset</span>.<span class='ident'>clone</span>())
+        <span class='ident'>Date</span>::<span class='ident'>from_utc</span>(<span class='self'>self</span>.<span class='ident'>naive_local</span>().<span class='ident'>date</span>(), <span class='self'>self</span>.<span class='ident'>offset</span>.<span class='ident'>clone</span>())
     }
 
     <span class='doccomment'>/// Retrieves a time component.</span>
@@ -1078,6 +1097,7 @@
     <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>DateTime</span>;
     <span class='kw'>use</span> <span class='ident'>Datelike</span>;
     <span class='kw'>use</span> <span class='ident'>naive</span>::<span class='ident'>time</span>::<span class='ident'>NaiveTime</span>;
+    <span class='kw'>use</span> <span class='ident'>naive</span>::<span class='ident'>date</span>::<span class='ident'>NaiveDate</span>;
     <span class='kw'>use</span> <span class='ident'>duration</span>::<span class='ident'>Duration</span>;
     <span class='kw'>use</span> <span class='ident'>offset</span>::<span class='ident'>TimeZone</span>;
     <span class='kw'>use</span> <span class='ident'>offset</span>::<span class='ident'>utc</span>::<span class='ident'>UTC</span>;
@@ -1130,9 +1150,27 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_datetime_time</span>() {
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>5</span><span class='op'>*</span><span class='number'>60</span><span class='op'>*</span><span class='number'>60</span>).<span class='ident'>ymd</span>(<span class='number'>2014</span>, <span class='number'>5</span>, <span class='number'>6</span>).<span class='ident'>and_hms</span>(<span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>).<span class='ident'>time</span>(),
-                   <span class='ident'>NaiveTime</span>::<span class='ident'>from_hms</span>(<span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>));
+    <span class='kw'>fn</span> <span class='ident'>test_datetime_date_and_time</span>() {
+        <span class='kw'>let</span> <span class='ident'>tz</span> <span class='op'>=</span> <span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>5</span><span class='op'>*</span><span class='number'>60</span><span class='op'>*</span><span class='number'>60</span>);
+        <span class='kw'>let</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='ident'>tz</span>.<span class='ident'>ymd</span>(<span class='number'>2014</span>, <span class='number'>5</span>, <span class='number'>6</span>).<span class='ident'>and_hms</span>(<span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>time</span>(), <span class='ident'>NaiveTime</span>::<span class='ident'>from_hms</span>(<span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>(), <span class='ident'>tz</span>.<span class='ident'>ymd</span>(<span class='number'>2014</span>, <span class='number'>5</span>, <span class='number'>6</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>().<span class='ident'>naive_local</span>(), <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='number'>2014</span>, <span class='number'>5</span>, <span class='number'>6</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>().<span class='ident'>and_time</span>(<span class='ident'>d</span>.<span class='ident'>time</span>()), <span class='prelude-val'>Some</span>(<span class='ident'>d</span>));
+
+        <span class='kw'>let</span> <span class='ident'>tz</span> <span class='op'>=</span> <span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>4</span><span class='op'>*</span><span class='number'>60</span><span class='op'>*</span><span class='number'>60</span>);
+        <span class='kw'>let</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='ident'>tz</span>.<span class='ident'>ymd</span>(<span class='number'>2016</span>, <span class='number'>5</span>, <span class='number'>4</span>).<span class='ident'>and_hms</span>(<span class='number'>3</span>, <span class='number'>2</span>, <span class='number'>1</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>time</span>(), <span class='ident'>NaiveTime</span>::<span class='ident'>from_hms</span>(<span class='number'>3</span>, <span class='number'>2</span>, <span class='number'>1</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>(), <span class='ident'>tz</span>.<span class='ident'>ymd</span>(<span class='number'>2016</span>, <span class='number'>5</span>, <span class='number'>4</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>().<span class='ident'>naive_local</span>(), <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='number'>2016</span>, <span class='number'>5</span>, <span class='number'>4</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>().<span class='ident'>and_time</span>(<span class='ident'>d</span>.<span class='ident'>time</span>()), <span class='prelude-val'>Some</span>(<span class='ident'>d</span>));
+
+        <span class='kw'>let</span> <span class='ident'>tz</span> <span class='op'>=</span> <span class='ident'>FixedOffset</span>::<span class='ident'>west</span>(<span class='number'>13</span><span class='op'>*</span><span class='number'>60</span><span class='op'>*</span><span class='number'>60</span>);
+        <span class='kw'>let</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='ident'>tz</span>.<span class='ident'>ymd</span>(<span class='number'>2017</span>, <span class='number'>8</span>, <span class='number'>9</span>).<span class='ident'>and_hms</span>(<span class='number'>12</span>, <span class='number'>34</span>, <span class='number'>56</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>time</span>(), <span class='ident'>NaiveTime</span>::<span class='ident'>from_hms</span>(<span class='number'>12</span>, <span class='number'>34</span>, <span class='number'>56</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>(), <span class='ident'>tz</span>.<span class='ident'>ymd</span>(<span class='number'>2017</span>, <span class='number'>8</span>, <span class='number'>9</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>().<span class='ident'>naive_local</span>(), <span class='ident'>NaiveDate</span>::<span class='ident'>from_ymd</span>(<span class='number'>2017</span>, <span class='number'>8</span>, <span class='number'>9</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>date</span>().<span class='ident'>and_time</span>(<span class='ident'>d</span>.<span class='ident'>time</span>()), <span class='prelude-val'>Some</span>(<span class='ident'>d</span>));
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -1296,7 +1334,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

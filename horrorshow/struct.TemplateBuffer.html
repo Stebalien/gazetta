@@ -72,7 +72,7 @@
 <div class='docblock'><p>Returns an escaping Write adapter.</p>
 </div><h4 id='method.as_raw_writer' class='method'><code>fn <a href='#method.as_raw_writer' class='fnname'>as_raw_writer</a>&lt;'b&gt;(&amp;'b mut self) -&gt; RawTemplateWriter&lt;'a, 'b&gt;</code></h4>
 <div class='docblock'><p>Returns a non-escaping Write adapter.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, 'b, T&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Shl.html' title='core::ops::Shl'>Shl</a>&lt;T&gt; for &amp;'a mut <a class='struct' href='../horrorshow/struct.TemplateBuffer.html' title='horrorshow::TemplateBuffer'>TemplateBuffer</a>&lt;'b&gt; <span class='where'>where T: <a class='trait' href='../horrorshow/prelude/trait.RenderOnce.html' title='horrorshow::prelude::RenderOnce'>RenderOnce</a></span></code></h3><div class='impl-items'><h4 id='assoc_type.Output' class='type'><code>type Output = <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, 'b, T&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Shl.html' title='core::ops::Shl'>Shl</a>&lt;T&gt; for &amp;'a mut <a class='struct' href='../horrorshow/struct.TemplateBuffer.html' title='horrorshow::TemplateBuffer'>TemplateBuffer</a>&lt;'b&gt; <span class='where'>where T: <a class='trait' href='../horrorshow/prelude/trait.RenderOnce.html' title='horrorshow::prelude::RenderOnce'>RenderOnce</a></span></code></h3><div class='impl-items'><h4 id='associatedtype.Output' class='type'><code>type Output = <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></h4>
 <h4 id='method.shl' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Shl.html#method.shl' class='fnname'>shl</a>(self, component: T)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -117,7 +117,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

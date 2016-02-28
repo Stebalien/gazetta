@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-1099' class='srclink' href='https://doc.rust-lang.org/nightly/std/collections/index.html?gotosrc=1099' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-1115' class='srclink' href='https://doc.rust-lang.org/nightly/std/collections/index.html?gotosrc=1115' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Collection types.</p>
 
 <p>Rust&#39;s standard collection library provides efficient implementations of the
@@ -482,12 +482,15 @@ not update the value of the key. For example:</p>
 }
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>map</span> <span class='op'>=</span> <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>();
-<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>Foo</span> { <span class='ident'>a</span>: <span class='number'>1</span>, <span class='ident'>b</span>: <span class='string'>&quot;baz&quot;</span> }, ());
+<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>Foo</span> { <span class='ident'>a</span>: <span class='number'>1</span>, <span class='ident'>b</span>: <span class='string'>&quot;baz&quot;</span> }, <span class='number'>99</span>);
 
 <span class='comment'>// We already have a Foo with an a of 1, so this will be updating the value.</span>
-<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>Foo</span> { <span class='ident'>a</span>: <span class='number'>1</span>, <span class='ident'>b</span>: <span class='string'>&quot;xyz&quot;</span> }, ());
+<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>Foo</span> { <span class='ident'>a</span>: <span class='number'>1</span>, <span class='ident'>b</span>: <span class='string'>&quot;xyz&quot;</span> }, <span class='number'>100</span>);
 
-<span class='comment'>// ... but the key hasn&#39;t changed. b is still &quot;baz&quot;, not &quot;xyz&quot;</span>
+<span class='comment'>// The value has been updated...</span>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>map</span>.<span class='ident'>values</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>(), <span class='kw-2'>&amp;</span><span class='number'>100</span>);
+
+<span class='comment'>// ...but the key hasn&#39;t changed. b is still &quot;baz&quot;, not &quot;xyz&quot;.</span>
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>map</span>.<span class='ident'>keys</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>b</span>, <span class='string'>&quot;baz&quot;</span>);</pre>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
@@ -496,7 +499,6 @@ not update the value of the key. For example:</p>
                                title='bitflags::__core::collections::binary_heap'>binary_heap</a></td>
                         <td class='docblock short'>
                              <p>A priority queue implemented with a binary heap.</p>
-
                         </td>
                     </tr>
                 
@@ -521,7 +523,6 @@ not update the value of the key. For example:</p>
                                title='bitflags::__core::collections::hash_map'>hash_map</a></td>
                         <td class='docblock short'>
                              <p>A hashmap</p>
-
                         </td>
                     </tr>
                 
@@ -530,7 +531,6 @@ not update the value of the key. For example:</p>
                                title='bitflags::__core::collections::hash_set'>hash_set</a></td>
                         <td class='docblock short'>
                              <p>A hashset</p>
-
                         </td>
                     </tr>
                 
@@ -539,7 +539,6 @@ not update the value of the key. For example:</p>
                                title='bitflags::__core::collections::linked_list'>linked_list</a></td>
                         <td class='docblock short'>
                              <p>A doubly-linked list with owned nodes.</p>
-
                         </td>
                     </tr>
                 
@@ -549,17 +548,15 @@ not update the value of the key. For example:</p>
                         <td class='docblock short'>
                              <p>VecDeque is a double-ended queue, which is implemented with the help of a
 growing ring buffer.</p>
-
                         </td>
                     </tr>
                 
-                    <tr class='unstable module-item'>
+                    <tr class='unstable deprecated module-item'>
                         <td><a class='mod' href='hash_state/index.html'
                                title='bitflags::__core::collections::hash_state'>hash_state</a></td>
                         <td class='docblock short'>
-                            [<em class='stab unstable'>Unstable</em>] <p>Experimental support for providing custom hash algorithms to a HashMap and
+                            [<em class='stab unstable deprecated'>Deprecated</em>] <p>Experimental support for providing custom hash algorithms to a HashMap and
 HashSet.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -569,7 +566,6 @@ HashSet.</p>
                                title='bitflags::__core::collections::BTreeMap'>BTreeMap</a></td>
                         <td class='docblock short'>
                              <p>A map based on a B-Tree.</p>
-
                         </td>
                     </tr>
                 
@@ -578,7 +574,6 @@ HashSet.</p>
                                title='bitflags::__core::collections::BTreeSet'>BTreeSet</a></td>
                         <td class='docblock short'>
                              <p>A set based on a B-Tree.</p>
-
                         </td>
                     </tr>
                 
@@ -587,7 +582,6 @@ HashSet.</p>
                                title='bitflags::__core::collections::BinaryHeap'>BinaryHeap</a></td>
                         <td class='docblock short'>
                              <p>A priority queue implemented with a binary heap.</p>
-
                         </td>
                     </tr>
                 
@@ -597,7 +591,6 @@ HashSet.</p>
                         <td class='docblock short'>
                              <p>A hash map implementation which uses linear probing with Robin
 Hood bucket stealing.</p>
-
                         </td>
                     </tr>
                 
@@ -607,7 +600,6 @@ Hood bucket stealing.</p>
                         <td class='docblock short'>
                              <p>An implementation of a hash set using the underlying representation of a
 HashMap where the value is ().</p>
-
                         </td>
                     </tr>
                 
@@ -616,7 +608,6 @@ HashMap where the value is ().</p>
                                title='bitflags::__core::collections::LinkedList'>LinkedList</a></td>
                         <td class='docblock short'>
                              <p>A doubly-linked list.</p>
-
                         </td>
                     </tr>
                 
@@ -626,7 +617,6 @@ HashMap where the value is ().</p>
                         <td class='docblock short'>
                              <p><code>VecDeque</code> is a growable ring buffer, which can be used as a double-ended
 queue efficiently.</p>
-
                         </td>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
@@ -636,7 +626,6 @@ queue efficiently.</p>
                                title='bitflags::__core::collections::Bound'>Bound</a></td>
                         <td class='docblock short'>
                             [<em class='stab unstable'>Unstable</em>] <p>An endpoint of a range of keys.</p>
-
                         </td>
                     </tr>
                 </table></section>
@@ -682,7 +671,7 @@ queue efficiently.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

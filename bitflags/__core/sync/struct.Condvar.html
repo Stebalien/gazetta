@@ -46,10 +46,10 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-9512' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/condvar/struct.Condvar.html?gotosrc=9512' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-10118' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/condvar/struct.Condvar.html?gotosrc=10118' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Condvar {
     // some fields omitted
-}</pre><div class='docblock'><p>A Condition Variable</p>
+}</pre><span class="since">1.0.0</span><div class='docblock'><p>A Condition Variable</p>
 
 <p>Condition variables represent the ability to block a thread such that it
 consumes no CPU time while waiting for an event to occur. Condition
@@ -104,7 +104,7 @@ variables normally have a boolean predicate associated with them, and
 the predicate must always be checked each time this function returns to
 protect against spurious wakeups.</p>
 
-<h1 id='failure' class='section-header'><a href='#failure'>Failure</a></h1>
+<h1 id='errors' class='section-header'><a href='#errors'>Errors</a></h1>
 <p>This function will return an error if the mutex being waited on is
 poisoned when this thread re-acquires the lock. For more information,
 see information about poisoning on the Mutex type.</p>
@@ -131,7 +131,7 @@ to have elapsed.</p>
 
 <p>Like <code>wait</code>, the lock specified will be re-acquired when this function
 returns, regardless of whether the timeout elapsed or not.</p>
-</div><h4 id='method.wait_timeout' class='method'><code>fn <a href='#method.wait_timeout' class='fnname'>wait_timeout</a>&lt;T&gt;(&amp;self, guard: <a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, dur: <a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>(</a><a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, <a class='struct' href='../../../bitflags/__core/sync/struct.WaitTimeoutResult.html' title='bitflags::__core::sync::WaitTimeoutResult'>WaitTimeoutResult</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>)</a>, <a class='struct' href='../../../bitflags/__core/sync/struct.PoisonError.html' title='bitflags::__core::sync::PoisonError'>PoisonError</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>(</a><a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, <a class='struct' href='../../../bitflags/__core/sync/struct.WaitTimeoutResult.html' title='bitflags::__core::sync::WaitTimeoutResult'>WaitTimeoutResult</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>)</a>&gt;&gt;</code></h4>
+</div><h4 id='method.wait_timeout' class='method'><span class="since">1.5.0</span><code>fn <a href='#method.wait_timeout' class='fnname'>wait_timeout</a>&lt;T&gt;(&amp;self, guard: <a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, dur: <a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>(</a><a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, <a class='struct' href='../../../bitflags/__core/sync/struct.WaitTimeoutResult.html' title='bitflags::__core::sync::WaitTimeoutResult'>WaitTimeoutResult</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>)</a>, <a class='struct' href='../../../bitflags/__core/sync/struct.PoisonError.html' title='bitflags::__core::sync::PoisonError'>PoisonError</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>(</a><a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, <a class='struct' href='../../../bitflags/__core/sync/struct.WaitTimeoutResult.html' title='bitflags::__core::sync::WaitTimeoutResult'>WaitTimeoutResult</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>)</a>&gt;&gt;</code></h4>
 <div class='docblock'><p>Waits on this condition variable for a notification, timing out after a
 specified duration.</p>
 
@@ -214,7 +214,7 @@ way.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

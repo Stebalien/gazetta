@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["v1","The first version of the prelude of The Rust Standard Library."]]});
+initSidebarItems({"mod":[["v1","The first version of the prelude of The Rust Standard Library.See the module-level documentation for more."]]});

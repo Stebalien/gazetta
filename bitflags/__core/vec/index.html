@@ -46,9 +46,9 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3828' class='srclink' href='https://doc.rust-lang.org/nightly/collections/vec/index.html?gotosrc=3828' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>A growable list type with heap-allocated contents, written <code>Vec&lt;T&gt;</code> but
-pronounced &#39;vector.&#39;</p>
+        </span><a id='src-3894' class='srclink' href='https://doc.rust-lang.org/nightly/collections/vec/index.html?gotosrc=3894' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A contiguous growable array type with heap-allocated contents, written
+<code>Vec&lt;T&gt;</code> but pronounced &#39;vector.&#39;</p>
 
 <p>Vectors have <code>O(1)</code> indexing, amortized <code>O(1)</code> push (to the end) and
 <code>O(1)</code> pop (from the end).</p>
@@ -91,7 +91,6 @@ as needed):</p>
                                title='bitflags::__core::vec::Drain'>Drain</a></td>
                         <td class='docblock short'>
                              <p>A draining iterator for <code>Vec&lt;T&gt;</code>.</p>
-
                         </td>
                     </tr>
                 
@@ -100,7 +99,6 @@ as needed):</p>
                                title='bitflags::__core::vec::IntoIter'>IntoIter</a></td>
                         <td class='docblock short'>
                              <p>An iterator that moves out of a vector.</p>
-
                         </td>
                     </tr>
                 
@@ -108,8 +106,7 @@ as needed):</p>
                         <td><a class='struct' href='struct.Vec.html'
                                title='bitflags::__core::vec::Vec'>Vec</a></td>
                         <td class='docblock short'>
-                             <p>A growable list type, written <code>Vec&lt;T&gt;</code> but pronounced &#39;vector.&#39;</p>
-
+                             <p>A contiguous growable array type, written <code>Vec&lt;T&gt;</code> but pronounced &#39;vector.&#39;</p>
                         </td>
                     </tr>
                 </table></section>
@@ -155,7 +152,7 @@ as needed):</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

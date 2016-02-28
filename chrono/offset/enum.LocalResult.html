@@ -53,12 +53,12 @@
     Ambiguous(T, T),
 }</pre><div class='docblock'><p>The conversion result from the local time to the timezone-aware datetime types.</p>
 </div><h2 class='variants'>Variants</h2>
-<table><tr><td id='variant.None'><code>None</code></td><td><div class='docblock'><p>Given local time representation is invalid.
+<table class='variants_table'><tr><td id='variant.None'><code>None</code></td><td><div class='docblock'><p>Given local time representation is invalid.
 This can occur when, for example, the positive timezone transition.</p>
-</div></td></tr><tr><td id='variant.Single'><code>Single</code></td><td><div class='docblock'><p>Given local time representation has a single unique result.</p>
-</div></td></tr><tr><td id='variant.Ambiguous'><code>Ambiguous</code></td><td><div class='docblock'><p>Given local time representation has multiple results and thus ambiguous.
+</div></td><td></td></tr><tr><td id='variant.Single'><code>Single</code></td><td><div class='docblock'><p>Given local time representation has a single unique result.</p>
+</div></td><td></td></tr><tr><td id='variant.Ambiguous'><code>Ambiguous</code></td><td><div class='docblock'><p>Given local time representation has multiple results and thus ambiguous.
 This can occur when, for example, the negative timezone transition.</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.single' class='method'><code>fn <a href='#method.single' class='fnname'>single</a>(self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></h4>
+</div></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.single' class='method'><code>fn <a href='#method.single' class='fnname'>single</a>(self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Returns <code>Some</code> only when the conversion result is unique, or <code>None</code> otherwise.</p>
 </div><h4 id='method.earliest' class='method'><code>fn <a href='#method.earliest' class='fnname'>earliest</a>(self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Returns <code>Some</code> for the earliest possible conversion result, or <code>None</code> if none.</p>
@@ -100,7 +100,7 @@ The offset in the current date is preserved.</p>
 </div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 </div><h3 class='impl'><code>impl&lt;T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>&lt;T&gt;</code></h4>
-<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+<h4 id='method.clone_from' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -144,7 +144,7 @@ The offset in the current date is preserved.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

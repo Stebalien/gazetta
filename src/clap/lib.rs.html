@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.0.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.1.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -465,7 +465,17 @@
 <span id="422">422</span>
 <span id="423">423</span>
 <span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
 </pre><pre class='rust '>
+<span class='comment'>// Copyright ⓒ 2015-2016 Kevin B. Knapp and clap-rs contributors.</span>
+<span class='comment'>// Licensed under the MIT license</span>
+<span class='comment'>// (see LICENSE or &lt;http://opensource.org/licenses/MIT&gt;) All files in the project carrying such</span>
+<span class='comment'>// notice may not be copied, modified, or distributed except according to those terms.</span>
+
 <span class='doccomment'>//! A simple to use, efficient, and full featured library for parsing command line arguments and subcommands when writing console, or terminal applications.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ## About</span>
@@ -934,7 +944,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

@@ -46,10 +46,10 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-4241' class='srclink' href='https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html?gotosrc=4241' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-4391' class='srclink' href='https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html?gotosrc=4391' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Error {
     // some fields omitted
-}</pre><div class='docblock'><p>The error type for I/O operations of the <code>Read</code>, <code>Write</code>, <code>Seek</code>, and
+}</pre><span class="since">1.0.0</span><div class='docblock'><p>The error type for I/O operations of the <code>Read</code>, <code>Write</code>, <code>Seek</code>, and
 associated traits.</p>
 
 <p>Errors mostly originate from the underlying OS, but custom instances of
@@ -85,18 +85,18 @@ payload which will be contained in this <code>Error</code>.</p>
 <p>If this <code>Error</code> was constructed via <code>last_os_error</code> or
 <code>from_raw_os_error</code>, then this function will return <code>Some</code>, otherwise
 it will return <code>None</code>.</p>
-</div><h4 id='method.get_ref' class='method'><code>fn <a href='#method.get_ref' class='fnname'>get_ref</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;&amp;<a class='trait' href='../../../bitflags/__core/error/trait.Error.html' title='bitflags::__core::error::Error'>Error</a> + 'static + <a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> + <a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a>&gt;</code></h4>
+</div><h4 id='method.get_ref' class='method'><span class="since">1.3.0</span><code>fn <a href='#method.get_ref' class='fnname'>get_ref</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;&amp;<a class='trait' href='../../../bitflags/__core/error/trait.Error.html' title='bitflags::__core::error::Error'>Error</a> + 'static + <a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> + <a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a>&gt;</code></h4>
 <div class='docblock'><p>Returns a reference to the inner error wrapped by this error (if any).</p>
 
 <p>If this <code>Error</code> was constructed via <code>new</code> then this function will
 return <code>Some</code>, otherwise it will return <code>None</code>.</p>
-</div><h4 id='method.get_mut' class='method'><code>fn <a href='#method.get_mut' class='fnname'>get_mut</a>(&amp;mut self) -&gt; <a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;&amp;mut <a class='trait' href='../../../bitflags/__core/error/trait.Error.html' title='bitflags::__core::error::Error'>Error</a> + 'static + <a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> + <a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a>&gt;</code></h4>
+</div><h4 id='method.get_mut' class='method'><span class="since">1.3.0</span><code>fn <a href='#method.get_mut' class='fnname'>get_mut</a>(&amp;mut self) -&gt; <a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;&amp;mut <a class='trait' href='../../../bitflags/__core/error/trait.Error.html' title='bitflags::__core::error::Error'>Error</a> + 'static + <a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> + <a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a>&gt;</code></h4>
 <div class='docblock'><p>Returns a mutable reference to the inner error wrapped by this error
 (if any).</p>
 
 <p>If this <code>Error</code> was constructed via <code>new</code> then this function will
 return <code>Some</code>, otherwise it will return <code>None</code>.</p>
-</div><h4 id='method.into_inner' class='method'><code>fn <a href='#method.into_inner' class='fnname'>into_inner</a>(self) -&gt; <a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;<a class='struct' href='../../../bitflags/__core/boxed/struct.Box.html' title='bitflags::__core::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../bitflags/__core/error/trait.Error.html' title='bitflags::__core::error::Error'>Error</a> + 'static + <a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> + <a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a>&gt;&gt;</code></h4>
+</div><h4 id='method.into_inner' class='method'><span class="since">1.3.0</span><code>fn <a href='#method.into_inner' class='fnname'>into_inner</a>(self) -&gt; <a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;<a class='struct' href='../../../bitflags/__core/boxed/struct.Box.html' title='bitflags::__core::boxed::Box'>Box</a>&lt;<a class='trait' href='../../../bitflags/__core/error/trait.Error.html' title='bitflags::__core::error::Error'>Error</a> + 'static + <a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> + <a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a>&gt;&gt;</code></h4>
 <div class='docblock'><p>Consumes the <code>Error</code>, returning its inner error (if any).</p>
 
 <p>If this <code>Error</code> was constructed via <code>new</code> then this function will
@@ -152,7 +152,7 @@ return <code>Some</code>, otherwise it will return <code>None</code>.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

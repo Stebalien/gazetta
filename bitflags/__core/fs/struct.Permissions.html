@@ -46,8 +46,8 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3572' class='srclink' href='https://doc.rust-lang.org/nightly/std/fs/struct.Permissions.html?gotosrc=3572' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Permissions(_);</pre><div class='docblock'><p>Representation of the various permissions on a file.</p>
+        </span><a id='src-3729' class='srclink' href='https://doc.rust-lang.org/nightly/std/fs/struct.Permissions.html?gotosrc=3729' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Permissions(_);</pre><span class="since">1.0.0</span><div class='docblock'><p>Representation of the various permissions on a file.</p>
 
 <p>This module only currently provides one bit of information, <code>readonly</code>,
 which is exposed on all currently supported platforms. Unix-specific
@@ -83,7 +83,7 @@ filesystem use the <code>fs::set_permissions</code> function.</p>
 
 <span class='comment'>// just this particular `permissions`.</span>
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='boolval'>true</span>, <span class='ident'>permissions</span>.<span class='ident'>readonly</span>());</pre>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/os/ext/prelude/trait.PermissionsExt.html' title='bitflags::__core::os::ext::prelude::PermissionsExt'>PermissionsExt</a> for <a class='struct' href='../../../bitflags/__core/fs/struct.Permissions.html' title='bitflags::__core::fs::Permissions'>Permissions</a></code></h3><div class='impl-items'><h4 id='method.mode' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.PermissionsExt.html#method.mode' class='fnname'>mode</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a></code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/os/ext/prelude/trait.PermissionsExt.html' title='bitflags::__core::os::ext::prelude::PermissionsExt'>PermissionsExt</a> for <a class='struct' href='../../../bitflags/__core/fs/struct.Permissions.html' title='bitflags::__core::fs::Permissions'>Permissions</a></code><span class="since">1.1.0</span></h3><div class='impl-items'><h4 id='method.mode' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.PermissionsExt.html#method.mode' class='fnname'>mode</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a></code></h4>
 <h4 id='method.set_mode' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.PermissionsExt.html#method.set_mode' class='fnname'>set_mode</a>(&amp;mut self, mode: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a>)</code></h4>
 <h4 id='method.from_mode' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.PermissionsExt.html#method.from_mode' class='fnname'>from_mode</a>(mode: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../../../bitflags/__core/fs/struct.Permissions.html' title='bitflags::__core::fs::Permissions'>Permissions</a></code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/fmt/trait.Debug.html' title='bitflags::__core::fmt::Debug'>Debug</a> for <a class='struct' href='../../../bitflags/__core/fs/struct.Permissions.html' title='bitflags::__core::fs::Permissions'>Permissions</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../../bitflags/__core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='../../../bitflags/__core/fmt/struct.Formatter.html' title='bitflags::__core::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>()</a>, <a class='struct' href='../../../bitflags/__core/fmt/struct.Error.html' title='bitflags::__core::fmt::Error'>Error</a>&gt;</code></h4>
@@ -134,7 +134,7 @@ filesystem use the <code>fs::set_permissions</code> function.</p>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

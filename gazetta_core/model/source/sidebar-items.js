@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Source","The Source object reads and interprets a source directory."]]});
+initSidebarItems({"struct":[["Source","The Source object reads and interprets a source directory.The fields are intentionally public. Feel free to manually generate or modify this structure."]]});

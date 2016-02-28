@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.0.0/src/errors.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.1.2/src/errors.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>errors.rs.html -- source</title>
@@ -704,7 +704,6 @@
 <span id="661">661</span>
 <span id="662">662</span>
 <span id="663">663</span>
-<span id="664">664</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>process</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>StdError</span>;
@@ -1102,8 +1101,7 @@
             <span class='ident'>sorted</span>.<span class='ident'>push</span>(<span class='ident'>v</span>.<span class='ident'>as_ref</span>());
         }
         <span class='ident'>sorted</span>.<span class='ident'>sort</span>();
-        <span class='kw'>let</span> <span class='ident'>valid_values</span> <span class='op'>=</span> <span class='ident'>sorted</span>.<span class='ident'>iter</span>()
-                                 .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>name</span><span class='op'>|</span> <span class='ident'>a</span> <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>( <span class='string'>&quot; {}&quot;</span>, <span class='ident'>name</span>)[..]);
+        <span class='kw'>let</span> <span class='ident'>valid_values</span> <span class='op'>=</span> <span class='ident'>sorted</span>.<span class='ident'>join</span>(<span class='string'>&quot; &quot;</span>);
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} &#39;{}&#39; isn&#39;t a valid value for &#39;{}&#39;\n\t\
                             [values:{}]\n\
@@ -1226,7 +1224,7 @@
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>too_few_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>min_vals</span>: <span class='ident'>u8</span>, <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>too_few_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>min_vals</span>: <span class='ident'>u64</span>, <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
@@ -1261,7 +1259,7 @@
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>wrong_number_of_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>S</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>num_vals</span>: <span class='ident'>u8</span>, <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>, <span class='ident'>suffix</span>: <span class='ident'>S</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>wrong_number_of_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>S</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>num_vals</span>: <span class='ident'>u64</span>, <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>, <span class='ident'>suffix</span>: <span class='ident'>S</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>,
               <span class='ident'>S</span>: <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
@@ -1414,7 +1412,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>

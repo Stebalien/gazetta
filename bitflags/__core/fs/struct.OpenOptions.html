@@ -46,8 +46,8 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3565' class='srclink' href='https://doc.rust-lang.org/nightly/std/fs/struct.OpenOptions.html?gotosrc=3565' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct OpenOptions(_);</pre><div class='docblock'><p>Options and flags which can be used to configure how a file is opened.</p>
+        </span><a id='src-3722' class='srclink' href='https://doc.rust-lang.org/nightly/std/fs/struct.OpenOptions.html?gotosrc=3722' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct OpenOptions(_);</pre><span class="since">1.0.0</span><div class='docblock'><p>Options and flags which can be used to configure how a file is opened.</p>
 
 <p>This builder exposes the ability to configure how a <code>File</code> is opened and
 what operations are permitted on the open file. The <code>File::open</code> and
@@ -170,7 +170,7 @@ be used.</p>
 No file is allowed to exist at the target location, also no (dangling)
 symlink.</p>
 
-<p>This option is usefull because it as atomic. Otherwise between checking
+<p>This option is useful because it as atomic. Otherwise between checking
 whether a file exists and creating a new one, the file may have been
 created by another process (a TOCTOU race condition / attack).</p>
 
@@ -208,7 +208,7 @@ no access mode set, etc)</li>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>OpenOptions</span>;
 
 <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>OpenOptions</span>::<span class='ident'>new</span>().<span class='ident'>open</span>(<span class='string'>&quot;foo.txt&quot;</span>);</pre>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/os/ext/prelude/trait.OpenOptionsExt.html' title='bitflags::__core::os::ext::prelude::OpenOptionsExt'>OpenOptionsExt</a> for <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code></h3><div class='impl-items'><h4 id='method.mode' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.OpenOptionsExt.html#method.mode' class='fnname'>mode</a>(&amp;mut self, mode: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a>) -&gt; &amp;mut <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/os/ext/prelude/trait.OpenOptionsExt.html' title='bitflags::__core::os::ext::prelude::OpenOptionsExt'>OpenOptionsExt</a> for <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code><span class="since">1.1.0</span></h3><div class='impl-items'><h4 id='method.mode' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.OpenOptionsExt.html#method.mode' class='fnname'>mode</a>(&amp;mut self, mode: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a>) -&gt; &amp;mut <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code></h4>
 <h4 id='method.custom_flags' class='method'><code>fn <a href='../../../bitflags/__core/os/ext/prelude/trait.OpenOptionsExt.html#method.custom_flags' class='fnname'>custom_flags</a>(&amp;mut self, flags: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.i32.html'>i32</a>) -&gt; &amp;mut <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code></h4>
 </div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/clone/trait.Clone.html' title='bitflags::__core::clone::Clone'>Clone</a> for <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../bitflags/__core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../bitflags/__core/fs/struct.OpenOptions.html' title='bitflags::__core::fs::OpenOptions'>OpenOptions</a></code></h4>
 <h4 id='method.clone_from' class='method'><code>fn <a href='../../../bitflags/__core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
@@ -255,7 +255,7 @@ no access mode set, etc)</li>
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code>)
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
                 </p>
             </div>
         </div>
