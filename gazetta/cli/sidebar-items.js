@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["run","Run the CLI."]]});
+initSidebarItems({});

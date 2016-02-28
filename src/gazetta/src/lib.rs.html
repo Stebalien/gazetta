@@ -97,6 +97,8 @@
 <span id="54">54</span>
 <span id="55">55</span>
 <span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
 </pre><pre class='rust '>
 <span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
 <span class='comment'>//</span>
@@ -144,7 +146,9 @@
     <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gazetta_core</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 }
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gazetta_cli</span> <span class='kw'>as</span> <span class='ident'>cli</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>cli</span> {
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gazetta_cli</span>::<span class='op'>*</span>;
+}
 
 <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>no_inline</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
