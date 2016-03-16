@@ -98,6 +98,10 @@
 <span id="55">55</span>
 <span id="56">56</span>
 <span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -145,7 +149,11 @@
     <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gazetta_core</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 }
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gazetta_cli</span> <span class='kw'>as</span> <span class='ident'>cli</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>cli</span> {
+    <span class='comment'>// Because rust can be stupid sometimes...</span>
+    <span class='comment'>// We can&#39;t just re-export private modules.</span>
+    <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>gazetta_cli</span>::<span class='op'>*</span>;
+}
 
 <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>no_inline</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
