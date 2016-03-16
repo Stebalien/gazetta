@@ -44,7 +44,11 @@ pub mod prelude {
     pub use gazetta_core::prelude::*;
 }
 
-pub use gazetta_cli as cli;
+pub mod cli {
+    // Because rust can be stupid sometimes...
+    // We can't just re-export private modules.
+    pub use gazetta_cli::*;
+}
 
 #[doc(no_inline)]
 pub use render::Gazetta;
