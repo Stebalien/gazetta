@@ -46,13 +46,14 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-12' class='srclink' href='../src/unidecode/lib.rs.html#71-73' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-12' class='srclink' href='../src/unidecode/lib.rs.html.html#71-73' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn unidecode_char(ch: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.char.html'>char</a>) -&gt; &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></pre><div class='docblock'><p>This function takes a single Unicode character and returns an ASCII
 transliteration.</p>
 
 <p>The warnings and guarantees of <code>unidecode()</code> apply to this function as well.</p>
 
-<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2><pre class='rust rust-example-rendered'>
+<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2>
+<pre class='rust rust-example-rendered'>
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>unidecode_char</span>(<span class='string'>&#39;Æ&#39;</span>), <span class='string'>&quot;AE&quot;</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>unidecode_char</span>(<span class='string'>&#39;北&#39;</span>), <span class='string'>&quot;Bei &quot;</span>);</pre>
 </div></section>

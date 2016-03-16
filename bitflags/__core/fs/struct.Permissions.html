@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3729' class='srclink' href='https://doc.rust-lang.org/nightly/std/fs/struct.Permissions.html?gotosrc=3729' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-3783' class='srclink' href='https://doc.rust-lang.org/nightly/std/fs/struct.Permissions.html?gotosrc=3783' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Permissions(_);</pre><span class="since">1.0.0</span><div class='docblock'><p>Representation of the various permissions on a file.</p>
 
 <p>This module only currently provides one bit of information, <code>readonly</code>,
@@ -56,7 +56,8 @@ functionality, such as mode bits, is available through the
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../bitflags/__core/fs/struct.Permissions.html' title='bitflags::__core::fs::Permissions'>Permissions</a></code></h3><div class='impl-items'><h4 id='method.readonly' class='method'><code>fn <a href='#method.readonly' class='fnname'>readonly</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Returns whether these permissions describe a readonly file.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>create</span>(<span class='string'>&quot;foo.txt&quot;</span>));
@@ -69,7 +70,8 @@ functionality, such as mode bits, is available through the
 <p>This operation does <strong>not</strong> modify the filesystem. To modify the
 filesystem use the <code>fs::set_permissions</code> function.</p>
 
-<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 
 <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>create</span>(<span class='string'>&quot;foo.txt&quot;</span>));

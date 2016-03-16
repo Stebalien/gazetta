@@ -55,7 +55,8 @@
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(value: T) -&gt; <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Constructs a new <code>Rc&lt;T&gt;</code>.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 
 <span class='kw'>let</span> <span class='ident'>five</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>5</span>);</pre>
@@ -65,7 +66,8 @@ This will succeed even if there are outstanding weak references.</p>
 
 <p>Otherwise, an <code>Err</code> is returned with the same <code>Rc&lt;T&gt;</code>.</p>
 
-<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>3</span>);
@@ -80,7 +82,8 @@ This will succeed even if there are outstanding weak references.</p>
 </div></div><h3 class='impl'><code>impl&lt;T&gt; <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.downgrade' class='method'><span class="since">1.4.0</span><code>fn <a href='#method.downgrade' class='fnname'>downgrade</a>(this: &amp;<a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt;) -&gt; <a class='struct' href='../../../bitflags/__core/rc/struct.Weak.html' title='bitflags::__core::rc::Weak'>Weak</a>&lt;T&gt;</code></h4>
 <div class='docblock'><p>Downgrades the <code>Rc&lt;T&gt;</code> to a <code>Weak&lt;T&gt;</code> reference.</p>
 
-<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 
 <span class='kw'>let</span> <span class='ident'>five</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
@@ -97,7 +100,8 @@ This will succeed even if there are outstanding weak references.</p>
 </em></div><div class='docblock'><p>Returns true if there are no other <code>Rc</code> or <code>Weak&lt;T&gt;</code> values that share
 the same inner value.</p>
 
-<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>rc_counts</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
@@ -111,7 +115,8 @@ one strong reference and no weak references.</p>
 
 <p>Returns <code>None</code> if the <code>Rc&lt;T&gt;</code> is not unique.</p>
 
-<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>3</span>);
@@ -127,7 +132,8 @@ references.</p>
 
 <p>This is also referred to as a copy-on-write.</p>
 
-<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
@@ -142,7 +148,7 @@ references.</p>
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>data</span>, <span class='number'>8</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>other_data</span>, <span class='number'>12</span>);
 </pre>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T, U&gt; <a class='trait' href='../../../bitflags/__core/ops/trait.CoerceUnsized.html' title='bitflags::__core::ops::CoerceUnsized'>CoerceUnsized</a>&lt;<a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;U&gt;&gt; for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where U: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a>, T: <a class='trait' href='../../../bitflags/__core/marker/trait.Unsize.html' title='bitflags::__core::marker::Unsize'>Unsize</a>&lt;U&gt; + ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../bitflags/__core/ops/trait.Deref.html' title='bitflags::__core::ops::Deref'>Deref</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type Target = T</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../../../bitflags/__core/marker/trait.Send.html' title='bitflags::__core::marker::Send'>Send</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../../../bitflags/__core/marker/trait.Sync.html' title='bitflags::__core::marker::Sync'>Sync</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T, U&gt; <a class='trait' href='../../../bitflags/__core/ops/trait.CoerceUnsized.html' title='bitflags::__core::ops::CoerceUnsized'>CoerceUnsized</a>&lt;<a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;U&gt;&gt; for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: <a class='trait' href='../../../bitflags/__core/marker/trait.Unsize.html' title='bitflags::__core::marker::Unsize'>Unsize</a>&lt;U&gt; + ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a>, U: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../bitflags/__core/ops/trait.Deref.html' title='bitflags::__core::ops::Deref'>Deref</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type Target = T</code></h4>
 <h4 id='method.deref' class='method'><code>fn <a href='../../../bitflags/__core/ops/trait.Deref.html#method.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;T</code></h4>
 </div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../bitflags/__core/ops/trait.Drop.html' title='bitflags::__core::ops::Drop'>Drop</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='../../../bitflags/__core/ops/trait.Drop.html#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
 </div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../../../bitflags/__core/clone/trait.Clone.html' title='bitflags::__core::clone::Clone'>Clone</a> for <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt; <span class='where'>where T: ?<a class='trait' href='../../../bitflags/__core/marker/trait.Sized.html' title='bitflags::__core::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../../bitflags/__core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../bitflags/__core/rc/struct.Rc.html' title='bitflags::__core::rc::Rc'>Rc</a>&lt;T&gt;</code></h4>

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Content",""],["Index","Page index information"],["Page","Represents an indevidual page to be rendered."],["Paginate","Page pagination information."],["Site","A \"website\"You should include this view at the top of your websites \"head\". It renders into script, stylesheet, icon tags, metadata tags, and *importantly* the base tag."]]});
+initSidebarItems({"struct":[["Content",""],["Index","Page index information"],["Page","Represents an indevidual page to be rendered."],["Paginate","Page pagination information."],["Site","A \"website\""]]});

@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-1115' class='srclink' href='https://doc.rust-lang.org/nightly/std/collections/index.html?gotosrc=1115' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-1169' class='srclink' href='https://doc.rust-lang.org/nightly/std/collections/index.html?gotosrc=1169' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Collection types.</p>
 
 <p>Rust&#39;s standard collection library provides efficient implementations of the
@@ -313,6 +313,7 @@ will be yielded in sorted order.  For unordered collections like <code>HashMap</
 the items will be yielded in whatever order the internal representation made
 most convenient. This is great for reading through all the contents of the
 collection.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
 <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>iter</span>() {
@@ -321,6 +322,7 @@ collection.</p>
 
 <p><code>iter_mut</code> provides an iterator of <em>mutable</em> references in the same order as
 <code>iter</code>.  This is great for mutating all the contents of the collection.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
 <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>iter_mut</span>() {
@@ -336,10 +338,12 @@ Calling <code>collect</code> on an iterator itself is also a great way to conver
 collection into another. Both of these methods should internally use the
 capacity management tools discussed in the previous section to do this as
 efficiently as possible.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>vec1</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
 <span class='kw'>let</span> <span class='ident'>vec2</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>10</span>, <span class='number'>20</span>, <span class='number'>30</span>, <span class='number'>40</span>];
 <span class='ident'>vec1</span>.<span class='ident'>extend</span>(<span class='ident'>vec2</span>);</pre>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>VecDeque</span>;
 
@@ -352,6 +356,7 @@ threads to sequences. Among the adapters are functional favorites like <code>map
 <code>rev</code> adapter, that reverses any iterator that supports this operation. Most
 collections provide reversible iterators as the way to iterate over them in
 reverse order.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
 <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>iter</span>().<span class='ident'>rev</span>() {
@@ -396,7 +401,8 @@ vacant <code>insert</code> case.</p>
 <p>Here are the two primary ways in which <code>entry</code> is used. First, a simple
 example where the logic performed on the values is trivial.</p>
 
-<h4 id='counting-the-number-of-times-each-character-in-a-string-occurs' class='section-header'><a href='#counting-the-number-of-times-each-character-in-a-string-occurs'>Counting the number of times each character in a string occurs</a></h4><pre class='rust rust-example-rendered'>
+<h4 id='counting-the-number-of-times-each-character-in-a-string-occurs' class='section-header'><a href='#counting-the-number-of-times-each-character-in-a-string-occurs'>Counting the number of times each character in a string occurs</a></h4>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>btree_map</span>::<span class='ident'>BTreeMap</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>count</span> <span class='op'>=</span> <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>();
@@ -417,7 +423,8 @@ example where the logic performed on the values is trivial.</p>
 use the <code>entry</code> API to ensure that the value is initialized, and perform the
 logic afterwards.</p>
 
-<h4 id='tracking-the-inebriation-of-customers-at-a-bar' class='section-header'><a href='#tracking-the-inebriation-of-customers-at-a-bar'>Tracking the inebriation of customers at a bar</a></h4><pre class='rust rust-example-rendered'>
+<h4 id='tracking-the-inebriation-of-customers-at-a-bar' class='section-header'><a href='#tracking-the-inebriation-of-customers-at-a-bar'>Tracking the inebriation of customers at a bar</a></h4>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>btree_map</span>::<span class='ident'>BTreeMap</span>;
 
 <span class='comment'>// A client of the bar. They have a blood alcohol level.</span>
@@ -450,6 +457,7 @@ logic afterwards.</p>
 <h1 id='insert-and-complex-keys' class='section-header'><a href='#insert-and-complex-keys'>Insert and complex keys</a></h1>
 <p>If we have a more complex key, calls to <code>insert()</code> will
 not update the value of the key. For example:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>Ordering</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;

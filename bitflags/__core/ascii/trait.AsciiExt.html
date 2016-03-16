@@ -55,10 +55,14 @@
     fn <a href='#tymethod.eq_ignore_ascii_case' class='fnname'>eq_ignore_ascii_case</a>(&amp;self, other: &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a>;
     fn <a href='#tymethod.make_ascii_uppercase' class='fnname'>make_ascii_uppercase</a>(&amp;mut self);
     fn <a href='#tymethod.make_ascii_lowercase' class='fnname'>make_ascii_lowercase</a>(&amp;mut self);
+
+    fn <a href='#method.into_ascii_uppercase' class='fnname'>into_ascii_uppercase</a>(self) -&gt; Self::<a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>Owned</a> { ... }
+    fn <a href='#method.into_ascii_lowercase' class='fnname'>into_ascii_lowercase</a>(self) -&gt; Self::<a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>Owned</a> { ... }
 }</pre><div class='docblock'><p>Extension methods for ASCII-subset only operations on string slices.</p>
 
 <p>Be aware that operations on seemingly non-ASCII characters can sometimes
 have unexpected results. Consider this example:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 
@@ -82,7 +86,8 @@ it will not get mapped to an uppercase variant, resulting in <code>&quot;CAF\u{e
             <div class='methods'>
         <h3 id='tymethod.is_ascii' class='method stab '><code>fn <a href='#tymethod.is_ascii' class='fnname'>is_ascii</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></code></h3><div class='docblock'><p>Checks if the value is within the ASCII range.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 
 <span class='kw'>let</span> <span class='ident'>ascii</span> <span class='op'>=</span> <span class='string'>&#39;a&#39;</span>;
@@ -95,7 +100,8 @@ it will not get mapped to an uppercase variant, resulting in <code>&quot;CAF\u{e
 <p>ASCII letters &#39;a&#39; to &#39;z&#39; are mapped to &#39;A&#39; to &#39;Z&#39;,
 but non-ASCII letters are unchanged.</p>
 
-<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 
 <span class='kw'>let</span> <span class='ident'>ascii</span> <span class='op'>=</span> <span class='string'>&#39;a&#39;</span>;
@@ -108,7 +114,8 @@ but non-ASCII letters are unchanged.</p>
 <p>ASCII letters &#39;A&#39; to &#39;Z&#39; are mapped to &#39;a&#39; to &#39;z&#39;,
 but non-ASCII letters are unchanged.</p>
 
-<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 
 <span class='kw'>let</span> <span class='ident'>ascii</span> <span class='op'>=</span> <span class='string'>&#39;A&#39;</span>;
@@ -121,7 +128,8 @@ but non-ASCII letters are unchanged.</p>
 <p>Same as <code>to_ascii_lowercase(a) == to_ascii_lowercase(b)</code>,
 but without allocating and copying temporary strings.</p>
 
-<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 
 <span class='kw'>let</span> <span class='ident'>ascii1</span> <span class='op'>=</span> <span class='string'>&#39;A&#39;</span>;
@@ -136,7 +144,8 @@ but without allocating and copying temporary strings.</p>
 
 <p>See <code>to_ascii_uppercase</code> for more information.</p>
 
-<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>ascii</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
@@ -150,7 +159,8 @@ but without allocating and copying temporary strings.</p>
 
 <p>See <code>to_ascii_lowercase</code> for more information.</p>
 
-<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>ascii</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
@@ -161,9 +171,42 @@ but without allocating and copying temporary strings.</p>
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&#39;a&#39;</span>, <span class='ident'>ascii</span>);</pre>
 </div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.into_ascii_uppercase' class='method stab '><code>fn <a href='#method.into_ascii_uppercase' class='fnname'>into_ascii_uppercase</a>(self) -&gt; Self::<a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>Owned</a></code><span class="since">1.8.0</span></h3><div class='docblock'><p>Converts this type to its ASCII upper case,
+consuming the value to avoid allocating memory where <code>to_ascii_uppercase</code> would.</p>
+
+<p>See <code>to_ascii_uppercase</code> for more information.</p>
+
+<h1 id='examples-6' class='section-header'><a href='#examples-6'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
+
+<span class='kw'>let</span> <span class='ident'>ascii</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='string'>&quot;a&quot;</span>.<span class='ident'>to_owned</span>();
+
+<span class='kw'>let</span> <span class='ident'>upper</span> <span class='op'>=</span> <span class='ident'>ascii</span>.<span class='ident'>into_ascii_uppercase</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>upper</span>, <span class='string'>&quot;A&quot;</span>);</pre>
+</div><h3 id='method.into_ascii_lowercase' class='method stab '><code>fn <a href='#method.into_ascii_lowercase' class='fnname'>into_ascii_lowercase</a>(self) -&gt; Self::<a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>Owned</a></code><span class="since">1.8.0</span></h3><div class='docblock'><p>Converts this type to its ASCII lower case,
+consuming the value to avoid allocating memory where <code>to_ascii_lowercase</code> would.</p>
+
+<p>See <code>to_ascii_lowercase</code> for more information.</p>
+
+<h1 id='examples-7' class='section-header'><a href='#examples-7'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
+
+<span class='kw'>let</span> <span class='ident'>ascii</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='string'>&quot;A&quot;</span>.<span class='ident'>to_owned</span>();
+
+<span class='kw'>let</span> <span class='ident'>lower</span> <span class='op'>=</span> <span class='ident'>ascii</span>.<span class='ident'>into_ascii_lowercase</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>lower</span>, <span class='string'>&quot;a&quot;</span>);</pre>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.str.html'>str</a></code></li>
+    <li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='struct' href='../../../bitflags/__core/string/struct.String.html' title='bitflags::__core::string::String'>String</a></code></li>
+<li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='struct' href='../../../bitflags/__core/vec/struct.Vec.html' title='bitflags::__core::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u8.html'>u8</a>&gt;</code></li>
+<li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.str.html'>str</a></code></li>
 <li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.slice.html'>[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.slice.html'>]</a></code></li>
 <li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u8.html'>u8</a></code></li>
 <li><code>impl <a class='trait' href='../../../bitflags/__core/ascii/trait.AsciiExt.html' title='bitflags::__core::ascii::AsciiExt'>AsciiExt</a> for <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.char.html'>char</a></code></li>

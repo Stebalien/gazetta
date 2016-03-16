@@ -46,13 +46,14 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-6008' class='srclink' href='https://doc.rust-lang.org/nightly/std/net/tcp/struct.TcpStream.html?gotosrc=6008' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-6062' class='srclink' href='https://doc.rust-lang.org/nightly/std/net/tcp/struct.TcpStream.html?gotosrc=6062' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct TcpStream(_);</pre><span class="since">1.0.0</span><div class='docblock'><p>A structure which represents a TCP stream between a local socket and a
 remote socket.</p>
 
 <p>The socket will be closed when the value is dropped.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>net</span>::<span class='ident'>TcpStream</span>;
 
@@ -122,6 +123,51 @@ an error of the kind <code>WouldBlock</code>, but Windows may return <code>Timed
 
 <h1 id='note-3' class='section-header'><a href='#note-3'>Note</a></h1>
 <p>Some platforms do not provide access to the current timeout.</p>
+</div><h4 id='method.set_nodelay' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.set_nodelay' class='fnname'>set_nodelay</a>(&amp;self, nodelay: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>()</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Sets the value of the <code>TCP_NODELAY</code> option on this socket.</p>
+
+<p>If set, this option disables the Nagle algorithm. This means that
+segments are always sent as soon as possible, even if there is only a
+small amount of data. When not set, data is buffered until there is a
+sufficient amount to send out, thereby avoiding the frequent sending of
+small packets.</p>
+</div><h4 id='method.nodelay' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.nodelay' class='fnname'>nodelay</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Gets the value of the <code>TCP_NODELAY</code> option on this socket.</p>
+
+<p>For more information about this option, see <a href="#tymethod.set_nodelay"><code>set_nodelay</code></a>.</p>
+</div><h4 id='method.set_ttl' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.set_ttl' class='fnname'>set_ttl</a>(&amp;self, ttl: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>()</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Sets the value for the <code>IP_TTL</code> option on this socket.</p>
+
+<p>This value sets the time-to-live field that is used in every packet sent
+from this socket.</p>
+</div><h4 id='method.ttl' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.ttl' class='fnname'>ttl</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u32.html'>u32</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Gets the value of the <code>IP_TTL</code> option for this socket.</p>
+
+<p>For more information about this option, see <a href="#tymethod.set_ttl"><code>set_ttl</code></a>.</p>
+</div><h4 id='method.set_only_v6' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.set_only_v6' class='fnname'>set_only_v6</a>(&amp;self, only_v6: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>()</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Sets the value for the <code>IPV6_V6ONLY</code> option on this socket.</p>
+
+<p>If this is set to <code>true</code> then the socket is restricted to sending and
+receiving IPv6 packets only. If this is the case, an IPv4 and an IPv6
+application can each bind the same port at the same time.</p>
+
+<p>If this is set to <code>false</code> then the socket can be used to send and
+receive packets from an IPv4-mapped IPv6 address.</p>
+</div><h4 id='method.only_v6' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.only_v6' class='fnname'>only_v6</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Gets the value of the <code>IPV6_V6ONLY</code> option for this socket.</p>
+
+<p>For more information about this option, see <a href="#tymethod.set_only_v6"><code>set_only_v6</code></a>.</p>
+</div><h4 id='method.take_error' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.take_error' class='fnname'>take_error</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='enum' href='../../../bitflags/__core/option/enum.Option.html' title='bitflags::__core::option::Option'>Option</a>&lt;<a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Get the value of the <code>SO_ERROR</code> option on this socket.</p>
+
+<p>This will retrieve the stored error in the underlying socket, clearing
+the field in the process. This can be useful for checking errors between
+calls.</p>
+</div><h4 id='method.set_nonblocking' class='method'><span class="since">1.9.0</span><code>fn <a href='#method.set_nonblocking' class='fnname'>set_nonblocking</a>(&amp;self, nonblocking: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>()</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
+<div class='docblock'><p>Moves this TCP stream into or out of nonblocking mode.</p>
+
+<p>On Unix this corresponds to calling fcntl, and on Windows this
+corresponds to calling ioctlsocket.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../../bitflags/__core/io/trait.Read.html' title='bitflags::__core::io::Read'>Read</a> for <a class='struct' href='../../../bitflags/__core/net/struct.TcpStream.html' title='bitflags::__core::net::TcpStream'>TcpStream</a></code></h3><div class='impl-items'><h4 id='method.read' class='method'><code>fn <a href='../../../bitflags/__core/io/trait.Read.html#method.read' class='fnname'>read</a>(&amp;mut self, buf: <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.slice.html'>&amp;mut [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.usize.html'>usize</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
 <h4 id='method.read_to_end' class='method'><code>fn <a href='../../../bitflags/__core/io/trait.Read.html#method.read_to_end' class='fnname'>read_to_end</a>(&amp;mut self, buf: &amp;mut <a class='struct' href='../../../bitflags/__core/vec/struct.Vec.html' title='bitflags::__core::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.u8.html'>u8</a>&gt;) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.usize.html'>usize</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>
 <h4 id='method.read_to_string' class='method'><code>fn <a href='../../../bitflags/__core/io/trait.Read.html#method.read_to_string' class='fnname'>read_to_string</a>(&amp;mut self, buf: &amp;mut <a class='struct' href='../../../bitflags/__core/string/struct.String.html' title='bitflags::__core::string::String'>String</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.usize.html'>usize</a>, <a class='struct' href='../../../bitflags/__core/io/struct.Error.html' title='bitflags::__core::io::Error'>Error</a>&gt;</code></h4>

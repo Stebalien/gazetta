@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-22742' class='srclink' href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html?gotosrc=22742' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-22845' class='srclink' href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html?gotosrc=22845' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Into&lt;T&gt; {
     fn <a href='#tymethod.into' class='fnname'>into</a>(self) -&gt; T;
 }</pre><div class='docblock'><p>A conversion that consumes <code>self</code>, which may or may not be expensive.</p>
@@ -60,6 +60,7 @@ implementation for free, thanks to a blanket implementation in the standard libr
 
 <h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <p><code>String</code> implements <code>Into&lt;Vec&lt;u8&gt;&gt;</code>:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>is_hello</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(<span class='ident'>s</span>: <span class='ident'>T</span>) {
    <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='string'>b&quot;hello&quot;</span>.<span class='ident'>to_vec</span>();

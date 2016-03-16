@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.1.2/src/args/arg.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.0/src/args/arg.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg.rs.html -- source</title>
@@ -1891,6 +1891,95 @@
 <span id="1848">1848</span>
 <span id="1849">1849</span>
 <span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
+<span id="1875">1875</span>
+<span id="1876">1876</span>
+<span id="1877">1877</span>
+<span id="1878">1878</span>
+<span id="1879">1879</span>
+<span id="1880">1880</span>
+<span id="1881">1881</span>
+<span id="1882">1882</span>
+<span id="1883">1883</span>
+<span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
+<span id="1915">1915</span>
+<span id="1916">1916</span>
+<span id="1917">1917</span>
+<span id="1918">1918</span>
+<span id="1919">1919</span>
+<span id="1920">1920</span>
+<span id="1921">1921</span>
+<span id="1922">1922</span>
+<span id="1923">1923</span>
+<span id="1924">1924</span>
+<span id="1925">1925</span>
+<span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
+<span id="1938">1938</span>
+<span id="1939">1939</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
@@ -1962,6 +2051,8 @@
     <span class='kw'>pub</span> <span class='ident'>val_delim</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span>,
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
     <span class='kw'>pub</span> <span class='ident'>default_val</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;</span>,
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='kw'>pub</span> <span class='ident'>disp_ord</span>: <span class='ident'>usize</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
@@ -1985,6 +2076,7 @@
             <span class='ident'>settings</span>: <span class='ident'>ArgFlags</span>::<span class='ident'>new</span>(),
             <span class='ident'>val_delim</span>: <span class='prelude-val'>Some</span>(<span class='string'>&#39;,&#39;</span>),
             <span class='ident'>default_val</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>disp_ord</span>: <span class='number'>999</span>,
         }
     }
 }
@@ -2048,6 +2140,7 @@
                 <span class='string'>&quot;value_name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>value_name</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;use_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>use_delimiter</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;value_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>value_delimiter</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
+                <span class='string'>&quot;display_order&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>display_order</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>usize</span>),
                 <span class='string'>&quot;value_names&quot;</span> <span class='op'>=&gt;</span> {
                     <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
@@ -3689,6 +3782,64 @@
         <span class='self'>self</span>
     }
 
+    <span class='doccomment'>/// Allows custom ordering of args within the help message. Args with a lower value will be</span>
+    <span class='doccomment'>/// displayed first in the help message. This is helpful when one would like to emphasise</span>
+    <span class='doccomment'>/// frequently used args, or prioritize those towards the top of the list. Duplicate values</span>
+    <span class='doccomment'>/// **are** allowed. Args with duplicate display orders will be displayed in alphabetical</span>
+    <span class='doccomment'>/// order.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** The default is 999 for all arguments.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** This setting is ignored for positional arguments which are always displayed in</span>
+    <span class='doccomment'>/// index order.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg};</span>
+    <span class='doccomment'>/// let m = App::new(&quot;cust-ord&quot;)</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;a&quot;) // Typically args are grouped alphabetically by name.</span>
+    <span class='doccomment'>///                              // Args without a display_order have a value of 999 and are</span>
+    <span class='doccomment'>///                              // displayed alphabetically with all other 999 valued args.</span>
+    <span class='doccomment'>///         .long(&quot;long-option&quot;)</span>
+    <span class='doccomment'>///         .short(&quot;o&quot;)</span>
+    <span class='doccomment'>///         .takes_value(true)</span>
+    <span class='doccomment'>///         .help(&quot;Some help and text&quot;))</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;b&quot;)</span>
+    <span class='doccomment'>///         .long(&quot;other-option&quot;)</span>
+    <span class='doccomment'>///         .short(&quot;O&quot;)</span>
+    <span class='doccomment'>///         .takes_value(true)</span>
+    <span class='doccomment'>///         .display_order(1)   // In order to force this arg to appear *first*</span>
+    <span class='doccomment'>///                             // all we have to do is give it a value lower than 999.</span>
+    <span class='doccomment'>///                             // Any other args with a value of 1 will be displayed</span>
+    <span class='doccomment'>///                             // alphabetically with this one...then 2 values, then 3, etc.</span>
+    <span class='doccomment'>///         .help(&quot;I should be first!&quot;))</span>
+    <span class='doccomment'>///     .get_matches_from(vec![</span>
+    <span class='doccomment'>///         &quot;cust-ord&quot;, &quot;--help&quot;</span>
+    <span class='doccomment'>///     ]);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The above example displays the following help message</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```ignore</span>
+    <span class='doccomment'>/// cust-ord</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// USAGE:</span>
+    <span class='doccomment'>///     cust-ord [FLAGS] [OPTIONS]</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// FLAGS:</span>
+    <span class='doccomment'>///     -h, --help       Prints help information</span>
+    <span class='doccomment'>///     -V, --version    Prints version information</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// OPTIONS:</span>
+    <span class='doccomment'>///     -O, --other-option &lt;b&gt;    I should be first!</span>
+    <span class='doccomment'>///     -o, --long-option &lt;a&gt;     Some help and text</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>display_order</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ord</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+        <span class='self'>self</span>.<span class='ident'>disp_ord</span> <span class='op'>=</span> <span class='ident'>ord</span>;
+        <span class='self'>self</span>
+    }
+
     <span class='doccomment'>/// Checks if one of the `ArgSettings` settings is set for the argument</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_set</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>ArgSettings</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>s</span>)
@@ -3739,6 +3890,33 @@
             <span class='ident'>settings</span>: <span class='ident'>a</span>.<span class='ident'>settings</span>,
             <span class='ident'>val_delim</span>: <span class='ident'>a</span>.<span class='ident'>val_delim</span>,
             <span class='ident'>default_val</span>: <span class='ident'>a</span>.<span class='ident'>default_val</span>,
+            <span class='ident'>disp_ord</span>: <span class='ident'>a</span>.<span class='ident'>disp_ord</span>,
+        }
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+        <span class='ident'>Arg</span> {
+            <span class='ident'>name</span>: <span class='self'>self</span>.<span class='ident'>name</span>,
+            <span class='ident'>short</span>: <span class='self'>self</span>.<span class='ident'>short</span>,
+            <span class='ident'>long</span>: <span class='self'>self</span>.<span class='ident'>long</span>,
+            <span class='ident'>help</span>: <span class='self'>self</span>.<span class='ident'>help</span>,
+            <span class='ident'>index</span>: <span class='self'>self</span>.<span class='ident'>index</span>,
+            <span class='ident'>possible_vals</span>: <span class='self'>self</span>.<span class='ident'>possible_vals</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>blacklist</span>: <span class='self'>self</span>.<span class='ident'>blacklist</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>requires</span>: <span class='self'>self</span>.<span class='ident'>requires</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>num_vals</span>: <span class='self'>self</span>.<span class='ident'>num_vals</span>,
+            <span class='ident'>min_vals</span>: <span class='self'>self</span>.<span class='ident'>min_vals</span>,
+            <span class='ident'>max_vals</span>: <span class='self'>self</span>.<span class='ident'>max_vals</span>,
+            <span class='ident'>val_names</span>: <span class='self'>self</span>.<span class='ident'>val_names</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>group</span>: <span class='self'>self</span>.<span class='ident'>group</span>,
+            <span class='ident'>validator</span>: <span class='self'>self</span>.<span class='ident'>validator</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>overrides</span>: <span class='self'>self</span>.<span class='ident'>overrides</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>settings</span>: <span class='self'>self</span>.<span class='ident'>settings</span>,
+            <span class='ident'>val_delim</span>: <span class='self'>self</span>.<span class='ident'>val_delim</span>,
+            <span class='ident'>default_val</span>: <span class='self'>self</span>.<span class='ident'>default_val</span>,
+            <span class='ident'>disp_ord</span>: <span class='self'>self</span>.<span class='ident'>disp_ord</span>,
         }
     }
 }

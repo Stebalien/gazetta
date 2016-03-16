@@ -62,7 +62,8 @@ non-mutating methods directly on the data it encloses. If mutation
 is desired, <code>to_mut</code> will obtain a mutable reference to an owned
 value, cloning if necessary.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
 
 <span class='kw'>fn</span> <span class='ident'>abs_all</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Cow</span><span class='op'>&lt;</span>[<span class='ident'>i32</span>]<span class='op'>&gt;</span>) {
@@ -82,7 +83,8 @@ value, cloning if necessary.</p>
 
 <p>Clones the data if it is not already owned.</p>
 
-<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cow</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span>[_]<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]);
@@ -95,7 +97,8 @@ value, cloning if necessary.</p>
 
 <p>Clones the data if it is not already owned.</p>
 
-<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
 
 <span class='kw'>let</span> <span class='ident'>cow</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span>[_]<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Cow</span>::<span class='ident'>Owned</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]);

@@ -117,25 +117,25 @@
 <span id="74">74</span>
 <span id="75">75</span>
 </pre><pre class='rust '>
-<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This file is part of gazetta.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
-<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
-<span class='comment'>//  License.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
-<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
-<span class='comment'>//  the GNU General Public License for more details.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
-<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-<span class='comment'>//</span>
+<span class='comment'>/*  Copyright (C) 2015 Steven Allen
+ *
+ *  This file is part of gazetta.
+ *
+ *  This program is free software: you can redistribute it and/or modify it under the terms of the
+ *  GNU General Public License as published by the Free Software Foundation version 3 of the
+ *  License.
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+ *  the GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along with this program.  If
+ *  not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 
-<span class='kw'>use</span> <span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
+<span class='kw'>use</span> ::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
 
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>Page</span>;
 
@@ -166,13 +166,12 @@
     <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
           <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>,
           <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>
-{
-}
+{}
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Index</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
           <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>
+          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
 {
     <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
         <span class='op'>*</span><span class='self'>self</span>
@@ -183,15 +182,16 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>Index</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
           <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>
+          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
 {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='ident'>f</span>.<span class='ident'>debug_struct</span>(<span class='string'>&quot;Index&quot;</span>)
-         .<span class='ident'>field</span>(<span class='string'>&quot;entries&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>entries</span>)
-         .<span class='ident'>field</span>(<span class='string'>&quot;paginate&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>paginate</span>)
-         .<span class='ident'>finish</span>()
+            .<span class='ident'>field</span>(<span class='string'>&quot;entries&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>entries</span>)
+            .<span class='ident'>field</span>(<span class='string'>&quot;paginate&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>paginate</span>)
+            .<span class='ident'>finish</span>()
     }
 }
+
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

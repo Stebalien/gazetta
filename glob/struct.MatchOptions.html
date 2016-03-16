@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
 
-    <link rel="shortcut icon" href="http://www.rust-lang.org/favicon.ico">
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
     
 </head>
 <body class="rustdoc">
@@ -26,7 +26,7 @@
     
 
     <nav class="sidebar">
-        <a href='../glob/index.html'><img src='http://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
+        <a href='../glob/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         <p class='location'><a href='index.html'>glob</a></p><script>window.sidebarCurrent = {name: 'MatchOptions', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-677' class='srclink' href='../src/glob/lib.rs.html#875-893' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-687' class='srclink' href='../src/glob/lib.rs.html.html#898-916' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct MatchOptions {
     pub case_sensitive: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
     pub require_literal_separator: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
@@ -64,7 +64,7 @@ Posix) must be matched by a literal <code>/</code>, rather than by <code>*</code
 <code>[...]</code></p>
 </div></td></tr><tr class='stab '>
                                   <td id='structfield.require_literal_leading_dot'><code>require_literal_leading_dot</code></td><td><div class='docblock'><p>If this is true then paths that contain components that start with a <code>.</code>
-will not match unless the <code>.</code> appears literally in the pattern: <code>*</code>, <code>?</code>
+will not match unless the <code>.</code> appears literally in the pattern: <code>*</code>, <code>?</code>, <code>**</code>,
 or <code>[...]</code> will not match. This is useful because such files are
 conventionally considered hidden on Unix systems and it might be
 desirable to skip them when listing files.</p>
@@ -74,6 +74,7 @@ when calling functions that do not take an explicit <code>MatchOptions</code>
 parameter.</p>
 
 <p>This function always returns this value:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='ident'>MatchOptions</span> {
     <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,

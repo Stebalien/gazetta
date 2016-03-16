@@ -46,9 +46,8 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-10788' class='srclink' href='https://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html?gotosrc=10788' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct SystemTime(_);</pre><div class='stability'><em class='stab unstable'>Unstable (<code>time2</code>)<p>: recently added</p>
-</em></div><div class='docblock'><p>A measurement of the system clock, useful for talking to
+        </span><a id='src-10944' class='srclink' href='https://doc.rust-lang.org/nightly/std/time/struct.SystemTime.html?gotosrc=10944' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct SystemTime(_);</pre><span class="since">1.8.0</span><div class='docblock'><p>A measurement of the system clock, useful for talking to
 external entities like the file system or other processes.</p>
 
 <p>Distinct from the <code>Instant</code> type, this time measurement <strong>is not
@@ -68,11 +67,9 @@ information about a <code>SystemTime</code>. By calculating the duration from th
 fixed point in time, a <code>SystemTime</code> can be converted to a human-readable time,
 or perhaps some other string representation.</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../bitflags/__core/time/struct.SystemTime.html' title='bitflags::__core::time::SystemTime'>SystemTime</a></code></h3><div class='impl-items'><h4 id='method.now' class='method'><code>fn <a href='#method.now' class='fnname'>now</a>() -&gt; <a class='struct' href='../../../bitflags/__core/time/struct.SystemTime.html' title='bitflags::__core::time::SystemTime'>SystemTime</a></code></h4>
-<div class='stability'><em class='stab unstable'>Unstable (<code>time2</code>)<p>: recently added</p>
-</em></div><div class='docblock'><p>Returns the system time corresponding to &quot;now&quot;.</p>
-</div><h4 id='method.duration_from_earlier' class='method'><code>fn <a href='#method.duration_from_earlier' class='fnname'>duration_from_earlier</a>(&amp;self, earlier: <a class='struct' href='../../../bitflags/__core/time/struct.SystemTime.html' title='bitflags::__core::time::SystemTime'>SystemTime</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>, <a class='struct' href='../../../bitflags/__core/time/struct.SystemTimeError.html' title='bitflags::__core::time::SystemTimeError'>SystemTimeError</a>&gt;</code></h4>
-<div class='stability'><em class='stab unstable'>Unstable (<code>time2</code>)<p>: recently added</p>
-</em></div><div class='docblock'><p>Returns the amount of time elapsed from an earlier point in time.</p>
+<div class='docblock'><p>Returns the system time corresponding to &quot;now&quot;.</p>
+</div><h4 id='method.duration_since' class='method'><code>fn <a href='#method.duration_since' class='fnname'>duration_since</a>(&amp;self, earlier: <a class='struct' href='../../../bitflags/__core/time/struct.SystemTime.html' title='bitflags::__core::time::SystemTime'>SystemTime</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>, <a class='struct' href='../../../bitflags/__core/time/struct.SystemTimeError.html' title='bitflags::__core::time::SystemTimeError'>SystemTimeError</a>&gt;</code></h4>
+<div class='docblock'><p>Returns the amount of time elapsed from an earlier point in time.</p>
 
 <p>This function may fail because measurements taken earlier are not
 guaranteed to always be before later measurements (due to anomalies such
@@ -83,9 +80,11 @@ the amount of time elapsed from the specified measurement to this one.</p>
 
 <p>Returns an <code>Err</code> if <code>earlier</code> is later than <code>self</code>, and the error
 contains how far from <code>self</code> the time is.</p>
+</div><h4 id='method.duration_from_earlier' class='method'><code>fn <a href='#method.duration_from_earlier' class='fnname'>duration_from_earlier</a>(&amp;self, earlier: <a class='struct' href='../../../bitflags/__core/time/struct.SystemTime.html' title='bitflags::__core::time::SystemTime'>SystemTime</a>) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>, <a class='struct' href='../../../bitflags/__core/time/struct.SystemTimeError.html' title='bitflags::__core::time::SystemTimeError'>SystemTimeError</a>&gt;</code></h4>
+<div class='stability'><em class='stab unstable deprecated'>Deprecated since 1.8.0<p>: renamed to duration_since</p>
+</em></div><div class='docblock'><p>Deprecated, renamed to <code>duration_since</code></p>
 </div><h4 id='method.elapsed' class='method'><code>fn <a href='#method.elapsed' class='fnname'>elapsed</a>(&amp;self) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>, <a class='struct' href='../../../bitflags/__core/time/struct.SystemTimeError.html' title='bitflags::__core::time::SystemTimeError'>SystemTimeError</a>&gt;</code></h4>
-<div class='stability'><em class='stab unstable'>Unstable (<code>time2</code>)<p>: recently added</p>
-</em></div><div class='docblock'><p>Returns the amount of time elapsed since this system time was created.</p>
+<div class='docblock'><p>Returns the amount of time elapsed since this system time was created.</p>
 
 <p>This function may fail as the underlying system clock is susceptible to
 drift and updates (e.g. the system clock could go backwards), so this

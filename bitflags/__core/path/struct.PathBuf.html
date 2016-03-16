@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-7539' class='srclink' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html?gotosrc=7539' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-7691' class='srclink' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html?gotosrc=7691' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct PathBuf {
     // some fields omitted
 }</pre><span class="since">1.0.0</span><div class='docblock'><p>An owned, mutable path (akin to <code>String</code>).</p>
@@ -58,7 +58,8 @@ methods on <code>Path</code> slices are available on <code>PathBuf</code> values
 <p>More details about the overall approach can be found in
 the module documentation.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='string'>&quot;c:\\&quot;</span>);
@@ -82,7 +83,8 @@ replaces everything except for the prefix (if any) of <code>self</code>.</li>
 <li>if <code>path</code> has a prefix but no root, it replaces <code>self</code>.</li>
 </ul>
 
-<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>new</span>();
@@ -104,7 +106,8 @@ Otherwise, returns <code>true</code>.</p>
 <p>If <code>self.file_name()</code> was <code>None</code>, this is equivalent to pushing
 <code>file_name</code>.</p>
 
-<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>PathBuf</span>;
 
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='string'>&quot;/&quot;</span>);
@@ -126,7 +129,8 @@ is added; otherwise it is replaced.</p>
 </div></div><h2 id='deref-methods'>Methods from <a class='trait' href='../../../bitflags/__core/ops/trait.Deref.html' title='bitflags::__core::ops::Deref'>Deref</a>&lt;Target=<a class='struct' href='../../../bitflags/__core/path/struct.Path.html' title='bitflags::__core::path::Path'>Path</a>&gt;</h2><div class='impl-items'><h4 id='method.as_os_str' class='method'><code>fn <a href='#method.as_os_str' class='fnname'>as_os_str</a>(&amp;self) -&gt; &amp;<a class='struct' href='../../../bitflags/__core/ffi/struct.OsStr.html' title='bitflags::__core::ffi::OsStr'>OsStr</a></code></h4>
 <div class='docblock'><p>Yields the underlying <code>OsStr</code> slice.</p>
 
-<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>os_str</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.txt&quot;</span>).<span class='ident'>as_os_str</span>();
@@ -136,7 +140,8 @@ is added; otherwise it is replaced.</p>
 
 <p>This conversion may entail doing a check for UTF-8 validity.</p>
 
-<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path_str</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.txt&quot;</span>).<span class='ident'>to_str</span>();
@@ -146,7 +151,8 @@ is added; otherwise it is replaced.</p>
 
 <p>Any non-Unicode sequences are replaced with U+FFFD REPLACEMENT CHARACTER.</p>
 
-<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path_str</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.txt&quot;</span>).<span class='ident'>to_string_lossy</span>();
@@ -154,7 +160,8 @@ is added; otherwise it is replaced.</p>
 </div><h4 id='method.to_path_buf' class='method'><code>fn <a href='#method.to_path_buf' class='fnname'>to_path_buf</a>(&amp;self) -&gt; <a class='struct' href='../../../bitflags/__core/path/struct.PathBuf.html' title='bitflags::__core::path::PathBuf'>PathBuf</a></code></h4>
 <div class='docblock'><p>Converts a <code>Path</code> to an owned <code>PathBuf</code>.</p>
 
-<h1 id='examples-6' class='section-header'><a href='#examples-6'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-6' class='section-header'><a href='#examples-6'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path_buf</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.txt&quot;</span>).<span class='ident'>to_path_buf</span>();
@@ -170,14 +177,16 @@ root: <code>c:\windows</code> is absolute, while <code>c:temp</code> and <code>\
 other words, <code>path.is_absolute() == path.prefix().is_some() &amp;&amp; path.has_root()</code>.</p></li>
 </ul>
 
-<h1 id='examples-7' class='section-header'><a href='#examples-7'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-7' class='section-header'><a href='#examples-7'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.txt&quot;</span>).<span class='ident'>is_absolute</span>());</pre>
 </div><h4 id='method.is_relative' class='method'><code>fn <a href='#method.is_relative' class='fnname'>is_relative</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>A path is <em>relative</em> if it is not absolute.</p>
 
-<h1 id='examples-8' class='section-header'><a href='#examples-8'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-8' class='section-header'><a href='#examples-8'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.txt&quot;</span>).<span class='ident'>is_relative</span>());</pre>
@@ -202,7 +211,8 @@ detail in <code>std::os::windows::PathExt</code>.</p>
 </ul></li>
 </ul>
 
-<h1 id='examples-9' class='section-header'><a href='#examples-9'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-9' class='section-header'><a href='#examples-9'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/etc/passwd&quot;</span>).<span class='ident'>has_root</span>());</pre>
@@ -211,7 +221,8 @@ detail in <code>std::os::windows::PathExt</code>.</p>
 
 <p>Returns <code>None</code> if the path terminates in a root or prefix.</p>
 
-<h1 id='examples-10' class='section-header'><a href='#examples-10'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-10' class='section-header'><a href='#examples-10'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/foo/bar&quot;</span>);
@@ -227,7 +238,8 @@ detail in <code>std::os::windows::PathExt</code>.</p>
 <p>If the path terminates in <code>.</code>, <code>..</code>, or consists solely of a root of
 prefix, <code>file_name</code> will return <code>None</code>.</p>
 
-<h1 id='examples-11' class='section-header'><a href='#examples-11'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-11' class='section-header'><a href='#examples-11'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
 
@@ -252,7 +264,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 
 <p>Only considers whole path components to match.</p>
 
-<h1 id='examples-12' class='section-header'><a href='#examples-12'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-12' class='section-header'><a href='#examples-12'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/etc/passwd&quot;</span>);
@@ -265,7 +278,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 
 <p>Only considers whole path components to match.</p>
 
-<h1 id='examples-13' class='section-header'><a href='#examples-13'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-13' class='section-header'><a href='#examples-13'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/etc/passwd&quot;</span>);
@@ -283,7 +297,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 <li>Otherwise, the portion of the file name before the final <code>.</code></li>
 </ul>
 
-<h1 id='examples-14' class='section-header'><a href='#examples-14'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-14' class='section-header'><a href='#examples-14'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.rs&quot;</span>);
@@ -301,7 +316,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 <li>Otherwise, the portion of the file name after the final <code>.</code></li>
 </ul>
 
-<h1 id='examples-15' class='section-header'><a href='#examples-15'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-15' class='section-header'><a href='#examples-15'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.rs&quot;</span>);
@@ -312,7 +328,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 
 <p>See <code>PathBuf::push</code> for more details on what it means to adjoin a path.</p>
 
-<h1 id='examples-16' class='section-header'><a href='#examples-16'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-16' class='section-header'><a href='#examples-16'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/etc&quot;</span>).<span class='ident'>join</span>(<span class='string'>&quot;passwd&quot;</span>), <span class='ident'>PathBuf</span>::<span class='ident'>from</span>(<span class='string'>&quot;/etc/passwd&quot;</span>));</pre>
@@ -321,7 +338,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 
 <p>See <code>PathBuf::set_file_name</code> for more details.</p>
 
-<h1 id='examples-17' class='section-header'><a href='#examples-17'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-17' class='section-header'><a href='#examples-17'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/tmp/foo.txt&quot;</span>);
@@ -331,7 +349,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 
 <p>See <code>PathBuf::set_extension</code> for more details.</p>
 
-<h1 id='examples-18' class='section-header'><a href='#examples-18'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-18' class='section-header'><a href='#examples-18'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;foo.rs&quot;</span>);
@@ -339,7 +358,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 </div><h4 id='method.components' class='method'><code>fn <a href='#method.components' class='fnname'>components</a>(&amp;self) -&gt; <a class='struct' href='../../../bitflags/__core/path/struct.Components.html' title='bitflags::__core::path::Components'>Components</a></code></h4>
 <div class='docblock'><p>Produce an iterator over the components of the path.</p>
 
-<h1 id='examples-19' class='section-header'><a href='#examples-19'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-19' class='section-header'><a href='#examples-19'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>Component</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
 
@@ -352,7 +372,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 </div><h4 id='method.iter' class='method'><code>fn <a href='#method.iter' class='fnname'>iter</a>(&amp;self) -&gt; <a class='struct' href='../../../bitflags/__core/path/struct.Iter.html' title='bitflags::__core::path::Iter'>Iter</a></code></h4>
 <div class='docblock'><p>Produce an iterator over the path&#39;s components viewed as <code>OsStr</code> slices.</p>
 
-<h1 id='examples-20' class='section-header'><a href='#examples-20'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-20' class='section-header'><a href='#examples-20'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='self'>self</span>, <span class='ident'>Path</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
 
@@ -365,7 +386,8 @@ returns <code>false</code>), returns <code>Err</code>.</p>
 <div class='docblock'><p>Returns an object that implements <code>Display</code> for safely printing paths
 that may contain non-Unicode data.</p>
 
-<h1 id='examples-21' class='section-header'><a href='#examples-21'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-21' class='section-header'><a href='#examples-21'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;/tmp/foo.rs&quot;</span>);
@@ -404,7 +426,8 @@ be encountered after an iterator is initially constructed.</p>
 <p>This function will traverse symbolic links to query information about the
 destination file. In case of broken symbolic links this will return <code>false</code>.</p>
 
-<h1 id='examples-22' class='section-header'><a href='#examples-22'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-22' class='section-header'><a href='#examples-22'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;does_not_exist.txt&quot;</span>).<span class='ident'>exists</span>(), <span class='boolval'>false</span>);</pre>
 </div><h4 id='method.is_file' class='method'><span class="since">1.5.0</span><code>fn <a href='#method.is_file' class='fnname'>is_file</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></code></h4>
@@ -413,7 +436,8 @@ destination file. In case of broken symbolic links this will return <code>false<
 <p>This function will traverse symbolic links to query information about the
 destination file. In case of broken symbolic links this will return <code>false</code>.</p>
 
-<h1 id='examples-23' class='section-header'><a href='#examples-23'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-23' class='section-header'><a href='#examples-23'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;./is_a_directory/&quot;</span>).<span class='ident'>is_file</span>(), <span class='boolval'>false</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;a_file.txt&quot;</span>).<span class='ident'>is_file</span>(), <span class='boolval'>true</span>);</pre>
@@ -423,7 +447,8 @@ destination file. In case of broken symbolic links this will return <code>false<
 <p>This function will traverse symbolic links to query information about the
 destination file. In case of broken symbolic links this will return <code>false</code>.</p>
 
-<h1 id='examples-24' class='section-header'><a href='#examples-24'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-24' class='section-header'><a href='#examples-24'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;./is_a_directory/&quot;</span>).<span class='ident'>is_dir</span>(), <span class='boolval'>true</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;a_file.txt&quot;</span>).<span class='ident'>is_dir</span>(), <span class='boolval'>false</span>);</pre>

@@ -51,6 +51,7 @@
 
 <p>All type parameters which can be bounded have an implicit bound of <code>Sized</code>. The special syntax
 <code>?Sized</code> can be used to remove this bound if it is not appropriate.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>T</span>);
 <span class='kw'>struct</span> <span class='ident'>Bar</span><span class='op'>&lt;</span><span class='ident'>T</span>: ?<span class='ident'>Sized</span><span class='op'>&gt;</span>(<span class='ident'>T</span>);

@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-10118' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/condvar/struct.Condvar.html?gotosrc=10118' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-10274' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/condvar/struct.Condvar.html?gotosrc=10274' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Condvar {
     // some fields omitted
 }</pre><span class="since">1.0.0</span><div class='docblock'><p>A Condition Variable</p>
@@ -65,7 +65,8 @@ attempt to use multiple mutexes on the same condition variable will result
 in a runtime panic. If this is not desired, then the unsafe primitives in
 <code>sys</code> do not have this restriction but may result in undefined behavior.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>, <span class='ident'>Condvar</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 
@@ -147,7 +148,7 @@ known to have elapsed.</p>
 <p>Like <code>wait</code>, the lock specified will be re-acquired when this function
 returns, regardless of whether the timeout elapsed or not.</p>
 </div><h4 id='method.wait_timeout_with' class='method'><code>fn <a href='#method.wait_timeout_with' class='fnname'>wait_timeout_with</a>&lt;T, F&gt;(&amp;self, guard: <a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, dur: <a class='struct' href='../../../bitflags/__core/time/struct.Duration.html' title='bitflags::__core::time::Duration'>Duration</a>, f: F) -&gt; <a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>(</a><a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, <a class='struct' href='../../../bitflags/__core/sync/struct.WaitTimeoutResult.html' title='bitflags::__core::sync::WaitTimeoutResult'>WaitTimeoutResult</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>)</a>, <a class='struct' href='../../../bitflags/__core/sync/struct.PoisonError.html' title='bitflags::__core::sync::PoisonError'>PoisonError</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>(</a><a class='struct' href='../../../bitflags/__core/sync/struct.MutexGuard.html' title='bitflags::__core::sync::MutexGuard'>MutexGuard</a>&lt;'a, T&gt;, <a class='struct' href='../../../bitflags/__core/sync/struct.WaitTimeoutResult.html' title='bitflags::__core::sync::WaitTimeoutResult'>WaitTimeoutResult</a><a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.tuple.html'>)</a>&gt;&gt; <span class='where'>where F: <a class='trait' href='../../../bitflags/__core/ops/trait.FnMut.html' title='bitflags::__core::ops::FnMut'>FnMut</a>(<a class='enum' href='../../../bitflags/__core/result/enum.Result.html' title='bitflags::__core::result::Result'>Result</a>&lt;&amp;mut T, <a class='struct' href='../../../bitflags/__core/sync/struct.PoisonError.html' title='bitflags::__core::sync::PoisonError'>PoisonError</a>&lt;&amp;mut T&gt;&gt;) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></span></code></h4>
-<div class='stability'><em class='stab unstable'>Unstable (<code>wait_timeout_with</code>)<p>: unsure if this API is broadly needed or what form it should take</p>
+<div class='stability'><em class='stab unstable deprecated'>Deprecated since 1.8.0<p>: wonky signature and questionable implementation didn&#39;t justify existence</p>
 </em></div><div class='docblock'><p>Waits on this condition variable for a notification, timing out after a
 specified duration.</p>
 

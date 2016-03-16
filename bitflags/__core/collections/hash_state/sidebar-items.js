@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["DefaultState","A structure which is a factory for instances of `Hasher` which implement the default trait.This struct is 0-sized and does not need construction."]],"trait":[["HashState","Deprecated, renamed to `BuildHasher`"]]});
+initSidebarItems({"struct":[["DefaultState","A structure which is a factory for instances of `Hasher` which implement the default trait."]],"trait":[["HashState","Deprecated, renamed to `BuildHasher`"]]});

@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-6736' class='srclink' href='https://doc.rust-lang.org/nightly/std/panic/struct.AssertRecoverSafe.html?gotosrc=6736' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-6888' class='srclink' href='https://doc.rust-lang.org/nightly/std/panic/struct.AssertRecoverSafe.html?gotosrc=6888' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct AssertRecoverSafe&lt;T&gt;(_);</pre><div class='stability'><em class='stab unstable'>Unstable (<code>recover</code>)<p>: awaiting feedback</p>
 </em></div><div class='docblock'><p>A simple wrapper around a type to assert that it is panic safe.</p>
 
@@ -58,7 +58,8 @@ specific usage of <code>recover</code> if panic safety is specifically taken int
 account. This wrapper struct is useful for a quick and lightweight
 annotation that a variable is indeed panic safe.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>recover</span>, <span class='ident'>std_panic</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>panic</span>::{<span class='self'>self</span>, <span class='ident'>AssertRecoverSafe</span>};

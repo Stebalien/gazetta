@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.1.2/src/args/group.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.0/src/args/group.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>group.rs.html -- source</title>
@@ -527,6 +527,21 @@
 <span id="484">484</span>
 <span id="485">485</span>
 <span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
@@ -672,6 +687,8 @@
     <span class='doccomment'>/// of the application in the format `[arg|arg2|arg3]`. A required `ArgGroup` simply states</span>
     <span class='doccomment'>/// that one, and only one argument from this group *must* be present at runtime (unless</span>
     <span class='doccomment'>/// conflicting with another argument).</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** This setting only applies to the current `App` / `SubCommand`, and not globally.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -1013,6 +1030,19 @@ requires:
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>g</span>.<span class='ident'>requires</span>, <span class='prelude-val'>Some</span>(<span class='ident'>reqs</span>));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>g</span>.<span class='ident'>conflicts</span>, <span class='prelude-val'>Some</span>(<span class='ident'>confs</span>));
     }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>ArgGroup</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+        <span class='ident'>ArgGroup</span> {
+            <span class='ident'>name</span>: <span class='self'>self</span>.<span class='ident'>name</span>,
+            <span class='ident'>required</span>: <span class='self'>self</span>.<span class='ident'>required</span>,
+            <span class='ident'>args</span>: <span class='self'>self</span>.<span class='ident'>args</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>requires</span>: <span class='self'>self</span>.<span class='ident'>requires</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>conflicts</span>: <span class='self'>self</span>.<span class='ident'>conflicts</span>.<span class='ident'>clone</span>(),
+        }
+    }
+
 }
 </pre>
 </section>

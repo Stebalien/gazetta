@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["slugify","Convert any unicode string to an ascii \"slug\" (useful for file names/url components)The returned \"slug\" will consist of a-z, 0-9, and '-'. Furthermore, a slug will never contain more than one '-' in a row and will never start or end with '-'."]]});
+initSidebarItems({"fn":[["slugify","Convert any unicode string to an ascii \"slug\" (useful for file names/url components)"]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ParseError","Errors that can occur during parsing."]],"type":[["ErrorHandler","This is called on non-fatal parse errors.The handler can choose to continue or abort parsing by returning Ok() or Err(), respectively. See the `UrlParser::error_handler` method.FIXME: make this a by-ref closure when that’s supported."],["ParseResult",""]]});
+initSidebarItems({"enum":[["ParseError","Errors that can occur during parsing."]],"type":[["ErrorHandler","This is called on non-fatal parse errors."],["ParseResult",""]]});

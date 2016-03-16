@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-10120' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/condvar/struct.StaticCondvar.html?gotosrc=10120' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-10276' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/condvar/struct.StaticCondvar.html?gotosrc=10276' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct StaticCondvar {
     // some fields omitted
 }</pre><div class='stability'><em class='stab unstable'>Unstable (<code>static_condvar</code>)<p>: may be merged with Condvar in the future</p>
@@ -55,7 +55,8 @@
 <p>This structure is identical to <code>Condvar</code> except that it is suitable for use
 in static initializers for other structures.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>static_condvar</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>StaticCondvar</span>, <span class='ident'>CONDVAR_INIT</span>};

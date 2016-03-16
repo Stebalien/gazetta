@@ -47,7 +47,7 @@
                 [<span class='inner'>&#x2212;</span>]
             </a>
         </span><a id='src-185' class='srclink' href='https://doc.rust-lang.org/nightly/std/prelude/index.html?gotosrc=185' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>The Rust Prelude</p>
+<div class='docblock'><p>The Rust Prelude.</p>
 
 <p>Rust comes with a variety of things in its standard library. However, if
 you had to manually import every single thing that you used, it would be
@@ -60,10 +60,12 @@ things, particularly traits, which are used in almost every single Rust
 program.</p>
 
 <p>On a technical level, Rust inserts</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>std</span>;</pre>
 
 <p>into the crate root of every crate, and</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>prelude</span>::<span class='ident'>v1</span>::<span class='op'>*</span>;</pre>
 

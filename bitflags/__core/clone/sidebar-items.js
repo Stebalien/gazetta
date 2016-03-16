@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["Clone","A common trait for cloning an object.This trait can be used with `#[derive]`."]]});
+initSidebarItems({"trait":[["Clone","A common trait for cloning an object."]]});

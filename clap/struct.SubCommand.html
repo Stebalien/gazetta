@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-3095' class='srclink' href='../src/clap/args/subcommand.rs.html#27-32' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-3182' class='srclink' href='../src/clap/args/subcommand.rs.html.html#27-32' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct SubCommand&lt;'a&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>The abstract representation of a command line subcommand.</p>
@@ -55,7 +55,8 @@
 essentially &quot;sub apps&quot; and contain all the same possibilities (such as their own arguments,
 subcommands, and settings).</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>subcommand</span>(
         <span class='ident'>SubCommand</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;config&quot;</span>)
@@ -67,7 +68,8 @@ subcommands, and settings).</p>
 <div class='docblock'><p>Creates a new instance of a subcommand requiring a name. The name will be displayed
 to the user when they print version or help and usage information.</p>
 
-<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>subcommand</span>(
         <span class='ident'>SubCommand</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;config&quot;</span>))</pre>

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["TemplateBuffer","A template buffer. This is the type that gets passed to closures inside templates.Example:"]],"trait":[["Template","A template that can be rendered into something.Don't let the single impl below fool you, these methods are available on all `Render*`'s (through impls on references and boxes)."]]});
+initSidebarItems({"struct":[["TemplateBuffer","A template buffer. This is the type that gets passed to closures inside templates."]],"trait":[["Template","A template that can be rendered into something."]]});

@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-10547' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/semaphore/struct.Semaphore.html?gotosrc=10547' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-10703' class='srclink' href='https://doc.rust-lang.org/nightly/std/sync/semaphore/struct.Semaphore.html?gotosrc=10703' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Semaphore {
     // some fields omitted
 }</pre><div class='stability'><em class='stab unstable deprecated'>Deprecated since 1.7.0<p>: easily confused with system semaphores and not used enough to pull its weight</p>
@@ -57,7 +57,8 @@ counter is a positive value. Each acquisition will block the calling thread
 until the counter is positive, and each release will increment the counter
 and unblock any threads if necessary.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>semaphore</span>)]</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Semaphore</span>;

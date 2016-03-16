@@ -51,6 +51,7 @@
 
 <p>Slices are a view into a block of memory represented as a pointer and a
 length.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='comment'>// slicing a Vec</span>
 <span class='kw'>let</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
@@ -62,6 +63,7 @@ length.</p>
 while the mutable slice type is <code>&amp;mut [T]</code>, where <code>T</code> represents the element
 type. For example, you can mutate the block of memory that a mutable slice
 points to:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 <span class='ident'>x</span>[<span class='number'>1</span>] <span class='op'>=</span> <span class='number'>7</span>;
@@ -86,6 +88,7 @@ include:</p>
 <h2 id='iteration' class='section-header'><a href='#iteration'>Iteration</a></h2>
 <p>The slices implement <code>IntoIterator</code>. The iterator yields references to the
 slice elements.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>numbers</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>2</span>];
 <span class='kw'>for</span> <span class='ident'>n</span> <span class='kw'>in</span> <span class='ident'>numbers</span> {
@@ -93,6 +96,7 @@ slice elements.</p>
 }</pre>
 
 <p>The mutable slice yields mutable references to the elements:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>scores</span> <span class='op'>=</span> [<span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>];
 <span class='kw'>for</span> <span class='ident'>score</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>scores</span>[..] {

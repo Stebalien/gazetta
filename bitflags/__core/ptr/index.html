@@ -47,9 +47,9 @@
                 [<span class='inner'>&#x2212;</span>]
             </a>
         </span><a id='src-6102' class='srclink' href='https://doc.rust-lang.org/nightly/core/ptr/index.html?gotosrc=6102' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Raw, unsafe pointers, <code>*const T</code>, and <code>*mut T</code></p>
+<div class='docblock'><p>Raw, unsafe pointers, <code>*const T</code>, and <code>*mut T</code>.</p>
 
-<p><em><a href="../primitive.pointer.html">See also the pointer primitive types</a>.</em></p>
+<p><em><a href="../../std/primitive.pointer.html">See also the pointer primitive types</a>.</em></p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr class='unstable module-item'>
@@ -94,6 +94,14 @@ and destination may overlap.</p>
                         <td class='docblock short'>
                              <p>Copies <code>count * size_of&lt;T&gt;</code> bytes from <code>src</code> to <code>dst</code>. The source
 and destination may <em>not</em> overlap.</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.drop_in_place.html'
+                               title='bitflags::__core::ptr::drop_in_place'>drop_in_place</a></td>
+                        <td class='docblock short'>
+                             <p>Executes the destructor (if any) of the pointed-to value.</p>
                         </td>
                     </tr>
                 
@@ -156,14 +164,6 @@ dropping the old value.</p>
                         <td class='docblock short'>
                              <p>Invokes memset on the specified pointer, setting <code>count * size_of::&lt;T&gt;()</code>
 bytes of memory starting at <code>dst</code> to <code>val</code>.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class='unstable module-item'>
-                        <td><a class='fn' href='fn.drop_in_place.html'
-                               title='bitflags::__core::ptr::drop_in_place'>drop_in_place</a></td>
-                        <td class='docblock short'>
-                            [<em class='stab unstable'>Unstable</em>] <p>Executes the destructor (if any) of the pointed-to value.</p>
                         </td>
                     </tr>
                 

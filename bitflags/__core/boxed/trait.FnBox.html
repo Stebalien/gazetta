@@ -64,6 +64,7 @@ closures become directly usable.)</p>
 once closures and then removes them one by one, calling each
 closure as it is removed. Note that the type of the closures
 stored in the map is <code>Box&lt;FnBox() -&gt; i32&gt;</code> and not <code>Box&lt;FnOnce() -&gt; i32&gt;</code>.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>fnbox</span>)]</span>
 

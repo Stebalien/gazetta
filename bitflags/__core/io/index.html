@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-4044' class='srclink' href='https://doc.rust-lang.org/nightly/std/io/index.html?gotosrc=4044' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-4098' class='srclink' href='https://doc.rust-lang.org/nightly/std/io/index.html?gotosrc=4098' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Traits, helpers, and type definitions for core I/O functionality.</p>
 
 <p>The <code>std::io</code> module contains a number of common things you&#39;ll need
@@ -60,6 +60,7 @@ of other types, and you can implement them for your types too. As such,
 you&#39;ll see a few different types of I/O throughout the documentation in
 this module: <code>File</code>s, <code>TcpStream</code>s, and sometimes even <code>Vec&lt;T&gt;</code>s. For
 example, <code>Read</code> adds a <code>read()</code> method, which we can use on <code>File</code>s:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -82,6 +83,7 @@ of &#39;a type that implements the <code>Read</code> trait&#39;. Much easier!</p
 and <a href="trait.BufRead.html"><code>BufRead</code></a>. Both of these build on top of a reader to control
 how the reading happens. <code>Seek</code> lets you control where the next byte is
 coming from:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -111,6 +113,7 @@ calls and providing nicer methods for accessing exactly what you want.</p>
 
 <p>For example, <code>BufReader</code> works with the <code>BufRead</code> trait to add extra
 methods to any reader:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -128,6 +131,7 @@ methods to any reader:</p>
 
 <p><code>BufWriter</code> doesn&#39;t add any new ways of writing; it just buffers every call
 to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -146,6 +150,7 @@ to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
 
 <h2 id='standard-input-and-output' class='section-header'><a href='#standard-input-and-output'>Standard input and output</a></h2>
 <p>A very common source of input is standard input:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 
@@ -156,6 +161,7 @@ to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You typed: {}&quot;</span>, <span class='ident'>input</span>.<span class='ident'>trim</span>());</pre>
 
 <p>And a very common source of output is standard output:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -169,6 +175,7 @@ to <a href="trait.Write.html#tymethod.write"><code>write()</code></a>:</p>
 <p>A large number of the structures provided by <code>std::io</code> are for various
 ways of iterating over I/O. For example, <code>Lines</code> is used to split over
 lines:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
@@ -188,6 +195,7 @@ lines:</p>
 <p>There are a number of <a href="#functions">functions</a> that offer access to various
 features. For example, we can use three of these functions to copy everything
 from standard input to standard output:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 
@@ -198,6 +206,7 @@ from standard input to standard output:</p>
 as the return type of many <code>std::io</code> functions that can cause an error, and
 can be returned from your own functions as well. Many of the examples in this
 module use the <a href="../macro.try!.html"><code>try!</code></a> macro:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
 

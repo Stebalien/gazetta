@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/ansi_term/lib.rs.html#1-823' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/ansi_term/lib.rs.html.html#1-823' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This is a library for controlling colours and formatting, such as
 red bold text or blue underlined text, on ANSI terminals.</p>
 
@@ -63,6 +63,7 @@ colour styles. An <code>ANSIString</code> is a string paired with a <code>Style<
 <p>To format a string, call the <code>paint</code> method on a <code>Style</code> or a <code>Colour</code>,
 passing in the string you want to format as the argument. For example,
 here’s how to get some red text:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Red</span>;
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;This is in red: {}&quot;</span>, <span class='ident'>Red</span>.<span class='ident'>paint</span>(<span class='string'>&quot;a red string&quot;</span>));</pre>
@@ -75,6 +76,7 @@ minimum of <code>String</code> allocations being performed behind the scenes.</p
 
 <p>If you <em>do</em> want to get at the escape codes, then you can convert the
 <code>ANSIString</code> to a string as you would any other <code>Display</code> value:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Red</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>string</span>::<span class='ident'>ToString</span>;
@@ -86,6 +88,7 @@ construct <code>Style</code> objects themselves, rather than beginning with a <c
 You can do this by chaining methods based on a new <code>Style</code>, created with
 <code>Style::new()</code>. Each method creates a new style that has that specific
 property set. For example:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Style</span>;
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;How about some {} and {}?&quot;</span>,
@@ -95,6 +98,7 @@ property set. For example:</p>
 <p>For brevity, these methods have also been implemented for <code>Colour</code> values,
 so you can give your styles a foreground colour without having to begin with
 an empty <code>Style</code> value:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::{<span class='ident'>Blue</span>, <span class='ident'>Yellow</span>};
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Demonstrating {} and {}!&quot;</span>,
@@ -112,6 +116,7 @@ for example, you may have a method that returns <code>Styles</code>, and need to
 represent both the “red bold” and “red, but not bold” styles with values of
 the same type. The <code>Style</code> struct also has a <code>Default</code> implementation if you
 want to have a style with <em>nothing</em> set.</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Style</span>;
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Red</span>;
@@ -122,6 +127,7 @@ want to have a style with <em>nothing</em> set.</p>
 <p>You can access the extended range of 256 colours by using the <code>Fixed</code> colour
 variant, which takes an argument of the colour number to use. This can be
 included wherever you would use a <code>Colour</code>:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Fixed</span>;
 <span class='ident'>Fixed</span>(<span class='number'>134</span>).<span class='ident'>paint</span>(<span class='string'>&quot;A sort of light purple&quot;</span>);
@@ -149,6 +155,7 @@ as part of its formatting routine.</p>
 
 <p>The following code snippet uses this to enclose a binary number displayed in
 red bold text inside some red, but not bold, brackets:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Red</span>;
 <span class='kw'>use</span> <span class='ident'>ansi_term</span>::{<span class='ident'>ANSIString</span>, <span class='ident'>ANSIStrings</span>};

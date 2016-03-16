@@ -154,34 +154,22 @@
 <span id="111">111</span>
 <span id="112">112</span>
 <span id="113">113</span>
-<span id="114">114</span>
-<span id="115">115</span>
-<span id="116">116</span>
-<span id="117">117</span>
-<span id="118">118</span>
-<span id="119">119</span>
-<span id="120">120</span>
-<span id="121">121</span>
-<span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
-<span id="125">125</span>
 </pre><pre class='rust '>
-<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This file is part of gazetta.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
-<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
-<span class='comment'>//  License.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
-<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
-<span class='comment'>//  the GNU General Public License for more details.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
-<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-<span class='comment'>//</span>
+<span class='comment'>/*  Copyright (C) 2015 Steven Allen
+ *
+ *  This file is part of gazetta.
+ *
+ *  This program is free software: you can redistribute it and/or modify it under the terms of the
+ *  GNU General Public License as published by the Free Software Foundation version 3 of the
+ *  License.
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+ *  the GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along with this program.  If
+ *  not, see &lt;http://www.gnu.org/licenses/&gt;.
+ */</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>link</span>::<span class='ident'>Link</span>;
@@ -207,20 +195,18 @@
 <span class='kw'>impl</span> <span class='ident'>Key</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yaml</span>(<span class='ident'>key</span>: <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='ident'>key</span> {
-            <span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='kw-2'>mut</span> <span class='ident'>key</span>) <span class='op'>=&gt;</span> {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span> {
-                    <span class='ident'>url</span>: <span class='kw'>match</span> <span class='ident'>key</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>URL</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>url</span>)) <span class='op'>=&gt;</span> <span class='ident'>url</span>,
-                        <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key url must be a string&quot;</span>),
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key url missing&quot;</span>),
-                    },
-                    <span class='ident'>fingerprint</span>: <span class='kw'>match</span> <span class='ident'>key</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>FINGERPRINT</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>fprint</span>)) <span class='op'>=&gt;</span> <span class='ident'>fprint</span>,
-                        <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key fingerprint must be a string&quot;</span>),
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key fingerprint missing&quot;</span>),
-                    },
-                })
-            }
+            <span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='kw-2'>mut</span> <span class='ident'>key</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Key</span> {
+                <span class='ident'>url</span>: <span class='kw'>match</span> <span class='ident'>key</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>URL</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>url</span>)) <span class='op'>=&gt;</span> <span class='ident'>url</span>,
+                    <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key url must be a string&quot;</span>),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key url missing&quot;</span>),
+                },
+                <span class='ident'>fingerprint</span>: <span class='kw'>match</span> <span class='ident'>key</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>FINGERPRINT</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>fprint</span>)) <span class='op'>=&gt;</span> <span class='ident'>fprint</span>,
+                    <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key fingerprint must be a string&quot;</span>),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;key fingerprint missing&quot;</span>),
+                },
+            }),
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;if specified, key must be a hash&quot;</span>),
         }
     }
@@ -239,55 +225,45 @@
 <span class='kw'>impl</span> <span class='ident'>Person</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yaml</span>(<span class='ident'>person</span>: <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
         <span class='prelude-val'>Ok</span>(<span class='kw'>match</span> <span class='ident'>person</span> {
-            <span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='kw-2'>mut</span> <span class='ident'>person</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>Person</span> {
-                    <span class='ident'>name</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>NAME</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>name</span>)) <span class='op'>=&gt;</span> <span class='ident'>name</span>,
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;missing name&quot;</span>),
-                        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;name must be a string&quot;</span>),
-                    },
-                    <span class='ident'>photo</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>PHOTO</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>photo</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>photo</span>),
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-                        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;if specified, photo must be a string&quot;</span>),
-                    },
-                    <span class='ident'>email</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>EMAIL</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>email</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>email</span>),
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-                        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;if specified, email must be a string&quot;</span>),
-                    },
-                    <span class='ident'>nicknames</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>NICKNAMES</span>) {
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>nick</span>)) <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>nick</span>],
-                        <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>Array</span>(<span class='ident'>nicks</span>)) <span class='op'>=&gt;</span> {
-                            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>nicks</span>.<span class='ident'>into_iter</span>()
-                                      .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>nick</span><span class='op'>|</span> {
-                                          <span class='kw'>match</span> <span class='ident'>nick</span> {
-                                              <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>nick</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>nick</span>),
-                                              _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;nicknames must be strings&quot;</span>),
-                                          }
-                                      })
-                                      .<span class='ident'>collect</span>())
-                        }
-                        <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;invalid nicknames value&quot;</span>),
-                        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[],
-                    },
-                    <span class='ident'>also</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>ALSO</span>)
-                                     .<span class='ident'>map</span>(<span class='ident'>Link</span>::<span class='ident'>many_from_yaml</span>)
-                                     .<span class='ident'>bubble_result</span>())
-                              .<span class='ident'>unwrap_or</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>()),
-                    <span class='ident'>key</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>KEY</span>).<span class='ident'>map</span>(<span class='ident'>Key</span>::<span class='ident'>from_yaml</span>).<span class='ident'>bubble_result</span>()),
-                }
-            }
-            <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>name</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>Person</span> {
-                    <span class='ident'>name</span>: <span class='ident'>name</span>,
-                    <span class='ident'>email</span>: <span class='prelude-val'>None</span>,
-                    <span class='ident'>key</span>: <span class='prelude-val'>None</span>,
-                    <span class='ident'>also</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-                    <span class='ident'>photo</span>: <span class='prelude-val'>None</span>,
-                    <span class='ident'>nicknames</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-                }
-            }
+            <span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='kw-2'>mut</span> <span class='ident'>person</span>) <span class='op'>=&gt;</span> <span class='ident'>Person</span> {
+                <span class='ident'>name</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>NAME</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>name</span>)) <span class='op'>=&gt;</span> <span class='ident'>name</span>,
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;missing name&quot;</span>),
+                    _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;name must be a string&quot;</span>),
+                },
+                <span class='ident'>photo</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>PHOTO</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>photo</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>photo</span>),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+                    _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;if specified, photo must be a string&quot;</span>),
+                },
+                <span class='ident'>email</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>EMAIL</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>email</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>email</span>),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+                    _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;if specified, email must be a string&quot;</span>),
+                },
+                <span class='ident'>nicknames</span>: <span class='kw'>match</span> <span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>NICKNAMES</span>) {
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>nick</span>)) <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>nick</span>],
+                    <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>Array</span>(<span class='ident'>nicks</span>)) <span class='op'>=&gt;</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>nicks</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>nick</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>nick</span> {
+                        <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>nick</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>nick</span>),
+                        _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;nicknames must be strings&quot;</span>),
+                    }).<span class='ident'>collect</span>()),
+                    <span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;invalid nicknames value&quot;</span>),
+                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[],
+                },
+                <span class='ident'>also</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>ALSO</span>)
+                           .<span class='ident'>map</span>(<span class='ident'>Link</span>::<span class='ident'>many_from_yaml</span>)
+                           .<span class='ident'>bubble_result</span>())
+                    .<span class='ident'>unwrap_or</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>()),
+                <span class='ident'>key</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>person</span>.<span class='ident'>remove</span>(<span class='kw-2'>&amp;</span><span class='ident'>KEY</span>).<span class='ident'>map</span>(<span class='ident'>Key</span>::<span class='ident'>from_yaml</span>).<span class='ident'>bubble_result</span>()),
+            },
+            <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='ident'>Person</span> {
+                <span class='ident'>name</span>: <span class='ident'>name</span>,
+                <span class='ident'>email</span>: <span class='prelude-val'>None</span>,
+                <span class='ident'>key</span>: <span class='prelude-val'>None</span>,
+                <span class='ident'>also</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+                <span class='ident'>photo</span>: <span class='prelude-val'>None</span>,
+                <span class='ident'>nicknames</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+            },
             _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;invalid person&quot;</span>),
         })
     }

@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/strsim/lib.rs.html#2-658' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/strsim/lib.rs.html.html#2-658' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This library implements string similarity metrics. Currently includes
 Hamming, Levenshtein, Jaro, and Jaro-Winkler.</p>
 </div><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
@@ -65,8 +65,6 @@ Hamming, Levenshtein, Jaro, and Jaro-Winkler.</p>
                                title='strsim::damerau_levenshtein'>damerau_levenshtein</a></td>
                         <td class='docblock short'>
                              <p>Same as Levenshtein but allows for adjacent transpositions.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>damerau_levenshtein</span>;
                         </td>
                     </tr>
                 
@@ -76,8 +74,6 @@ Hamming, Levenshtein, Jaro, and Jaro-Winkler.</p>
                         <td class='docblock short'>
                              <p>Calculates the Damerau-Levenshtein distance between a string and each string
 in a vector. Returns a vector of corresponding values.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>damerau_levenshtein_against_vec</span>;
                         </td>
                     </tr>
                 
@@ -87,8 +83,6 @@ in a vector. Returns a vector of corresponding values.</p>
                         <td class='docblock short'>
                              <p>Calculates the number of positions in the two strings where the characters
 differ. Returns an error if the strings have different lengths.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>hamming</span>;
                         </td>
                     </tr>
                 
@@ -98,8 +92,6 @@ differ. Returns an error if the strings have different lengths.</p>
                         <td class='docblock short'>
                              <p>Calculates the Jaro similarity between two strings. The returned value
 is between 0.0 and 1.0 (higher value means more similar).</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>jaro</span>;
                         </td>
                     </tr>
                 
@@ -110,8 +102,6 @@ is between 0.0 and 1.0 (higher value means more similar).</p>
                              <p>Calculates the Jaro distance between a string and each string in a vector.
 Returns a vector of corresponding values between 0.0 and 1.0 (higher value
 means more similar).</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>jaro_against_vec</span>;
                         </td>
                     </tr>
                 
@@ -120,8 +110,6 @@ means more similar).</p>
                                title='strsim::jaro_winkler'>jaro_winkler</a></td>
                         <td class='docblock short'>
                              <p>Like Jaro but gives a boost to strings that have a common prefix.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>jaro_winkler</span>;
                         </td>
                     </tr>
                 
@@ -131,8 +119,6 @@ means more similar).</p>
                         <td class='docblock short'>
                              <p>Calculates the Jaro-Winkler distances between a string and each string
 in a vector. Returns a vector of corresponding values.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>jaro_winkler_against_vec</span>;
                         </td>
                     </tr>
                 
@@ -142,8 +128,6 @@ in a vector. Returns a vector of corresponding values.</p>
                         <td class='docblock short'>
                              <p>Calculates the minimum number of insertions, deletions, and substitutions
 required to change one string into the other.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>levenshtein</span>;
                         </td>
                     </tr>
                 
@@ -153,8 +137,6 @@ required to change one string into the other.</p>
                         <td class='docblock short'>
                              <p>Calculates the Levenshtein distance between a string and each string in a
 vector. Returns a vector of corresponding values.</p>
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>strsim</span>::<span class='ident'>levenshtein_against_vec</span>;
                         </td>
                     </tr>
                 </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>

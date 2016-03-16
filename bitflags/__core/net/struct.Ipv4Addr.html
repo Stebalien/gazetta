@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-5440' class='srclink' href='https://doc.rust-lang.org/nightly/std/net/ip/struct.Ipv4Addr.html?gotosrc=5440' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-5494' class='srclink' href='https://doc.rust-lang.org/nightly/std/net/ip/struct.Ipv4Addr.html?gotosrc=5494' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Ipv4Addr {
     // some fields omitted
 }</pre><span class="since">1.0.0</span><div class='docblock'><p>Representation of an IPv4 address.</p>
@@ -79,7 +79,8 @@
 <p>This property is defined by RFC 6890</p>
 </div><h4 id='method.is_global' class='method'><code>fn <a href='#method.is_global' class='fnname'>is_global</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></code></h4>
 <div class='stability'><em class='stab unstable'>Unstable (<code>ip</code>)<p>: extra functionality has not been scrutinized to the level that it should be stable</p>
-</em></div><div class='docblock'><p>Returns true if the address appears to be globally routable.</p>
+</em></div><div class='docblock'><p>Returns true if the address appears to be globally routable.
+See <a href="http://goo.gl/RaZ7lg">iana-ipv4-special-registry</a>.</p>
 
 <p>The following return false:</p>
 
@@ -89,6 +90,7 @@
 <li>the link-local address (169.254.0.0/16)</li>
 <li>the broadcast address (255.255.255.255/32)</li>
 <li>test addresses used for documentation (192.0.2.0/24, 198.51.100.0/24 and 203.0.113.0/24)</li>
+<li>the unspecified address (0.0.0.0)</li>
 </ul>
 </div><h4 id='method.is_multicast' class='method'><span class="since">1.7.0</span><code>fn <a href='#method.is_multicast' class='fnname'>is_multicast</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/bitflags/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Returns true if this is a multicast address.</p>

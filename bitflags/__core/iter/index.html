@@ -46,8 +46,8 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-28675' class='srclink' href='https://doc.rust-lang.org/nightly/core/iter/index.html?gotosrc=28675' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Composable external iteration</p>
+        </span><a id='src-28782' class='srclink' href='https://doc.rust-lang.org/nightly/core/iter/index.html?gotosrc=28782' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Composable external iteration.</p>
 
 <p>If you&#39;ve found yourself with a collection of some kind, and needed to
 perform an operation on the elements of said collection, you&#39;ll quickly run
@@ -75,6 +75,7 @@ see &#39;<a href="#implementing-iterator">Implementing Iterator</a>&#39;.</li>
 <h1 id='iterator' class='section-header'><a href='#iterator'>Iterator</a></h1>
 <p>The heart and soul of this module is the <a href="trait.Iterator.html"><code>Iterator</code></a> trait. The core of
 <a href="trait.Iterator.html"><code>Iterator</code></a> looks like this:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Iterator</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span>;
@@ -115,6 +116,7 @@ hold the iterator&#39;s state, and then <code>impl</code>ementing <a href="trait
 one for each iterator and iterator adapter.</p>
 
 <p>Let&#39;s make an iterator named <code>Counter</code> which counts from <code>1</code> to <code>5</code>:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='comment'>// First, the struct:</span>
 
@@ -180,6 +182,7 @@ next.</p>
 <h1 id='for-loops-and-intoiterator' class='section-header'><a href='#for-loops-and-intoiterator'>for Loops and IntoIterator</a></h1>
 <p>Rust&#39;s <code>for</code> loop syntax is actually sugar for iterators. Here&#39;s a basic
 example of <code>for</code>:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 
@@ -196,6 +199,7 @@ iterator: <a href="trait.IntoIterator.html"><code>IntoIterator</code></a>. This 
 which converts the thing implementing <a href="trait.IntoIterator.html"><code>IntoIterator</code></a> into an iterator.
 Let&#39;s take a look at that <code>for</code> loop again, and what the compiler converts
 it into:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 
@@ -204,10 +208,11 @@ it into:</p>
 }</pre>
 
 <p>Rust de-sugars this into:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 {
-    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>values</span>.<span class='ident'>into_iter</span>() {
+    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>IntoIterator</span>::<span class='ident'>into_iter</span>(<span class='ident'>values</span>) {
         <span class='kw-2'>mut</span> <span class='ident'>iter</span> <span class='op'>=&gt;</span> <span class='kw'>loop</span> {
             <span class='kw'>match</span> <span class='ident'>iter</span>.<span class='ident'>next</span>() {
                 <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); },
@@ -224,6 +229,7 @@ that point, we <code>break</code> out of the loop, and we&#39;re done iterating.
 
 <p>There&#39;s one more subtle bit here: the standard library contains an
 interesting implementation of <a href="trait.IntoIterator.html"><code>IntoIterator</code></a>:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&gt;</span> <span class='ident'>IntoIterator</span> <span class='kw'>for</span> <span class='ident'>I</span></pre>
 
@@ -250,6 +256,7 @@ just creating an iterator doesn&#39;t <em>do</em> a whole lot. Nothing really ha
 until you call <a href="trait.Iterator.html#tymethod.next"><code>next()</code></a>. This is sometimes a source of confusion when
 creating an iterator solely for its side effects. For example, the <a href="trait.Iterator.html#method.map"><code>map()</code></a>
 method calls a closure on each element it iterates over:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 <span class='ident'>v</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>));</pre>
@@ -263,6 +270,7 @@ do nothing unless consumed
 
 <p>The idiomatic way to write a <a href="trait.Iterator.html#method.map"><code>map()</code></a> for its side effects is to use a
 <code>for</code> loop instead:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 
@@ -276,11 +284,13 @@ like this, or using the <a href="trait.Iterator.html#method.collect"><code>colle
 <h1 id='infinity' class='section-header'><a href='#infinity'>Infinity</a></h1>
 <p>Iterators do not have to be finite. As an example, an open-ended range is
 an infinite iterator:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>numbers</span> <span class='op'>=</span> <span class='number'>0</span>..;</pre>
 
 <p>It is common to use the <a href="trait.Iterator.html#method.take"><code>take()</code></a> iterator adapter to turn an infinite
 iterator into a finite one:</p>
+
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>numbers</span> <span class='op'>=</span> <span class='number'>0</span>..;
 <span class='kw'>let</span> <span class='ident'>five_numbers</span> <span class='op'>=</span> <span class='ident'>numbers</span>.<span class='ident'>take</span>(<span class='number'>5</span>);
@@ -464,14 +474,6 @@ element.</p>
                         </td>
                     </tr>
                 
-                    <tr class='unstable deprecated module-item'>
-                        <td><a class='struct' href='struct.RangeInclusive.html'
-                               title='bitflags::__core::iter::RangeInclusive'>RangeInclusive</a></td>
-                        <td class='docblock short'>
-                            [<em class='stab unstable deprecated'>Deprecated</em>] <p>An iterator over the range [start, stop]</p>
-                        </td>
-                    </tr>
-                
                     <tr class='unstable module-item'>
                         <td><a class='struct' href='struct.StepBy.html'
                                title='bitflags::__core::iter::StepBy'>StepBy</a></td>
@@ -559,14 +561,6 @@ element.</p>
                                title='bitflags::__core::iter::repeat'>repeat</a></td>
                         <td class='docblock short'>
                              <p>Creates a new iterator that endlessly repeats a single element.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class='unstable deprecated module-item'>
-                        <td><a class='fn' href='fn.range_inclusive.html'
-                               title='bitflags::__core::iter::range_inclusive'>range_inclusive</a></td>
-                        <td class='docblock short'>
-                            [<em class='stab unstable deprecated'>Deprecated</em>] <p>Returns an iterator over the range [start, stop].</p>
                         </td>
                     </tr>
                 </table></section>
