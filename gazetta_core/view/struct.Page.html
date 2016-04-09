@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -43,10 +44,10 @@
 
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>view</a>::<wbr><a class='struct' href=''>Page</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-1116' class='srclink' href='../../src/gazetta_core/core/src/view/page.rs.html.html#28-58' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1106' class='srclink' href='../../src/gazetta_core/core/src/view/page.rs.html#28-58' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Page&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span> {
     pub title: &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
     pub date: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='type' href='../../gazetta_core/model/type.Date.html' title='gazetta_core::model::Date'>Date</a>&gt;,
@@ -57,17 +58,17 @@
 }</pre><div class='docblock'><p>Represents an indevidual page to be rendered.</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
-                                  <td id='structfield.title'><code>title</code></td><td><div class='docblock'><p>The page&#39;s title.</p>
+                             <td id='structfield.title'><code>title</code></td><td><div class='docblock'><p>The page&#39;s title.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.date'><code>date</code></td><td><div class='docblock'><p>The page&#39;s date.</p>
+                             <td id='structfield.date'><code>date</code></td><td><div class='docblock'><p>The page&#39;s date.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.href'><code>href</code></td><td><div class='docblock'><p>The page&#39;s location.</p>
+                             <td id='structfield.href'><code>href</code></td><td><div class='docblock'><p>The page&#39;s location.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.index'><code>index</code></td><td><div class='docblock'><p>The index contained in this page, if any.</p>
+                             <td id='structfield.index'><code>index</code></td><td><div class='docblock'><p>The index contained in this page, if any.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.meta'><code>meta</code></td><td><div class='docblock'><p>Extra metadata specified in the Entry.</p>
+                             <td id='structfield.meta'><code>meta</code></td><td><div class='docblock'><p>Extra metadata specified in the Entry.</p>
 </div></td></tr><tr class='stab '>
-                                  <td id='structfield.content'><code>content</code></td><td><div class='docblock'><p>The page&#39;s content.</p>
+                             <td id='structfield.content'><code>content</code></td><td><div class='docblock'><p>The page&#39;s content.</p>
 
 <p>If you want to use the default renderer, just render the page itself.</p>
 
@@ -77,11 +78,11 @@
 </code></pre>
 </div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.for_entry' class='method'><code>fn <a href='#method.for_entry' class='fnname'>for_entry</a>(entry: &amp;'a <a class='struct' href='../../gazetta_core/model/struct.Entry.html' title='gazetta_core::model::Entry'>Entry</a>&lt;G::PageMeta&gt;) -&gt; Self</code></h4>
 <div class='docblock'><p>Creates a page for an entry. This does <em>not</em> fill in the index.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></h4>
 <h4 id='method.clone_from' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
-</div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-</div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type Target = G::PageMeta</code></h4>
-<h4 id='method.deref' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#method.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;Self::<a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Target</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span></code></h3><div class='impl-items'><h4 id='associatedtype.Target' class='type'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#associatedtype.Target' class='type'>Target</a> = G::PageMeta</code></h4>
+<h4 id='method.deref' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;Self::<a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Target</a></code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

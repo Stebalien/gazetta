@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
@@ -43,10 +44,10 @@
 
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>clap</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html.html#6-434' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#6-438' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A simple to use, efficient, and full featured library for parsing command line arguments and subcommands when writing console, or terminal applications.</p>
 
 <h2 id='about' class='section-header'><a href='#about'>About</a></h2>
@@ -401,169 +402,152 @@ $ <span class='ident'>cargo</span> <span class='ident'>build</span> <span class=
 <p><code>clap</code> is licensed under the MIT license. Please read the <a href="LICENSE-MIT">LICENSE-MIT</a> file in this repository for more information.</p>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro._clap_count_exprs!.html'
-                               title='clap::_clap_count_exprs!'>_clap_count_exprs!</a></td>
-                        <td class='docblock short'>
-                             <p>Counts the number of comma-delimited expressions passed to it.  The result is a compile-time
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro._clap_count_exprs!.html'
+                                  title='clap::_clap_count_exprs!'>_clap_count_exprs!</a></td>
+                           <td class='docblock short'>
+                                <p>Counts the number of comma-delimited expressions passed to it.  The result is a compile-time
 evaluable expression, suitable for use as a static array size, or the value of a <code>const</code>.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro.arg_enum!.html'
-                               title='clap::arg_enum!'>arg_enum!</a></td>
-                        <td class='docblock short'>
-                             <p>Convenience macro to generate more complete enums with variants to be used as a type when
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.arg_enum!.html'
+                                  title='clap::arg_enum!'>arg_enum!</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience macro to generate more complete enums with variants to be used as a type when
 parsing arguments. This enum also provides a <code>variants()</code> function which can be used to
 retrieve a <code>Vec&lt;&amp;&#39;static str&gt;</code> of the variant names, as well as implementing <code>FromStr</code> and
 <code>Display</code> automatically.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro.crate_version!.html'
-                               title='clap::crate_version!'>crate_version!</a></td>
-                        <td class='docblock short'>
-                             <p>Allows you pull the version for an from your Cargo.toml at compile time as
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.crate_version!.html'
+                                  title='clap::crate_version!'>crate_version!</a></td>
+                           <td class='docblock short'>
+                                <p>Allows you pull the version for an from your Cargo.toml at compile time as
 MAJOR.MINOR.PATCH_PKGVERSION_PRE</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro.value_t!.html'
-                               title='clap::value_t!'>value_t!</a></td>
-                        <td class='docblock short'>
-                             <p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <code>std::str::FromStr</code> from an
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.value_t!.html'
+                                  title='clap::value_t!'>value_t!</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <code>std::str::FromStr</code> from an
 argument value. This macro returns a <code>Result&lt;T,String&gt;</code> which allows you as the developer to
 decide what you&#39;d like to do on a failed parse. There are two types of errors, parse failures
 and those where the argument wasn&#39;t present (such as a non-required argument). You can use
 it to get a single value, or a iterator as with the <code>ArgMatches::values_of</code></p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro.value_t_or_exit!.html'
-                               title='clap::value_t_or_exit!'>value_t_or_exit!</a></td>
-                        <td class='docblock short'>
-                             <p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <code>std::str::FromStr</code> or
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.value_t_or_exit!.html'
+                                  title='clap::value_t_or_exit!'>value_t_or_exit!</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <code>std::str::FromStr</code> or
 exiting upon error instead of returning a <code>Result</code></p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro.values_t!.html'
-                               title='clap::values_t!'>values_t!</a></td>
-                        <td class='docblock short'>
-                             <p>Convenience macro getting a typed value <code>Vec&lt;T&gt;</code> where <code>T</code> implements <code>std::str::FromStr</code> This
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.values_t!.html'
+                                  title='clap::values_t!'>values_t!</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience macro getting a typed value <code>Vec&lt;T&gt;</code> where <code>T</code> implements <code>std::str::FromStr</code> This
 macro returns a <code>clap::Result&lt;Vec&lt;T&gt;&gt;</code> (<code>Result&lt;Vec&lt;T&gt;, clap::Error&gt;</code>) which allows you as the
 developer to decide what you&#39;d like to do on a failed parse.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='macro' href='macro.values_t_or_exit!.html'
-                               title='clap::values_t_or_exit!'>values_t_or_exit!</a></td>
-                        <td class='docblock short'>
-                             <p>Convenience macro getting a typed value <code>Vec&lt;T&gt;</code> where <code>T</code> implements <code>std::str::FromStr</code> or
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.values_t_or_exit!.html'
+                                  title='clap::values_t_or_exit!'>values_t_or_exit!</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience macro getting a typed value <code>Vec&lt;T&gt;</code> where <code>T</code> implements <code>std::str::FromStr</code> or
 exiting upon error.</p>
-                        </td>
-                    </tr>
-                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.App.html'
-                               title='clap::App'>App</a></td>
-                        <td class='docblock short'>
-                             <p>Used to create a representation of a command line program and all possible command line
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.App.html'
+                                  title='clap::App'>App</a></td>
+                           <td class='docblock short'>
+                                <p>Used to create a representation of a command line program and all possible command line
 arguments. Application settings are set using the &quot;builder pattern&quot; with the
 <code>.get_matches()</code> family of methods being the terminal methods that starts the runtime-parsing
 process. These methods then return information about the user supplied arguments (or lack there
 of).</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.Arg.html'
-                               title='clap::Arg'>Arg</a></td>
-                        <td class='docblock short'>
-                             <p>The abstract representation of a command line argument. Used to set all the options and
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Arg.html'
+                                  title='clap::Arg'>Arg</a></td>
+                           <td class='docblock short'>
+                                <p>The abstract representation of a command line argument. Used to set all the options and
 relationships that define a valid argument for the program.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.ArgGroup.html'
-                               title='clap::ArgGroup'>ArgGroup</a></td>
-                        <td class='docblock short'>
-                             <p><code>ArgGroup</code>s are a family of related arguments and way for you to express, &quot;Any of these
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ArgGroup.html'
+                                  title='clap::ArgGroup'>ArgGroup</a></td>
+                           <td class='docblock short'>
+                                <p><code>ArgGroup</code>s are a family of related arguments and way for you to express, &quot;Any of these
 arguments&quot;. By placing arguments in a logical group, you can create easier requirement and
 exclusion rules instead of having to list each argument individually, or when you want a rule
 to apply &quot;any but not all&quot; arguments.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.ArgMatches.html'
-                               title='clap::ArgMatches'>ArgMatches</a></td>
-                        <td class='docblock short'>
-                             <p>Used to get information about the arguments that where supplied to the program at runtime by
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ArgMatches.html'
+                                  title='clap::ArgMatches'>ArgMatches</a></td>
+                           <td class='docblock short'>
+                                <p>Used to get information about the arguments that where supplied to the program at runtime by
 the user. New instances of this struct are obtained by using the <code>App::get_matches</code> family of
 methods.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.Error.html'
-                               title='clap::Error'>Error</a></td>
-                        <td class='docblock short'>
-                             <p>Command Line Argument Parser Error</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.SubCommand.html'
-                               title='clap::SubCommand'>SubCommand</a></td>
-                        <td class='docblock short'>
-                             <p>The abstract representation of a command line subcommand.</p>
-                        </td>
-                    </tr>
-                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Error.html'
+                                  title='clap::Error'>Error</a></td>
+                           <td class='docblock short'>
+                                <p>Command Line Argument Parser Error</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.SubCommand.html'
+                                  title='clap::SubCommand'>SubCommand</a></td>
+                           <td class='docblock short'>
+                                <p>The abstract representation of a command line subcommand.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='enum' href='enum.AppSettings.html'
-                               title='clap::AppSettings'>AppSettings</a></td>
-                        <td class='docblock short'>
-                             <p>Application level settings, which affect how <code>App</code> operates</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='enum' href='enum.ErrorKind.html'
-                               title='clap::ErrorKind'>ErrorKind</a></td>
-                        <td class='docblock short'>
-                             <p>Command line argument parser kind of error</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='enum' href='enum.Format.html'
-                               title='clap::Format'>Format</a></td>
-                        <td class='docblock short'>
-                             <p>Defines styles for different types of error messages. Defaults to Error=Red, Warning=Yellow,
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.AppSettings.html'
+                                  title='clap::AppSettings'>AppSettings</a></td>
+                           <td class='docblock short'>
+                                <p>Application level settings, which affect how <code>App</code> operates</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ErrorKind.html'
+                                  title='clap::ErrorKind'>ErrorKind</a></td>
+                           <td class='docblock short'>
+                                <p>Command line argument parser kind of error</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Format.html'
+                                  title='clap::Format'>Format</a></td>
+                           <td class='docblock short'>
+                                <p>Defines styles for different types of error messages. Defaults to Error=Red, Warning=Yellow,
 and Good=Green</p>
-                        </td>
-                    </tr>
-                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='type' href='type.Result.html'
-                               title='clap::Result'>Result</a></td>
-                        <td class='docblock short'>
-                             <p>Short hand for result type</p>
-                        </td>
-                    </tr>
-                </table></section>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.Result.html'
+                                  title='clap::Result'>Result</a></td>
+                           <td class='docblock short'>
+                                <p>Short hand for result type</p>
+                           </td>
+                       </tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.0/src/app/meta.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.5/src/app/meta.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>meta.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
 
     
     
@@ -146,14 +147,14 @@
     <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
         <span class='ident'>AppMeta</span> {
             <span class='ident'>name</span>: <span class='self'>self</span>.<span class='ident'>name</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>author</span>: <span class='self'>self</span>.<span class='ident'>author</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>about</span>: <span class='self'>self</span>.<span class='ident'>about</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>more_help</span>: <span class='self'>self</span>.<span class='ident'>more_help</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>version</span>: <span class='self'>self</span>.<span class='ident'>version</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>usage_str</span>: <span class='self'>self</span>.<span class='ident'>usage_str</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>author</span>: <span class='self'>self</span>.<span class='ident'>author</span>,
+            <span class='ident'>about</span>: <span class='self'>self</span>.<span class='ident'>about</span>,
+            <span class='ident'>more_help</span>: <span class='self'>self</span>.<span class='ident'>more_help</span>,
+            <span class='ident'>version</span>: <span class='self'>self</span>.<span class='ident'>version</span>,
+            <span class='ident'>usage_str</span>: <span class='self'>self</span>.<span class='ident'>usage_str</span>,
             <span class='ident'>usage</span>: <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>clone</span>(),
             <span class='ident'>bin_name</span>: <span class='self'>self</span>.<span class='ident'>bin_name</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>help_str</span>: <span class='self'>self</span>.<span class='ident'>help_str</span>.<span class='ident'>clone</span>(),
+            <span class='ident'>help_str</span>: <span class='self'>self</span>.<span class='ident'>help_str</span>,
             <span class='ident'>disp_ord</span>: <span class='self'>self</span>.<span class='ident'>disp_ord</span>,
         }
     }

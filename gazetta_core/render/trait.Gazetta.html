@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -43,13 +44,13 @@
 
     <section id='main' class="content trait">
 <h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>render</a>::<wbr><a class='trait' href=''>Gazetta</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-154' class='srclink' href='../../src/gazetta_core/core/src/render.rs.html.html#55-215' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-154' class='srclink' href='../../src/gazetta_core/core/src/render.rs.html#55-215' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Gazetta: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
-    type SiteMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>;
-    type PageMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>;
+    type <a href='#associatedtype.SiteMeta' class='type'>SiteMeta</a>: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>;
+    type <a href='#associatedtype.PageMeta' class='type'>PageMeta</a>: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>;
     fn <a href='#tymethod.render_page' class='fnname'>render_page</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, page: &amp;<a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;Self&gt;, tmpl: &amp;mut <a class='struct' href='../../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>);
 
     fn <a href='#method.render_static' class='fnname'>render_static</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, source: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>, output: &amp;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; { ... }
@@ -57,7 +58,7 @@
 }</pre>
             <h2 id='associated-types'>Associated Types</h2>
             <div class='methods'>
-        <h3 id='associatedtype.SiteMeta' class='method stab '><code>type SiteMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></code></h3><h3 id='associatedtype.PageMeta' class='method stab '><code>type PageMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></code></h3></div>
+        <h3 id='associatedtype.SiteMeta' class='method stab '><code>type <a href='#associatedtype.SiteMeta' class='type'>SiteMeta</a>: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></code></h3><h3 id='associatedtype.PageMeta' class='method stab '><code>type <a href='#associatedtype.PageMeta' class='type'>PageMeta</a>: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></code></h3></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
         <h3 id='tymethod.render_page' class='method stab '><code>fn <a href='#tymethod.render_page' class='fnname'>render_page</a>(&amp;self, site: &amp;<a class='struct' href='../../gazetta_core/view/struct.Site.html' title='gazetta_core::view::Site'>Site</a>&lt;Self&gt;, page: &amp;<a class='struct' href='../../gazetta_core/view/struct.Page.html' title='gazetta_core::view::Page'>Page</a>&lt;Self&gt;, tmpl: &amp;mut <a class='struct' href='../../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></h3><div class='docblock'><p>The page rendering function.</p>
@@ -77,8 +78,8 @@ much all of the provided render logic.</p>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     </ul><script type="text/javascript" async
-                              src="../../implementors/gazetta_core/render/trait.Gazetta.js">
-                      </script></section>
+                         src="../../implementors/gazetta_core/render/trait.Gazetta.js">
+                 </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

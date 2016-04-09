@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
@@ -43,12 +44,12 @@
 
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>chrono</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-0' class='srclink' href='../src/chrono/lib.rs.html.html#5-635' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/chrono/lib.rs.html#5-636' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'>
-<h1 id='chrono-0220' class='section-header'><a href='#chrono-0220'>Chrono 0.2.20</a></h1>
+<h1 id='chrono-0221' class='section-header'><a href='#chrono-0221'>Chrono 0.2.21</a></h1>
 <p>Date and time handling for Rust. (also known as <code>rust-chrono</code>)
 It aims to be a feature-complete superset of
 the <a href="https://github.com/rust-lang-deprecated/time">time</a> library.
@@ -92,9 +93,10 @@ provided by crates.io <code>time</code> crate (which originally comes from Chron
 <h3 id='date-and-time' class='section-header'><a href='#date-and-time'>Date and Time</a></h3>
 <p>Chrono provides a <code>DateTime</code> type for the combined date and time.</p>
 
-<p><code>DateTime</code>, among others, is timezone-aware and
-must be constructed from the <code>TimeZone</code> object.
-<code>DateTime</code>s with different time zones do not mix, but can be converted to each other.</p>
+<p><code>DateTime</code>, among others, is timezone-aware and must be constructed from
+the <code>TimeZone</code> object.
+<code>DateTime</code>s with different time zones do not mix, but can be converted to
+each other using the <code>DateTime::with_timezone</code> method.</p>
 
 <p>You can get the current date and time in the UTC time zone (<code>UTC::now()</code>)
 or in the local time zone (<code>Local::now()</code>).</p>
@@ -296,90 +298,80 @@ and consequently <code>UTC.ymd(2014, 1, 30).with_month(2)</code> returns <code>N
 </div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use offset::{<a class='trait' href='../chrono/offset/trait.TimeZone.html' title='chrono::offset::TimeZone'>TimeZone</a>, <a class='trait' href='../chrono/offset/trait.Offset.html' title='chrono::offset::Offset'>Offset</a>, <a class='enum' href='../chrono/offset/enum.LocalResult.html' title='chrono::offset::LocalResult'>LocalResult</a>};</code></td></tr><tr><td><code>pub use offset::utc::<a class='struct' href='../chrono/offset/utc/struct.UTC.html' title='chrono::offset::utc::UTC'>UTC</a>;</code></td></tr><tr><td><code>pub use offset::fixed::<a class='struct' href='../chrono/offset/fixed/struct.FixedOffset.html' title='chrono::offset::fixed::FixedOffset'>FixedOffset</a>;</code></td></tr><tr><td><code>pub use offset::local::<a class='struct' href='../chrono/offset/local/struct.Local.html' title='chrono::offset::local::Local'>Local</a>;</code></td></tr><tr><td><code>pub use naive::date::<a class='struct' href='../chrono/naive/date/struct.NaiveDate.html' title='chrono::naive::date::NaiveDate'>NaiveDate</a>;</code></td></tr><tr><td><code>pub use naive::time::<a class='struct' href='../chrono/naive/time/struct.NaiveTime.html' title='chrono::naive::time::NaiveTime'>NaiveTime</a>;</code></td></tr><tr><td><code>pub use naive::datetime::<a class='struct' href='../chrono/naive/datetime/struct.NaiveDateTime.html' title='chrono::naive::datetime::NaiveDateTime'>NaiveDateTime</a>;</code></td></tr><tr><td><code>pub use date::<a class='struct' href='../chrono/date/struct.Date.html' title='chrono::date::Date'>Date</a>;</code></td></tr><tr><td><code>pub use datetime::<a class='struct' href='../chrono/datetime/struct.DateTime.html' title='chrono::datetime::DateTime'>DateTime</a>;</code></td></tr><tr><td><code>pub use format::{<a class='struct' href='../chrono/format/struct.ParseError.html' title='chrono::format::ParseError'>ParseError</a>, <a class='type' href='../chrono/format/type.ParseResult.html' title='chrono::format::ParseResult'>ParseResult</a>};</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='date/index.html'
-                               title='chrono::date'>date</a></td>
-                        <td class='docblock short'>
-                             <p>ISO 8601 calendar date with time zone.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='datetime/index.html'
-                               title='chrono::datetime'>datetime</a></td>
-                        <td class='docblock short'>
-                             <p>ISO 8601 date and time with time zone.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='duration/index.html'
-                               title='chrono::duration'>duration</a></td>
-                        <td class='docblock short'>
-                             <p>ISO 8601 duration.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='format/index.html'
-                               title='chrono::format'>format</a></td>
-                        <td class='docblock short'>
-                             <p>Formatting utilities for date and time.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='naive/index.html'
-                               title='chrono::naive'>naive</a></td>
-                        <td class='docblock short'>
-                             <p>Date and time types which do not concern about the timezones.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='mod' href='offset/index.html'
-                               title='chrono::offset'>offset</a></td>
-                        <td class='docblock short'>
-                             <p>The time zone, which calculates offsets from the local time to UTC.</p>
-                        </td>
-                    </tr>
-                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='date/index.html'
+                                  title='chrono::date'>date</a></td>
+                           <td class='docblock short'>
+                                <p>ISO 8601 calendar date with time zone.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='datetime/index.html'
+                                  title='chrono::datetime'>datetime</a></td>
+                           <td class='docblock short'>
+                                <p>ISO 8601 date and time with time zone.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='duration/index.html'
+                                  title='chrono::duration'>duration</a></td>
+                           <td class='docblock short'>
+                                <p>ISO 8601 duration.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='format/index.html'
+                                  title='chrono::format'>format</a></td>
+                           <td class='docblock short'>
+                                <p>Formatting utilities for date and time.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='naive/index.html'
+                                  title='chrono::naive'>naive</a></td>
+                           <td class='docblock short'>
+                                <p>Date and time types which do not concern about the timezones.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='offset/index.html'
+                                  title='chrono::offset'>offset</a></td>
+                           <td class='docblock short'>
+                                <p>The time zone, which calculates offsets from the local time to UTC.</p>
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.Duration.html'
-                               title='chrono::Duration'>Duration</a></td>
-                        <td class='docblock short'>
-                             <p>ISO 8601 time duration with nanosecond precision.
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Duration.html'
+                                  title='chrono::Duration'>Duration</a></td>
+                           <td class='docblock short'>
+                                <p>ISO 8601 time duration with nanosecond precision.
 This also allows for the negative duration; see individual methods for details.</p>
-                        </td>
-                    </tr>
-                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='enum' href='enum.Weekday.html'
-                               title='chrono::Weekday'>Weekday</a></td>
-                        <td class='docblock short'>
-                             <p>The day of week (DOW).</p>
-                        </td>
-                    </tr>
-                </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Weekday.html'
+                                  title='chrono::Weekday'>Weekday</a></td>
+                           <td class='docblock short'>
+                                <p>The day of week (DOW).</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='trait' href='trait.Datelike.html'
-                               title='chrono::Datelike'>Datelike</a></td>
-                        <td class='docblock short'>
-                             <p>The common set of methods for date component.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='trait' href='trait.Timelike.html'
-                               title='chrono::Timelike'>Timelike</a></td>
-                        <td class='docblock short'>
-                             <p>The common set of methods for time component.</p>
-                        </td>
-                    </tr>
-                </table></section>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Datelike.html'
+                                  title='chrono::Datelike'>Datelike</a></td>
+                           <td class='docblock short'>
+                                <p>The common set of methods for date component.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.Timelike.html'
+                                  title='chrono::Timelike'>Timelike</a></td>
+                           <td class='docblock short'>
+                                <p>The common set of methods for time component.</p>
+                           </td>
+                       </tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

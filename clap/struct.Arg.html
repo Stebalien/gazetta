@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     
     
@@ -43,10 +44,10 @@
 
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>clap</a>::<wbr><a class='struct' href=''>Arg</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-2668' class='srclink' href='../src/clap/args/arg.rs.html.html#34-73' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2700' class='srclink' href='../src/clap/args/arg.rs.html#34-73' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Arg&lt;'a, 'b&gt; <span class='where'>where 'a: 'b</span> {
     // some fields omitted
 }</pre><div class='docblock'><p>The abstract representation of a command line argument. Used to set all the options and
@@ -1342,9 +1343,9 @@ index order.</p>
 <div class='docblock'><p>Sets one of the <code>ArgSettings</code> settings for the argument</p>
 </div><h4 id='method.unset' class='method'><code>fn <a href='#method.unset' class='fnname'>unset</a>(self, s: ArgSettings) -&gt; Self</code></h4>
 <div class='docblock'><p>Unsets one of the <code>ArgSettings</code> settings for the argument</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#method.default' class='fnname'>default</a>() -&gt; Self</code></h4>
-</div><h3 class='impl'><code>impl&lt;'a, 'b, 'z&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;&amp;'z <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;&gt; for <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#method.from' class='fnname'>from</a>(a: &amp;'z <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;) -&gt; Self</code></h4>
-</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; Self</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b, 'z&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html' title='core::convert::From'>From</a>&lt;&amp;'z <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;&gt; for <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(a: &amp;'z <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;) -&gt; Self</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../clap/struct.Arg.html' title='clap::Arg'>Arg</a>&lt;'a, 'b&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></h4>
 <h4 id='method.clone_from' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>

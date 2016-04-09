@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
+    
 
     <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
     
@@ -43,10 +44,10 @@
 
     <section id='main' class="content mod">
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>glob</a></span><span class='out-of-band'><span id='render-detail'>
-            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                [<span class='inner'>&#x2212;</span>]
-            </a>
-        </span><a id='src-0' class='srclink' href='../src/glob/lib.rs.html.html#11-1312' title='goto source code'>[src]</a></span></h1>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/glob/lib.rs.html#11-1312' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Support for matching file paths against Unix shell style patterns.</p>
 
 <p>The <code>glob</code> and <code>glob_with</code> functions, in concert with the <code>Paths</code>
@@ -60,75 +61,67 @@ is implemented entirely in Rust rather than deferring to the libc
 <code>glob</code>/<code>fnmatch</code> functions.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.GlobError.html'
-                               title='glob::GlobError'>GlobError</a></td>
-                        <td class='docblock short'>
-                             <p>A glob iteration error.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.MatchOptions.html'
-                               title='glob::MatchOptions'>MatchOptions</a></td>
-                        <td class='docblock short'>
-                             <p>Configuration options to modify the behaviour of <code>Pattern::matches_with(..)</code></p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.Paths.html'
-                               title='glob::Paths'>Paths</a></td>
-                        <td class='docblock short'>
-                             <p>An iterator that yields <code>Path</code>s from the filesystem that match a particular
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.GlobError.html'
+                                  title='glob::GlobError'>GlobError</a></td>
+                           <td class='docblock short'>
+                                <p>A glob iteration error.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.MatchOptions.html'
+                                  title='glob::MatchOptions'>MatchOptions</a></td>
+                           <td class='docblock short'>
+                                <p>Configuration options to modify the behaviour of <code>Pattern::matches_with(..)</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Paths.html'
+                                  title='glob::Paths'>Paths</a></td>
+                           <td class='docblock short'>
+                                <p>An iterator that yields <code>Path</code>s from the filesystem that match a particular
 pattern.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.Pattern.html'
-                               title='glob::Pattern'>Pattern</a></td>
-                        <td class='docblock short'>
-                             <p>A compiled Unix shell style pattern.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='struct' href='struct.PatternError.html'
-                               title='glob::PatternError'>PatternError</a></td>
-                        <td class='docblock short'>
-                             <p>A pattern parsing error.</p>
-                        </td>
-                    </tr>
-                </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Pattern.html'
+                                  title='glob::Pattern'>Pattern</a></td>
+                           <td class='docblock short'>
+                                <p>A compiled Unix shell style pattern.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.PatternError.html'
+                                  title='glob::PatternError'>PatternError</a></td>
+                           <td class='docblock short'>
+                                <p>A pattern parsing error.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='fn' href='fn.glob.html'
-                               title='glob::glob'>glob</a></td>
-                        <td class='docblock short'>
-                             <p>Return an iterator that produces all the Paths that match the given pattern,
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.glob.html'
+                                  title='glob::glob'>glob</a></td>
+                           <td class='docblock short'>
+                                <p>Return an iterator that produces all the Paths that match the given pattern,
 which may be absolute or relative to the current working directory.</p>
-                        </td>
-                    </tr>
-                
-                    <tr class=' module-item'>
-                        <td><a class='fn' href='fn.glob_with.html'
-                               title='glob::glob_with'>glob_with</a></td>
-                        <td class='docblock short'>
-                             <p>Return an iterator that produces all the Paths that match the given pattern,
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.glob_with.html'
+                                  title='glob::glob_with'>glob_with</a></td>
+                           <td class='docblock short'>
+                                <p>Return an iterator that produces all the Paths that match the given pattern,
 which may be absolute or relative to the current working directory.</p>
-                        </td>
-                    </tr>
-                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
-                    <tr class=' module-item'>
-                        <td><a class='type' href='type.GlobResult.html'
-                               title='glob::GlobResult'>GlobResult</a></td>
-                        <td class='docblock short'>
-                             <p>An alias for a glob iteration result.</p>
-                        </td>
-                    </tr>
-                </table></section>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.GlobResult.html'
+                                  title='glob::GlobResult'>GlobResult</a></td>
+                           <td class='docblock short'>
+                                <p>An alias for a glob iteration result.</p>
+                           </td>
+                       </tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

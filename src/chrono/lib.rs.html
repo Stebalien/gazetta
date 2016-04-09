@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.20/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/chrono-0.2.21/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
+    
 
     
     
@@ -676,12 +677,13 @@
 <span id="633">633</span>
 <span id="634">634</span>
 <span id="635">635</span>
+<span id="636">636</span>
 </pre><pre class='rust '>
 <span class='comment'>// This is a part of rust-chrono.</span>
 <span class='comment'>// Copyright (c) 2014-2015, Kang Seonghoon.</span>
 <span class='comment'>// See README.md and LICENSE.txt for details.</span>
 
-<span class='doccomment'>//! # Chrono 0.2.20</span>
+<span class='doccomment'>//! # Chrono 0.2.21</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Date and time handling for Rust. (also known as `rust-chrono`)</span>
 <span class='doccomment'>//! It aims to be a feature-complete superset of</span>
@@ -728,9 +730,10 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! Chrono provides a `DateTime` type for the combined date and time.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! `DateTime`, among others, is timezone-aware and</span>
-<span class='doccomment'>//! must be constructed from the `TimeZone` object.</span>
-<span class='doccomment'>//! `DateTime`s with different time zones do not mix, but can be converted to each other.</span>
+<span class='doccomment'>//! `DateTime`, among others, is timezone-aware and must be constructed from</span>
+<span class='doccomment'>//! the `TimeZone` object.</span>
+<span class='doccomment'>//! `DateTime`s with different time zones do not mix, but can be converted to</span>
+<span class='doccomment'>//! each other using the `DateTime::with_timezone` method.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! You can get the current date and time in the UTC time zone (`UTC::now()`)</span>
 <span class='doccomment'>//! or in the local time zone (`Local::now()`).</span>
