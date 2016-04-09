@@ -66,7 +66,7 @@
 <table><tr class='stab '>
                              <td id='structfield.title'><code>title</code></td><td><div class='docblock'><p>The website&#39;s title.</p>
 
-<p>By default, this field is read from <code>config.yaml</code>.</p>
+<p>By default, this field is read from <code>gazetta.yaml</code>.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.root'><code>root</code></td><td><div class='docblock'><p>The source root directory.</p>
 
@@ -74,11 +74,11 @@
 </div></td></tr><tr class='stab '>
                              <td id='structfield.origin'><code>origin</code></td><td><div class='docblock'><p>The website origin (<a href="http://mydomain.com:1234">http://mydomain.com:1234</a>)</p>
 
-<p>By default, this field is derived from the value of <code>base</code> in <code>config.yaml</code>.</p>
+<p>By default, this field is derived from the value of <code>base</code> in <code>gazetta.yaml</code>.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.prefix'><code>prefix</code></td><td><div class='docblock'><p>The directory under the origin at which this site will be hosted (e.g. &quot;/&quot;).</p>
 
-<p>By default, this field is derived from the value of <code>base</code> in <code>config.yaml</code>.</p>
+<p>By default, this field is derived from the value of <code>base</code> in <code>gazetta.yaml</code>.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.entries'><code>entries</code></td><td><div class='docblock'><p>The website content to be rendered.</p>
 
@@ -116,7 +116,7 @@ lexicographical order.</p>
 
 <p>By default, this points to <code>assets/icon.png</code> (if it exists).</p>
 </div></td></tr><tr class='stab '>
-                             <td id='structfield.meta'><code>meta</code></td><td><div class='docblock'><p>Additional metadata read from <code>config.yaml</code>.</p>
+                             <td id='structfield.meta'><code>meta</code></td><td><div class='docblock'><p>Additional metadata read from <code>gazetta.yaml</code>.</p>
 </div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;SourceMeta, EntryMeta&gt; <a class='struct' href='../../gazetta_core/model/struct.Source.html' title='gazetta_core::model::Source'>Source</a>&lt;SourceMeta, EntryMeta&gt; <span class='where'>where SourceMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a>, EntryMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></span></code></h3><div class='impl-items'><h4 id='method.build_index' class='method'><code>fn <a href='#method.build_index' class='fnname'>build_index</a>(&amp;self, entry: &amp;<a class='struct' href='../../gazetta_core/model/struct.Entry.html' title='gazetta_core::model::Entry'>Entry</a>&lt;EntryMeta&gt;) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;&amp;<a class='struct' href='../../gazetta_core/model/struct.Entry.html' title='gazetta_core::model::Entry'>Entry</a>&lt;EntryMeta&gt;&gt;</code></h4>
 <div class='docblock'><p>Build an index for an entry.</p>
 

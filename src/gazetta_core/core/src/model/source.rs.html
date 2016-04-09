@@ -382,7 +382,7 @@
 {
     <span class='doccomment'>/// The website&#39;s title.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// By default, this field is read from `config.yaml`.</span>
+    <span class='doccomment'>/// By default, this field is read from `gazetta.yaml`.</span>
     <span class='kw'>pub</span> <span class='ident'>title</span>: <span class='ident'>String</span>,
     <span class='doccomment'>/// The source root directory.</span>
     <span class='doccomment'>///</span>
@@ -390,11 +390,11 @@
     <span class='kw'>pub</span> <span class='ident'>root</span>: <span class='ident'>PathBuf</span>,
     <span class='doccomment'>/// The website origin (http://mydomain.com:1234)</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// By default, this field is derived from the value of `base` in `config.yaml`.</span>
+    <span class='doccomment'>/// By default, this field is derived from the value of `base` in `gazetta.yaml`.</span>
     <span class='kw'>pub</span> <span class='ident'>origin</span>: <span class='ident'>String</span>,
     <span class='doccomment'>/// The directory under the origin at which this site will be hosted (e.g. &quot;/&quot;).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// By default, this field is derived from the value of `base` in `config.yaml`.</span>
+    <span class='doccomment'>/// By default, this field is derived from the value of `base` in `gazetta.yaml`.</span>
     <span class='kw'>pub</span> <span class='ident'>prefix</span>: <span class='ident'>String</span>,
     <span class='doccomment'>/// The website content to be rendered.</span>
     <span class='doccomment'>///</span>
@@ -430,7 +430,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// By default, this points to `assets/icon.png` (if it exists).</span>
     <span class='kw'>pub</span> <span class='ident'>icon</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PathBuf</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// Additional metadata read from `config.yaml`.</span>
+    <span class='doccomment'>/// Additional metadata read from `gazetta.yaml`.</span>
     <span class='kw'>pub</span> <span class='ident'>meta</span>: <span class='ident'>SourceMeta</span>,
 }
 
