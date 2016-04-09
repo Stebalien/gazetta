@@ -27,7 +27,7 @@ in paths). Patches welcome!
 4. Create some new pages either manually or by using the gazetta binary. For
    example: `gazetta new blog "Hello World"` will create a hello world blog
    post.
-5. Run `gazetta render /path/to/output` (in the root of the repository) to
+5. Run `gazetta render /path/to/output` (anywhere in the repository) to
    render your website.
 
 ## Data Directory Layout and File Format
@@ -37,7 +37,7 @@ That's *your* website data.
 ### Config
 
 ```text
-config.yaml
+gazetta.yaml
 ```
 
 This is the website's core config. It can be used to specify shared variables

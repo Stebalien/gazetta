@@ -42,7 +42,7 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
 {
     /// The website's title.
     ///
-    /// By default, this field is read from `config.yaml`.
+    /// By default, this field is read from `gazetta.yaml`.
     pub title: String,
     /// The source root directory.
     ///
@@ -50,11 +50,11 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
     pub root: PathBuf,
     /// The website origin (http://mydomain.com:1234)
     ///
-    /// By default, this field is derived from the value of `base` in `config.yaml`.
+    /// By default, this field is derived from the value of `base` in `gazetta.yaml`.
     pub origin: String,
     /// The directory under the origin at which this site will be hosted (e.g. "/").
     ///
-    /// By default, this field is derived from the value of `base` in `config.yaml`.
+    /// By default, this field is derived from the value of `base` in `gazetta.yaml`.
     pub prefix: String,
     /// The website content to be rendered.
     ///
@@ -90,7 +90,7 @@ pub struct Source<SourceMeta=(), EntryMeta=()>
     ///
     /// By default, this points to `assets/icon.png` (if it exists).
     pub icon: Option<PathBuf>,
-    /// Additional metadata read from `config.yaml`.
+    /// Additional metadata read from `gazetta.yaml`.
     pub meta: SourceMeta,
 }
 
@@ -137,7 +137,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 
     // avoid exporting large generic functions.
     fn _new(root: &Path) -> Result<Self, AnnotatedError<SourceError>> {
-        let config_path = root.join("config.yaml");
+        let config_path = root.join("gazetta.yaml");
         let mut source = try! {
             Source::from_config(root, &config_path)
                 .map_err(|e| AnnotatedError::new(config_path, e))

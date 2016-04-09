@@ -25,6 +25,7 @@ use std::io::Write;
 use std::env;
 use std::path::{Path, PathBuf};
 use std::fs::File;
+use std::borrow::Cow;
 
 use clap::{Arg, App, SubCommand};
 use gazetta_core::render::Gazetta;
@@ -102,7 +103,21 @@ fn _run(render_paths: &RenderPaths) -> ! {
                          .index(2)
                          .help("The page title"))).get_matches();
 
-    let source_path: &Path = matches.value_of("SOURCE").unwrap_or(".").as_ref();
+    let source_path: Cow<Path> = matches.value_of("SOURCE").map(|v|Cow::Borrowed(v.as_ref())).unwrap_or_else(|| {
+        let mut path = PathBuf::new();
+        path.push(".");
+        while path.exists() {
+            path.push("gazetta.yaml");
+            let is_root = path.exists();
+            path.pop();
+            if is_root {
+                return Cow::Owned(path);
+            }
+            path.push("..");
+        }
+        bail!("Could not find a gazetta config in this directory or any parent directories.");
+    });
+
     match matches.subcommand() {
         ("render", Some(matches)) => {
             let dest_path: &Path = matches.value_of("DEST").unwrap().as_ref();
