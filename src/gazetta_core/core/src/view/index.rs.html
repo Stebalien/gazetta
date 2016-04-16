@@ -117,6 +117,7 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
+<span id="76">76</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -155,6 +156,7 @@
           <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
           <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>
 {
+    <span class='kw'>pub</span> <span class='ident'>compact</span>: <span class='ident'>bool</span>,
     <span class='doccomment'>/// Pages to be indexed.</span>
     <span class='kw'>pub</span> <span class='ident'>entries</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> [<span class='ident'>Page</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>],
     <span class='doccomment'>/// Pagination information (if any).</span>

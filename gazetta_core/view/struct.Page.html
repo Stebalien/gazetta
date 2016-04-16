@@ -47,9 +47,10 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1058' class='srclink' href='../../src/gazetta_core/core/src/view/page.rs.html#28-58' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1093' class='srclink' href='../../src/gazetta_core/core/src/view/page.rs.html#28-61' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Page&lt;'a, G&gt; <span class='where'>where G: <a class='trait' href='../../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a> + 'a, G::PageMeta: 'a, G::SiteMeta: 'a</span> {
     pub title: &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
+    pub description: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;,
     pub date: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='type' href='../../gazetta_core/model/type.Date.html' title='gazetta_core::model::Date'>Date</a>&gt;,
     pub href: &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
     pub index: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../gazetta_core/view/struct.Index.html' title='gazetta_core::view::Index'>Index</a>&lt;'a, G&gt;&gt;,
@@ -59,6 +60,8 @@
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
                              <td id='structfield.title'><code>title</code></td><td><div class='docblock'><p>The page&#39;s title.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.description'><code>description</code></td><td><div class='docblock'><p>An optional description of the page.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.date'><code>date</code></td><td><div class='docblock'><p>The page&#39;s date.</p>
 </div></td></tr><tr class='stab '>

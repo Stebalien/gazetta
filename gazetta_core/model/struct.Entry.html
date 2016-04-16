@@ -47,9 +47,10 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-406' class='srclink' href='../../src/gazetta_core/core/src/model/entry.rs.html#30-59' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-409' class='srclink' href='../../src/gazetta_core/core/src/model/entry.rs.html#30-64' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Entry&lt;EntryMeta&gt; <span class='where'>where EntryMeta: <a class='trait' href='../../gazetta_core/model/trait.Meta.html' title='gazetta_core::model::Meta'>Meta</a></span> {
     pub title: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
+    pub description: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
     pub date: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../gazetta_core/model/type.Date.html' title='gazetta_core::model::Date'>Date</a>&gt;,
     pub index: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../gazetta_core/model/index/struct.Index.html' title='gazetta_core::model::index::Index'>Index</a>&gt;,
     pub cc: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
@@ -66,6 +67,10 @@
 
 <p>This is separate from the general metadata for sorting and linking. All entries should have
 titles.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.description'><code>description</code></td><td><div class='docblock'><p>The entry&#39;s description.</p>
+
+<p>If present, this will be included in compact indices.</p>
 </div></td></tr><tr class='stab '>
                              <td id='structfield.date'><code>date</code></td><td><div class='docblock'><p>The entry&#39;s date.</p>
 
