@@ -33,6 +33,9 @@ pub struct Page<'a, G>
     /// The page's title.
     pub title: &'a str,
 
+    /// An optional description of the page.
+    pub description: Option<&'a str>,
+
     /// The page's date.
     pub date: Option<&'a Date>,
 
@@ -67,7 +70,8 @@ impl<'a, G> Page<'a, G>
         Page {
             title: &entry.title,
             date: entry.date.as_ref(),
-            content: Content { 
+            description: entry.description.as_ref().map(|v|&**v),
+            content: Content {
                 data: &entry.content,
                 format: &entry.format
             },

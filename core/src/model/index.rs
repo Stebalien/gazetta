@@ -50,4 +50,5 @@ pub struct Index {
     pub directories: Vec<glob::Pattern>,
     pub paginate: Option<u32>,
     pub max: Option<u32>,
+    pub compact: bool,
 }

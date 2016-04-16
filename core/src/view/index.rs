@@ -35,6 +35,7 @@ pub struct Index<'a, G>
           G::SiteMeta: 'a,
           G::PageMeta: 'a
 {
+    pub compact: bool,
     /// Pages to be indexed.
     pub entries: &'a [Page<'a, G>],
     /// Pagination information (if any).

@@ -142,6 +142,7 @@ pub trait Gazetta: Sized {
                         try_annotate!(html! {
                             |tmpl| self.render_page(&site, &Page {
                                 index: Some(Index {
+                                    compact: index.compact,
                                     paginate: Some(Paginate {
                                         pages: &[&page.href],
                                         current: 0,
@@ -171,6 +172,7 @@ pub trait Gazetta: Sized {
                             try_annotate!(html! {
                                 |tmpl| self.render_page(&site, &Page {
                                     index: Some(Index {
+                                        compact: index.compact,
                                         paginate: Some(Paginate {
                                             pages: &pages,
                                             current: page_num,
@@ -192,6 +194,7 @@ pub trait Gazetta: Sized {
                     try_annotate!(html! {
                         |tmpl| self.render_page(&site, &Page {
                             index:  Some(Index {
+                                compact: index.compact,
                                 paginate: None,
                                 entries: &children[..],
                             }),

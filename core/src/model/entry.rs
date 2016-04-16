@@ -34,8 +34,13 @@ pub struct Entry<EntryMeta> where EntryMeta: Meta {
     /// titles.
     pub title: String,
 
+    /// The entry's description.
+    ///
+    /// If present, this will be included in compact indices.
+    pub description: Option<String>,
+
     /// The entry's date.
-    /// 
+    ///
     /// This is separate from the general metadata for sorting. Many entries will have dates.
     pub date: Option<Date>,
 
@@ -91,6 +96,11 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                 Some(..) => return Err("titles must be strings".into()),
                 None => return Err("entries must have titles".into()),
             },
+            description: match meta.remove(&yaml::DESCRIPTION) {
+                Some(Yaml::String(desc)) => Some(desc),
+                None => None,
+                Some(..) => return Err("invalid description type".into()),
+            },
             date: match meta.remove(&yaml::DATE) {
                 Some(Yaml::String(date)) => match Date::parse_from_str(&date, "%Y-%m-%d") {
                     Ok(date) => Some(date),
@@ -104,6 +114,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                     Some(Index {
                         paginate: None,
                         max: None,
+                        compact: false,
                         sort: index::Sort::default(),
                         directories: vec![name_to_glob(&name)],
                     })
@@ -113,12 +124,14 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                 Some(Yaml::String(dir)) => Some(Index {
                     paginate: None,
                     max: None,
+                    compact: false,
                     sort: index::Sort::default(),
                     directories: vec![try!(dir_to_glob(dir))],
                 }),
                 Some(Yaml::Array(array)) => Some(Index {
                     paginate: None,
                     max: None,
+                    compact: false,
                     sort: index::Sort::default(),
                     directories: try!(array.into_iter().map(|i| match i {
                         Yaml::String(dir) => dir_to_glob(dir),
@@ -135,6 +148,11 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                         Some(Yaml::Integer(i @ 1...U32_MAX_AS_I64)) => Some(i as u32),
                         Some(Yaml::Boolean(false)) | None => None,
                         Some(..) => return Err("invalid max setting".into()),
+                    },
+                    compact: match index.remove(&yaml::COMPACT) {
+                        Some(Yaml::Boolean(b)) => b,
+                        None => false,
+                        Some(..) => return Err("invalid compact setting".into()),
                     },
                     sort: match index.remove(&yaml::SORT) {
                         Some(Yaml::String(key)) => {

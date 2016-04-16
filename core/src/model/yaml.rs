@@ -36,6 +36,8 @@ lazy_static! {
     pub static ref CC: Yaml = Yaml::String("cc".into());
     pub static ref MAX: Yaml = Yaml::String("max".into());
     pub static ref BASE: Yaml = Yaml::String("base".into());
+    pub static ref COMPACT: Yaml = Yaml::String("compact".into());
+    pub static ref DESCRIPTION: Yaml = Yaml::String("description".into());
 }
 
 pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
