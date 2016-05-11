@@ -156,7 +156,6 @@ pub trait Gazetta: Sized {
                     } else {
                         let mut page_stack = StrStack::with_capacity((num_pages-1)*(entry.name.len() + 10), num_pages);
                         for page_num in 1..num_pages {
-                            use std::fmt::Write;
                             let _ = write!(page_stack, "{}/index/{}", &entry.name, page_num);
                         }
                         let mut pages = Vec::with_capacity(num_pages);
