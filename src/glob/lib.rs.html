@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/glob-0.2.11/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/glob-0.2.11/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -1495,12 +1495,12 @@
         <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Prefix</span>;
         <span class='kw'>match</span> <span class='ident'>p</span>.<span class='ident'>components</span>().<span class='ident'>next</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>Component</span>::<span class='ident'>Prefix</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>)) <span class='op'>=&gt;</span> <span class='ident'>p</span>.<span class='ident'>kind</span>().<span class='ident'>is_verbatim</span>(),
-            _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
         }
     }
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>windows</span>))]</span>
     <span class='kw'>fn</span> <span class='ident'>check_windows_verbatim</span>(_: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='boolval'>false</span>
+        <span class='boolvalue'>false</span>
     }
 
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>windows</span>)]</span>
@@ -1538,7 +1538,7 @@
         <span class='comment'>// 1-letter server name.</span>
         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Paths</span> {
             <span class='ident'>dir_patterns</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>require_dir</span>: <span class='boolval'>false</span>,
+            <span class='ident'>require_dir</span>: <span class='boolvalue'>false</span>,
             <span class='ident'>options</span>: <span class='ident'>options</span>.<span class='ident'>clone</span>(),
             <span class='ident'>todo</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
             <span class='ident'>scope</span>: <span class='prelude-val'>None</span>,
@@ -1560,11 +1560,11 @@
         <span class='ident'>dir_patterns</span>.<span class='ident'>push</span>(<span class='ident'>Pattern</span> {
             <span class='ident'>original</span>: <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>(),
             <span class='ident'>tokens</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>is_recursive</span>: <span class='boolval'>false</span>,
+            <span class='ident'>is_recursive</span>: <span class='boolvalue'>false</span>,
         });
     }
 
-    <span class='kw'>let</span> <span class='ident'>require_dir</span> <span class='op'>=</span> <span class='ident'>pattern</span>.<span class='ident'>chars</span>().<span class='ident'>next_back</span>().<span class='ident'>map</span>(<span class='ident'>path</span>::<span class='ident'>is_separator</span>) <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='boolval'>true</span>);
+    <span class='kw'>let</span> <span class='ident'>require_dir</span> <span class='op'>=</span> <span class='ident'>pattern</span>.<span class='ident'>chars</span>().<span class='ident'>next_back</span>().<span class='ident'>map</span>(<span class='ident'>path</span>::<span class='ident'>is_separator</span>) <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='boolvalue'>true</span>);
     <span class='kw'>let</span> <span class='ident'>todo</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
 
     <span class='prelude-val'>Ok</span>(<span class='ident'>Paths</span> {
@@ -1618,7 +1618,7 @@
 }
 
 <span class='kw'>fn</span> <span class='ident'>is_dir</span>(<span class='ident'>p</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>fs</span>::<span class='ident'>metadata</span>(<span class='ident'>p</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>is_dir</span>()).<span class='ident'>unwrap_or</span>(<span class='boolval'>false</span>)
+    <span class='ident'>fs</span>::<span class='ident'>metadata</span>(<span class='ident'>p</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> <span class='ident'>m</span>.<span class='ident'>is_dir</span>()).<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>)
 }
 
 <span class='doccomment'>/// An alias for a glob iteration result.</span>
@@ -1835,7 +1835,7 @@
 
         <span class='kw'>let</span> <span class='ident'>chars</span> <span class='op'>=</span> <span class='ident'>pattern</span>.<span class='ident'>chars</span>().<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>tokens</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_recursive</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_recursive</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
 
         <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>chars</span>.<span class='ident'>len</span>() {
@@ -1866,11 +1866,11 @@
                             <span class='comment'>// it ends in a &#39;/&#39;</span>
                             <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>chars</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>path</span>::<span class='ident'>is_separator</span>(<span class='ident'>chars</span>[<span class='ident'>i</span>]) {
                                 <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
-                                <span class='boolval'>true</span>
+                                <span class='boolvalue'>true</span>
                                 <span class='comment'>// or the pattern ends here</span>
                                 <span class='comment'>// this enables the existing globbing mechanism</span>
                             } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='ident'>chars</span>.<span class='ident'>len</span>() {
-                                <span class='boolval'>true</span>
+                                <span class='boolvalue'>true</span>
                                 <span class='comment'>// `**` ends in non-separator</span>
                             } <span class='kw'>else</span> {
                                 <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>PatternError</span> {
@@ -1892,7 +1892,7 @@
                             <span class='comment'>// collapse consecutive AnyRecursiveSequence to a</span>
                             <span class='comment'>// single one</span>
                             <span class='kw'>if</span> <span class='op'>!</span>(<span class='ident'>tokens_len</span> <span class='op'>&gt;</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='ident'>tokens</span>[<span class='ident'>tokens_len</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='op'>==</span> <span class='ident'>AnyRecursiveSequence</span>) {
-                                <span class='ident'>is_recursive</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                                <span class='ident'>is_recursive</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                                 <span class='ident'>tokens</span>.<span class='ident'>push</span>(<span class='ident'>AnyRecursiveSequence</span>);
                             }
                         }
@@ -1987,20 +1987,20 @@
     <span class='doccomment'>/// `Pattern` using the default match options (i.e. `MatchOptions::new()`).</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>matches_path</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='comment'>// FIXME (#9639): This needs to handle non-utf8 paths</span>
-        <span class='ident'>path</span>.<span class='ident'>to_str</span>().<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>matches</span>(<span class='ident'>s</span>))
+        <span class='ident'>path</span>.<span class='ident'>to_str</span>().<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>matches</span>(<span class='ident'>s</span>))
     }
 
     <span class='doccomment'>/// Return if the given `str` matches this `Pattern` using the specified</span>
     <span class='doccomment'>/// match options.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>matches_with</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>str</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>MatchOptions</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>matches_from</span>(<span class='boolval'>true</span>, <span class='ident'>str</span>.<span class='ident'>chars</span>(), <span class='number'>0</span>, <span class='ident'>options</span>) <span class='op'>==</span> <span class='ident'>Match</span>
+        <span class='self'>self</span>.<span class='ident'>matches_from</span>(<span class='boolvalue'>true</span>, <span class='ident'>str</span>.<span class='ident'>chars</span>(), <span class='number'>0</span>, <span class='ident'>options</span>) <span class='op'>==</span> <span class='ident'>Match</span>
     }
 
     <span class='doccomment'>/// Return if the given `Path`, when converted to a `str`, matches this</span>
     <span class='doccomment'>/// `Pattern` using the specified match options.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>matches_path_with</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>, <span class='ident'>options</span>: <span class='kw-2'>&amp;</span><span class='ident'>MatchOptions</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='comment'>// FIXME (#9639): This needs to handle non-utf8 paths</span>
-        <span class='ident'>path</span>.<span class='ident'>to_str</span>().<span class='ident'>map_or</span>(<span class='boolval'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>matches_with</span>(<span class='ident'>s</span>, <span class='ident'>options</span>))
+        <span class='ident'>path</span>.<span class='ident'>to_str</span>().<span class='ident'>map_or</span>(<span class='boolvalue'>false</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>matches_with</span>(<span class='ident'>s</span>, <span class='ident'>options</span>))
     }
 
     <span class='doccomment'>/// Access the original glob pattern.</span>
@@ -2021,7 +2021,7 @@
                     <span class='comment'>// ** must be at the start.</span>
                     <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>token</span> {
                         <span class='ident'>AnyRecursiveSequence</span> <span class='op'>=&gt;</span> <span class='ident'>follows_separator</span>,
-                        _ <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                        _ <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                     });
 
                     <span class='comment'>// Empty match</span>
@@ -2062,8 +2062,8 @@
                         <span class='ident'>AnyChar</span> <span class='op'>|</span> <span class='ident'>AnyWithin</span>(..) <span class='op'>|</span> <span class='ident'>AnyExcept</span>(..)
                             <span class='kw'>if</span> (<span class='ident'>options</span>.<span class='ident'>require_literal_separator</span> <span class='op'>&amp;&amp;</span> <span class='ident'>is_sep</span>) <span class='op'>||</span>
                             (<span class='ident'>follows_separator</span> <span class='op'>&amp;&amp;</span> <span class='ident'>options</span>.<span class='ident'>require_literal_leading_dot</span> <span class='op'>&amp;&amp;</span>
-                             <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;.&#39;</span>) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-                        <span class='ident'>AnyChar</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+                             <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;.&#39;</span>) <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
+                        <span class='ident'>AnyChar</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
                         <span class='ident'>AnyWithin</span>(<span class='kw-2'>ref</span> <span class='ident'>specifiers</span>) <span class='op'>=&gt;</span> <span class='ident'>in_char_specifiers</span>(<span class='kw-2'>&amp;</span><span class='ident'>specifiers</span>, <span class='ident'>c</span>, <span class='ident'>options</span>),
                         <span class='ident'>AnyExcept</span>(<span class='kw-2'>ref</span> <span class='ident'>specifiers</span>) <span class='op'>=&gt;</span> <span class='op'>!</span><span class='ident'>in_char_specifiers</span>(<span class='kw-2'>&amp;</span><span class='ident'>specifiers</span>, <span class='ident'>c</span>, <span class='ident'>options</span>),
                         <span class='ident'>Char</span>(<span class='ident'>c2</span>) <span class='op'>=&gt;</span> <span class='ident'>chars_eq</span>(<span class='ident'>c</span>, <span class='ident'>c2</span>, <span class='ident'>options</span>.<span class='ident'>case_sensitive</span>),
@@ -2202,7 +2202,7 @@
         <span class='kw'>match</span> <span class='ident'>specifier</span> {
             <span class='ident'>SingleChar</span>(<span class='ident'>sc</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>if</span> <span class='ident'>chars_eq</span>(<span class='ident'>c</span>, <span class='ident'>sc</span>, <span class='ident'>options</span>.<span class='ident'>case_sensitive</span>) {
-                    <span class='kw'>return</span> <span class='boolval'>true</span>;
+                    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
                 }
             }
             <span class='ident'>CharRange</span>(<span class='ident'>start</span>, <span class='ident'>end</span>) <span class='op'>=&gt;</span> {
@@ -2221,25 +2221,25 @@
                     <span class='kw'>if</span> <span class='ident'>start</span> <span class='op'>!=</span> <span class='ident'>start_up</span> <span class='op'>&amp;&amp;</span> <span class='ident'>end</span> <span class='op'>!=</span> <span class='ident'>end_up</span> {
                         <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>c</span>.<span class='ident'>to_ascii_lowercase</span>();
                         <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='ident'>start</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='ident'>end</span> {
-                            <span class='kw'>return</span> <span class='boolval'>true</span>;
+                            <span class='kw'>return</span> <span class='boolvalue'>true</span>;
                         }
                     }
                 }
 
                 <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='ident'>start</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='ident'>end</span> {
-                    <span class='kw'>return</span> <span class='boolval'>true</span>;
+                    <span class='kw'>return</span> <span class='boolvalue'>true</span>;
                 }
             }
         }
     }
 
-    <span class='boolval'>false</span>
+    <span class='boolvalue'>false</span>
 }
 
 <span class='doccomment'>/// A helper function to determine if two chars are (possibly case-insensitively) equal.</span>
 <span class='kw'>fn</span> <span class='ident'>chars_eq</span>(<span class='ident'>a</span>: <span class='ident'>char</span>, <span class='ident'>b</span>: <span class='ident'>char</span>, <span class='ident'>case_sensitive</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>if</span> <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>windows</span>) <span class='op'>&amp;&amp;</span> <span class='ident'>path</span>::<span class='ident'>is_separator</span>(<span class='ident'>a</span>) <span class='op'>&amp;&amp;</span> <span class='ident'>path</span>::<span class='ident'>is_separator</span>(<span class='ident'>b</span>) {
-        <span class='boolval'>true</span>
+        <span class='boolvalue'>true</span>
     } <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>case_sensitive</span> <span class='op'>&amp;&amp;</span> <span class='ident'>a</span>.<span class='ident'>is_ascii</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>b</span>.<span class='ident'>is_ascii</span>() {
         <span class='comment'>// FIXME: work with non-ascii chars properly (issue #9084)</span>
         <span class='ident'>a</span>.<span class='ident'>to_ascii_lowercase</span>() <span class='op'>==</span> <span class='ident'>b</span>.<span class='ident'>to_ascii_lowercase</span>()
@@ -2288,9 +2288,9 @@
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>MatchOptions</span> {
         <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         }
     }
 }
@@ -2298,7 +2298,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
-    <span class='kw'>use</span> <span class='ident'>super</span>::{<span class='ident'>glob</span>, <span class='ident'>Pattern</span>, <span class='ident'>MatchOptions</span>};
+    <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>glob</span>, <span class='ident'>Pattern</span>, <span class='ident'>MatchOptions</span>};
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_pattern_from_str</span>() {
@@ -2473,7 +2473,7 @@
                 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>pat</span>.<span class='ident'>matches</span>(<span class='kw-2'>&amp;</span><span class='ident'>c</span>.<span class='ident'>to_string</span>()));
             }
             <span class='kw'>for</span> <span class='ident'>c</span> <span class='kw'>in</span> <span class='string'>&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>.<span class='ident'>chars</span>() {
-                <span class='kw'>let</span> <span class='ident'>options</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> { <span class='ident'>case_sensitive</span>: <span class='boolval'>false</span>, ..<span class='ident'>MatchOptions</span>::<span class='ident'>new</span>() };
+                <span class='kw'>let</span> <span class='ident'>options</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> { <span class='ident'>case_sensitive</span>: <span class='boolvalue'>false</span>, ..<span class='ident'>MatchOptions</span>::<span class='ident'>new</span>() };
                 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>pat</span>.<span class='ident'>matches_with</span>(<span class='kw-2'>&amp;</span><span class='ident'>c</span>.<span class='ident'>to_string</span>(), <span class='kw-2'>&amp;</span><span class='ident'>options</span>));
             }
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>pat</span>.<span class='ident'>matches</span>(<span class='string'>&quot;1&quot;</span>));
@@ -2529,9 +2529,9 @@
 
         <span class='kw'>let</span> <span class='ident'>pat</span> <span class='op'>=</span> <span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;aBcDeFg&quot;</span>).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>options</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         };
 
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>pat</span>.<span class='ident'>matches_with</span>(<span class='string'>&quot;aBcDeFg&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>options</span>));
@@ -2547,14 +2547,14 @@
         <span class='kw'>let</span> <span class='ident'>pat_except</span> <span class='op'>=</span> <span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;[!a]&quot;</span>).<span class='ident'>unwrap</span>();
 
         <span class='kw'>let</span> <span class='ident'>options_case_insensitive</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         };
         <span class='kw'>let</span> <span class='ident'>options_case_sensitive</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         };
 
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>pat_within</span>.<span class='ident'>matches_with</span>(<span class='string'>&quot;a&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>options_case_insensitive</span>));
@@ -2570,14 +2570,14 @@
     <span class='kw'>fn</span> <span class='ident'>test_pattern_matches_require_literal_separator</span>() {
 
         <span class='kw'>let</span> <span class='ident'>options_require_literal</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         };
         <span class='kw'>let</span> <span class='ident'>options_not_require_literal</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         };
 
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;abc/def&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>matches_with</span>(<span class='string'>&quot;abc/def&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>options_require_literal</span>));
@@ -2609,14 +2609,14 @@
     <span class='kw'>fn</span> <span class='ident'>test_pattern_matches_require_literal_leading_dot</span>() {
 
         <span class='kw'>let</span> <span class='ident'>options_require_literal_leading_dot</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>true</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>true</span>,
         };
         <span class='kw'>let</span> <span class='ident'>options_not_require_literal_leading_dot</span> <span class='op'>=</span> <span class='ident'>MatchOptions</span> {
-            <span class='ident'>case_sensitive</span>: <span class='boolval'>true</span>,
-            <span class='ident'>require_literal_separator</span>: <span class='boolval'>false</span>,
-            <span class='ident'>require_literal_leading_dot</span>: <span class='boolval'>false</span>,
+            <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
         };
 
         <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>options</span><span class='op'>|</span> <span class='ident'>Pattern</span>::<span class='ident'>new</span>(<span class='string'>&quot;*.txt&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>matches_with</span>(<span class='string'>&quot;.hello.txt&quot;</span>, <span class='ident'>options</span>);

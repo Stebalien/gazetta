@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-4453' class='srclink' href='../src/clap/errors.rs.html#18-323' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-4315' class='srclink' href='../src/clap/errors.rs.html#18-323' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ErrorKind {
     InvalidValue,
     UnknownArgument,
@@ -133,7 +133,7 @@ values.</p>
 <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;color&quot;</span>)
          .<span class='ident'>long</span>(<span class='string'>&quot;color&quot;</span>)
-         .<span class='ident'>empty_values</span>(<span class='boolval'>false</span>))
+         .<span class='ident'>empty_values</span>(<span class='boolvalue'>false</span>))
     .<span class='ident'>get_matches_from_safe</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&quot;myprog&quot;</span>, <span class='string'>&quot;--color=&quot;</span>]);
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>res</span>.<span class='ident'>is_err</span>());
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>res</span>.<span class='ident'>unwrap_err</span>().<span class='ident'>kind</span>, <span class='ident'>ErrorKind</span>::<span class='ident'>EmptyValue</span>);</pre>
@@ -162,7 +162,7 @@ value fails that validation.</p>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;arg&quot;</span>)
-        .<span class='ident'>multiple</span>(<span class='boolval'>true</span>)
+        .<span class='ident'>multiple</span>(<span class='boolvalue'>true</span>)
         .<span class='ident'>max_values</span>(<span class='number'>2</span>))
     .<span class='ident'>get_matches_from_safe</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&quot;myprog&quot;</span>, <span class='string'>&quot;too&quot;</span>, <span class='string'>&quot;many&quot;</span>, <span class='string'>&quot;values&quot;</span>]);
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>is_err</span>());
@@ -188,7 +188,7 @@ been defined by setting <code>Arg::number_of_values</code> or than was implicitl
 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;some_opt&quot;</span>)
         .<span class='ident'>long</span>(<span class='string'>&quot;opt&quot;</span>)
-        .<span class='ident'>takes_value</span>(<span class='boolval'>true</span>)
+        .<span class='ident'>takes_value</span>(<span class='boolvalue'>true</span>)
         .<span class='ident'>number_of_values</span>(<span class='number'>2</span>))
     .<span class='ident'>get_matches_from_safe</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&quot;myprog&quot;</span>, <span class='string'>&quot;--opt&quot;</span>, <span class='string'>&quot;wrong&quot;</span>]);
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>is_err</span>());
@@ -213,7 +213,7 @@ together.</p>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;debug&quot;</span>)
-        .<span class='ident'>required</span>(<span class='boolval'>true</span>))
+        .<span class='ident'>required</span>(<span class='boolvalue'>true</span>))
     .<span class='ident'>get_matches_from_safe</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&quot;myprog&quot;</span>]);
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>is_err</span>());
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>unwrap_err</span>().<span class='ident'>kind</span>, <span class='ident'>ErrorKind</span>::<span class='ident'>MissingRequiredArgument</span>);</pre>
@@ -252,7 +252,7 @@ multiple uses.</p>
 <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;myprog&quot;</span>)
     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;debug&quot;</span>)
         .<span class='ident'>long</span>(<span class='string'>&quot;debug&quot;</span>)
-        .<span class='ident'>multiple</span>(<span class='boolval'>false</span>))
+        .<span class='ident'>multiple</span>(<span class='boolvalue'>false</span>))
     .<span class='ident'>get_matches_from_safe</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&quot;myprog&quot;</span>, <span class='string'>&quot;--debug&quot;</span>, <span class='string'>&quot;--debug&quot;</span>]);
 <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>is_err</span>());
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>unwrap_err</span>().<span class='ident'>kind</span>, <span class='ident'>ErrorKind</span>::<span class='ident'>UnexpectedMultipleUsage</span>);</pre>
@@ -268,7 +268,7 @@ multiple uses.</p>
     .<span class='ident'>setting</span>(<span class='ident'>AppSettings</span>::<span class='ident'>StrictUtf8</span>)
     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;utf8&quot;</span>)
         .<span class='ident'>short</span>(<span class='string'>&quot;u&quot;</span>)
-        .<span class='ident'>takes_value</span>(<span class='boolval'>true</span>))
+        .<span class='ident'>takes_value</span>(<span class='boolvalue'>true</span>))
     .<span class='ident'>get_matches_from_safe</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>OsString</span>::<span class='ident'>from</span>(<span class='string'>&quot;myprog&quot;</span>),
                                 <span class='ident'>OsString</span>::<span class='ident'>from</span>(<span class='string'>&quot;-u&quot;</span>)
                                 <span class='ident'>OsString</span>::<span class='ident'>from_vec</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0xE9</span>])]);
@@ -300,11 +300,15 @@ type <code>T</code>, but the argument you requested wasn&#39;t used. I.e. you as
 name <code>config</code> to be converted, but <code>config</code> wasn&#39;t used by the user.</p>
 </div></td><td></td></tr><tr><td id='variant.Io'><code>Io</code></td><td><div class='docblock'><p>Represents an I/O error, typically while writing to <code>stderr</code> or <code>stdout</code>.</p>
 </div></td><td></td></tr><tr><td id='variant.Format'><code>Format</code></td><td><div class='docblock'><p>Represents an Rust Display Format error, typically white writing to <code>stderr</code> or <code>stdout</code>.</p>
-</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
-<h4 id='method.ne' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></h4>
-<h4 id='method.clone_from' class='method'><span class="since">1.0.0</span><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></td><td></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><a id='src-4336' class='srclink' href='../src/clap/errors.rs.html#17' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><a id='src-4342' class='srclink' href='../src/clap/errors.rs.html#17' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><span class="since">1.0.0</span></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><a id='src-4345' class='srclink' href='../src/clap/errors.rs.html#17' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../clap/enum.ErrorKind.html' title='clap::ErrorKind'>ErrorKind</a></code></span><span class='out-of-band'><a id='src-4346' class='srclink' href='../src/clap/errors.rs.html#17' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

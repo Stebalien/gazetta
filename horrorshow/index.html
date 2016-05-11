@@ -72,7 +72,7 @@
             }
             <span class='ident'>ol</span>(<span class='ident'>id</span><span class='op'>=</span><span class='string'>&quot;count&quot;</span>) {
                 <span class='comment'>// You can embed for loops, while loops, and if statements.</span>
-                <span class='kw-2'>@</span> <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+                @ <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
                     <span class='ident'>li</span>(<span class='ident'>first</span>? <span class='op'>=</span> (<span class='ident'>i</span> <span class='op'>==</span> <span class='number'>0</span>)) {
                         <span class='comment'>// Format some text.</span>
                         : <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>i</span><span class='op'>+</span><span class='number'>1</span>)
@@ -259,7 +259,7 @@ template:</p>
 }
 
 <span class='kw'>impl</span> <span class='ident'>Page</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>from_string_content</span>(<span class='ident'>title</span>: <span class='ident'>String</span>, <span class='ident'>content</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>from_string_content</span>(<span class='ident'>title</span>: <span class='ident'>String</span>, <span class='ident'>content</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>Page</span> { <span class='ident'>title</span>: <span class='ident'>title</span>, <span class='ident'>content</span>: <span class='ident'>content</span> }
     }
 }

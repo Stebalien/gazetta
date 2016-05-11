@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/pulldown-cmark-0.0.3/src/puncttable.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.3/src/puncttable.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>puncttable.rs.html -- source</title>
@@ -691,17 +691,17 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_punctuation</span>(<span class='ident'>c</span>: <span class='ident'>char</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>let</span> <span class='ident'>cp</span> <span class='op'>=</span> <span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>u32</span>;
     <span class='kw'>if</span> <span class='ident'>cp</span> <span class='op'>&lt;</span> <span class='number'>128</span> {<span class='kw'>return</span> <span class='ident'>is_ascii_punctuation</span>(<span class='ident'>cp</span> <span class='kw'>as</span> <span class='ident'>u8</span>); }
-    <span class='kw'>if</span> <span class='ident'>cp</span> <span class='op'>&gt;</span> <span class='number'>0x1BC9F</span> { <span class='kw'>return</span> <span class='boolval'>false</span>; }
+    <span class='kw'>if</span> <span class='ident'>cp</span> <span class='op'>&gt;</span> <span class='number'>0x1BC9F</span> { <span class='kw'>return</span> <span class='boolvalue'>false</span>; }
     <span class='kw'>let</span> <span class='ident'>high</span> <span class='op'>=</span> (<span class='ident'>cp</span> <span class='op'>/</span> <span class='number'>16</span>) <span class='kw'>as</span> <span class='ident'>u16</span>;
     <span class='kw'>match</span> <span class='ident'>PUNCT_TAB</span>.<span class='ident'>binary_search</span>(<span class='kw-2'>&amp;</span><span class='ident'>high</span>) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>index</span>) <span class='op'>=&gt;</span> (<span class='ident'>PUNCT_MASKS</span>[<span class='ident'>index</span>] <span class='kw-2'>&amp;</span> (<span class='number'>1</span> <span class='op'>&lt;&lt;</span> (<span class='ident'>cp</span> <span class='kw-2'>&amp;</span> <span class='number'>15</span>))) <span class='op'>!=</span> <span class='number'>0</span>,
-        _ <span class='op'>=&gt;</span> <span class='boolval'>false</span>
+        _ <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>
     }
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>super</span>::{<span class='ident'>is_ascii_punctuation</span>, <span class='ident'>is_punctuation</span>};
+    <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>is_ascii_punctuation</span>, <span class='ident'>is_punctuation</span>};
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_ascii</span>() {

@@ -139,7 +139,7 @@
 
 <span class='kw'>use</span> ::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
 
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>Page</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Page</span>;
 
 <span class='doccomment'>/// Page pagination information.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
@@ -176,7 +176,7 @@
           <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>,
           <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
 {
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='op'>*</span><span class='self'>self</span>
     }
 }

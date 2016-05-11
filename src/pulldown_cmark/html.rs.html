@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/pulldown-cmark-0.0.3/src/html.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.3/src/html.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>html.rs.html -- source</title>
@@ -265,7 +265,7 @@
                     <span class='kw'>match</span> <span class='ident'>event</span> {
                         <span class='ident'>Start</span>(<span class='ident'>tag</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>start_tag</span>(<span class='ident'>tag</span>),
                         <span class='ident'>End</span>(<span class='ident'>tag</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>end_tag</span>(<span class='ident'>tag</span>),
-                        <span class='ident'>Text</span>(<span class='ident'>text</span>) <span class='op'>=&gt;</span> <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>text</span>, <span class='boolval'>false</span>),
+                        <span class='ident'>Text</span>(<span class='ident'>text</span>) <span class='op'>=&gt;</span> <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>text</span>, <span class='boolvalue'>false</span>),
                         <span class='ident'>Html</span>(<span class='ident'>html</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>html</span>),
                         <span class='ident'>InlineHtml</span>(<span class='ident'>html</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>html</span>),
                         <span class='ident'>SoftBreak</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push</span>(<span class='string'>&#39;\n&#39;</span>),
@@ -304,7 +304,7 @@
                     <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&lt;pre&gt;&lt;code&gt;&quot;</span>);
                 } <span class='kw'>else</span> {
                     <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&lt;pre&gt;&lt;code class=\&quot;language-&quot;</span>);
-                    <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>lang</span>, <span class='boolval'>false</span>);
+                    <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='ident'>lang</span>, <span class='boolvalue'>false</span>);
                     <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;\&quot;&gt;&quot;</span>);
                 }
             }
@@ -332,7 +332,7 @@
                 <span class='ident'>escape_href</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>dest</span>);
                 <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>title</span>.<span class='ident'>is_empty</span>() {
                     <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;\&quot; title=\&quot;&quot;</span>);
-                    <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>title</span>, <span class='boolval'>false</span>);
+                    <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>title</span>, <span class='boolvalue'>false</span>);
                 }
                 <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;\&quot;&gt;&quot;</span>);
             }
@@ -343,7 +343,7 @@
                 <span class='self'>self</span>.<span class='ident'>raw_text</span>();
                 <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>title</span>.<span class='ident'>is_empty</span>() {
                     <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;\&quot; title=\&quot;&quot;</span>);
-                    <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>title</span>, <span class='boolval'>false</span>);
+                    <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>title</span>, <span class='boolvalue'>false</span>);
                 }
                 <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;\&quot; /&gt;&quot;</span>)
             }
@@ -384,9 +384,9 @@
                             <span class='kw'>if</span> <span class='ident'>nest</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>break</span>; }
                             <span class='ident'>nest</span> <span class='op'>-=</span> <span class='number'>1</span>;
                         }
-                        <span class='ident'>Text</span>(<span class='ident'>text</span>) <span class='op'>=&gt;</span> <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>text</span>, <span class='boolval'>false</span>),
+                        <span class='ident'>Text</span>(<span class='ident'>text</span>) <span class='op'>=&gt;</span> <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>text</span>, <span class='boolvalue'>false</span>),
                         <span class='ident'>Html</span>(_) <span class='op'>=&gt;</span> (),
-                        <span class='ident'>InlineHtml</span>(<span class='ident'>html</span>) <span class='op'>=&gt;</span> <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>html</span>, <span class='boolval'>false</span>),
+                        <span class='ident'>InlineHtml</span>(<span class='ident'>html</span>) <span class='op'>=&gt;</span> <span class='ident'>escape_html</span>(<span class='self'>self</span>.<span class='ident'>buf</span>, <span class='kw-2'>&amp;</span><span class='ident'>html</span>, <span class='boolvalue'>false</span>),
                         <span class='ident'>SoftBreak</span> <span class='op'>|</span> <span class='ident'>HardBreak</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>push</span>(<span class='string'>&#39; &#39;</span>),
                     }
                 }

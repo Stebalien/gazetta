@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/yaml-rust-0.2.2/src/parser.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.2.2/src/parser.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>parser.rs.html -- source</title>
@@ -1043,35 +1043,35 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>state</span> {
             <span class='ident'>State</span>::<span class='ident'>StreamStart</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>stream_start</span>(),
 
-            <span class='ident'>State</span>::<span class='ident'>ImplicitDocumentStart</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>document_start</span>(<span class='boolval'>true</span>),
-            <span class='ident'>State</span>::<span class='ident'>DocumentStart</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>document_start</span>(<span class='boolval'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>ImplicitDocumentStart</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>document_start</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>DocumentStart</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>document_start</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>State</span>::<span class='ident'>DocumentContent</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>document_content</span>(),
             <span class='ident'>State</span>::<span class='ident'>DocumentEnd</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>document_end</span>(),
 
-            <span class='ident'>State</span>::<span class='ident'>BlockNode</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>false</span>),
-            <span class='ident'>State</span>::<span class='ident'>BlockNodeOrIndentlessSequence</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>true</span>),
-            <span class='ident'>State</span>::<span class='ident'>FlowNode</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>BlockNode</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>BlockNodeOrIndentlessSequence</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowNode</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>),
 
-            <span class='ident'>State</span>::<span class='ident'>BlockMappingFirstKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_mapping_key</span>(<span class='boolval'>true</span>),
-            <span class='ident'>State</span>::<span class='ident'>BlockMappingKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_mapping_key</span>(<span class='boolval'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>BlockMappingFirstKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_mapping_key</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>BlockMappingKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_mapping_key</span>(<span class='boolvalue'>false</span>),
             <span class='ident'>State</span>::<span class='ident'>BlockMappingValue</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_mapping_value</span>(),
 
-            <span class='ident'>State</span>::<span class='ident'>BlockSequenceFirstEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_sequence_entry</span>(<span class='boolval'>true</span>),
-            <span class='ident'>State</span>::<span class='ident'>BlockSequenceEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_sequence_entry</span>(<span class='boolval'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>BlockSequenceFirstEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_sequence_entry</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>BlockSequenceEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>block_sequence_entry</span>(<span class='boolvalue'>false</span>),
 
-            <span class='ident'>State</span>::<span class='ident'>FlowSequenceFirstEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry</span>(<span class='boolval'>true</span>),
-            <span class='ident'>State</span>::<span class='ident'>FlowSequenceEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry</span>(<span class='boolval'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowSequenceFirstEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowSequenceEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry</span>(<span class='boolvalue'>false</span>),
 
-            <span class='ident'>State</span>::<span class='ident'>FlowMappingFirstKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_key</span>(<span class='boolval'>true</span>),
-            <span class='ident'>State</span>::<span class='ident'>FlowMappingKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_key</span>(<span class='boolval'>false</span>),
-            <span class='ident'>State</span>::<span class='ident'>FlowMappingValue</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_value</span>(<span class='boolval'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowMappingFirstKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_key</span>(<span class='boolvalue'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowMappingKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_key</span>(<span class='boolvalue'>false</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowMappingValue</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_value</span>(<span class='boolvalue'>false</span>),
 
             <span class='ident'>State</span>::<span class='ident'>IndentlessSequenceEntry</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>indentless_sequence_entry</span>(),
 
             <span class='ident'>State</span>::<span class='ident'>FlowSequenceEntryMappingKey</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry_mapping_key</span>(),
             <span class='ident'>State</span>::<span class='ident'>FlowSequenceEntryMappingValue</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry_mapping_value</span>(),
             <span class='ident'>State</span>::<span class='ident'>FlowSequenceEntryMappingEnd</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_sequence_entry_mapping_end</span>(),
-            <span class='ident'>State</span>::<span class='ident'>FlowMappingEmptyValue</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_value</span>(<span class='boolval'>true</span>),
+            <span class='ident'>State</span>::<span class='ident'>FlowMappingEmptyValue</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>flow_mapping_value</span>(<span class='boolvalue'>true</span>),
 
             <span class='comment'>/* impossible */</span>
             <span class='ident'>State</span>::<span class='ident'>End</span> <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
@@ -1178,20 +1178,20 @@
                     <span class='prelude-val'>Ok</span>(<span class='ident'>Event</span>::<span class='ident'>empty_scalar</span>())
                 },
             _ <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>false</span>)
+                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>)
             }
         }
     }
 
     <span class='kw'>fn</span> <span class='ident'>document_end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>_implicit</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>_implicit</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
         <span class='kw'>let</span> <span class='ident'>tok</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>peek</span>());
         <span class='kw'>let</span> <span class='ident'>_start_mark</span> <span class='op'>=</span> <span class='ident'>tok</span>.<span class='number'>0</span>;
 
         <span class='kw'>match</span> <span class='ident'>tok</span>.<span class='number'>1</span> {
             <span class='ident'>TokenType</span>::<span class='ident'>DocumentEndToken</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>skip</span>();
-                <span class='ident'>_implicit</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+                <span class='ident'>_implicit</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
             }
             _ <span class='op'>=&gt;</span> {}
         }
@@ -1306,7 +1306,7 @@
                         }
                     _ <span class='op'>=&gt;</span> {
                         <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>BlockMappingValue</span>);
-                        <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>true</span>)
+                        <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>)
                     }
                 }
             },
@@ -1341,7 +1341,7 @@
                             }
                         _ <span class='op'>=&gt;</span> {
                             <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>BlockMappingKey</span>);
-                            <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>true</span>)
+                            <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>true</span>)
                         }
                     }
                 },
@@ -1383,7 +1383,7 @@
                     },
                     _ <span class='op'>=&gt;</span> {
                         <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>FlowMappingValue</span>);
-                        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>);
+                        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>);
                     }
                 }
             <span class='comment'>// XXX libyaml fail ex 7.3, empty key</span>
@@ -1392,7 +1392,7 @@
                 <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Event</span>::<span class='ident'>empty_scalar</span>());
             } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>tok</span>.<span class='number'>1</span> <span class='op'>!=</span> <span class='ident'>TokenType</span>::<span class='ident'>FlowMappingEndToken</span> {
                 <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>FlowMappingEmptyValue</span>);
-                <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>);
+                <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>);
             }
         }
 
@@ -1416,7 +1416,7 @@
                     <span class='op'>|</span> <span class='ident'>TokenType</span>::<span class='ident'>FlowMappingEndToken</span> <span class='op'>=&gt;</span> { },
                 _ <span class='op'>=&gt;</span> {
                         <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>FlowMappingKey</span>);
-                        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>);
+                        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>);
                 }
             }
         }
@@ -1462,7 +1462,7 @@
             }
             _ <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>FlowSequenceEntry</span>);
-                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>)
+                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>)
             }
         }
     }
@@ -1486,7 +1486,7 @@
             },
             _ <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>IndentlessSequenceEntry</span>);
-                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>false</span>)
+                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>)
             }
         }
     }
@@ -1516,7 +1516,7 @@
                     },
                     _ <span class='op'>=&gt;</span> {
                         <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>BlockSequenceEntry</span>);
-                        <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>true</span>, <span class='boolval'>false</span>)
+                        <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>)
                     }
                 }
             },
@@ -1540,7 +1540,7 @@
             },
             _ <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>FlowSequenceEntryMappingValue</span>);
-                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>)
+                <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>)
             }
         }
     }
@@ -1561,7 +1561,7 @@
                         },
                         _ <span class='op'>=&gt;</span> {
                             <span class='self'>self</span>.<span class='ident'>push_state</span>(<span class='ident'>State</span>::<span class='ident'>FlowSequenceEntryMappingEnd</span>);
-                            <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolval'>false</span>, <span class='boolval'>false</span>)
+                            <span class='self'>self</span>.<span class='ident'>parse_node</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>false</span>)
                         }
                     }
             },

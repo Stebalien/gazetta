@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.5/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -480,6 +480,7 @@
 <span id="436">436</span>
 <span id="437">437</span>
 <span id="438">438</span>
+<span id="439">439</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright ⓒ 2015-2016 Kevin B. Knapp and clap-rs contributors.</span>
 <span class='comment'>// Licensed under the MIT license</span>
@@ -878,6 +879,7 @@
         <span class='ident'>unused_qualifications</span>)]</span>
 <span class='comment'>// clippy false positives, or ones we&#39;re ok with...</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>cyclomatic_complexity</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>doc_markdown</span>))]</span>
 <span class='comment'>// Only while bitflats uses &quot;_first&quot; inside it&#39;s macros</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>used_underscore_binding</span>))]</span>
 <span class='comment'>// Only while bitflats fails this lint</span>
@@ -899,7 +901,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>yaml_rust</span>::<span class='ident'>YamlLoader</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>Arg</span>, <span class='ident'>ArgGroup</span>, <span class='ident'>ArgMatches</span>, <span class='ident'>SubCommand</span>, <span class='ident'>ArgSettings</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>Arg</span>, <span class='ident'>ArgGroup</span>, <span class='ident'>ArgMatches</span>, <span class='ident'>ArgSettings</span>, <span class='ident'>SubCommand</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>app</span>::{<span class='ident'>App</span>, <span class='ident'>AppSettings</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>fmt</span>::<span class='ident'>Format</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>Error</span>, <span class='ident'>ErrorKind</span>, <span class='prelude-ty'>Result</span>};

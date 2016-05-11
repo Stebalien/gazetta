@@ -154,13 +154,13 @@
     <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
             <span class='ident'>base</span>(<span class='ident'>href</span><span class='op'>=</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>prefix</span>);
-            <span class='kw-2'>@</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>css</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>stylesheets</span> {
+            @ <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>css</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>stylesheets</span> {
                 <span class='ident'>link</span>(<span class='ident'>rel</span><span class='op'>=</span><span class='string'>&quot;stylesheet&quot;</span>, <span class='ident'>href</span><span class='op'>=</span><span class='ident'>css</span>);
             }
-            <span class='kw-2'>@</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>js</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>javascript</span> {
+            @ <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>js</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>javascript</span> {
                 <span class='ident'>script</span>(<span class='ident'>src</span><span class='op'>=</span><span class='ident'>js</span>) {}
             }
-            <span class='kw-2'>@</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>icon</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>icon</span> {
+            @ <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>icon</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>icon</span> {
                 <span class='ident'>link</span>(<span class='ident'>rel</span><span class='op'>=</span><span class='string'>&quot;shortcut icon&quot;</span>, <span class='ident'>href</span><span class='op'>=</span><span class='ident'>icon</span>);
             }
         };

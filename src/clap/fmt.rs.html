@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.5/src/fmt.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/fmt.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>fmt.rs.html -- source</title>
@@ -127,6 +127,7 @@
 <span class='doccomment'>/// Defines styles for different types of error messages. Defaults to Error=Red, Warning=Yellow,</span>
 <span class='doccomment'>/// and Good=Green</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Format</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='doccomment'>/// Defines the style used for errors, defaults to Red</span>
     <span class='ident'>Error</span>(<span class='ident'>T</span>),
@@ -145,7 +146,6 @@
             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='ident'>Green</span>.<span class='ident'>paint</span>(<span class='ident'>e</span>.<span class='ident'>as_ref</span>()),
         }
     }
-
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;color&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
@@ -175,7 +175,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>test</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;color&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>Format</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Format</span>;
     <span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::{<span class='ident'>Green</span>, <span class='ident'>Red</span>, <span class='ident'>Yellow</span>};
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>

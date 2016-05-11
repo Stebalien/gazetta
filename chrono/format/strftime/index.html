@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3637' class='srclink' href='../../../src/chrono/format/strftime.rs.html#5-435' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3641' class='srclink' href='../../../src/chrono/format/strftime.rs.html#5-443' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p><code>strftime</code>/<code>strptime</code>-inspired date and time formatting syntax.</p>
 
 <h2 id='specifiers' class='section-header'><a href='#specifiers'>Specifiers</a></h2>
@@ -454,8 +454,13 @@ Week 0 does not exist, so this should be used with <code>%G</code> or <code>%g</
 <li><p><code>%S</code>:
 It accounts for leap seconds, so <code>60</code> is possible.</p></li>
 <li><p><code>%+</code>:
-This one is close to, but not identical to, <code>%Y-%m-%dT%H:%M:%S%.f%z</code>.
-The main differences are a colon in <code>%z</code>.</p></li>
+Same to <code>%Y-%m-%dT%H:%M:%S%.f%:z</code>,
+i.e. 0, 3, 6 or 9 fractional digits for seconds and colons in the time zone offset.</p>
+
+<p>The typical <code>strftime</code> implementations have
+different (and locale-dependent) formats for this specifier.
+While Chrono&#39;s format for <code>%+</code> is far more stable,
+it is best to avoid this specifier if you want to control the exact output.</p></li>
 <li><p><code>%s</code>:
 This is not padded and can be negative.
 For the purpose of Chrono, it only accounts for non-leap seconds
@@ -465,17 +470,20 @@ so it slightly differs from ISO C <code>strftime</code> behavior.</p></li>
 <p>The default <code>%f</code> is right-aligned and always zero-padded to 9 digits
 for the compatibility with glibc and others,
 so it always counts the number of nanoseconds since the last whole second.
-E.g. 7ms after the last second will print <code>007000000</code>, and parsing <code>7000000</code> will yield the same.</p>
+E.g. 7ms after the last second will print <code>007000000</code>,
+and parsing <code>7000000</code> will yield the same.</p>
 
 <p>The variant <code>%.f</code> is left-aligned and print 0, 3, 6 or 9 fractional digits
-according to the precision. E.g. 70ms after the last second under <code>%.f</code> will print <code>.070</code>
-(note: not <code>.07</code>), and parsing <code>.07</code>, <code>.070000</code> etc. will yield the same.
+according to the precision.
+E.g. 70ms after the last second under <code>%.f</code> will print <code>.070</code> (note: not <code>.07</code>),
+and parsing <code>.07</code>, <code>.070000</code> etc. will yield the same.
 Note that they can print or read nothing if the fractional part is zero or
 the next character is not <code>.</code>.</p>
 
-<p>The variant <code>%.3f</code>, <code>%.3f</code> and <code>%.3f</code> are left-aligned and print 3, 6 or 9 fractional digits
-according to the number preceding <code>f</code>. E.g. 70ms after the last second under <code>%.3f</code> will print <code>.070</code>
-(note: not <code>.07</code>), and parsing <code>.07</code>, <code>.070000</code> etc. will yield the same.
+<p>The variant <code>%.3f</code>, <code>%.6f</code> and <code>%.9f</code> are left-aligned and print 3, 6 or 9 fractional digits
+according to the number preceding <code>f</code>.
+E.g. 70ms after the last second under <code>%.3f</code> will print <code>.070</code> (note: not <code>.07</code>),
+and parsing <code>.07</code>, <code>.070000</code> etc. will yield the same.
 Note that they can read nothing if the fractional part is zero or
 the next character is not <code>.</code> however will print with the specified length.</p></li>
 </ol>

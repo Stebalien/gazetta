@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.5/src/term.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/term.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>term.rs.html -- source</title>
@@ -122,8 +122,6 @@
 <span id="78">78</span>
 <span id="79">79</span>
 <span id="80">80</span>
-<span id="81">81</span>
-<span id="82">82</span>
 </pre><pre class='rust '>
 <span class='comment'>// The following was taken and adapated from exa source</span>
 <span class='comment'>// repo: https://github.com/ogham/exa</span>
@@ -142,7 +140,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>zeroed</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
-<span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_int</span>, <span class='ident'>c_ushort</span>, <span class='ident'>c_ulong</span>, <span class='ident'>STDOUT_FILENO</span>};
+<span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>STDOUT_FILENO</span>, <span class='ident'>c_int</span>, <span class='ident'>c_ulong</span>, <span class='ident'>c_ushort</span>};
 
 
 <span class='doccomment'>/// The number of rows and columns of a terminal.</span>
@@ -168,7 +166,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>)]</span>
 <span class='kw'>static</span> <span class='ident'>TIOCGWINSZ</span>: <span class='ident'>c_ulong</span> <span class='op'>=</span> <span class='number'>0x40087468</span>;
 
-<span class='kw'>extern</span> {
+<span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> {
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ioctl</span>(<span class='ident'>fd</span>: <span class='ident'>c_int</span>, <span class='ident'>request</span>: <span class='ident'>c_ulong</span>, ...) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }
@@ -183,8 +181,7 @@
 
     <span class='kw'>if</span> <span class='ident'>result</span> <span class='op'>==</span> <span class='op'>-</span><span class='number'>1</span> {
         <span class='ident'>zeroed</span>()
-    }
-    <span class='kw'>else</span> {
+    } <span class='kw'>else</span> {
         <span class='ident'>window</span>
     }
 }
@@ -197,8 +194,7 @@
 
     <span class='kw'>if</span> <span class='ident'>w</span>.<span class='ident'>ws_col</span> <span class='op'>==</span> <span class='number'>0</span> <span class='op'>||</span> <span class='ident'>w</span>.<span class='ident'>ws_row</span> <span class='op'>==</span> <span class='number'>0</span> {
         <span class='prelude-val'>None</span>
-    }
-    <span class='kw'>else</span> {
+    } <span class='kw'>else</span> {
         <span class='prelude-val'>Some</span>((<span class='ident'>w</span>.<span class='ident'>ws_col</span> <span class='kw'>as</span> <span class='ident'>usize</span>, <span class='ident'>w</span>.<span class='ident'>ws_row</span> <span class='kw'>as</span> <span class='ident'>usize</span>))
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/slug-0.1.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/slug-0.1.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -138,7 +138,7 @@
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>string</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='ident'>s</span>.<span class='ident'>len</span>());
     {
         <span class='kw'>let</span> <span class='ident'>output</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>string</span>.<span class='ident'>as_mut_vec</span>() };
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dash</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dash</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>push_char</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>c</span>: <span class='ident'>char</span><span class='op'>|</span> {
             <span class='kw'>match</span> <span class='ident'>c</span> {
@@ -148,7 +148,7 @@
                         <span class='string'>&#39;A&#39;</span>...<span class='string'>&#39;Z&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>output</span>.<span class='ident'>push</span>((<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>u8</span>)<span class='op'>-</span>(<span class='string'>&#39;A&#39;</span> <span class='kw'>as</span> <span class='ident'>u8</span>)<span class='op'>+</span>(<span class='string'>&#39;a&#39;</span> <span class='kw'>as</span> <span class='ident'>u8</span>)),
                         _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
                     }
-                    <span class='ident'>dash</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+                    <span class='ident'>dash</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
                 },
                 _ <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='ident'>dash</span> {
                     <span class='kw'>match</span> <span class='ident'>c</span> {
@@ -162,7 +162,7 @@
                         <span class='string'>&#39;&amp;&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>output</span>.<span class='ident'>extend</span>(<span class='string'>b&quot;-and-&quot;</span>),
                         _ <span class='op'>=&gt;</span> <span class='ident'>output</span>.<span class='ident'>push</span>(<span class='string'>b&#39;-&#39;</span>),
                     }
-                    <span class='ident'>dash</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                    <span class='ident'>dash</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                 }
             }
         };

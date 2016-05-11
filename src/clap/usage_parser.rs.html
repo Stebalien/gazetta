@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-88ac128001ac3a9a/clap-2.2.5/src/usage_parser.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/usage_parser.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>usage_parser.rs.html -- source</title>
@@ -1189,6 +1189,73 @@
 <span id="1145">1145</span>
 <span id="1146">1146</span>
 <span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
+<span id="1193">1193</span>
+<span id="1194">1194</span>
+<span id="1195">1195</span>
+<span id="1196">1196</span>
+<span id="1197">1197</span>
+<span id="1198">1198</span>
+<span id="1199">1199</span>
+<span id="1200">1200</span>
+<span id="1201">1201</span>
+<span id="1202">1202</span>
+<span id="1203">1203</span>
+<span id="1204">1204</span>
+<span id="1205">1205</span>
+<span id="1206">1206</span>
+<span id="1207">1207</span>
+<span id="1208">1208</span>
+<span id="1209">1209</span>
+<span id="1210">1210</span>
+<span id="1211">1211</span>
+<span id="1212">1212</span>
+<span id="1213">1213</span>
+<span id="1214">1214</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>vec_map</span>::<span class='ident'>VecMap</span>;
 
@@ -1206,7 +1273,7 @@
     <span class='ident'>Long</span>,
     <span class='ident'>Help</span>,
     <span class='ident'>Multiple</span>,
-    <span class='ident'>Unknown</span>
+    <span class='ident'>Unknown</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
@@ -1216,22 +1283,22 @@
     <span class='ident'>pos</span>: <span class='ident'>usize</span>,
     <span class='ident'>start</span>: <span class='ident'>usize</span>,
     <span class='ident'>prev</span>: <span class='ident'>UsageToken</span>,
-    <span class='ident'>explicit_name_set</span>: <span class='ident'>bool</span>
+    <span class='ident'>explicit_name_set</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>UsageParser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;exec=new; usage={:?}&quot;</span>, <span class='ident'>usage</span>);
         <span class='ident'>UsageParser</span> {
             <span class='ident'>usage</span>: <span class='ident'>usage</span>,
             <span class='ident'>pos</span>: <span class='number'>0</span>,
             <span class='ident'>start</span>: <span class='number'>0</span>,
             <span class='ident'>prev</span>: <span class='ident'>UsageToken</span>::<span class='ident'>Unknown</span>,
-            <span class='ident'>explicit_name_set</span>: <span class='boolval'>false</span>,
+            <span class='ident'>explicit_name_set</span>: <span class='boolvalue'>false</span>,
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_usage</span>(<span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_usage</span>(<span class='ident'>usage</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=from_usage;&quot;</span>);
         <span class='ident'>UsageParser</span>::<span class='ident'>new</span>(<span class='ident'>usage</span>)
     }
@@ -1245,16 +1312,24 @@
             <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>&lt;</span> <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>len</span>() {
                 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='self'>self</span>.<span class='ident'>pos</span>) {
                     <span class='kw'>match</span> <span class='ident'>c</span> {
-                        <span class='string'>&#39;-&#39;</span>  <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>short_or_long</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
-                        <span class='string'>&#39;.&#39;</span>  <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>multiple</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
+                        <span class='string'>&#39;-&#39;</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>short_or_long</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
+                        <span class='string'>&#39;.&#39;</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>multiple</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
                         <span class='string'>&#39;\&#39;&#39;</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>help</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
-                        _    <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
+                        _ <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>arg</span>),
                     }
                 }
-            } <span class='kw'>else</span> { <span class='kw'>break</span>; }
+            } <span class='kw'>else</span> {
+                <span class='kw'>break</span>;
+            }
         }
-        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>arg</span>.<span class='ident'>name</span>.<span class='ident'>is_empty</span>(), <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;No name found for Arg when parsing usage string: {}&quot;</span>, <span class='self'>self</span>.<span class='ident'>usage</span>));
-        <span class='kw'>let</span> <span class='ident'>n_vals</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>arg</span>.<span class='ident'>val_names</span> { <span class='ident'>v</span>.<span class='ident'>len</span>() } <span class='kw'>else</span> { <span class='number'>0</span> };
+        <span class='macro'>debug_assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>arg</span>.<span class='ident'>name</span>.<span class='ident'>is_empty</span>(),
+                      <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;No name found for Arg when parsing usage string: {}&quot;</span>,
+                              <span class='self'>self</span>.<span class='ident'>usage</span>));
+        <span class='kw'>let</span> <span class='ident'>n_vals</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>arg</span>.<span class='ident'>val_names</span> {
+            <span class='ident'>v</span>.<span class='ident'>len</span>()
+        } <span class='kw'>else</span> {
+            <span class='number'>0</span>
+        };
         <span class='kw'>if</span> <span class='ident'>n_vals</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
             <span class='ident'>arg</span>.<span class='ident'>num_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>n_vals</span> <span class='kw'>as</span> <span class='ident'>u64</span>);
         }
@@ -1264,7 +1339,10 @@
 
     <span class='kw'>fn</span> <span class='ident'>name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) {
         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=name;&quot;</span>);
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='self'>self</span>.<span class='ident'>pos</span>).<span class='ident'>expect</span>(<span class='ident'>INTERNAL_ERROR_MSG</span>) <span class='op'>==</span> <span class='string'>&#39;&lt;&#39;</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>explicit_name_set</span> { <span class='ident'>arg</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>); }
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='self'>self</span>.<span class='ident'>pos</span>).<span class='ident'>expect</span>(<span class='ident'>INTERNAL_ERROR_MSG</span>) <span class='op'>==</span> <span class='string'>&#39;&lt;&#39;</span> <span class='op'>&amp;&amp;</span>
+           <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>explicit_name_set</span> {
+            <span class='ident'>arg</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>);
+        }
         <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;
         <span class='self'>self</span>.<span class='ident'>stop_at</span>(<span class='ident'>name_end</span>);
         <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>usage</span>[<span class='self'>self</span>.<span class='ident'>start</span>..<span class='self'>self</span>.<span class='ident'>pos</span>];
@@ -1273,7 +1351,7 @@
             <span class='ident'>arg</span>.<span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>name</span>;
             <span class='kw'>if</span> <span class='ident'>arg</span>.<span class='ident'>long</span>.<span class='ident'>is_none</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>arg</span>.<span class='ident'>short</span>.<span class='ident'>is_none</span>() {
                 <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;explicit name set...&quot;</span>);
-                <span class='self'>self</span>.<span class='ident'>explicit_name_set</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>explicit_name_set</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                 <span class='self'>self</span>.<span class='ident'>prev</span> <span class='op'>=</span> <span class='ident'>UsageToken</span>::<span class='ident'>Name</span>;
             }
         } <span class='kw'>else</span> {
@@ -1291,11 +1369,16 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>stop_at</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>f</span>: <span class='ident'>F</span>) <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='kw'>fn</span> <span class='ident'>stop_at</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>f</span>: <span class='ident'>F</span>)
+        <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+    {
         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=stop_at;&quot;</span>);
         <span class='self'>self</span>.<span class='ident'>start</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pos</span>;
         <span class='kw'>for</span> <span class='ident'>c</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>usage</span>[<span class='self'>self</span>.<span class='ident'>start</span>..].<span class='ident'>chars</span>() {
-            <span class='kw'>if</span> <span class='ident'>f</span>(<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>u32</span>) { <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>; <span class='kw'>continue</span>; }
+            <span class='kw'>if</span> <span class='ident'>f</span>(<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>u32</span>) {
+                <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;
+                <span class='kw'>continue</span>;
+            }
             <span class='kw'>break</span>;
         }
     }
@@ -1349,10 +1432,10 @@
                         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;setting multiple&quot;</span>);
                         <span class='ident'>arg</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>);
                         <span class='self'>self</span>.<span class='ident'>prev</span> <span class='op'>=</span> <span class='ident'>UsageToken</span>::<span class='ident'>Multiple</span>;
-                    <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;
+                        <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;
                         <span class='kw'>break</span>;
                     }
-                },
+                }
                 _ <span class='op'>=&gt;</span> <span class='kw'>break</span>,
             }
         }
@@ -1361,8 +1444,8 @@
     <span class='kw'>fn</span> <span class='ident'>help</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) {
         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;fn=help;&quot;</span>);
         <span class='self'>self</span>.<span class='ident'>stop_at</span>(<span class='ident'>help_start</span>);
-        <span class='self'>self</span>.<span class='ident'>start</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pos</span><span class='op'>+</span><span class='number'>1</span>;
-        <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='number'>1</span>;
+        <span class='self'>self</span>.<span class='ident'>start</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+</span> <span class='number'>1</span>;
+        <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>usage</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>;
         <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;setting help: {}&quot;</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>usage</span>[<span class='self'>self</span>.<span class='ident'>start</span>..<span class='self'>self</span>.<span class='ident'>pos</span>]);
         <span class='ident'>arg</span>.<span class='ident'>help</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>usage</span>[<span class='self'>self</span>.<span class='ident'>start</span>..<span class='self'>self</span>.<span class='ident'>pos</span>]);
         <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;   <span class='comment'>// Move to next byte to keep from thinking ending &#39; is a start</span>
@@ -1385,7 +1468,8 @@
 <span class='attribute'>#[<span class='ident'>inline</span>]</span>
 <span class='kw'>fn</span> <span class='ident'>long_end</span>(<span class='ident'>b</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='comment'>// 39(&#39;), 46(.), 60(&lt;), 61(=), 91([)</span>
-    (<span class='ident'>b</span> <span class='op'>&lt;</span> <span class='number'>39</span> <span class='op'>&amp;&amp;</span> (<span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>13</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>!=</span> <span class='string'>b&#39; &#39;</span> <span class='kw'>as</span> <span class='ident'>u32</span>)) <span class='op'>||</span> <span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>91</span> <span class='op'>||</span> (<span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>61</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>&lt;</span> <span class='number'>91</span>) <span class='op'>||</span> (<span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>39</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>&lt;</span> <span class='number'>60</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>!=</span> <span class='number'>46</span>)
+    (<span class='ident'>b</span> <span class='op'>&lt;</span> <span class='number'>39</span> <span class='op'>&amp;&amp;</span> (<span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>13</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>!=</span> <span class='string'>b&#39; &#39;</span> <span class='kw'>as</span> <span class='ident'>u32</span>)) <span class='op'>||</span> <span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>91</span> <span class='op'>||</span> (<span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>61</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>&lt;</span> <span class='number'>91</span>) <span class='op'>||</span>
+    (<span class='ident'>b</span> <span class='op'>&gt;</span> <span class='number'>39</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>&lt;</span> <span class='number'>60</span> <span class='op'>&amp;&amp;</span> <span class='ident'>b</span> <span class='op'>!=</span> <span class='number'>46</span>)
 }
 
 <span class='attribute'>#[<span class='ident'>inline</span>]</span>
@@ -1524,7 +1608,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1538,7 +1623,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1552,7 +1638,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1566,7 +1653,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1580,7 +1668,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1594,7 +1683,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1608,7 +1698,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1622,7 +1713,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1636,7 +1728,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1650,7 +1743,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1664,7 +1758,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1678,7 +1773,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1692,7 +1788,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1706,7 +1803,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1720,7 +1818,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1734,7 +1833,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1748,7 +1848,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1762,7 +1863,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1776,7 +1878,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1790,7 +1893,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1804,7 +1908,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1818,7 +1923,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1832,7 +1938,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1846,7 +1953,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1860,7 +1968,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1874,7 +1983,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1888,7 +1998,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1902,7 +2013,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1916,7 +2028,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1930,7 +2043,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1944,7 +2058,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1958,7 +2073,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1972,7 +2088,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -1986,7 +2103,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2000,7 +2118,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2014,7 +2133,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2028,7 +2148,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2042,7 +2163,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2056,7 +2178,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2070,7 +2193,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2084,7 +2208,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2098,7 +2223,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2112,7 +2238,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>a</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>a</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2126,7 +2253,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>b</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>b</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2140,7 +2268,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;opt&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;opt&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>c</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2154,7 +2283,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;option&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;option&quot;</span>]);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>is_none</span>());
     }
 
@@ -2168,7 +2298,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>unwrap</span>(), <span class='number'>2</span>);
     }
 
@@ -2182,7 +2313,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>unwrap</span>(), <span class='number'>2</span>);
     }
 
@@ -2196,7 +2328,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>unwrap</span>(), <span class='number'>2</span>);
     }
 
@@ -2210,7 +2343,8 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>));
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>d</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(), [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>val_names</span>.<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(_, <span class='kw-2'>&amp;</span><span class='ident'>v</span>)<span class='op'>|</span> <span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+                   [<span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;mode&quot;</span>]);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>num_vals</span>.<span class='ident'>unwrap</span>(), <span class='number'>2</span>);
     }
 
