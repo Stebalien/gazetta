@@ -69,9 +69,15 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
     _run(&gazetta)
 }
 
-fn _run(render_paths: &RenderPaths) -> ! {
-    let name = env::args().next().unwrap();
-    let matches = App::new(name)
+pub fn gen_completions<P: AsRef<Path>>(name: &str, directory: P) {
+    let directory = directory.as_ref();
+    let mut app = build_argparser(name);
+    app.gen_completions(name, clap::Shell::Bash, directory);
+}
+
+/// Build the argument parser.
+fn build_argparser(name: &str) -> App {
+    App::new(name)
         .version(env!("CARGO_PKG_VERSION"))
         .arg(Arg::with_name("SOURCE")
              .short("s")
@@ -101,8 +107,13 @@ fn _run(render_paths: &RenderPaths) -> ! {
                     .arg(Arg::with_name("TITLE")
                          .required(true)
                          .index(2)
-                         .help("The page title"))).get_matches();
+                         .help("The page title")))
 
+}
+
+fn _run(render_paths: &RenderPaths) -> ! {
+    let name = env::args().next().unwrap();
+    let matches = build_argparser(&name).get_matches();
     let source_path: Cow<Path> = matches.value_of("SOURCE").map(|v|Cow::Borrowed(v.as_ref())).unwrap_or_else(|| {
         let mut path = PathBuf::new();
         path.push(".");
