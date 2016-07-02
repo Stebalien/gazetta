@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/app/settings.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/app/settings.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>settings.rs.html -- source</title>
@@ -590,35 +590,151 @@
 <span id="546">546</span>
 <span id="547">547</span>
 <span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
     <span class='ident'>flags</span> <span class='ident'>Flags</span>: <span class='ident'>u32</span> {
-        <span class='kw'>const</span> <span class='ident'>SC_NEGATE_REQS</span>       <span class='op'>=</span> <span class='number'>0b00000000000000000000001</span>,
-        <span class='kw'>const</span> <span class='ident'>SC_REQUIRED</span>          <span class='op'>=</span> <span class='number'>0b00000000000000000000010</span>,
-        <span class='kw'>const</span> <span class='ident'>A_REQUIRED_ELSE_HELP</span> <span class='op'>=</span> <span class='number'>0b00000000000000000000100</span>,
-        <span class='kw'>const</span> <span class='ident'>GLOBAL_VERSION</span>       <span class='op'>=</span> <span class='number'>0b00000000000000000001000</span>,
-        <span class='kw'>const</span> <span class='ident'>VERSIONLESS_SC</span>       <span class='op'>=</span> <span class='number'>0b00000000000000000010000</span>,
-        <span class='kw'>const</span> <span class='ident'>UNIFIED_HELP</span>         <span class='op'>=</span> <span class='number'>0b00000000000000000100000</span>,
-        <span class='kw'>const</span> <span class='ident'>WAIT_ON_ERROR</span>        <span class='op'>=</span> <span class='number'>0b00000000000000001000000</span>,
-        <span class='kw'>const</span> <span class='ident'>SC_REQUIRED_ELSE_HELP</span><span class='op'>=</span> <span class='number'>0b00000000000000010000000</span>,
-        <span class='kw'>const</span> <span class='ident'>NEEDS_LONG_HELP</span>      <span class='op'>=</span> <span class='number'>0b00000000000000100000000</span>,
-        <span class='kw'>const</span> <span class='ident'>NEEDS_LONG_VERSION</span>   <span class='op'>=</span> <span class='number'>0b00000000000001000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>NEEDS_SC_HELP</span>        <span class='op'>=</span> <span class='number'>0b00000000000010000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>DISABLE_VERSION</span>      <span class='op'>=</span> <span class='number'>0b00000000000100000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>HIDDEN</span>               <span class='op'>=</span> <span class='number'>0b00000000001000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>TRAILING_VARARG</span>      <span class='op'>=</span> <span class='number'>0b00000000010000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>NO_BIN_NAME</span>          <span class='op'>=</span> <span class='number'>0b00000000100000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>ALLOW_UNK_SC</span>         <span class='op'>=</span> <span class='number'>0b00000001000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>UTF8_STRICT</span>          <span class='op'>=</span> <span class='number'>0b00000010000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>UTF8_NONE</span>            <span class='op'>=</span> <span class='number'>0b00000100000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>LEADING_HYPHEN</span>       <span class='op'>=</span> <span class='number'>0b00001000000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>NO_POS_VALUES</span>        <span class='op'>=</span> <span class='number'>0b00010000000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>NEXT_LINE_HELP</span>       <span class='op'>=</span> <span class='number'>0b00100000000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>DERIVE_DISP_ORDER</span>    <span class='op'>=</span> <span class='number'>0b01000000000000000000000</span>,
-        <span class='kw'>const</span> <span class='ident'>COLORED_HELP</span>         <span class='op'>=</span> <span class='number'>0b10000000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>SC_NEGATE_REQS</span>       <span class='op'>=</span> <span class='number'>0b000000000000000000000000001</span>,
+        <span class='kw'>const</span> <span class='ident'>SC_REQUIRED</span>          <span class='op'>=</span> <span class='number'>0b000000000000000000000000010</span>,
+        <span class='kw'>const</span> <span class='ident'>A_REQUIRED_ELSE_HELP</span> <span class='op'>=</span> <span class='number'>0b000000000000000000000000100</span>,
+        <span class='kw'>const</span> <span class='ident'>GLOBAL_VERSION</span>       <span class='op'>=</span> <span class='number'>0b000000000000000000000001000</span>,
+        <span class='kw'>const</span> <span class='ident'>VERSIONLESS_SC</span>       <span class='op'>=</span> <span class='number'>0b000000000000000000000010000</span>,
+        <span class='kw'>const</span> <span class='ident'>UNIFIED_HELP</span>         <span class='op'>=</span> <span class='number'>0b000000000000000000000100000</span>,
+        <span class='kw'>const</span> <span class='ident'>WAIT_ON_ERROR</span>        <span class='op'>=</span> <span class='number'>0b000000000000000000001000000</span>,
+        <span class='kw'>const</span> <span class='ident'>SC_REQUIRED_ELSE_HELP</span><span class='op'>=</span> <span class='number'>0b000000000000000000010000000</span>,
+        <span class='kw'>const</span> <span class='ident'>NEEDS_LONG_HELP</span>      <span class='op'>=</span> <span class='number'>0b000000000000000000100000000</span>,
+        <span class='kw'>const</span> <span class='ident'>NEEDS_LONG_VERSION</span>   <span class='op'>=</span> <span class='number'>0b000000000000000001000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>NEEDS_SC_HELP</span>        <span class='op'>=</span> <span class='number'>0b000000000000000010000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>DISABLE_VERSION</span>      <span class='op'>=</span> <span class='number'>0b000000000000000100000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>HIDDEN</span>               <span class='op'>=</span> <span class='number'>0b000000000000001000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>TRAILING_VARARG</span>      <span class='op'>=</span> <span class='number'>0b000000000000010000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>NO_BIN_NAME</span>          <span class='op'>=</span> <span class='number'>0b000000000000100000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>ALLOW_UNK_SC</span>         <span class='op'>=</span> <span class='number'>0b000000000001000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>UTF8_STRICT</span>          <span class='op'>=</span> <span class='number'>0b000000000010000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>UTF8_NONE</span>            <span class='op'>=</span> <span class='number'>0b000000000100000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>LEADING_HYPHEN</span>       <span class='op'>=</span> <span class='number'>0b000000001000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>NO_POS_VALUES</span>        <span class='op'>=</span> <span class='number'>0b000000010000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>NEXT_LINE_HELP</span>       <span class='op'>=</span> <span class='number'>0b000000100000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>DERIVE_DISP_ORDER</span>    <span class='op'>=</span> <span class='number'>0b000001000000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>COLORED_HELP</span>         <span class='op'>=</span> <span class='number'>0b000010000000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>COLOR_ALWAYS</span>         <span class='op'>=</span> <span class='number'>0b000100000000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>COLOR_AUTO</span>           <span class='op'>=</span> <span class='number'>0b001000000000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>COLOR_NEVER</span>          <span class='op'>=</span> <span class='number'>0b010000000000000000000000000</span>,
+        <span class='kw'>const</span> <span class='ident'>DONT_DELIM_TRAIL</span>     <span class='op'>=</span> <span class='number'>0b100000000000000000000000000</span>,
     }
 }
 
@@ -634,7 +750,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>Default</span> <span class='kw'>for</span> <span class='ident'>AppFlags</span> {
     <span class='kw'>fn</span> <span class='ident'>default</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>AppFlags</span>(<span class='ident'>NEEDS_LONG_VERSION</span> <span class='op'>|</span> <span class='ident'>NEEDS_LONG_HELP</span> <span class='op'>|</span> <span class='ident'>NEEDS_SC_HELP</span> <span class='op'>|</span> <span class='ident'>UTF8_NONE</span>)
+        <span class='ident'>AppFlags</span>(<span class='ident'>NEEDS_LONG_VERSION</span> <span class='op'>|</span> <span class='ident'>NEEDS_LONG_HELP</span> <span class='op'>|</span> <span class='ident'>NEEDS_SC_HELP</span> <span class='op'>|</span> <span class='ident'>UTF8_NONE</span> <span class='op'>|</span> <span class='ident'>COLOR_AUTO</span>)
     }
 }
 
@@ -666,20 +782,26 @@
         <span class='ident'>HidePossibleValuesInHelp</span> <span class='op'>=&gt;</span> <span class='ident'>NO_POS_VALUES</span>,
         <span class='ident'>NextLineHelp</span> <span class='op'>=&gt;</span> <span class='ident'>NEXT_LINE_HELP</span>,
         <span class='ident'>ColoredHelp</span> <span class='op'>=&gt;</span> <span class='ident'>COLORED_HELP</span>,
-        <span class='ident'>DeriveDisplayOrder</span> <span class='op'>=&gt;</span> <span class='ident'>DERIVE_DISP_ORDER</span>
+        <span class='ident'>DeriveDisplayOrder</span> <span class='op'>=&gt;</span> <span class='ident'>DERIVE_DISP_ORDER</span>,
+        <span class='ident'>ColorAlways</span> <span class='op'>=&gt;</span> <span class='ident'>COLOR_ALWAYS</span>,
+        <span class='ident'>ColorAuto</span> <span class='op'>=&gt;</span> <span class='ident'>COLOR_AUTO</span>,
+        <span class='ident'>ColorNever</span> <span class='op'>=&gt;</span> <span class='ident'>COLOR_NEVER</span>,
+        <span class='ident'>DontDelimitTrailingValues</span> <span class='op'>=&gt;</span> <span class='ident'>DONT_DELIM_TRAIL</span>
     }
 }
 
-<span class='doccomment'>/// Application level settings, which affect how `App` operates</span>
+<span class='doccomment'>/// Application level settings, which affect how [`App`] operates</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// **NOTE:** When these settings are used, they apply only to current command, and are *not*</span>
 <span class='doccomment'>/// propagated down or up through child or parent subcommands</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// [`App`]: ./struct.App.html</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AppSettings</span> {
-    <span class='doccomment'>/// Allows subcommands to override all requirements of the parent command. For example</span>
-    <span class='doccomment'>/// if you had a subcommand or top level application which had a required argument that</span>
-    <span class='doccomment'>/// are only required as long as there is no subcommand present, using this setting would allow</span>
-    <span class='doccomment'>/// you set those arguments to `required(true)` and yet receive no error so long as the user</span>
+    <span class='doccomment'>/// Allows [`SubCommand`]s to override all requirements of the parent command. For example if you</span>
+    <span class='doccomment'>/// had a subcommand or top level application which had a required argument that are only</span>
+    <span class='doccomment'>/// required as long as there is no subcommand present, using this setting would allow you set</span>
+    <span class='doccomment'>/// those arguments to [`Arg::required(true)`] and yet receive no error so long as the user</span>
     <span class='doccomment'>/// uses a valid subcommand instead.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** This defaults to false (using subcommand does *not* negate requirements)</span>
@@ -717,10 +839,13 @@
     <span class='doccomment'>/// assert!(noerr.is_ok());</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::required(true)`]: ./struct.Arg.html#method.required</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>SubcommandsNegateReqs</span>,
-    <span class='doccomment'>/// Allows specifying that if no subcommand is present at runtime, error and exit gracefully</span>
+    <span class='doccomment'>/// Allows specifying that if no [`SubCommand`] is present at runtime, error and exit</span>
+    <span class='doccomment'>/// gracefully</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This defaults to false (subcommands do *not* need to be present)</span>
+    <span class='doccomment'>/// **NOTE:** This defaults to `false` (subcommands do *not* need to be present)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -736,11 +861,12 @@
     <span class='doccomment'>/// assert_eq!(err.unwrap_err().kind, ErrorKind::MissingSubcommand);</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>SubcommandRequired</span>,
     <span class='doccomment'>/// Specifies that the help text should be displayed (and then exit gracefully), if no</span>
     <span class='doccomment'>/// arguments are present at runtime (i.e. an empty run such as, `$ myprog`.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Subcommands count as arguments</span>
+    <span class='doccomment'>/// **NOTE:** [`SubCommand`]s count as arguments</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -750,9 +876,10 @@
     <span class='doccomment'>///     .setting(AppSettings::ArgRequiredElseHelp)</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>ArgRequiredElseHelp</span>,
-    <span class='doccomment'>/// Specifies to version of the current command for all child subcommands. (Defaults to false;</span>
-    <span class='doccomment'>/// subcommands have independant version strings from their parents)</span>
+    <span class='doccomment'>/// Specifies to use the version of the current command for all child [`SubCommand`]. (Defaults</span>
+    <span class='doccomment'>/// to `false`; subcommands have independant version strings from their parents)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** The version for the current command **and** this setting must be set **prior** to</span>
     <span class='doccomment'>/// adding any child subcommands</span>
@@ -769,9 +896,10 @@
     <span class='doccomment'>/// // running `$ myprog test --version` will display</span>
     <span class='doccomment'>/// // &quot;myprog-test v1.1&quot;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>GlobalVersion</span>,
-    <span class='doccomment'>/// Disables `-V` and `--version` for all subcommands (Defaults to false; subcommands have</span>
-    <span class='doccomment'>/// version flags)</span>
+    <span class='doccomment'>/// Disables `-V` and `--version` for all [`SubCommand`]s (Defaults to `false`; subcommands</span>
+    <span class='doccomment'>/// *do* have version flags)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** This setting must be set **prior** adding any subcommands</span>
     <span class='doccomment'>///</span>
@@ -789,9 +917,12 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::UnknownArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>VersionlessSubcommands</span>,
     <span class='doccomment'>/// Groups flags and options together presenting a more unified help message (a la `getopts` or</span>
-    <span class='doccomment'>/// `docopt` style). The default is the auto-generated help message groups flags, options</span>
+    <span class='doccomment'>/// `docopt` style).</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// The default is that the auto-generated help message will group flags, and options</span>
     <span class='doccomment'>/// separately.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** This setting is cosmetic only and does not affect any functionality.</span>
@@ -806,14 +937,14 @@
     <span class='doccomment'>/// // running `myprog --help` will display a unified &quot;docopt&quot; or &quot;getopts&quot; style help message</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>UnifiedHelpMessage</span>,
-    <span class='doccomment'>/// Will display a message &quot;Press [ENTER]/[RETURN] to continue...&quot; and wait user before</span>
+    <span class='doccomment'>/// Will display a message &quot;Press [ENTER]/[RETURN] to continue...&quot; and wait for user before</span>
     <span class='doccomment'>/// exiting</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This is most useful when writing an application which is run from a GUI shortcut, or on</span>
     <span class='doccomment'>/// Windows where a user tries to open the binary by double-clicking instead of using the</span>
     <span class='doccomment'>/// command line.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This setting is **not** recursive with subcommands, meaning if you wish this</span>
+    <span class='doccomment'>/// **NOTE:** This setting is **not** recursive with [`SubCommand`]s, meaning if you wish this</span>
     <span class='doccomment'>/// behavior for all subcommands, you must set this on each command (needing this is extremely</span>
     <span class='doccomment'>/// rare)</span>
     <span class='doccomment'>///</span>
@@ -825,16 +956,17 @@
     <span class='doccomment'>///     .setting(AppSettings::WaitOnError)</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>WaitOnError</span>,
     <span class='doccomment'>/// Specifies that the help text should be displayed (and then exit gracefully), if no</span>
-    <span class='doccomment'>/// subcommands are present at runtime (i.e. an empty run such as, `$ myprog`.</span>
+    <span class='doccomment'>/// [`SubCommand`]s are present at runtime (i.e. an empty run such as, `$ myprog`.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This should *not* be used with `.subcommand_required()` as they do the same</span>
-    <span class='doccomment'>/// thing, except this prints the help text, and the other prints an error.</span>
+    <span class='doccomment'>/// **NOTE:** This should *not* be used with [`AppSettings::SubcommandRequired`] as they do</span>
+    <span class='doccomment'>/// nearly same thing; this prints the help text, and the other prints an error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** If the user specifies arguments at runtime, but no subcommand the help text will</span>
     <span class='doccomment'>/// still be displayed and exit. If this is *not* the desired result, consider using</span>
-    <span class='doccomment'>/// `ArgRequiredElseHelp` instead.</span>
+    <span class='doccomment'>/// [`AppSettings::ArgRequiredElseHelp`] instead.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -844,8 +976,11 @@
     <span class='doccomment'>///     .setting(AppSettings::SubcommandRequiredElseHelp)</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [`AppSettings::SubcommandRequired`]: ./enum.AppSettings.html#variant.SubcommandRequired</span>
+    <span class='doccomment'>/// [`AppSettings::ArgRequiredElseHelp`]: ./enum.AppSettings.html#variant.ArgRequiredElseHelp</span>
     <span class='ident'>SubcommandRequiredElseHelp</span>,
-    <span class='doccomment'>/// Specifies that this subcommand should be hidden from help messages</span>
+    <span class='doccomment'>/// Specifies that this [`SubCommand`] should be hidden from help messages</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -856,14 +991,15 @@
     <span class='doccomment'>///     .setting(AppSettings::Hidden))</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>Hidden</span>,
     <span class='doccomment'>/// Specifies that the final positional argument is a &quot;VarArg&quot; and that `clap` should not</span>
     <span class='doccomment'>/// attempt to parse any further args.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The values of the trailing positional argument will contain all args from itself on.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** The final positional argument **must** have `.multiple(true)` or the usage string</span>
-    <span class='doccomment'>/// equivalent.</span>
+    <span class='doccomment'>/// **NOTE:** The final positional argument **must** have [`Arg::multiple(true)`] or the usage</span>
+    <span class='doccomment'>/// string equivalent.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -877,6 +1013,7 @@
     <span class='doccomment'>/// let trail: Vec&lt;&amp;str&gt; = m.values_of(&quot;cmd&quot;).unwrap().collect();</span>
     <span class='doccomment'>/// assert_eq!(trail, [&quot;arg1&quot;, &quot;-r&quot;, &quot;val1&quot;]);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='ident'>TrailingVarArg</span>,
     <span class='doccomment'>/// Specifies that the parser should not assume the first argument passed is the binary name.</span>
     <span class='doccomment'>/// This is normally the case when using a &quot;daemon&quot; style mode, or an interactive CLI where one</span>
@@ -895,13 +1032,14 @@
     <span class='doccomment'>/// assert_eq!(cmds, [&quot;command&quot;, &quot;set&quot;]);</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>NoBinaryName</span>,
-    <span class='doccomment'>/// Specifies that an unexpected argument positional arguments which would otherwise cause a</span>
-    <span class='doccomment'>/// `ErrorKind::UnknownArgument` error, should instead be treated as a subcommand in the</span>
-    <span class='doccomment'>/// `ArgMatches` struct.</span>
+    <span class='doccomment'>/// Specifies that an unexpected positional argument, which would otherwise cause a</span>
+    <span class='doccomment'>/// [`ErrorKind::UnknownArgument`] error, should instead be treated as a [`SubCommand`] within</span>
+    <span class='doccomment'>/// the [`ArgMatches`] struct.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Use this setting with caution, as a truly unexpected argument (i.e. one that is</span>
-    <span class='doccomment'>/// *NOT* an external subcommand) will not cause an error and instead be treatd as a potential</span>
-    <span class='doccomment'>/// subcommand. You shoud inform the user appropriatly.</span>
+    <span class='doccomment'>/// *NOT* an external subcommand) will **not** cause an error and instead be treated as a</span>
+    <span class='doccomment'>/// potential subcommand. One should check for such cases manually and inform the user</span>
+    <span class='doccomment'>/// appropriately.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -924,12 +1062,15 @@
     <span class='doccomment'>///     _ =&gt; {},</span>
     <span class='doccomment'>/// }</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`ErrorKind::UnknownArgument`]: ./enum.ErrorKind.html#variant.UnknownArgument</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [`ArgMatches`]: ./struct.ArgMatches.html</span>
     <span class='ident'>AllowExternalSubcommands</span>,
     <span class='doccomment'>/// Specifies that any invalid UTF-8 code points should be treated as an error and fail</span>
-    <span class='doccomment'>/// with a `ErrorKind::InvalidUtf8` error.</span>
+    <span class='doccomment'>/// with a [`ErrorKind::InvalidUtf8`] error.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This rule only applies to argument values, as flags, options, and subcommands</span>
-    <span class='doccomment'>/// themselves only allow valid UTF-8 code points.</span>
+    <span class='doccomment'>/// **NOTE:** This rule only applies to argument values. Things such as flags, options, and</span>
+    <span class='doccomment'>/// [`SubCommand`]s themselves only allow valid UTF-8 code points.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Platform Specific</span>
     <span class='doccomment'>///</span>
@@ -953,16 +1094,19 @@
     <span class='doccomment'>/// assert_eq!(m.unwrap_err().kind, ErrorKind::InvalidUtf8);</span>
     <span class='doccomment'>/// }</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [`ErrorKind::InvalidUtf8`]: ./enum.ErrorKind.html#variant.InvalidUtf8</span>
     <span class='ident'>StrictUtf8</span>,
     <span class='doccomment'>/// Specifies that any invalid UTF-8 code points should *not* be treated as an error. This is</span>
     <span class='doccomment'>/// the default behavior of `clap`</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Using argument values with invalid UTF-8 code points requires using Either</span>
-    <span class='doccomment'>/// `ArgMatches::os_value(s)_of` or `ArgMatches::lossy_value(s)_of` for those particular</span>
-    <span class='doccomment'>/// arguments which may contain invalid UTF-8 values</span>
+    <span class='doccomment'>/// **NOTE:** Using argument values with invalid UTF-8 code points requires using</span>
+    <span class='doccomment'>/// [`ArgMatches::os_value_of`], [`ArgMatches::os_values_of`], [`ArgMatches::lossy_value_of`],</span>
+    <span class='doccomment'>/// or [`ArgMatches::lossy_values_of`] for those particular arguments which may contain invalid</span>
+    <span class='doccomment'>/// UTF-8 values</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This rule only applies to  argument values, as flags, options, and subcommands</span>
-    <span class='doccomment'>/// themselves only allow valid UTF-8 code points.</span>
+    <span class='doccomment'>/// **NOTE:** This rule only applies to  argument values, as flags, options, and</span>
+    <span class='doccomment'>/// [`SubCommand`]s themselves only allow valid UTF-8 code points.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Platform Specific</span>
     <span class='doccomment'>///</span>
@@ -987,9 +1131,13 @@
     <span class='doccomment'>/// let m = r.unwrap();</span>
     <span class='doccomment'>/// assert_eq!(m.value_of_os(&quot;arg&quot;).unwrap().as_bytes(), &amp;[0xe9]);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`ArgMatches::os_value_of`]: ./struct.ArgMatches.html#method.os_value_of</span>
+    <span class='doccomment'>/// [`ArgMatches::os_values_of`]: ./struct.ArgMatches.html#method.os_values_of</span>
+    <span class='doccomment'>/// [`ArgMatches::lossy_value_of`]: ./struct.ArgMatches.html#method.lossy_value_of</span>
+    <span class='doccomment'>/// [`ArgMatches::lossy_values_of`]: ./struct.ArgMatches.html#method.lossy_values_of</span>
     <span class='ident'>AllowInvalidUtf8</span>,
     <span class='doccomment'>/// Specifies that leading hyphens are allowed in argument *values*, such as negative numbers</span>
-    <span class='doccomment'>/// `-10`</span>
+    <span class='doccomment'>/// `-10` (which would otherwise be parsed as another flag or option)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** This can only be set application wide and not on a per argument basis.</span>
     <span class='doccomment'>///</span>
@@ -1018,8 +1166,6 @@
     <span class='ident'>HidePossibleValuesInHelp</span>,
     <span class='doccomment'>/// Places the help string for all arguments on the line after the argument</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This setting is cosmetic only and does not affect any functionality.</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```no_run</span>
@@ -1029,7 +1175,7 @@
     <span class='doccomment'>///     .get_matches();</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>NextLineHelp</span>,
-    <span class='doccomment'>/// Displays the arguments and subcommands in the help message in the order that they were</span>
+    <span class='doccomment'>/// Displays the arguments and [`SubCommand`]s in the help message in the order that they were</span>
     <span class='doccomment'>/// declared in, vice alphabetically which is the default.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
@@ -1040,6 +1186,7 @@
     <span class='doccomment'>///     .setting(AppSettings::DeriveDisplayOrder)</span>
     <span class='doccomment'>///     .get_matches();</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
     <span class='ident'>DeriveDisplayOrder</span>,
     <span class='doccomment'>/// Uses colorized help messages.</span>
     <span class='doccomment'>///</span>
@@ -1058,6 +1205,77 @@
     <span class='doccomment'>///     .get_matches();</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>ColoredHelp</span>,
+    <span class='doccomment'>/// Enables colored output only when the output is going to a terminal or TTY.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** This is the default behavior of `clap`</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** Must be compiled with the `color` cargo feature</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Platform Specific</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This setting only applies to Unix, Linux, and OSX (i.e. non-Windows platforms)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```no_run</span>
+    <span class='doccomment'>/// # use clap::{App, Arg, SubCommand, AppSettings};</span>
+    <span class='doccomment'>/// App::new(&quot;myprog&quot;)</span>
+    <span class='doccomment'>///     .setting(AppSettings::ColorAuto)</span>
+    <span class='doccomment'>///     .get_matches();</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='ident'>ColorAuto</span>,
+    <span class='doccomment'>/// Enables colored output regardless of whether or not the output is going to a terminal/TTY.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** Must be compiled with the `color` cargo feature</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Platform Specific</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This setting only applies to Unix, Linux, and OSX (i.e. non-Windows platforms)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```no_run</span>
+    <span class='doccomment'>/// # use clap::{App, Arg, SubCommand, AppSettings};</span>
+    <span class='doccomment'>/// App::new(&quot;myprog&quot;)</span>
+    <span class='doccomment'>///     .setting(AppSettings::ColorAlways)</span>
+    <span class='doccomment'>///     .get_matches();</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='ident'>ColorAlways</span>,
+    <span class='doccomment'>/// Disables colored output no matter if the output is going to a terminal/TTY, or not.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** Must be compiled with the `color` cargo feature</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Platform Specific</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// This setting only applies to Unix, Linux, and OSX (i.e. non-Windows platforms)</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```no_run</span>
+    <span class='doccomment'>/// # use clap::{App, Arg, SubCommand, AppSettings};</span>
+    <span class='doccomment'>/// App::new(&quot;myprog&quot;)</span>
+    <span class='doccomment'>///     .setting(AppSettings::ColorNever)</span>
+    <span class='doccomment'>///     .get_matches();</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='ident'>ColorNever</span>,
+    <span class='doccomment'>/// Disables the automatic delimiting of values when `--` or [`AppSettings::TrailingVarArg`]</span>
+    <span class='doccomment'>/// was used.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** The same thing can be done manually by setting the final positional argument to</span>
+    <span class='doccomment'>/// [`Arg::use_delimiter(false)`]. Using this setting is safer, because it&#39;s easier to locate</span>
+    <span class='doccomment'>/// when making changes.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```no_run</span>
+    <span class='doccomment'>/// # use clap::{App, Arg, SubCommand, AppSettings};</span>
+    <span class='doccomment'>/// App::new(&quot;myprog&quot;)</span>
+    <span class='doccomment'>///     .setting(AppSettings::DontDelimitTrailingValues)</span>
+    <span class='doccomment'>///     .get_matches();</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`AppSettings::TrailingVarArg`]: ./enum.AppSettings.html#variant.TrailingVarArg</span>
+    <span class='doccomment'>/// [`Arg::use_delimiter(false)`]: ./struct.Arg.html#method.use_delimiter</span>
+    <span class='ident'>DontDelimitTrailingValues</span>,
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
     <span class='ident'>NeedsLongVersion</span>,
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
@@ -1091,6 +1309,10 @@
             <span class='string'>&quot;nextlinehelp&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>NextLineHelp</span>),
             <span class='string'>&quot;derivedisplayorder&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>DeriveDisplayOrder</span>),
             <span class='string'>&quot;coloredhelp&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>ColoredHelp</span>),
+            <span class='string'>&quot;dontdelimittrailingvalues&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>DontDelimitTrailingValues</span>),
+            <span class='string'>&quot;colorauto&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>ColorAuto</span>),
+            <span class='string'>&quot;coloralways&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>ColorAlways</span>),
+            <span class='string'>&quot;colornever&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>ColorNever</span>),
             _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;unknown AppSetting, cannot convert from str&quot;</span>.<span class='ident'>to_owned</span>()),
         }
     }
@@ -1136,6 +1358,8 @@
                    <span class='ident'>AppSettings</span>::<span class='ident'>ColoredHelp</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;hidden&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
                    <span class='ident'>AppSettings</span>::<span class='ident'>Hidden</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;dontdelimittrailingvalues&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
+                    <span class='ident'>AppSettings</span>::<span class='ident'>DontDelimitTrailingValues</span>);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='string'>&quot;hahahaha&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>is_err</span>());
     }
 }
@@ -1163,6 +1387,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

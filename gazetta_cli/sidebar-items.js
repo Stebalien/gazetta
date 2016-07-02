@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["run","Run the CLI."]]});
+initSidebarItems({"fn":[["gen_completions",""],["run","Run the CLI."]]});

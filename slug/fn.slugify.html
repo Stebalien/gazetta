@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-7' class='srclink' href='../src/slug/lib.rs.html#20-71' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn slugify&lt;S: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;&gt;(s: S) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></pre><div class='docblock'><p>Convert any unicode string to an ascii &quot;slug&quot; (useful for file names/url components)</p>
+<pre class='rust fn'>pub fn slugify&lt;S:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;&gt;(s: S) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></pre><div class='docblock'><p>Convert any unicode string to an ascii &quot;slug&quot; (useful for file names/url components)</p>
 
 <p>The returned &quot;slug&quot; will consist of a-z, 0-9, and &#39;-&#39;. Furthermore, a slug will
 never contain more than one &#39;-&#39; in a row and will never start or end with &#39;-&#39;.</p>
@@ -85,6 +85,8 @@ never contain more than one &#39;-&#39; in a row and will never start or end wit
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/args/arg.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/args/arg.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg.rs.html -- source</title>
@@ -2231,6 +2231,225 @@
 <span id="2187">2187</span>
 <span id="2188">2188</span>
 <span id="2189">2189</span>
+<span id="2190">2190</span>
+<span id="2191">2191</span>
+<span id="2192">2192</span>
+<span id="2193">2193</span>
+<span id="2194">2194</span>
+<span id="2195">2195</span>
+<span id="2196">2196</span>
+<span id="2197">2197</span>
+<span id="2198">2198</span>
+<span id="2199">2199</span>
+<span id="2200">2200</span>
+<span id="2201">2201</span>
+<span id="2202">2202</span>
+<span id="2203">2203</span>
+<span id="2204">2204</span>
+<span id="2205">2205</span>
+<span id="2206">2206</span>
+<span id="2207">2207</span>
+<span id="2208">2208</span>
+<span id="2209">2209</span>
+<span id="2210">2210</span>
+<span id="2211">2211</span>
+<span id="2212">2212</span>
+<span id="2213">2213</span>
+<span id="2214">2214</span>
+<span id="2215">2215</span>
+<span id="2216">2216</span>
+<span id="2217">2217</span>
+<span id="2218">2218</span>
+<span id="2219">2219</span>
+<span id="2220">2220</span>
+<span id="2221">2221</span>
+<span id="2222">2222</span>
+<span id="2223">2223</span>
+<span id="2224">2224</span>
+<span id="2225">2225</span>
+<span id="2226">2226</span>
+<span id="2227">2227</span>
+<span id="2228">2228</span>
+<span id="2229">2229</span>
+<span id="2230">2230</span>
+<span id="2231">2231</span>
+<span id="2232">2232</span>
+<span id="2233">2233</span>
+<span id="2234">2234</span>
+<span id="2235">2235</span>
+<span id="2236">2236</span>
+<span id="2237">2237</span>
+<span id="2238">2238</span>
+<span id="2239">2239</span>
+<span id="2240">2240</span>
+<span id="2241">2241</span>
+<span id="2242">2242</span>
+<span id="2243">2243</span>
+<span id="2244">2244</span>
+<span id="2245">2245</span>
+<span id="2246">2246</span>
+<span id="2247">2247</span>
+<span id="2248">2248</span>
+<span id="2249">2249</span>
+<span id="2250">2250</span>
+<span id="2251">2251</span>
+<span id="2252">2252</span>
+<span id="2253">2253</span>
+<span id="2254">2254</span>
+<span id="2255">2255</span>
+<span id="2256">2256</span>
+<span id="2257">2257</span>
+<span id="2258">2258</span>
+<span id="2259">2259</span>
+<span id="2260">2260</span>
+<span id="2261">2261</span>
+<span id="2262">2262</span>
+<span id="2263">2263</span>
+<span id="2264">2264</span>
+<span id="2265">2265</span>
+<span id="2266">2266</span>
+<span id="2267">2267</span>
+<span id="2268">2268</span>
+<span id="2269">2269</span>
+<span id="2270">2270</span>
+<span id="2271">2271</span>
+<span id="2272">2272</span>
+<span id="2273">2273</span>
+<span id="2274">2274</span>
+<span id="2275">2275</span>
+<span id="2276">2276</span>
+<span id="2277">2277</span>
+<span id="2278">2278</span>
+<span id="2279">2279</span>
+<span id="2280">2280</span>
+<span id="2281">2281</span>
+<span id="2282">2282</span>
+<span id="2283">2283</span>
+<span id="2284">2284</span>
+<span id="2285">2285</span>
+<span id="2286">2286</span>
+<span id="2287">2287</span>
+<span id="2288">2288</span>
+<span id="2289">2289</span>
+<span id="2290">2290</span>
+<span id="2291">2291</span>
+<span id="2292">2292</span>
+<span id="2293">2293</span>
+<span id="2294">2294</span>
+<span id="2295">2295</span>
+<span id="2296">2296</span>
+<span id="2297">2297</span>
+<span id="2298">2298</span>
+<span id="2299">2299</span>
+<span id="2300">2300</span>
+<span id="2301">2301</span>
+<span id="2302">2302</span>
+<span id="2303">2303</span>
+<span id="2304">2304</span>
+<span id="2305">2305</span>
+<span id="2306">2306</span>
+<span id="2307">2307</span>
+<span id="2308">2308</span>
+<span id="2309">2309</span>
+<span id="2310">2310</span>
+<span id="2311">2311</span>
+<span id="2312">2312</span>
+<span id="2313">2313</span>
+<span id="2314">2314</span>
+<span id="2315">2315</span>
+<span id="2316">2316</span>
+<span id="2317">2317</span>
+<span id="2318">2318</span>
+<span id="2319">2319</span>
+<span id="2320">2320</span>
+<span id="2321">2321</span>
+<span id="2322">2322</span>
+<span id="2323">2323</span>
+<span id="2324">2324</span>
+<span id="2325">2325</span>
+<span id="2326">2326</span>
+<span id="2327">2327</span>
+<span id="2328">2328</span>
+<span id="2329">2329</span>
+<span id="2330">2330</span>
+<span id="2331">2331</span>
+<span id="2332">2332</span>
+<span id="2333">2333</span>
+<span id="2334">2334</span>
+<span id="2335">2335</span>
+<span id="2336">2336</span>
+<span id="2337">2337</span>
+<span id="2338">2338</span>
+<span id="2339">2339</span>
+<span id="2340">2340</span>
+<span id="2341">2341</span>
+<span id="2342">2342</span>
+<span id="2343">2343</span>
+<span id="2344">2344</span>
+<span id="2345">2345</span>
+<span id="2346">2346</span>
+<span id="2347">2347</span>
+<span id="2348">2348</span>
+<span id="2349">2349</span>
+<span id="2350">2350</span>
+<span id="2351">2351</span>
+<span id="2352">2352</span>
+<span id="2353">2353</span>
+<span id="2354">2354</span>
+<span id="2355">2355</span>
+<span id="2356">2356</span>
+<span id="2357">2357</span>
+<span id="2358">2358</span>
+<span id="2359">2359</span>
+<span id="2360">2360</span>
+<span id="2361">2361</span>
+<span id="2362">2362</span>
+<span id="2363">2363</span>
+<span id="2364">2364</span>
+<span id="2365">2365</span>
+<span id="2366">2366</span>
+<span id="2367">2367</span>
+<span id="2368">2368</span>
+<span id="2369">2369</span>
+<span id="2370">2370</span>
+<span id="2371">2371</span>
+<span id="2372">2372</span>
+<span id="2373">2373</span>
+<span id="2374">2374</span>
+<span id="2375">2375</span>
+<span id="2376">2376</span>
+<span id="2377">2377</span>
+<span id="2378">2378</span>
+<span id="2379">2379</span>
+<span id="2380">2380</span>
+<span id="2381">2381</span>
+<span id="2382">2382</span>
+<span id="2383">2383</span>
+<span id="2384">2384</span>
+<span id="2385">2385</span>
+<span id="2386">2386</span>
+<span id="2387">2387</span>
+<span id="2388">2388</span>
+<span id="2389">2389</span>
+<span id="2390">2390</span>
+<span id="2391">2391</span>
+<span id="2392">2392</span>
+<span id="2393">2393</span>
+<span id="2394">2394</span>
+<span id="2395">2395</span>
+<span id="2396">2396</span>
+<span id="2397">2397</span>
+<span id="2398">2398</span>
+<span id="2399">2399</span>
+<span id="2400">2400</span>
+<span id="2401">2401</span>
+<span id="2402">2402</span>
+<span id="2403">2403</span>
+<span id="2404">2404</span>
+<span id="2405">2405</span>
+<span id="2406">2406</span>
+<span id="2407">2407</span>
+<span id="2408">2408</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
@@ -2246,7 +2465,7 @@
 <span class='doccomment'>/// The abstract representation of a command line argument. Used to set all the options and</span>
 <span class='doccomment'>/// relationships that define a valid argument for the program.</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// There are two methods for constructing `Arg`s, using the builder pattern and setting options</span>
+<span class='doccomment'>/// There are two methods for constructing [`Arg`]s, using the builder pattern and setting options</span>
 <span class='doccomment'>/// manually, or using a usage string which is far less verbose but has fewer options. You can also</span>
 <span class='doccomment'>/// use a combination of the two methods to achieve the best of both worlds.</span>
 <span class='doccomment'>///</span>
@@ -2264,6 +2483,7 @@
 <span class='doccomment'>/// // Using a usage string (setting a similar argument to the one above)</span>
 <span class='doccomment'>/// let input = Arg::from_usage(&quot;-i, --input=[FILE] &#39;Provides an input file to the program&#39;&quot;);</span>
 <span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// [`Arg`]: ./struct.Arg.html</span>
 <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_debug_implementations</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span>
@@ -2285,7 +2505,7 @@
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
     <span class='kw'>pub</span> <span class='ident'>requires</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>,
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='ident'>group</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;</span>,
+    <span class='kw'>pub</span> <span class='ident'>group</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>,
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
     <span class='kw'>pub</span> <span class='ident'>val_names</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>VecMap</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;&gt;</span>,
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
@@ -2339,11 +2559,11 @@
 
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
-    <span class='doccomment'>/// Creates a new instance of `Arg` using a unique string name. The name will be used to get</span>
+    <span class='doccomment'>/// Creates a new instance of [`Arg`] using a unique string name. The name will be used to get</span>
     <span class='doccomment'>/// information about whether or not the argument was used at runtime, get values, set</span>
     <span class='doccomment'>/// relationships with other args, etc..</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** In the case of arguments that take values (i.e. `takes_value(true)`)</span>
+    <span class='doccomment'>/// **NOTE:** In the case of arguments that take values (i.e. [`Arg::takes_value(true)`])</span>
     <span class='doccomment'>/// and positional arguments (i.e. those without a preceding `-` or `--`) the name will also</span>
     <span class='doccomment'>/// be displayed when the user prints the usage/help information of the program.</span>
     <span class='doccomment'>///</span>
@@ -2354,11 +2574,13 @@
     <span class='doccomment'>/// Arg::with_name(&quot;config&quot;)</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::takes_value(true)`]: ./struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [`Arg`]: ./struct.Arg.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>with_name</span>(<span class='ident'>n</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>Arg</span> { <span class='ident'>name</span>: <span class='ident'>n</span>, ..<span class='ident'>Default</span>::<span class='ident'>default</span>() }
     }
 
-    <span class='doccomment'>/// Creates a new instance of `Arg` from a .yml (YAML) file.</span>
+    <span class='doccomment'>/// Creates a new instance of [`Arg`] from a .yml (YAML) file.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -2367,6 +2589,7 @@
     <span class='doccomment'>/// let yml = load_yaml!(&quot;arg.yml&quot;);</span>
     <span class='doccomment'>/// let arg = Arg::from_yaml(yml);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg`]: ./struct.Arg.html</span>
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yaml</span><span class='op'>&lt;</span><span class='lifetime'>&#39;y</span><span class='op'>&gt;</span>(<span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;y</span> <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Arg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;y</span>, <span class='lifetime'>&#39;y</span><span class='op'>&gt;</span> {
         <span class='comment'>// We WANT this to panic on error...so expect() is good.</span>
@@ -2385,6 +2608,8 @@
                 <span class='string'>&quot;index&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>index</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>u64</span>),
                 <span class='string'>&quot;global&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>global</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;multiple&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>multiple</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
+                <span class='string'>&quot;hidden&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>hidden</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
+                <span class='string'>&quot;next_line_help&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>next_line_help</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;empty_values&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>empty_values</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;group&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>group</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;number_of_values&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>number_of_values</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>u64</span>),
@@ -2395,10 +2620,19 @@
                 <span class='string'>&quot;value_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>value_delimiter</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;required_unless&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>required_unless</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;display_order&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>display_order</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>usize</span>),
+                <span class='string'>&quot;default_value&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>default_value</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
                 <span class='string'>&quot;value_names&quot;</span> <span class='op'>=&gt;</span> {
                     <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
                             <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>value_name</span>(<span class='ident'>s</span>);
+                        }
+                    }
+                    <span class='ident'>a</span>
+                }
+                <span class='string'>&quot;groups&quot;</span> <span class='op'>=&gt;</span> {
+                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
+                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
+                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>group</span>(<span class='ident'>s</span>);
                         }
                     }
                     <span class='ident'>a</span>
@@ -2463,14 +2697,14 @@
         <span class='ident'>a</span>
     }
 
-    <span class='doccomment'>/// Creates a new instance of `Arg` from a usage string. Allows creation of basic settings for</span>
-    <span class='doccomment'>/// the `Arg`. The syntax is flexible, but there are some rules to follow.</span>
+    <span class='doccomment'>/// Creates a new instance of [`Arg`] from a usage string. Allows creation of basic settings</span>
+    <span class='doccomment'>/// for the [`Arg`]. The syntax is flexible, but there are some rules to follow.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE**: Not all settings may be set using the usage string method. Some properties are</span>
     <span class='doccomment'>/// only available via the builder pattern.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE**: Only ASCII values in `from_usage` strings are officially supported. Some UTF-8</span>
-    <span class='doccomment'>/// codepoints may work just fine, but this is not guaranteed.</span>
+    <span class='doccomment'>/// **NOTE**: Only ASCII values are officially supported in [`Arg::from_usage`] strings. Some</span>
+    <span class='doccomment'>/// UTF-8 codepoints may work just fine, but this is not guaranteed.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Syntax</span>
     <span class='doccomment'>///</span>
@@ -2486,7 +2720,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ### Explicit Name</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is an optional field, if it&#39;s omitted the argumenet will use one of the additioinal</span>
+    <span class='doccomment'>/// This is an optional field, if it&#39;s omitted the argument will use one of the additional</span>
     <span class='doccomment'>/// fields as the name using the following priority order:</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///  * Explicit Name (This always takes precedence when present)</span>
@@ -2592,6 +2826,8 @@
     <span class='doccomment'>/// ])</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg`]: ./struct.Arg.html</span>
+    <span class='doccomment'>/// [`Arg::from_usage`]: ./struct.Arg.html#method.from_usage</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_usage</span>(<span class='ident'>u</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>let</span> <span class='ident'>parser</span> <span class='op'>=</span> <span class='ident'>UsageParser</span>::<span class='ident'>from_usage</span>(<span class='ident'>u</span>);
         <span class='ident'>parser</span>.<span class='ident'>parse</span>()
@@ -2599,17 +2835,18 @@
 
     <span class='doccomment'>/// Sets the short version of the argument without the preceding `-`.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// By default `clap` automatically assigns `V` and `h` to display version and help information</span>
-    <span class='doccomment'>/// respectively. You may use `V` or `h` for your own purposes, in which case `clap` simply</span>
-    <span class='doccomment'>/// will not assign those to the displaying of version or help.</span>
+    <span class='doccomment'>/// By default `clap` automatically assigns `V` and `h` to the auto-generated `version` and</span>
+    <span class='doccomment'>/// `help` arguments respectively. You may use the uppercase `V` or lowercase `h` for your own</span>
+    <span class='doccomment'>/// arguments, in which case `clap` simply will not assign those to the auto-generated</span>
+    <span class='doccomment'>/// `version` or `help` arguments.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Any leading `-` characters will be stripped, and only the first</span>
-    <span class='doccomment'>/// non `-` character will be used as the `short` version</span>
+    <span class='doccomment'>/// non `-` character will be used as the [`short`] version</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// To set `short` use a single valid UTF-8 codepoint. If you supply a leading `-` such as `-c`</span>
-    <span class='doccomment'>/// it will be stripped.</span>
+    <span class='doccomment'>/// To set [`short`] use a single valid UTF-8 code point. If you supply a leading `-` such as</span>
+    <span class='doccomment'>/// `-c`, the `-` will be stripped.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2618,7 +2855,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `short` allows using the argument via a single hyphen (`-`) such as `-c`</span>
+    <span class='doccomment'>/// Setting [`short`] allows using the argument via a single hyphen (`-`) such as `-c`</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2631,6 +2868,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;config&quot;));</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`short`]: ./struct.Arg.html#method.short</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>short</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>short</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_ref</span>().<span class='ident'>trim_left_matches</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;-&#39;</span>).<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='number'>0</span>);
         <span class='self'>self</span>
@@ -2638,16 +2876,16 @@
 
     <span class='doccomment'>/// Sets the long version of the argument without the preceding `--`.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// By default `clap` automatically assigns `version` and `help` to display version and help</span>
-    <span class='doccomment'>/// information respectively. You may use `version` or `help` for your own purposes, in which</span>
-    <span class='doccomment'>/// case `clap` simply will not assign those to the displaying of version or help automatically,</span>
-    <span class='doccomment'>/// and you will have to do so manually.</span>
+    <span class='doccomment'>/// By default `clap` automatically assigns `version` and `help` to the auto-generated</span>
+    <span class='doccomment'>/// `version` and `help` arguments respectively. You may use the word `version` or `help` for</span>
+    <span class='doccomment'>/// the long form of your own arguments, in which case `clap` simply will not assign those to</span>
+    <span class='doccomment'>/// the auto-generated `version` or `help` arguments.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Any leading `-` characters will be stripped</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// To set `long` use a word containing valid UTF-8 codepoints. If you supply a dobule leading</span>
+    <span class='doccomment'>/// To set `long` use a word containing valid UTF-8 codepoints. If you supply a double leading</span>
     <span class='doccomment'>/// `--` such as `--config` they will be stripped. Hyphens in the middle of the word, however,</span>
     <span class='doccomment'>/// will *not* be stripped (i.e. `config-file` is allowed)</span>
     <span class='doccomment'>///</span>
@@ -2666,7 +2904,7 @@
     <span class='doccomment'>///     .arg(Arg::with_name(&quot;cfg&quot;)</span>
     <span class='doccomment'>///         .long(&quot;config&quot;))</span>
     <span class='doccomment'>///     .get_matches_from(vec![</span>
-    <span class='doccomment'>///         &quot;shorttest&quot;, &quot;--config&quot;</span>
+    <span class='doccomment'>///         &quot;longtest&quot;, &quot;--config&quot;</span>
     <span class='doccomment'>///     ]);</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;cfg&quot;));</span>
@@ -2681,9 +2919,11 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Any valid `String` slice is allowed as help (i.e. only valid UTF-8). The one exception is</span>
-    <span class='doccomment'>/// one wishes to include a newline in the help text. To include a newline **and** be properly</span>
-    <span class='doccomment'>/// aligned with all other arguments help text, it must be specified via `{n}` instead of `\n`.</span>
+    <span class='doccomment'>/// Any valid UTF-8 is allowed in the help text. The one exception is when one wishes to</span>
+    <span class='doccomment'>/// include a newline in the help text and have the following text be properly aligned with all</span>
+    <span class='doccomment'>/// the other help text. To include a newline **and** be properly aligned with all other</span>
+    <span class='doccomment'>/// arguments help text, it must be specified via a tag inside curly braces, like so `{n}`.</span>
+    <span class='doccomment'>/// Using the standard `\n` will produce a newline, but it will not be properly aligned.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2695,7 +2935,7 @@
     <span class='doccomment'>/// Setting `help` displays a short message to the side of the argument when the user passes</span>
     <span class='doccomment'>/// `-h` or `--help` (by default).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
     <span class='doccomment'>/// let m = App::new(&quot;helptest&quot;)</span>
     <span class='doccomment'>///     .arg(Arg::with_name(&quot;cfg&quot;)</span>
@@ -2704,8 +2944,6 @@
     <span class='doccomment'>///     .get_matches_from(vec![</span>
     <span class='doccomment'>///         &quot;shorttest&quot;, &quot;--help&quot;</span>
     <span class='doccomment'>///     ]);</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// // ...</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The above example displays</span>
@@ -2730,7 +2968,10 @@
     <span class='doccomment'>/// required, when no other conflicting rules have been evaluated. Conflicting rules take</span>
     <span class='doccomment'>/// precedence over being required. **Default:** `false`</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Flags (i.e. not positional, or arguments that take values) cannot be required.</span>
+    <span class='doccomment'>/// **NOTE:** Flags (i.e. not positional, or arguments that take values) cannot be required by</span>
+    <span class='doccomment'>/// default. This is simply because if a flag should be required, it should simply be implied</span>
+    <span class='doccomment'>/// as no additional information is required from user. Flags by their very nature are simply</span>
+    <span class='doccomment'>/// yes/no, or true/false.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -2741,7 +2982,7 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required(true)` requires that the argument be used at runtime.</span>
+    <span class='doccomment'>/// Setting [`Arg::required(true)`] requires that the argument be used at runtime.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2757,7 +2998,7 @@
     <span class='doccomment'>/// assert!(res.is_ok());</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required(true)` and *not* supplying that argument is an error.</span>
+    <span class='doccomment'>/// Setting [`Arg::required(true)`] and *not* supplying that argument is an error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -2773,6 +3014,7 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::required(true)`]: ./struct.Arg.html#method.required</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>required</span>(<span class='self'>self</span>, <span class='ident'>r</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>r</span> {
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Required</span>)
@@ -2784,7 +3026,7 @@
     <span class='doccomment'>/// Sets an arg that override this arg&#39;s required setting. (i.e. this arg will be required</span>
     <span class='doccomment'>/// unless this other argument is present).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **Pro Tip:** Using `Arg::required_unless` implies `Arg::required` and is therefore not</span>
+    <span class='doccomment'>/// **Pro Tip:** Using [`Arg::required_unless`] implies [`Arg::required`] and is therefore not</span>
     <span class='doccomment'>/// mandatory to also set.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
@@ -2796,9 +3038,9 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required_unless(name)` requires that the argument be used at runtime *unless*</span>
-    <span class='doccomment'>/// `name` is present. In the following example, the required argument is *not* provided, but</span>
-    <span class='doccomment'>/// it&#39;s not an error because the `unless` arg has been supplied.</span>
+    <span class='doccomment'>/// Setting [`Arg::required_unless(name)`] requires that the argument be used at runtime</span>
+    <span class='doccomment'>/// *unless* `name` is present. In the following example, the required argument is *not*</span>
+    <span class='doccomment'>/// provided, but it&#39;s not an error because the `unless` arg has been supplied.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2816,7 +3058,7 @@
     <span class='doccomment'>/// assert!(res.is_ok());</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required_unless(name)` and *not* supplying `name` or this arg is an error.</span>
+    <span class='doccomment'>/// Setting [`Arg::required_unless(name)`] and *not* supplying `name` or this arg is an error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -2834,20 +3076,23 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::required_unless`]: ./struct.Arg.html#method.required_unless</span>
+    <span class='doccomment'>/// [`Arg::required`]: ./struct.Arg.html#method.required</span>
+    <span class='doccomment'>/// [`Arg::required_unless(name)`]: ./struct.Arg.html#method.required_unless</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>required_unless</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_unless</span> {
             <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>name</span>);
         } <span class='kw'>else</span> {
             <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>name</span>]);
         }
-        <span class='self'>self</span>.<span class='ident'>required</span>(<span class='boolvalue'>true</span>)
+        <span class='self'>self</span>.<span class='ident'>required</span>(<span class='bool-val'>true</span>)
     }
 
     <span class='doccomment'>/// Sets args that override this arg&#39;s required setting. (i.e. this arg will be required unless</span>
-    <span class='doccomment'>/// all these other argument are present).</span>
+    <span class='doccomment'>/// all these other arguments are present).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** If you wish for the this argument to only be required if *one of* these args are</span>
-    <span class='doccomment'>/// present see `Arg::required_unless_one`</span>
+    <span class='doccomment'>/// **NOTE:** If you wish for this argument to only be required if *one of* these args are</span>
+    <span class='doccomment'>/// present see [`Arg::required_unless_one`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -2858,9 +3103,10 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required_unless_all(names)` requires that the argument be used at runtime *unless*</span>
-    <span class='doccomment'>/// *all* the args in `names` are present. In the following example, the required argument is</span>
-    <span class='doccomment'>/// *not* provided, but it&#39;s not an error because all the `unless` args have been supplied.</span>
+    <span class='doccomment'>/// Setting [`Arg::required_unless_all(names)`] requires that the argument be used at runtime</span>
+    <span class='doccomment'>/// *unless* *all* the args in `names` are present. In the following example, the required</span>
+    <span class='doccomment'>/// argument is *not* provided, but it&#39;s not an error because all the `unless` args have been</span>
+    <span class='doccomment'>/// supplied.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2881,8 +3127,8 @@
     <span class='doccomment'>/// assert!(res.is_ok());</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required_unless_all(names)` and *not* supplying *all* of `names` or this arg is an</span>
-    <span class='doccomment'>/// error.</span>
+    <span class='doccomment'>/// Setting [`Arg::required_unless_all(names)`] and *not* supplying *all* of `names` or this</span>
+    <span class='doccomment'>/// arg is an error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -2903,6 +3149,8 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::required_unless_one`]: ./struct.Arg.html#method.required_unless_one</span>
+    <span class='doccomment'>/// [`Arg::required_unless_all(names)`]: ./struct.Arg.html#method.required_unless_all</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>required_unless_all</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_unless</span> {
             <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>names</span> {
@@ -2912,14 +3160,14 @@
             <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequiredUnlessAll</span>);
-        <span class='self'>self</span>.<span class='ident'>required</span>(<span class='boolvalue'>true</span>)
+        <span class='self'>self</span>.<span class='ident'>required</span>(<span class='bool-val'>true</span>)
     }
 
-    <span class='doccomment'>/// Sets args that override this arg&#39;s required setting. (i.e. this arg will be required unless</span>
-    <span class='doccomment'>/// *at least one of* these other argument are present).</span>
+    <span class='doccomment'>/// Sets args that override this arg&#39;s [required] setting. (i.e. this arg will be required</span>
+    <span class='doccomment'>/// unless *at least one of* these other arguments are present).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** If you wish for the this argument to only be required if *all of* these args are</span>
-    <span class='doccomment'>/// present see `Arg::required_unless_all`</span>
+    <span class='doccomment'>/// **NOTE:** If you wish for this argument to only be required if *all of* these args are</span>
+    <span class='doccomment'>/// present see [`Arg::required_unless_all`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -2930,10 +3178,10 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required_unless_one(names)` requires that the argument be used at runtime *unless*</span>
-    <span class='doccomment'>/// *at least one of* the args in `names` are present. In the following example, the required</span>
-    <span class='doccomment'>/// argument is *not* provided, but it&#39;s not an error because one the `unless` args have been</span>
-    <span class='doccomment'>/// supplied.</span>
+    <span class='doccomment'>/// Setting [`Arg::required_unless_one(names)`] requires that the argument be used at runtime</span>
+    <span class='doccomment'>/// *unless* *at least one of* the args in `names` are present. In the following example, the</span>
+    <span class='doccomment'>/// required argument is *not* provided, but it&#39;s not an error because one the `unless` args</span>
+    <span class='doccomment'>/// have been supplied.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -2954,8 +3202,8 @@
     <span class='doccomment'>/// assert!(res.is_ok());</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `required_unless_one(names)` and *not* supplying *at least one of* `names` or this</span>
-    <span class='doccomment'>/// arg is an error.</span>
+    <span class='doccomment'>/// Setting [`Arg::required_unless_one(names)`] and *not* supplying *at least one of* `names`</span>
+    <span class='doccomment'>/// or this arg is an error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -2976,6 +3224,9 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [required]: ./struct.Arg.html#method.required</span>
+    <span class='doccomment'>/// [`Arg::required_unless_one(names)`]: ./struct.Arg.html#method.required_unless_one</span>
+    <span class='doccomment'>/// [`Arg::required_unless_all`]: ./struct.Arg.html#method.required_unless_all</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>required_unless_one</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_unless</span> {
             <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>names</span> {
@@ -2984,7 +3235,7 @@
         } <span class='kw'>else</span> {
             <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
-        <span class='self'>self</span>.<span class='ident'>required</span>(<span class='boolvalue'>true</span>)
+        <span class='self'>self</span>.<span class='ident'>required</span>(<span class='bool-val'>true</span>)
     }
 
     <span class='doccomment'>/// Sets a conflicting argument by name. I.e. when using this argument,</span>
@@ -3033,7 +3284,7 @@
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// The same as `Arg::conflicts_with` but allows specifying multiple two-way conlicts per</span>
+    <span class='doccomment'>/// The same as [`Arg::conflicts_with`] but allows specifying multiple two-way conlicts per</span>
     <span class='doccomment'>/// argument.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Conflicting rules take precedence over being required by default. Conflict rules</span>
@@ -3073,6 +3324,7 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::ArgumentConflict);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::conflicts_with`]: ./struct.Arg.html#method.conflicts_with</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>conflicts_with_all</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>blacklist</span> {
             <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>names</span> {
@@ -3088,7 +3340,7 @@
     <span class='doccomment'>/// will override each other in POSIX style (whichever argument was specified at runtime</span>
     <span class='doccomment'>/// **last** &quot;wins&quot;)</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** When an argument is overriden it is essentially as if it never was used, any</span>
+    <span class='doccomment'>/// **NOTE:** When an argument is overridden it is essentially as if it never was used, any</span>
     <span class='doccomment'>/// conflicts, requirements, etc. are evaluated **after** all &quot;overrides&quot; have been removed</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
@@ -3102,11 +3354,11 @@
     <span class='doccomment'>///     .arg(Arg::from_usage(&quot;-c, --color &#39;third flag&#39;&quot;)</span>
     <span class='doccomment'>///         .overrides_with(&quot;flag&quot;))</span>
     <span class='doccomment'>///     .get_matches_from(vec![&quot;posix&quot;, &quot;-f&quot;, &quot;-d&quot;, &quot;-c&quot;]);</span>
-    <span class='doccomment'>///                                 //    ^~~~~~~~~~~~^~~~~ flag is overriden by color</span>
+    <span class='doccomment'>///                                 //    ^~~~~~~~~~~~^~~~~ flag is overridden by color</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;color&quot;));</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;debug&quot;)); // even though flag conflicts with debug, it&#39;s as if flag</span>
-    <span class='doccomment'>///                                 // was never used because it was overriden with color</span>
+    <span class='doccomment'>///                                 // was never used because it was overridden with color</span>
     <span class='doccomment'>/// assert!(!m.is_present(&quot;flag&quot;));</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>overrides_with</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
@@ -3122,7 +3374,7 @@
     <span class='doccomment'>/// argument will override each other in POSIX style (whichever argument was specified at</span>
     <span class='doccomment'>/// runtime **last** &quot;wins&quot;)</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** When an argument is overriden it is essentially as if it never was used, any</span>
+    <span class='doccomment'>/// **NOTE:** When an argument is overridden it is essentially as if it never was used, any</span>
     <span class='doccomment'>/// conflicts, requirements, etc. are evaluated **after** all &quot;overrides&quot; have been removed</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
@@ -3136,10 +3388,10 @@
     <span class='doccomment'>///     .arg(Arg::from_usage(&quot;-c, --color &#39;third flag&#39;&quot;)</span>
     <span class='doccomment'>///         .overrides_with_all(&amp;[&quot;flag&quot;, &quot;debug&quot;]))</span>
     <span class='doccomment'>///     .get_matches_from(vec![&quot;posix&quot;, &quot;-f&quot;, &quot;-d&quot;, &quot;-c&quot;]);</span>
-    <span class='doccomment'>///                                 //    ^~~~~~^~~~~~~~~ flag and debug are overriden by color</span>
+    <span class='doccomment'>///                                 //    ^~~~~~^~~~~~~~~ flag and debug are overridden by color</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;color&quot;)); // even though flag conflicts with color, it&#39;s as if flag</span>
-    <span class='doccomment'>///                                 // and debug were never used because they were overriden</span>
+    <span class='doccomment'>///                                 // and debug were never used because they were overridden</span>
     <span class='doccomment'>///                                 // with color</span>
     <span class='doccomment'>/// assert!(!m.is_present(&quot;debug&quot;));</span>
     <span class='doccomment'>/// assert!(!m.is_present(&quot;flag&quot;));</span>
@@ -3158,7 +3410,7 @@
     <span class='doccomment'>/// Sets an argument by name that is required when this one is present I.e. when</span>
     <span class='doccomment'>/// using this argument, the following argument *must* be present.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Conflicting rules and override rules take precedence over being required</span>
+    <span class='doccomment'>/// **NOTE:** [Conflicting] rules and [override] rules take precedence over being required</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3169,8 +3421,9 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `requires(&quot;arg&quot;)` requires that the argument be used at runtime if the defining</span>
-    <span class='doccomment'>/// argument is used. If the defining argument isn&#39;t used, the other arguemnt isn&#39;t required</span>
+    <span class='doccomment'>/// Setting [`Arg::requires(name)`] requires that the argument be used at runtime if the</span>
+    <span class='doccomment'>/// defining argument is used. If the defining argument isn&#39;t used, the other argument isn&#39;t</span>
+    <span class='doccomment'>/// required</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -3188,7 +3441,7 @@
     <span class='doccomment'>/// assert!(res.is_ok()); // We didn&#39;t use cfg, so input wasn&#39;t required</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `requires(&quot;arg&quot;)` and *not* supplying that argument is an error.</span>
+    <span class='doccomment'>/// Setting [`Arg::requires(name)`] and *not* supplying that argument is an error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -3206,6 +3459,9 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::requires(name)`]: ./struct.Arg.html#method.requires</span>
+    <span class='doccomment'>/// [Conflicting]: ./struct.Arg.html#method.conflicts_with</span>
+    <span class='doccomment'>/// [override]: ./struct.Arg.html#method.overrides_with</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>requires</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>requires</span> {
             <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>name</span>);
@@ -3218,7 +3474,7 @@
     <span class='doccomment'>/// Sets multiple arguments by names that are required when this one is present I.e. when</span>
     <span class='doccomment'>/// using this argument, the following arguments *must* be present.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Mutually exclusive and override rules take precedence over being required</span>
+    <span class='doccomment'>/// **NOTE:** [Conflicting] rules and [override] rules take precedence over being required</span>
     <span class='doccomment'>/// by default.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
@@ -3230,9 +3486,9 @@
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `requires_all(&amp;[&quot;arg&quot;, &quot;arg2&quot;])` requires that all the arguments be used at runtime</span>
-    <span class='doccomment'>/// if the defining argument is used. If the defining argument isn&#39;t used, the other arguemnt</span>
-    <span class='doccomment'>/// isn&#39;t required</span>
+    <span class='doccomment'>/// Setting [`Arg::requires_all(&amp;[arg, arg2])`] requires that all the arguments be used at</span>
+    <span class='doccomment'>/// runtime if the defining argument is used. If the defining argument isn&#39;t used, the other</span>
+    <span class='doccomment'>/// argument isn&#39;t required</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -3252,7 +3508,8 @@
     <span class='doccomment'>/// assert!(res.is_ok()); // We didn&#39;t use cfg, so input and output weren&#39;t required</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `requires_all(&amp;[&quot;arg&quot;, &quot;arg2&quot;])` and *not* supplying all the arguments is an error.</span>
+    <span class='doccomment'>/// Setting [`Arg::requires_all(&amp;[arg, arg2])`] and *not* supplying all the arguments is an</span>
+    <span class='doccomment'>/// error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -3273,6 +3530,9 @@
     <span class='doccomment'>/// // We didn&#39;t use output</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [Conflicting]: ./struct.Arg.html#method.conflicts_with</span>
+    <span class='doccomment'>/// [override]: ./struct.Arg.html#method.overrides_with</span>
+    <span class='doccomment'>/// [`Arg::requires_all(&amp;[arg, arg2])`]: ./struct.Arg.html#method.requires_all</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>requires_all</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>requires</span> {
             <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>names</span> {
@@ -3292,10 +3552,10 @@
     <span class='doccomment'>/// * Using an equals and no space such as `-o=value` or `--option=value`</span>
     <span class='doccomment'>/// * Use a short and no space such as `-ovalue`</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** By default, values are delimted by commas, meaning `--option=val1,val2,val3` is</span>
-    <span class='doccomment'>/// is three values for the `--option` argument. If you wish to change the delimiter to another</span>
-    <span class='doccomment'>/// character you can use `Arg::value_delimiter(char)`, alternatively you can delimiting values</span>
-    <span class='doccomment'>/// **OFF** by using `Arg::use_delimiter(false)`</span>
+    <span class='doccomment'>/// **NOTE:** By default, args which allow [multiple values] are delimited by commas, meaning</span>
+    <span class='doccomment'>/// `--option=val1,val2,val3` is three values for the `--option` argument. If you wish to</span>
+    <span class='doccomment'>/// change the delimiter to another character you can use [`Arg::value_delimiter(char)`],</span>
+    <span class='doccomment'>/// alternatively you can turn delimiting values **OFF** by using [`Arg::use_delimiter(false)`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3317,6 +3577,9 @@
     <span class='doccomment'>/// assert!(m.is_present(&quot;mode&quot;));</span>
     <span class='doccomment'>/// assert_eq!(m.value_of(&quot;mode&quot;), Some(&quot;fast&quot;));</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::value_delimiter(char)`]: ./struct.Arg.html#method.value_delimiter</span>
+    <span class='doccomment'>/// [`Arg::use_delimiter(false)`]: ./struct.Arg.html#method.use_delimiter</span>
+    <span class='doccomment'>/// [multiple values]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>takes_value</span>(<span class='self'>self</span>, <span class='ident'>tv</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>tv</span> {
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>)
@@ -3330,18 +3593,18 @@
     <span class='doccomment'>/// **NOTE:** The index refers to position according to **other positional argument**. It does</span>
     <span class='doccomment'>/// not define position in the argument list as a whole.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** If no `short`, or `long` have been defined, you can optionally leave off the</span>
-    <span class='doccomment'>/// `index` method, and the index will be assigned in order of evaluation. Utilizing the</span>
-    <span class='doccomment'>/// `index` method allows for setting indexes out of order</span>
+    <span class='doccomment'>/// **NOTE:** If no [`Arg::short`], or [`Arg::long`] have been defined, you can optionally</span>
+    <span class='doccomment'>/// leave off the `index` method, and the index will be assigned in order of evaluation.</span>
+    <span class='doccomment'>/// Utilizing the `index` method allows for setting indexes out of order</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** When utilized with `multiple(true)`, only the **last** psoitional argument may</span>
-    <span class='doccomment'>/// be defined as multiple (i.e. with the highest index)</span>
+    <span class='doccomment'>/// **NOTE:** When utilized with [`Arg::multiple(true)`], only the **last** positional argument</span>
+    <span class='doccomment'>/// may be defined as multiple (i.e. with the highest index)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Panics</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Although not in this method directly, `App` will `panic!` if indexes are skipped (such as</span>
-    <span class='doccomment'>/// defining `index(1)` and `index(3)` but not `index(2)`, or a positional argument is defined</span>
-    <span class='doccomment'>/// as multiple and is not the highest index</span>
+    <span class='doccomment'>/// Although not in this method directly, [`App`] will [`panic!`] if indexes are skipped (such</span>
+    <span class='doccomment'>/// as defining `index(1)` and `index(3)` but not `index(2)`, or a positional argument is</span>
+    <span class='doccomment'>/// defined as multiple and is not the highest index</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3365,6 +3628,11 @@
     <span class='doccomment'>/// assert_eq!(m.value_of(&quot;mode&quot;), Some(&quot;fast&quot;)); // notice index(1) means &quot;first positional&quot;</span>
     <span class='doccomment'>///                                               // *not* first argument</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::short`]: ./struct.Arg.html#method.short</span>
+    <span class='doccomment'>/// [`Arg::long`]: ./struct.Arg.html#method.long</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
+    <span class='doccomment'>/// [`App`]: ./struct.App.html</span>
+    <span class='doccomment'>/// [`panic!`]: https://doc.rust-lang.org/std/macro.panic!.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>index</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>idx</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>index</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>idx</span>);
         <span class='self'>self</span>
@@ -3380,18 +3648,18 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **WARNING:**</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Setting `multipe(true)` for an option allows multiple values **and** multiple occurrences</span>
-    <span class='doccomment'>/// because it isn&#39;t possible to more occurrences than values for options. Because multiple</span>
-    <span class='doccomment'>/// values are allowed, `--option val1 val2 val3` is perfectly valid, be careful when designing</span>
-    <span class='doccomment'>/// a CLI where positional arguments are expectd after a option which accepts multiple values,</span>
-    <span class='doccomment'>/// as `clap` will continue parsing *values* until it reaches the max or specific number of</span>
-    <span class='doccomment'>/// values defined, or another flag or option.</span>
+    <span class='doccomment'>/// Setting `multiple(true)` for an [option] with no other details, allows multiple values</span>
+    <span class='doccomment'>/// **and** multiple occurrences because it isn&#39;t possible to have more occurrences than values for</span>
+    <span class='doccomment'>/// options. Because multiple values are allowed, `--option val1 val2 val3` is perfectly valid,</span>
+    <span class='doccomment'>/// be careful when designing a CLI where positional arguments are expected after a option which</span>
+    <span class='doccomment'>/// accepts multiple values, as `clap` will continue parsing *values* until it reaches the max</span>
+    <span class='doccomment'>/// or specific number of values defined, or another flag or option.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **Pro Tip**:</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// It&#39;s possible to define an option which allows multiple occurrences, but only one value per</span>
-    <span class='doccomment'>/// occurrence. To do this use `Arg::number_of_values(1)` in coordination with</span>
-    <span class='doccomment'>/// `Arg::multiple(true)`.</span>
+    <span class='doccomment'>/// occurrence. To do this use [`Arg::number_of_values(1)`] in coordination with</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3494,8 +3762,9 @@
     <span class='doccomment'>/// assert!(m.is_present(&quot;word&quot;));</span>
     <span class='doccomment'>/// assert_eq!(m.value_of(&quot;word&quot;), Some(&quot;word&quot;));</span>
     <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// As a final example, notice if we define `number_of_values(1)` and try to run the problem</span>
-    <span class='doccomment'>/// example above, it would have been a runtime error with a pretty message to the user :)</span>
+    <span class='doccomment'>/// As a final example, notice if we define [`Arg::number_of_values(1)`] and try to run the</span>
+    <span class='doccomment'>/// problem example above, it would have been a runtime error with a pretty message to the</span>
+    <span class='doccomment'>/// user :)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -3512,6 +3781,9 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::UnknownArgument);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [option]: ./struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [`Arg::number_of_values(1)`]: ./struct.Arg.html#method.number_of_values</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>multiple</span>(<span class='self'>self</span>, <span class='ident'>multi</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>multi</span> {
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>)
@@ -3520,16 +3792,16 @@
         }
     }
 
-    <span class='doccomment'>/// Specifies that an argument can be matched to all child subcommands.</span>
+    <span class='doccomment'>/// Specifies that an argument can be matched to all child [`SubCommand`]s.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Global arguments *only* propagate down, **not** up (to parent commands)</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Global arguments *cannot* be required.</span>
+    <span class='doccomment'>/// **NOTE:** Global arguments *cannot* be [required].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Global arguments, when matched, *only* exist in the command&#39;s matches that they</span>
     <span class='doccomment'>/// were matched to. For example, if you defined a `--flag` global argument in the top most</span>
     <span class='doccomment'>/// parent command, but the user supplied the arguments `top cmd1 cmd2 --flag` *only* `cmd2`&#39;s</span>
-    <span class='doccomment'>/// `ArgMatches` would return `true` if tested for `.is_present(&quot;flag&quot;)`.</span>
+    <span class='doccomment'>/// [`ArgMatches`] would return `true` if tested for [`ArgMatches::is_present(&quot;flag&quot;)`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3543,7 +3815,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// For example, assume an appliction with two subcommands, and you&#39;d like to define a</span>
     <span class='doccomment'>/// `--verbose` flag that can be called on any of the subcommands and parent, but you don&#39;t</span>
-    <span class='doccomment'>/// want to clutter the source with three duplicate `Arg` definitions.</span>
+    <span class='doccomment'>/// want to clutter the source with three duplicate [`Arg`] definitions.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, SubCommand};</span>
@@ -3560,6 +3832,11 @@
     <span class='doccomment'>/// let sub_m = m.subcommand_matches(&quot;do-stuff&quot;).unwrap();</span>
     <span class='doccomment'>/// assert!(sub_m.is_present(&quot;verb&quot;));</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [required]: ./struct.Arg.html#method.required</span>
+    <span class='doccomment'>/// [`ArgMatches`]: ./struct.ArgMatches.html</span>
+    <span class='doccomment'>/// [`ArgMatches::is_present(&quot;flag&quot;)`]: ./struct.ArgMatches.html#method.is_present</span>
+    <span class='doccomment'>/// [`Arg`]: ./struct.Arg.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>global</span>(<span class='self'>self</span>, <span class='ident'>g</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>g</span> {
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Global</span>)
@@ -3573,7 +3850,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** Defaults to `true` (Explicitly empty values are allowed)</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Implicitly sets `takes_value(true)` when set to `false`</span>
+    <span class='doccomment'>/// **NOTE:** Implicitly sets [`Arg::takes_value(true)`] when set to `false`</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3599,6 +3876,7 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::EmptyValue);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::takes_value(true)`]: ./struct.Arg.html#method.takes_value</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>empty_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ev</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>ev</span> {
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>EmptyValues</span>)
@@ -3622,7 +3900,7 @@
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// Setting `hidden(true)` will hide the argument when displaying help text</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
     <span class='doccomment'>/// let m = App::new(&quot;helptest&quot;)</span>
     <span class='doccomment'>///     .arg(Arg::with_name(&quot;cfg&quot;)</span>
@@ -3632,8 +3910,6 @@
     <span class='doccomment'>///     .get_matches_from(vec![</span>
     <span class='doccomment'>///         &quot;shorttest&quot;, &quot;--help&quot;</span>
     <span class='doccomment'>///     ]);</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// // ...</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The above example displays</span>
@@ -3656,10 +3932,10 @@
         }
     }
 
-    <span class='doccomment'>/// Specifies a list of possible values for this argument. At runtime, `clap` verifies that only</span>
-    <span class='doccomment'>/// one of the specified values was used, or fails with an error message.</span>
+    <span class='doccomment'>/// Specifies a list of possible values for this argument. At runtime, `clap` verifies that</span>
+    <span class='doccomment'>/// only one of the specified values was used, or fails with an error message.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This setting only applies to options and positional arguments</span>
+    <span class='doccomment'>/// **NOTE:** This setting only applies to [options] and [positional arguments]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3697,6 +3973,8 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::InvalidValue);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [options]: ./struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [positional arguments]: ./struct.Arg.html#method.index</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>possible_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>possible_vals</span> {
             <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>names</span> {
@@ -3710,6 +3988,8 @@
 
     <span class='doccomment'>/// Specifies a possible value for this argument, one at a time. At runtime, `clap` verifies</span>
     <span class='doccomment'>/// that only one of the specified values was used, or fails with error message.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** This setting only applies to [options] and [positional arguments]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3753,6 +4033,8 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::InvalidValue);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [options]: ./struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [positional arguments]: ./struct.Arg.html#method.index</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>possible_value</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>possible_vals</span> {
             <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>name</span>);
@@ -3762,7 +4044,7 @@
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// Specifies the name of the group the argument belongs to.</span>
+    <span class='doccomment'>/// Specifies the name of the [`ArgGroup`] the argument belongs to.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3789,8 +4071,53 @@
     <span class='doccomment'>///     .get_matches_from(vec![&quot;posvals&quot;, &quot;--debug&quot;]);</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;mode&quot;));</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`ArgGroup`]: ./struct.ArgGroup.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>group</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>self</span>.<span class='ident'>group</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>);
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>requires</span> {
+            <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>name</span>);
+        } <span class='kw'>else</span> {
+            <span class='self'>self</span>.<span class='ident'>group</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>name</span>]);
+        }
+        <span class='self'>self</span>
+    }
+
+    <span class='doccomment'>/// Specifies the names of multiple [`ArgGroup`]&#39;s the argument belongs to.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg};</span>
+    <span class='doccomment'>/// Arg::with_name(&quot;debug&quot;)</span>
+    <span class='doccomment'>///     .long(&quot;debug&quot;)</span>
+    <span class='doccomment'>///     .groups(&amp;[&quot;mode&quot;, &quot;verbosity&quot;])</span>
+    <span class='doccomment'>/// # ;</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Arguments can be members of multiple groups and then the group checked as if it</span>
+    <span class='doccomment'>/// was one of said arguments.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg};</span>
+    <span class='doccomment'>/// let m = App::new(&quot;groups&quot;)</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;debug&quot;)</span>
+    <span class='doccomment'>///         .long(&quot;debug&quot;)</span>
+    <span class='doccomment'>///         .groups(&amp;[&quot;mode&quot;, &quot;verbosity&quot;]))</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;verbose&quot;)</span>
+    <span class='doccomment'>///         .long(&quot;verbose&quot;)</span>
+    <span class='doccomment'>///         .groups(&amp;[&quot;mode&quot;, &quot;verbosity&quot;]))</span>
+    <span class='doccomment'>///     .get_matches_from(vec![&quot;posvals&quot;, &quot;--debug&quot;]);</span>
+    <span class='doccomment'>/// assert!(m.is_present(&quot;mode&quot;));</span>
+    <span class='doccomment'>/// assert!(m.is_present(&quot;verbosity&quot;));</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`ArgGroup`]: ./struct.ArgGroup.html</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>groups</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>group</span> {
+            <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>names</span> {
+                <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
+            }
+        } <span class='kw'>else</span> {
+            <span class='self'>self</span>.<span class='ident'>group</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+        }
         <span class='self'>self</span>
     }
 
@@ -3799,9 +4126,9 @@
     <span class='doccomment'>/// `.number_of_values(3)`, and this argument wouldn&#39;t be satisfied unless the user provided</span>
     <span class='doccomment'>/// 3 and only 3 values.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Does *not* require `.multiple(true)` to be set. Setting `.multiple(true)` would</span>
-    <span class='doccomment'>/// allow `-f &lt;file&gt; &lt;file&gt; &lt;file&gt; -f &lt;file&gt; &lt;file&gt; &lt;file&gt;` where as *not* setting</span>
-    <span class='doccomment'>/// `.multiple(true)` would only allow one occurrence of this argument.</span>
+    <span class='doccomment'>/// **NOTE:** Does *not* require [`Arg::multiple(true)`] to be set. Setting</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`] would allow `-f &lt;file&gt; &lt;file&gt; &lt;file&gt; -f &lt;file&gt; &lt;file&gt; &lt;file&gt;` where</span>
+    <span class='doccomment'>/// as *not* setting [`Arg::multiple(true)`] would only allow one occurrence of this argument.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3827,22 +4154,23 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::WrongNumberOfValues);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>number_of_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>qty</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>num_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>qty</span>);
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// Allows one to perform a custom validation on the argument value. You provide a closure which</span>
-    <span class='doccomment'>/// accepts a `String` value, a `Result` where the `Err(String)` is a message displayed to the</span>
-    <span class='doccomment'>/// user.</span>
+    <span class='doccomment'>/// Allows one to perform a custom validation on the argument value. You provide a closure</span>
+    <span class='doccomment'>/// which accepts a [`String`] value, and return a [`Result`] where the [`Err(String)`] is a</span>
+    <span class='doccomment'>/// message displayed to the user.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** The error message does *not* need to contain the `error:` portion, only the</span>
     <span class='doccomment'>/// message.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** There is a small performance hit for using validators, as they are implemented</span>
-    <span class='doccomment'>/// with `Rc` pointers. And the value to be checked will be allocated an extra time in order to</span>
-    <span class='doccomment'>/// to be passed to the closure. This performance hit is extremely minimal in the grand scheme</span>
-    <span class='doccomment'>/// of things.</span>
+    <span class='doccomment'>/// with [`Rc`] pointers. And the value to be checked will be allocated an extra time in order</span>
+    <span class='doccomment'>/// to to be passed to the closure. This performance hit is extremely minimal in the grand</span>
+    <span class='doccomment'>/// scheme of things.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3862,6 +4190,10 @@
     <span class='doccomment'>/// assert!(res.is_ok());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap().value_of(&quot;file&quot;), Some(&quot;some@file&quot;));</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`String`]: https://doc.rust-lang.org/std/string/struct.String.html</span>
+    <span class='doccomment'>/// [`Result`]: https://doc.rust-lang.org/std/result/enum.Result.html</span>
+    <span class='doccomment'>/// [`Err(String)`]: https://doc.rust-lang.org/std/result/enum.Result.html#variant.Err</span>
+    <span class='doccomment'>/// [`Rc`]: https://doc.rust-lang.org/std/rc/struct.Rc.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>validator</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>
     {
@@ -3870,14 +4202,14 @@
     }
 
     <span class='doccomment'>/// Specifies the *maximum* number of values are for this argument. For example, if you had a</span>
-    <span class='doccomment'>/// `-f &lt;file&gt;` argument where you wanted up to 3 &#39;files&#39; you would set</span>
-    <span class='doccomment'>/// `.max_values(3)`, and this argument would be satisfied if the user provided, 1, 2, or 3</span>
-    <span class='doccomment'>/// values.</span>
+    <span class='doccomment'>/// `-f &lt;file&gt;` argument where you wanted up to 3 &#39;files&#39; you would set `.max_values(3)`, and</span>
+    <span class='doccomment'>/// this argument would be satisfied if the user provided, 1, 2, or 3 values.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This does not implicitly set `mulitple(true)`. This is because `-o val -o val` is</span>
-    <span class='doccomment'>/// multiples occurrences but a single value and `-o val1 val2` is a single occurence with</span>
-    <span class='doccomment'>/// multple values. For positional arguments this **does** set `multiple(true)` because there</span>
-    <span class='doccomment'>/// is no way to determine the diffrence between multiple occureces and multiple values.</span>
+    <span class='doccomment'>/// **NOTE:** This does *not* implicitly set [`Arg::multiple(true)`]. This is because</span>
+    <span class='doccomment'>/// `-o val -o val` is multiple occurrences but a single value and `-o val1 val2` is a single</span>
+    <span class='doccomment'>/// occurence with multple values. For positional arguments this **does** set</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`] because there is no way to determine the difference between multiple</span>
+    <span class='doccomment'>/// occurences and multiple values.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3920,20 +4252,22 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::TooManyValues);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>max_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>qty</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>max_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>qty</span>);
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// Specifies the *minimum* number of values are for this argument. For example, if you had a</span>
+    <span class='doccomment'>/// Specifies the *minimum* number of values for this argument. For example, if you had a</span>
     <span class='doccomment'>/// `-f &lt;file&gt;` argument where you wanted at least 2 &#39;files&#39; you would set</span>
     <span class='doccomment'>/// `.min_values(2)`, and this argument would be satisfied if the user provided, 2 or more</span>
     <span class='doccomment'>/// values.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This does not implicitly set `mulitple(true)`. This is because `-o val -o val` is</span>
-    <span class='doccomment'>/// multiples occurrences but a single value and `-o val1 val2` is a single occurence with</span>
-    <span class='doccomment'>/// multple values. For positional arguments this **does** set `multiple(true)` because there</span>
-    <span class='doccomment'>/// is no way to determine the diffrence between multiple occureces and multiple values.</span>
+    <span class='doccomment'>/// **NOTE:** This does not implicitly set [`Arg::multiple(true)`]. This is because</span>
+    <span class='doccomment'>/// `-o val -o val` is multiple occurrences but a single value and `-o val1 val2` is a single</span>
+    <span class='doccomment'>/// occurence with multiple values. For positional arguments this **does** set</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`] because there is no way to determine the difference between multiple</span>
+    <span class='doccomment'>/// occurences and multiple values.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -3962,7 +4296,7 @@
     <span class='doccomment'>/// assert_eq!(files, [&quot;file1&quot;, &quot;file2&quot;, &quot;file3&quot;]);</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Supplying less than the mainimum number of values is an error</span>
+    <span class='doccomment'>/// Supplying less than the minimum number of values is an error</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
@@ -3976,18 +4310,19 @@
     <span class='doccomment'>/// assert!(res.is_err());</span>
     <span class='doccomment'>/// assert_eq!(res.unwrap_err().kind, ErrorKind::TooFewValues);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>min_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>qty</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>min_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>qty</span>);
         <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>)
     }
 
-    <span class='doccomment'>/// Specifies whether or not an arugment should allow grouping of multiple values via a</span>
-    <span class='doccomment'>/// delimter. I.e. shoulde `--option=val1,val2,val3` be parsed as three values (`val1`, `val2`,</span>
+    <span class='doccomment'>/// Specifies whether or not an argument should allow grouping of multiple values via a</span>
+    <span class='doccomment'>/// delimiter. I.e. should `--option=val1,val2,val3` be parsed as three values (`val1`, `val2`,</span>
     <span class='doccomment'>/// and `val3`) or as a single value (`val1,val2,val3`). Defaults to using `,` (comma) as the</span>
     <span class='doccomment'>/// value delimiter for all arguments that accept values (options and positional arguments)</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** The defalt is `true`. Setting the value to `true` will reset any previous use of</span>
-    <span class='doccomment'>/// `Arg::value_delimiter` back to the default of `,` (comma).</span>
+    <span class='doccomment'>/// **NOTE:** The default is `true`. Setting the value to `true` will reset any previous use of</span>
+    <span class='doccomment'>/// [`Arg::value_delimiter`] back to the default of `,` (comma).</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4026,6 +4361,7 @@
     <span class='doccomment'>/// assert_eq!(nodelims.occurrences_of(&quot;option&quot;), 1);</span>
     <span class='doccomment'>/// assert_eq!(nodelims.value_of(&quot;option&quot;).unwrap(), &quot;val1,val2,val3&quot;);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::value_delimiter`]: ./struct.Arg.html#method.value_delimiter</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>use_delimiter</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>d</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>d</span> {
             <span class='self'>self</span>.<span class='ident'>val_delim</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&#39;,&#39;</span>);
@@ -4036,11 +4372,93 @@
         }
     }
 
+    <span class='doccomment'>/// Specifies that *multiple values* may only be set using the delimiter. This means if an</span>
+    <span class='doccomment'>/// if an option is encountered, and no delimiter is found, it automatically assumed that no</span>
+    <span class='doccomment'>/// additional values for that option follow. This is unlike the default, where it is generally</span>
+    <span class='doccomment'>/// assumed that more values will follow regardless of whether or not a delimiter is used.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** The default is `false`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** It&#39;s a good idea to inform the user that use of a delimiter is required, either</span>
+    <span class='doccomment'>/// through help text or other means.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// These examples demonstrate what happens when `require_delimiter(true)` is used. Notice</span>
+    <span class='doccomment'>/// everything works in this first example, as we use a delimiter, as expected.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg};</span>
+    <span class='doccomment'>/// let delims = App::new(&quot;reqdelims&quot;)</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;opt&quot;)</span>
+    <span class='doccomment'>///         .short(&quot;o&quot;)</span>
+    <span class='doccomment'>///         .takes_value(true)</span>
+    <span class='doccomment'>///         .multiple(true)</span>
+    <span class='doccomment'>///         .require_delimiter(true))</span>
+    <span class='doccomment'>///     // Simulate &quot;$ reqdelims -o val1,val2,val3&quot;</span>
+    <span class='doccomment'>///     .get_matches_from(vec![</span>
+    <span class='doccomment'>///         &quot;reqdelims&quot;, &quot;-o&quot;, &quot;val1,val2,val3&quot;,</span>
+    <span class='doccomment'>///     ]);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert!(delims.is_present(&quot;opt&quot;));</span>
+    <span class='doccomment'>/// assert_eq!(delims.values_of(&quot;opt&quot;).unwrap().collect::&lt;Vec&lt;_&gt;&gt;(), [&quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;]);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// In this next example, we will *not* use a delimiter. Notice it&#39;s now an error.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg, ErrorKind};</span>
+    <span class='doccomment'>/// let res = App::new(&quot;reqdelims&quot;)</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;opt&quot;)</span>
+    <span class='doccomment'>///         .short(&quot;o&quot;)</span>
+    <span class='doccomment'>///         .takes_value(true)</span>
+    <span class='doccomment'>///         .multiple(true)</span>
+    <span class='doccomment'>///         .require_delimiter(true))</span>
+    <span class='doccomment'>///     // Simulate &quot;$ reqdelims -o val1 val2 val3&quot;</span>
+    <span class='doccomment'>///     .get_matches_from_safe(vec![</span>
+    <span class='doccomment'>///         &quot;reqdelims&quot;, &quot;-o&quot;, &quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;,</span>
+    <span class='doccomment'>///     ]);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert!(res.is_err());</span>
+    <span class='doccomment'>/// let err = res.unwrap_err();</span>
+    <span class='doccomment'>/// assert_eq!(err.kind, ErrorKind::UnknownArgument);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// What&#39;s happening is `-o` is getting `val1`, and because delimiters are required yet none</span>
+    <span class='doccomment'>/// were present, it stops parsing `-o`. At this point it reaches `val2` and because no</span>
+    <span class='doccomment'>/// positional arguments have been defined, it&#39;s an error of an unexpected argument.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// In this final example, we contrast the above with `clap`&#39;s default behavior where the above</span>
+    <span class='doccomment'>/// is *not* an error.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg};</span>
+    <span class='doccomment'>/// let delims = App::new(&quot;reqdelims&quot;)</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;opt&quot;)</span>
+    <span class='doccomment'>///         .short(&quot;o&quot;)</span>
+    <span class='doccomment'>///         .takes_value(true)</span>
+    <span class='doccomment'>///         .multiple(true))</span>
+    <span class='doccomment'>///     // Simulate &quot;$ reqdelims -o val1 val2 val3&quot;</span>
+    <span class='doccomment'>///     .get_matches_from(vec![</span>
+    <span class='doccomment'>///         &quot;reqdelims&quot;, &quot;-o&quot;, &quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;,</span>
+    <span class='doccomment'>///     ]);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert!(delims.is_present(&quot;opt&quot;));</span>
+    <span class='doccomment'>/// assert_eq!(delims.values_of(&quot;opt&quot;).unwrap().collect::&lt;Vec&lt;_&gt;&gt;(), [&quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;]);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>require_delimiter</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>d</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>if</span> <span class='ident'>d</span> {
+            <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
+            <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequireDelimiter</span>)
+        } <span class='kw'>else</span> {
+            <span class='self'>self</span>.<span class='ident'>unsetb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
+            <span class='self'>self</span>.<span class='ident'>unset</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequireDelimiter</span>)
+        }
+    }
+
     <span class='doccomment'>/// Specifies the separator to use when values are clumped together, defaults to `,` (comma).</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** implicitly sets `Arg::use_delimiter(true)`</span>
+    <span class='doccomment'>/// **NOTE:** implicitly sets [`Arg::use_delimiter(true)`]</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** implicitly sets `Arg::takes_value(true)`</span>
+    <span class='doccomment'>/// **NOTE:** implicitly sets [`Arg::takes_value(true)`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4058,6 +4476,8 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// assert_eq!(m.values_of(&quot;config&quot;).unwrap().collect::&lt;Vec&lt;_&gt;&gt;(), [&quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;])</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::use_delimiter(true)`]: ./struct.Arg.html#method.use_delimiter</span>
+    <span class='doccomment'>/// [`Arg::takes_value(true)`]: ./struct.Arg.html#method.takes_value</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>value_delimiter</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
@@ -4076,16 +4496,16 @@
     <span class='doccomment'>/// using, such as `FILE`, `INTERFACE`, etc. Although not required, it&#39;s somewhat convention to</span>
     <span class='doccomment'>/// use all capital letters for the value name.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **Pro Tip:** It may help to use `Arg::next_line_help(true)` if there are long, or multiple</span>
-    <span class='doccomment'>/// value names in order to not throw off the help text alignment of all options.</span>
+    <span class='doccomment'>/// **Pro Tip:** It may help to use [`Arg::next_line_help(true)`] if there are long, or</span>
+    <span class='doccomment'>/// multiple value names in order to not throw off the help text alignment of all options.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This implicitly sets `.number_of_values()` if the number of value names is</span>
+    <span class='doccomment'>/// **NOTE:** This implicitly sets [`Arg::number_of_values`] if the number of value names is</span>
     <span class='doccomment'>/// greater than one. I.e. be aware that the number of &quot;names&quot; you set for the values, will be</span>
     <span class='doccomment'>/// the *exact* number of values required to satisfy this argument</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** implicitly sets `Arg::takes_value(true)`</span>
+    <span class='doccomment'>/// **NOTE:** implicitly sets [`Arg::takes_value(true)`]</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** Does *not* require or imply `.multiple(true)`.</span>
+    <span class='doccomment'>/// **NOTE:** Does *not* require or imply [`Arg::multiple(true)`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4122,6 +4542,10 @@
     <span class='doccomment'>/// OPTIONS:</span>
     <span class='doccomment'>///     --io-files &lt;INFILE&gt; &lt;OUTFILE&gt;    Some help text</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::next_line_help(true)`]: ./struct.Arg.html#method.next_line_help</span>
+    <span class='doccomment'>/// [`Arg::number_of_values`]: ./struct.Arg.html#method.number_of_values</span>
+    <span class='doccomment'>/// [`Arg::takes_value(true)`]: ./struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>value_names</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>names</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vals</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>val_names</span> {
@@ -4140,13 +4564,13 @@
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// Specifies the name for value of option or positional arguments inside of help documenation.</span>
-    <span class='doccomment'>/// This name is cosmetic only, the name is **not** used to access arguments. This setting can</span>
-    <span class='doccomment'>/// be very helpful when describing the type of input the user should be using, such as `FILE`,</span>
-    <span class='doccomment'>/// `INTERFACE`, etc. Although not required, it&#39;s somewhat convention to use all capital</span>
-    <span class='doccomment'>/// letters for the value name.</span>
+    <span class='doccomment'>/// Specifies the name for value of [option] or [positional] arguments inside of help</span>
+    <span class='doccomment'>/// documentation. This name is cosmetic only, the name is **not** used to access arguments.</span>
+    <span class='doccomment'>/// This setting can be very helpful when describing the type of input the user should be</span>
+    <span class='doccomment'>/// using, such as `FILE`, `INTERFACE`, etc. Although not required, it&#39;s somewhat convention to</span>
+    <span class='doccomment'>/// use all capital letters for the value name.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** implicitly sets `Arg::takes_value(true)`</span>
+    <span class='doccomment'>/// **NOTE:** implicitly sets [`Arg::takes_value(true)`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4183,6 +4607,9 @@
     <span class='doccomment'>/// OPTIONS:</span>
     <span class='doccomment'>///     --config &lt;FILE&gt;     Some help text</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [option]: ./struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [positional]: ./struct.Arg.html#method.index</span>
+    <span class='doccomment'>/// [`Arg::takes_value(true)`]: ./struct.Arg.html#method.takes_value</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>value_name</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>vals</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>val_names</span> {
@@ -4198,15 +4625,15 @@
 
     <span class='doccomment'>/// Specifies the value of the argument when *not* specified at runtime.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** If the user *does not* use this argument at runtime, `ArgMatches::occurrences_of`</span>
-    <span class='doccomment'>/// will return `0` even though the `value_of` will return the default specified.</span>
+    <span class='doccomment'>/// **NOTE:** If the user *does not* use this argument at runtime, [`ArgMatches::occurrences_of`]</span>
+    <span class='doccomment'>/// will return `0` even though the [`ArgMatches::value_of`] will return the default specified.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** If the user *does not* use this argument at runtime `ArgMatches::is_present` will</span>
+    <span class='doccomment'>/// **NOTE:** If the user *does not* use this argument at runtime [`ArgMatches::is_present`] will</span>
     <span class='doccomment'>/// still return `true`. If you wish to determine whether the argument was used at runtime or</span>
-    <span class='doccomment'>/// not, consider `ArgMatches::occurrences_of` which will return `0` if the argument was *not*</span>
+    <span class='doccomment'>/// not, consider [`ArgMatches::occurrences_of`] which will return `0` if the argument was *not*</span>
     <span class='doccomment'>/// used at runtmie.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This implicitly sets `Arg::takes_value(true)`.</span>
+    <span class='doccomment'>/// **NOTE:** This implicitly sets [`Arg::takes_value(true)`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4224,6 +4651,10 @@
     <span class='doccomment'>/// assert!(m.is_present(&quot;opt&quot;));</span>
     <span class='doccomment'>/// assert_eq!(m.occurrences_of(&quot;opt&quot;), 0);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`ArgMatches::occurrences_of`]: /struct.ArgMatches.html#method.occurrences_of</span>
+    <span class='doccomment'>/// [`ArgMatches::value_of`]: ./struct.ArgMatches.html#method.value_of</span>
+    <span class='doccomment'>/// [`Arg::takes_value(true)`]: /struct.Arg.html#method.takes_value</span>
+    <span class='doccomment'>/// [`ArgMatches::is_present`]: /struct.ArgMatches.html#method.is_present</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>default_value</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>val</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='self'>self</span>.<span class='ident'>default_val</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>val</span>);
@@ -4234,7 +4665,8 @@
     <span class='doccomment'>/// indented once. This can be helpful for arguments with very long or complex help messages.</span>
     <span class='doccomment'>/// This can also be helpful for arguments with very long flag names, or many/long value names.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** To apply this setting to all arguments consider using `AppSettings::NextLineHelp`</span>
+    <span class='doccomment'>/// **NOTE:** To apply this setting to all arguments consider using</span>
+    <span class='doccomment'>/// [`AppSettings::NextLineHelp`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4257,7 +4689,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The above example displays the following help message</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='doccomment'>/// ```notrust</span>
     <span class='doccomment'>/// nlh</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// USAGE:</span>
@@ -4273,6 +4705,7 @@
     <span class='doccomment'>///         help that makes more sense to be</span>
     <span class='doccomment'>///         on a line after the option</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`AppSettings::NextLineHelp`]: ./enum.AppSettings.html#variant.NextLineHelp</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>next_line_help</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>nlh</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>nlh</span> {
             <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>NextLineHelp</span>);
@@ -4290,8 +4723,8 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** The default is 999 for all arguments.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** This setting is ignored for positional arguments which are always displayed in</span>
-    <span class='doccomment'>/// index order.</span>
+    <span class='doccomment'>/// **NOTE:** This setting is ignored for [positional arguments] which are always displayed in</span>
+    <span class='doccomment'>/// [index] order.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -4321,7 +4754,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The above example displays the following help message</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='doccomment'>/// ```notrust</span>
     <span class='doccomment'>/// cust-ord</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// USAGE:</span>
@@ -4335,23 +4768,28 @@
     <span class='doccomment'>///     -O, --other-option &lt;b&gt;    I should be first!</span>
     <span class='doccomment'>///     -o, --long-option &lt;a&gt;     Some help and text</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [positional arguments]: ./struct.Arg.html#method.index</span>
+    <span class='doccomment'>/// [index]: ./struct.Arg.html#method.index</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>display_order</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ord</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>disp_ord</span> <span class='op'>=</span> <span class='ident'>ord</span>;
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// Checks if one of the `ArgSettings` settings is set for the argument</span>
+    <span class='doccomment'>/// Checks if one of the [`ArgSettings`] settings is set for the argument</span>
+    <span class='doccomment'>/// [`ArgSettings`]: ./enum.ArgSettings.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_set</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>ArgSettings</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>s</span>)
     }
 
-    <span class='doccomment'>/// Sets one of the `ArgSettings` settings for the argument</span>
+    <span class='doccomment'>/// Sets one of the [`ArgSettings`] settings for the argument</span>
+    <span class='doccomment'>/// [`ArgSettings`]: ./enum.ArgSettings.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>ArgSettings</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>s</span>);
         <span class='self'>self</span>
     }
 
-    <span class='doccomment'>/// Unsets one of the `ArgSettings` settings for the argument</span>
+    <span class='doccomment'>/// Unsets one of the [`ArgSettings`] settings for the argument</span>
+    <span class='doccomment'>/// [`ArgSettings`]: ./enum.ArgSettings.html</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unset</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>ArgSettings</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='self'>self</span>.<span class='ident'>unsetb</span>(<span class='ident'>s</span>);
         <span class='self'>self</span>
@@ -4383,7 +4821,7 @@
             <span class='ident'>min_vals</span>: <span class='ident'>a</span>.<span class='ident'>min_vals</span>,
             <span class='ident'>max_vals</span>: <span class='ident'>a</span>.<span class='ident'>max_vals</span>,
             <span class='ident'>val_names</span>: <span class='ident'>a</span>.<span class='ident'>val_names</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>group</span>: <span class='ident'>a</span>.<span class='ident'>group</span>,
+            <span class='ident'>group</span>: <span class='ident'>a</span>.<span class='ident'>group</span>.<span class='ident'>clone</span>(),
             <span class='ident'>validator</span>: <span class='ident'>a</span>.<span class='ident'>validator</span>.<span class='ident'>clone</span>(),
             <span class='ident'>overrides</span>: <span class='ident'>a</span>.<span class='ident'>overrides</span>.<span class='ident'>clone</span>(),
             <span class='ident'>settings</span>: <span class='ident'>a</span>.<span class='ident'>settings</span>,
@@ -4410,7 +4848,7 @@
             <span class='ident'>min_vals</span>: <span class='self'>self</span>.<span class='ident'>min_vals</span>,
             <span class='ident'>max_vals</span>: <span class='self'>self</span>.<span class='ident'>max_vals</span>,
             <span class='ident'>val_names</span>: <span class='self'>self</span>.<span class='ident'>val_names</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>group</span>: <span class='self'>self</span>.<span class='ident'>group</span>,
+            <span class='ident'>group</span>: <span class='self'>self</span>.<span class='ident'>group</span>.<span class='ident'>clone</span>(),
             <span class='ident'>validator</span>: <span class='self'>self</span>.<span class='ident'>validator</span>.<span class='ident'>clone</span>(),
             <span class='ident'>overrides</span>: <span class='self'>self</span>.<span class='ident'>overrides</span>.<span class='ident'>clone</span>(),
             <span class='ident'>settings</span>: <span class='self'>self</span>.<span class='ident'>settings</span>,
@@ -4445,6 +4883,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

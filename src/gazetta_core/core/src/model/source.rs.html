@@ -367,9 +367,9 @@
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Meta</span>;
 
 <span class='kw'>static</span> <span class='ident'>MATCH_OPTIONS</span>: ::<span class='ident'>glob</span>::<span class='ident'>MatchOptions</span> <span class='op'>=</span> ::<span class='ident'>glob</span>::<span class='ident'>MatchOptions</span> {
-    <span class='ident'>case_sensitive</span>: <span class='boolvalue'>true</span>,
-    <span class='ident'>require_literal_separator</span>: <span class='boolvalue'>true</span>,
-    <span class='ident'>require_literal_leading_dot</span>: <span class='boolvalue'>false</span>,
+    <span class='ident'>case_sensitive</span>: <span class='bool-val'>true</span>,
+    <span class='ident'>require_literal_separator</span>: <span class='bool-val'>true</span>,
+    <span class='ident'>require_literal_leading_dot</span>: <span class='bool-val'>false</span>,
 };
 
 <span class='doccomment'>/// The Source object reads and interprets a source directory.</span>
@@ -657,6 +657,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

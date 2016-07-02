@@ -47,17 +47,17 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-4748' class='srclink' href='../src/clap/macros.rs.html#54-70' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-5265' class='srclink' href='../src/clap/macros.rs.html#57-73' title='goto source code'>[src]</a></span></h1>
 <pre class='rust macro'>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>value_t</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>v</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>) <span class='op'>=&gt;</span> { ... };
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>m</span>:<span class='ident'>ident</span>.<span class='ident'>value_of</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>v</span>:<span class='ident'>expr</span>), <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>) <span class='op'>=&gt;</span> { ... };
 }</pre>
-<div class='docblock'><p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <code>std::str::FromStr</code> from an
+<div class='docblock'><p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>std::str::FromStr</code></a> from an
 argument value. This macro returns a <code>Result&lt;T,String&gt;</code> which allows you as the developer to
 decide what you&#39;d like to do on a failed parse. There are two types of errors, parse failures
 and those where the argument wasn&#39;t present (such as a non-required argument). You can use
-it to get a single value, or a iterator as with the <code>ArgMatches::values_of</code></p>
+it to get a single value, or a iterator as with the <a href="./struct.ArgMatches.html#method.values_of"><code>ArgMatches::values_of</code></a></p>
 
 <h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <pre class='rust rust-example-rendered'>
@@ -92,6 +92,8 @@ it to get a single value, or a iterator as with the <code>ArgMatches::values_of<
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

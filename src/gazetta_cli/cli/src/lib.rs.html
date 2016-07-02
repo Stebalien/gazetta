@@ -215,6 +215,17 @@
 <span id="171">171</span>
 <span id="172">172</span>
 <span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -287,14 +298,20 @@
     <span class='ident'>_run</span>(<span class='kw-2'>&amp;</span><span class='ident'>gazetta</span>)
 }
 
-<span class='kw'>fn</span> <span class='ident'>_run</span>(<span class='ident'>render_paths</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderPaths</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
-    <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>env</span>::<span class='ident'>args</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
-    <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>name</span>)
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>gen_completions</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>directory</span>: <span class='ident'>P</span>) {
+    <span class='kw'>let</span> <span class='ident'>directory</span> <span class='op'>=</span> <span class='ident'>directory</span>.<span class='ident'>as_ref</span>();
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>app</span> <span class='op'>=</span> <span class='ident'>build_argparser</span>(<span class='ident'>name</span>);
+    <span class='ident'>app</span>.<span class='ident'>gen_completions</span>(<span class='ident'>name</span>, <span class='ident'>clap</span>::<span class='ident'>Shell</span>::<span class='ident'>Bash</span>, <span class='ident'>directory</span>);
+}
+
+<span class='doccomment'>/// Build the argument parser.</span>
+<span class='kw'>fn</span> <span class='ident'>build_argparser</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>App</span> {
+    <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='ident'>name</span>)
         .<span class='ident'>version</span>(<span class='macro'>env</span><span class='macro'>!</span>(<span class='string'>&quot;CARGO_PKG_VERSION&quot;</span>))
         .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;SOURCE&quot;</span>)
              .<span class='ident'>short</span>(<span class='string'>&quot;s&quot;</span>)
              .<span class='ident'>long</span>(<span class='string'>&quot;source&quot;</span>)
-             .<span class='ident'>takes_value</span>(<span class='boolvalue'>true</span>)
+             .<span class='ident'>takes_value</span>(<span class='bool-val'>true</span>)
              .<span class='ident'>help</span>(<span class='string'>&quot;Specify the source directory (defaults to the current directory)&quot;</span>))
         .<span class='ident'>subcommand</span>(<span class='ident'>SubCommand</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;render&quot;</span>)
                     .<span class='ident'>about</span>(<span class='string'>&quot;Render the website&quot;</span>)
@@ -303,7 +320,7 @@
                          .<span class='ident'>long</span>(<span class='string'>&quot;force&quot;</span>)
                          .<span class='ident'>help</span>(<span class='string'>&quot;Overwrite any existing DEST.&quot;</span>))
                     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;DEST&quot;</span>)
-                         .<span class='ident'>required</span>(<span class='boolvalue'>true</span>)
+                         .<span class='ident'>required</span>(<span class='bool-val'>true</span>)
                          .<span class='ident'>index</span>(<span class='number'>1</span>)
                          .<span class='ident'>help</span>(<span class='string'>&quot;Destination directory&quot;</span>)))
         .<span class='ident'>subcommand</span>(<span class='ident'>SubCommand</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;new&quot;</span>)
@@ -313,14 +330,19 @@
                          .<span class='ident'>long</span>(<span class='string'>&quot;edit&quot;</span>)
                          .<span class='ident'>help</span>(<span class='string'>&quot;Edit new page in your $EDITOR&quot;</span>))
                     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;WHERE&quot;</span>)
-                         .<span class='ident'>required</span>(<span class='boolvalue'>true</span>)
+                         .<span class='ident'>required</span>(<span class='bool-val'>true</span>)
                          .<span class='ident'>index</span>(<span class='number'>1</span>)
                          .<span class='ident'>help</span>(<span class='string'>&quot;Directory in which to create the page&quot;</span>))
                     .<span class='ident'>arg</span>(<span class='ident'>Arg</span>::<span class='ident'>with_name</span>(<span class='string'>&quot;TITLE&quot;</span>)
-                         .<span class='ident'>required</span>(<span class='boolvalue'>true</span>)
+                         .<span class='ident'>required</span>(<span class='bool-val'>true</span>)
                          .<span class='ident'>index</span>(<span class='number'>2</span>)
-                         .<span class='ident'>help</span>(<span class='string'>&quot;The page title&quot;</span>))).<span class='ident'>get_matches</span>();
+                         .<span class='ident'>help</span>(<span class='string'>&quot;The page title&quot;</span>)))
 
+}
+
+<span class='kw'>fn</span> <span class='ident'>_run</span>(<span class='ident'>render_paths</span>: <span class='kw-2'>&amp;</span><span class='ident'>RenderPaths</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
+    <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>env</span>::<span class='ident'>args</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>build_argparser</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>).<span class='ident'>get_matches</span>();
     <span class='kw'>let</span> <span class='ident'>source_path</span>: <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>matches</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;SOURCE&quot;</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span><span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='ident'>v</span>.<span class='ident'>as_ref</span>())).<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>PathBuf</span>::<span class='ident'>new</span>();
         <span class='ident'>path</span>.<span class='ident'>push</span>(<span class='string'>&quot;.&quot;</span>);
@@ -413,6 +435,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-82' class='srclink' href='../src/glob/lib.rs.html#271' title='goto source code'>[src]</a></span></h1>
-<pre class='rust typedef'>type GlobResult = <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>, <a class='struct' href='../glob/struct.GlobError.html' title='glob::GlobError'>GlobError</a>&gt;;</pre><div class='docblock'><p>An alias for a glob iteration result.</p>
+<pre class='rust typedef'>type GlobResult = <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html' title='std::path::PathBuf'>PathBuf</a>,&nbsp;<a class='struct' href='../glob/struct.GlobError.html' title='glob::GlobError'>GlobError</a>&gt;;</pre><div class='docblock'><p>An alias for a glob iteration result.</p>
 
 <p>This represents either a matched path or a glob iteration error,
 such as failing to read a particular directory&#39;s contents.</p>
@@ -75,6 +75,8 @@ such as failing to read a particular directory&#39;s contents.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

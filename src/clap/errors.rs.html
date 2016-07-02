@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/errors.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/errors.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>errors.rs.html -- source</title>
@@ -762,6 +762,115 @@
 <span id="718">718</span>
 <span id="719">719</span>
 <span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>process</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>StdError</span>;
@@ -771,17 +880,19 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>convert</span>::<span class='ident'>From</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>result</span>::<span class='prelude-ty'>Result</span> <span class='kw'>as</span> <span class='ident'>StdResult</span>;
 
-<span class='kw'>use</span> <span class='ident'>fmt</span>::<span class='ident'>Format</span>;
+<span class='kw'>use</span> <span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>suggestions</span>;
 <span class='kw'>use</span> <span class='ident'>args</span>::<span class='ident'>any_arg</span>::<span class='ident'>AnyArg</span>;
 
-<span class='doccomment'>/// Short hand for result type</span>
+<span class='doccomment'>/// Short hand for [`Result`] type</span>
+<span class='doccomment'>/// [`Result`]: https://doc.rust-lang.org/std/result/enum.Result.html</span>
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>StdResult</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>Error</span><span class='op'>&gt;</span>;
+
 
 <span class='doccomment'>/// Command line argument parser kind of error</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ErrorKind</span> {
-    <span class='doccomment'>/// Occurs when an `Arg` has a set of possible values, and the user provides a value which</span>
+    <span class='doccomment'>/// Occurs when an [`Arg`] has a set of possible values, and the user provides a value which</span>
     <span class='doccomment'>/// isn&#39;t in that set.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
@@ -796,6 +907,7 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::InvalidValue);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg`]: ./struct.Arg.html</span>
     <span class='ident'>InvalidValue</span>,
     <span class='doccomment'>/// Occurs when a user provides a flag, option, or argument which wasn&#39;t defined.</span>
     <span class='doccomment'>///</span>
@@ -810,9 +922,9 @@
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::UnknownArgument);</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>UnknownArgument</span>,
-    <span class='doccomment'>/// Occurs when the user provids an unrecognized subcommand which meets the threshold for being</span>
-    <span class='doccomment'>/// similar enough to an existing subcommand so as to not cause the more general</span>
-    <span class='doccomment'>/// `UnknownArgument` error.</span>
+    <span class='doccomment'>/// Occurs when the user provids an unrecognized [`SubCommand`] which meets the threshold for</span>
+    <span class='doccomment'>/// being similar enough to an existing subcommand so as to not cause the more general</span>
+    <span class='doccomment'>/// [`UnknownArgument`] error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -828,13 +940,15 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::InvalidSubcommand);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [`UnknownArgument`]: ./enum.ErrorKind.html#variant.UnknownArgument</span>
     <span class='ident'>InvalidSubcommand</span>,
-    <span class='doccomment'>/// Occurs when the user provids an unrecognized subcommand which does not meet the threshold</span>
-    <span class='doccomment'>/// for being similar enough to an existing subcommand so as to not cause the more detailed</span>
-    <span class='doccomment'>/// `InvalidSubcommand` error.</span>
+    <span class='doccomment'>/// Occurs when the user provids an unrecognized [`SubCommand`] which does not meet the</span>
+    <span class='doccomment'>/// threshold for being similar enough to an existing subcommand so as to not cause the more</span>
+    <span class='doccomment'>/// detailed [`InvalidSubcommand`] error.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This error typically happens when passing additional subcommand names to the `help`</span>
-    <span class='doccomment'>/// subcommand. Otherwise, the more general `UnknownArgument` error is used.</span>
+    <span class='doccomment'>/// subcommand. Otherwise, the more general [`UnknownArgument`] error is used.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -850,6 +964,9 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::UnrecognizedSubcommand);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [`InvalidSubcommand`]: ./enum.ErrorKind.html#variant.InvalidSubcommand</span>
+    <span class='doccomment'>/// [`UnknownArgument`]: ./enum.ErrorKind.html#variant.UnknownArgument</span>
     <span class='ident'>UnrecognizedSubcommand</span>,
     <span class='doccomment'>/// Occurs when the user provides an empty value for an option that does not allow empty</span>
     <span class='doccomment'>/// values.</span>
@@ -890,7 +1007,7 @@
     <span class='doccomment'>/// ```</span>
     <span class='ident'>ValueValidation</span>,
     <span class='doccomment'>/// Occurs when a user provides more values for an argument than were defined by setting</span>
-    <span class='doccomment'>/// `Arg::max_values`.</span>
+    <span class='doccomment'>/// [`Arg::max_values`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -904,9 +1021,10 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::TooManyValues);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::max_values`]: ./struct.Arg.html#method.max_values</span>
     <span class='ident'>TooManyValues</span>,
     <span class='doccomment'>/// Occurs when the user provides fewer values for an argument than were defined by setting</span>
-    <span class='doccomment'>/// `Arg::min_values`.</span>
+    <span class='doccomment'>/// [`Arg::min_values`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -920,10 +1038,11 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::TooFewValues);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::min_values`]: ./struct.Arg.html#method.min_values</span>
     <span class='ident'>TooFewValues</span>,
     <span class='doccomment'>/// Occurs when the user provides a different number of values for an argument than what&#39;s</span>
-    <span class='doccomment'>/// been defined by setting `Arg::number_of_values` or than was implicitly set by</span>
-    <span class='doccomment'>/// `Arg::value_names`.</span>
+    <span class='doccomment'>/// been defined by setting [`Arg::number_of_values`] or than was implicitly set by</span>
+    <span class='doccomment'>/// [`Arg::value_names`].</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -938,6 +1057,9 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::WrongNumberOfValues);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::number_of_values`]</span>
+    <span class='doccomment'>/// [`Arg::number_of_values`]: ./struct.Arg.html#method.number_of_values</span>
+    <span class='doccomment'>/// [`Arg::value_names`]: ./struct.Arg.html#method.value_names</span>
     <span class='ident'>WrongNumberOfValues</span>,
     <span class='doccomment'>/// Occurs when the user provides two values which conflict with each other and can&#39;t be used</span>
     <span class='doccomment'>/// together.</span>
@@ -971,8 +1093,8 @@
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::MissingRequiredArgument);</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>MissingRequiredArgument</span>,
-    <span class='doccomment'>/// Occurs when a subcommand is required (as defined by `AppSettings::SubcommandRequired`), but</span>
-    <span class='doccomment'>/// the user does not provide one.</span>
+    <span class='doccomment'>/// Occurs when a subcommand is required (as defined by [`AppSettings::SubcommandRequired`]),</span>
+    <span class='doccomment'>/// but the user does not provide one.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -988,9 +1110,10 @@
     <span class='doccomment'>/// assert_eq!(err.unwrap_err().kind, ErrorKind::MissingSubcommand);</span>
     <span class='doccomment'>/// # ;</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`AppSettings::SubcommandRequired`]: ./enum.AppSettings.html#variant.SubcommandRequired</span>
     <span class='ident'>MissingSubcommand</span>,
-    <span class='doccomment'>/// Occurs when either an argument or subcommand is required, as defined by</span>
-    <span class='doccomment'>/// `AppSettings::ArgRequiredElseHelp` but the user did not provide one.</span>
+    <span class='doccomment'>/// Occurs when either an argument or [`SubCommand`] is required, as defined by</span>
+    <span class='doccomment'>/// [`AppSettings::ArgRequiredElseHelp`] but the user did not provide one.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
@@ -1006,6 +1129,8 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::MissingArgumentOrSubcommand);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`SubCommand`]: ./struct.SubCommand.html</span>
+    <span class='doccomment'>/// [`AppSettings::ArgRequiredElseHelp`]: ./enum.AppSettings.html#variant.ArgRequiredElseHelp</span>
     <span class='ident'>MissingArgumentOrSubcommand</span>,
     <span class='doccomment'>/// Occurs when the user provides an argument multiple times which has not been set to allow</span>
     <span class='doccomment'>/// multiple uses.</span>
@@ -1024,7 +1149,7 @@
     <span class='doccomment'>/// ```</span>
     <span class='ident'>UnexpectedMultipleUsage</span>,
     <span class='doccomment'>/// Occurs when the user provides a value containing invalid UTF-8 for an argument and</span>
-    <span class='doccomment'>/// `AppSettings::StrictUtf8` is set.</span>
+    <span class='doccomment'>/// [`AppSettings::StrictUtf8`] is set.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Platform Speicific</span>
     <span class='doccomment'>///</span>
@@ -1047,6 +1172,7 @@
     <span class='doccomment'>/// assert!(result.is_err());</span>
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::InvalidUtf8);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`AppSettings::StrictUtf8`]: ./enum.AppSettings.html#variant.StrictUtf8</span>
     <span class='ident'>InvalidUtf8</span>,
     <span class='doccomment'>/// Not a true &quot;error&quot; as it means `--help` or similar was used. The help message will be sent</span>
     <span class='doccomment'>/// to `stdout`.</span>
@@ -1077,13 +1203,19 @@
     <span class='doccomment'>/// assert_eq!(result.unwrap_err().kind, ErrorKind::VersionDisplayed);</span>
     <span class='doccomment'>/// ```</span>
     <span class='ident'>VersionDisplayed</span>,
-    <span class='doccomment'>/// Occurs when using the `value_t!` and `values_t!` macros to convert an argument value into</span>
-    <span class='doccomment'>/// type `T`, but the argument you requested wasn&#39;t used. I.e. you asked for an argument with</span>
-    <span class='doccomment'>/// name `config` to be converted, but `config` wasn&#39;t used by the user.</span>
+    <span class='doccomment'>/// Occurs when using the [`value_t!`] and [`values_t!`] macros to convert an argument value</span>
+    <span class='doccomment'>/// into type `T`, but the argument you requested wasn&#39;t used. I.e. you asked for an argument</span>
+    <span class='doccomment'>/// with name `config` to be converted, but `config` wasn&#39;t used by the user.</span>
+    <span class='doccomment'>/// [`value_t!`]: ./macro.value_t!.html</span>
+    <span class='doccomment'>/// [`values_t!`]: ./macro.values_t!.html</span>
     <span class='ident'>ArgumentNotFound</span>,
-    <span class='doccomment'>/// Represents an I/O error, typically while writing to `stderr` or `stdout`.</span>
+    <span class='doccomment'>/// Represents an [I/O error], typically while writing to `stderr` or `stdout`.</span>
+    <span class='doccomment'>/// [I/O error]: https://doc.rust-lang.org/std/io/struct.Error.html</span>
     <span class='ident'>Io</span>,
-    <span class='doccomment'>/// Represents an Rust Display Format error, typically white writing to `stderr` or `stdout`.</span>
+    <span class='doccomment'>/// Represents an Rust&#39;s [Format error] as part of [`Display`] , typically while writing to</span>
+    <span class='doccomment'>/// `stderr` or `stdout`.</span>
+    <span class='doccomment'>/// [`Display`]: https://doc.rust-lang.org/std/fmt/trait.Display.html</span>
+    <span class='doccomment'>/// [Format error]: https://doc.rust-lang.org/std/fmt/struct.Error.html</span>
     <span class='ident'>Format</span>,
 }
 
@@ -1103,8 +1235,8 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>use_stderr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>kind</span> {
             <span class='ident'>ErrorKind</span>::<span class='ident'>HelpDisplayed</span> <span class='op'>|</span>
-            <span class='ident'>ErrorKind</span>::<span class='ident'>VersionDisplayed</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
-            _ <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='ident'>ErrorKind</span>::<span class='ident'>VersionDisplayed</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+            _ <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         }
     }
 
@@ -1125,54 +1257,62 @@
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>argument_conflict</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>O</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>other</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>O</span><span class='op'>&gt;</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>argument_conflict</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>O</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>other</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>O</span><span class='op'>&gt;</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>O</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>()];
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The argument &#39;{}&#39; cannot be used with {}\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
                              <span class='kw'>match</span> <span class='ident'>other</span> {
                                  <span class='prelude-val'>Some</span>(<span class='ident'>name</span>) <span class='op'>=&gt;</span> {
                                      <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name</span>.<span class='ident'>into</span>();
                                      <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='ident'>n</span>.<span class='ident'>clone</span>());
-                                     <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&#39;{}&#39;&quot;</span>, <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>n</span>))
+                                     <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&#39;{}&#39;&quot;</span>, <span class='ident'>n</span>))
                                  }
-                                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='string'>&quot;one or more of the other specified arguments&quot;</span>.<span class='ident'>to_owned</span>(),
+                                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>c</span>.<span class='ident'>none</span>(<span class='string'>&quot;one or more of the other specified arguments&quot;</span>.<span class='ident'>to_owned</span>()),
                              },
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>ArgumentConflict</span>,
-            <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='ident'>v</span>),
+            <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='ident'>v</span>)
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>empty_value</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>empty_value</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The argument &#39;{}&#39; requires a value but none was supplied\
                             \n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>EmptyValue</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>()]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invalid_value</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>B</span>, <span class='ident'>G</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>bad_val</span>: <span class='ident'>B</span>, <span class='ident'>good_vals</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>G</span>], <span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invalid_value</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>B</span>, <span class='ident'>G</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>bad_val</span>: <span class='ident'>B</span>, <span class='ident'>good_vals</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>G</span>], <span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>B</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>,
               <span class='ident'>G</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
@@ -1189,32 +1329,40 @@
         }
         <span class='ident'>sorted</span>.<span class='ident'>sort</span>();
         <span class='kw'>let</span> <span class='ident'>valid_values</span> <span class='op'>=</span> <span class='ident'>sorted</span>.<span class='ident'>join</span>(<span class='string'>&quot; &quot;</span>);
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} &#39;{}&#39; isn&#39;t a valid value for &#39;{}&#39;\n\t\
                             [values:{}]\n\
                             {}\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>bad_val</span>.<span class='ident'>as_ref</span>()),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>bad_val</span>.<span class='ident'>as_ref</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
                              <span class='ident'>valid_values</span>,
                              <span class='ident'>suffix</span>.<span class='number'>0</span>,
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>InvalidValue</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>(), <span class='ident'>bad_val</span>.<span class='ident'>as_ref</span>().<span class='ident'>to_owned</span>()]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invalid_subcommand</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>D</span>, <span class='ident'>N</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>subcmd</span>: <span class='ident'>S</span>, <span class='ident'>did_you_mean</span>: <span class='ident'>D</span>, <span class='ident'>name</span>: <span class='ident'>N</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invalid_subcommand</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>D</span>, <span class='ident'>N</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>subcmd</span>: <span class='ident'>S</span>, <span class='ident'>did_you_mean</span>: <span class='ident'>D</span>, <span class='ident'>name</span>: <span class='ident'>N</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
               <span class='ident'>D</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>N</span>: <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>subcmd</span>.<span class='ident'>into</span>();
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The subcommand &#39;{}&#39; wasn&#39;t recognized\n\t\
                             Did you mean &#39;{}&#39; ?\n\n\
@@ -1222,70 +1370,82 @@
                             re-running with &#39;{} {} {}&#39;\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='ident'>did_you_mean</span>.<span class='ident'>as_ref</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='ident'>did_you_mean</span>.<span class='ident'>as_ref</span>()),
                              <span class='ident'>name</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--&quot;</span>),
                              <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>,
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>InvalidSubcommand</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>s</span>]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unrecognized_subcommand</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>N</span><span class='op'>&gt;</span>(<span class='ident'>subcmd</span>: <span class='ident'>S</span>, <span class='ident'>name</span>: <span class='ident'>N</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unrecognized_subcommand</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>N</span><span class='op'>&gt;</span>(<span class='ident'>subcmd</span>: <span class='ident'>S</span>, <span class='ident'>name</span>: <span class='ident'>N</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
               <span class='ident'>N</span>: <span class='ident'>Display</span>
     {
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>subcmd</span>.<span class='ident'>into</span>();
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The subcommand &#39;{}&#39; wasn&#39;t recognized\n\n\
                             USAGE:\n\t\
                                 {} help &lt;subcommands&gt;...\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>),
                              <span class='ident'>name</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>UnrecognizedSubcommand</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>s</span>]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>missing_required_argument</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>required</span>: <span class='ident'>R</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>missing_required_argument</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>required</span>: <span class='ident'>R</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>R</span>: <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The following required arguments were not provided:{}\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
                              <span class='ident'>required</span>,
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>MissingRequiredArgument</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>missing_subcommand</span><span class='op'>&lt;</span><span class='ident'>N</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='ident'>N</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>missing_subcommand</span><span class='op'>&lt;</span><span class='ident'>N</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>name</span>: <span class='ident'>N</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>N</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} &#39;{}&#39; requires a subcommand, but one was not provided\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>name</span>),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>name</span>),
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>MissingSubcommand</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
         }
@@ -1293,76 +1453,97 @@
 
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invalid_utf8</span><span class='op'>&lt;</span><span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>invalid_utf8</span><span class='op'>&lt;</span><span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} Invalid UTF-8 was detected in one or more arguments\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>InvalidUtf8</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>too_many_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>V</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>val</span>: <span class='ident'>V</span>, <span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>too_many_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>V</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>val</span>: <span class='ident'>V</span>, <span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>V</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span> <span class='op'>+</span> <span class='ident'>ToOwned</span>,
               <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
         <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='ident'>val</span>.<span class='ident'>as_ref</span>();
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The value &#39;{}&#39; was provided to &#39;{}&#39;, but it wasn&#39;t expecting \
                             any more values\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>v</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>v</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>TooManyValues</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>(), <span class='ident'>v</span>.<span class='ident'>to_owned</span>()]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>too_few_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>min_vals</span>: <span class='ident'>u64</span>, <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>too_few_values</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>min_vals</span>: <span class='ident'>u64</span>, <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The argument &#39;{}&#39; requires at least {} values, but only {} w{} \
                             provided\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>min_vals</span>.<span class='ident'>to_string</span>()),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>curr_vals</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>min_vals</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>curr_vals</span>.<span class='ident'>to_string</span>()),
                              <span class='kw'>if</span> <span class='ident'>curr_vals</span> <span class='op'>&gt;</span> <span class='number'>1</span> {
                                  <span class='string'>&quot;ere&quot;</span>
                              } <span class='kw'>else</span> {
                                  <span class='string'>&quot;as&quot;</span>
                              },
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>TooFewValues</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>()]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>value_validation</span>(<span class='ident'>err</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>value_validation</span>(<span class='ident'>err</span>: <span class='ident'>String</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
-            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>err</span>),
+            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>err</span>),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>ValueValidation</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
         }
+    }
+
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>value_validation_auto</span>(<span class='ident'>err</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='ident'>Error</span>::<span class='ident'>value_validation</span>(<span class='ident'>err</span>, <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>::<span class='ident'>Auto</span>)
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
@@ -1370,81 +1551,110 @@
                                                    <span class='ident'>num_vals</span>: <span class='ident'>u64</span>,
                                                    <span class='ident'>curr_vals</span>: <span class='ident'>usize</span>,
                                                    <span class='ident'>suffix</span>: <span class='ident'>S</span>,
-                                                   <span class='ident'>usage</span>: <span class='ident'>U</span>)
+                                                   <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>)
                                                    <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>S</span>: <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The argument &#39;{}&#39; requires {} values, but {} w{} \
                             provided\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>num_vals</span>.<span class='ident'>to_string</span>()),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>curr_vals</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>num_vals</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>curr_vals</span>.<span class='ident'>to_string</span>()),
                              <span class='ident'>suffix</span>,
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>WrongNumberOfValues</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>()]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unexpected_multiple_usage</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unexpected_multiple_usage</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='kw-2'>&amp;</span><span class='ident'>A</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The argument &#39;{}&#39; was provided more than once, but cannot \
                             be used multiple times\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='ident'>arg</span>.<span class='ident'>to_string</span>()),
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>UnexpectedMultipleUsage</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>arg</span>.<span class='ident'>name</span>().<span class='ident'>to_owned</span>()]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unknown_argument</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='ident'>A</span>, <span class='ident'>did_you_mean</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unknown_argument</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='ident'>A</span>, <span class='ident'>did_you_mean</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>usage</span>: <span class='ident'>U</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
         <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>arg</span>.<span class='ident'>into</span>();
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} Found argument &#39;{}&#39; which wasn&#39;t expected, or isn&#39;t valid in \
             this context{}\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
-                             <span class='ident'>Format</span>::<span class='ident'>Warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>a</span>),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>a</span>),
                              <span class='kw'>if</span> <span class='ident'>did_you_mean</span>.<span class='ident'>is_empty</span>() {
                                  <span class='string'>&quot;\n&quot;</span>.<span class='ident'>to_owned</span>()
                              } <span class='kw'>else</span> {
                                  <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}\n&quot;</span>, <span class='ident'>did_you_mean</span>)
                              },
                              <span class='ident'>usage</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Good</span>(<span class='string'>&quot;--help&quot;</span>)),
+                             <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>UnknownArgument</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>a</span>]),
         }
     }
 
     <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>argument_not_found</span><span class='op'>&lt;</span><span class='ident'>A</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='ident'>A</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>io_error</span>(<span class='ident'>e</span>: <span class='kw-2'>&amp;</span><span class='ident'>Error</span>, <span class='ident'>color</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
+        <span class='ident'>Error</span> {
+            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>e</span>.<span class='ident'>description</span>()),
+            <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>Io</span>,
+            <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
+        }
+    }
+
+    <span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>argument_not_found_auto</span><span class='op'>&lt;</span><span class='ident'>A</span><span class='op'>&gt;</span>(<span class='ident'>arg</span>: <span class='ident'>A</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>
         <span class='kw'>where</span> <span class='ident'>A</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>
     {
         <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>arg</span>.<span class='ident'>into</span>();
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>::<span class='ident'>Auto</span>
+        };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The argument &#39;{}&#39; wasn&#39;t found&quot;</span>,
-                             <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>),
+                             <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
                              <span class='ident'>a</span>.<span class='ident'>clone</span>()),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>ArgumentNotFound</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>a</span>]),
@@ -1466,8 +1676,12 @@
 
 <span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Error</span> {
     <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>e</span>: <span class='ident'>io</span>::<span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>::<span class='ident'>Auto</span>
+        };
         <span class='ident'>Error</span> {
-            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>e</span>.<span class='ident'>description</span>()),
+            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>e</span>.<span class='ident'>description</span>()),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>Io</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
         }
@@ -1476,8 +1690,12 @@
 
 <span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>std_fmt</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Error</span> {
     <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>e</span>: <span class='ident'>std_fmt</span>::<span class='ident'>Error</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>fmt</span>::<span class='ident'>ColorWhen</span>::<span class='ident'>Auto</span>
+        };
         <span class='ident'>Error</span> {
-            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>Format</span>::<span class='ident'>Error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>e</span>),
+            <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>), <span class='ident'>e</span>),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>Format</span>,
             <span class='ident'>info</span>: <span class='prelude-val'>None</span>,
         }
@@ -1507,6 +1725,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

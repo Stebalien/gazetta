@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.5.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -481,8 +481,20 @@
 <span id="437">437</span>
 <span id="438">438</span>
 <span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
 </pre><pre class='rust '>
-<span class='comment'>// Copyright ⓒ 2015-2016 Kevin B. Knapp and clap-rs contributors.</span>
+<span class='comment'>// Copyright ⓒ 2015-2016 Kevin B. Knapp and [`clap-rs` contributors](https://github.com/kbknapp/clap-rs/blob/master/CONTRIBUTORS.md).</span>
 <span class='comment'>// Licensed under the MIT license</span>
 <span class='comment'>// (see LICENSE or &lt;http://opensource.org/licenses/MIT&gt;) All files in the project carrying such</span>
 <span class='comment'>// notice may not be copied, modified, or distributed except according to those terms.</span>
@@ -891,20 +903,23 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>ansi_term</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>yaml_rust</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;color&quot;</span>))]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unicode_width</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>vec_map</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>)]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>term_size</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>yaml_rust</span>::<span class='ident'>YamlLoader</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>Arg</span>, <span class='ident'>ArgGroup</span>, <span class='ident'>ArgMatches</span>, <span class='ident'>ArgSettings</span>, <span class='ident'>SubCommand</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>Arg</span>, <span class='ident'>ArgGroup</span>, <span class='ident'>ArgMatches</span>, <span class='ident'>ArgSettings</span>, <span class='ident'>SubCommand</span>, <span class='ident'>Values</span>, <span class='ident'>OsValues</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>app</span>::{<span class='ident'>App</span>, <span class='ident'>AppSettings</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>fmt</span>::<span class='ident'>Format</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>Error</span>, <span class='ident'>ErrorKind</span>, <span class='prelude-ty'>Result</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shell</span>::<span class='ident'>Shell</span>;
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>mod</span> <span class='ident'>macros</span>;
@@ -915,12 +930,21 @@
 <span class='kw'>mod</span> <span class='ident'>suggestions</span>;
 <span class='kw'>mod</span> <span class='ident'>errors</span>;
 <span class='kw'>mod</span> <span class='ident'>osstringext</span>;
-<span class='kw'>mod</span> <span class='ident'>term</span>;
 <span class='kw'>mod</span> <span class='ident'>strext</span>;
+<span class='kw'>mod</span> <span class='ident'>completions</span>;
 
 <span class='kw'>const</span> <span class='ident'>INTERNAL_ERROR_MSG</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Fatal internal error. Please consider filing a bug \
                                           report at https://github.com/kbknapp/clap-rs/issues&quot;</span>;
 <span class='kw'>const</span> <span class='ident'>INVALID_UTF8</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;unexpected invalid UTF-8 code point&quot;</span>;
+
+<span class='kw'>mod</span> <span class='ident'>shell</span> {
+    <span class='doccomment'>/// Describes which shell to produce a completions file for</span>
+    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
+    <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Shell</span> {
+        <span class='doccomment'>/// Generates a .sh completion file for the Bourne Again SHell (BASH)</span>
+        <span class='ident'>Bash</span>
+    }
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -945,6 +969,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

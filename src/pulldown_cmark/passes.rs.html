@@ -203,10 +203,10 @@
                             <span class='self'>self</span>.<span class='ident'>loose_stack</span>.<span class='ident'>push</span>(<span class='ident'>is_loose</span>);
                         }
                         <span class='ident'>Event</span>::<span class='ident'>Start</span>(<span class='ident'>Tag</span>::<span class='ident'>BlockQuote</span>) <span class='op'>=&gt;</span> {
-                            <span class='self'>self</span>.<span class='ident'>loose_stack</span>.<span class='ident'>push</span>(<span class='boolvalue'>true</span>);
+                            <span class='self'>self</span>.<span class='ident'>loose_stack</span>.<span class='ident'>push</span>(<span class='bool-val'>true</span>);
                         }
                         <span class='ident'>Event</span>::<span class='ident'>Start</span>(<span class='ident'>Tag</span>::<span class='ident'>Paragraph</span>) <span class='op'>|</span> <span class='ident'>Event</span>::<span class='ident'>End</span>(<span class='ident'>Tag</span>::<span class='ident'>Paragraph</span>) <span class='op'>=&gt;</span> {
-                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='boolvalue'>false</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>loose_stack</span>.<span class='ident'>last</span>() {
+                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='bool-val'>false</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>loose_stack</span>.<span class='ident'>last</span>() {
                                 <span class='kw'>continue</span>;
                             }
                         }
@@ -255,6 +255,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
