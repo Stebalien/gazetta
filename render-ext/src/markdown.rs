@@ -16,8 +16,7 @@
 
 use std::collections::HashMap;
 use std::borrow::Cow;
-
-use pulldown_cmark::{Parser, Event};
+use pulldown_cmark::{Parser, Event, OPTION_ENABLE_TABLES, OPTION_ENABLE_FOOTNOTES};
 use horrorshow::prelude::*;
 
 /// Markdown renderer
@@ -61,7 +60,7 @@ impl<'a> Render for Markdown<'a> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         tmpl << RenderMarkdown {
             footnotes: HashMap::new(),
-            iter: Parser::new(&self.data),
+            iter: Parser::new_ext(&self.data, OPTION_ENABLE_TABLES | OPTION_ENABLE_FOOTNOTES),
             base: &self.base
         };
     }
