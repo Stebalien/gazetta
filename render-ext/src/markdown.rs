@@ -14,9 +14,11 @@
  *  not, see <http://www.gnu.org/licenses/>.
  */
 
+use std::collections::HashMap;
+use std::borrow::Cow;
+
 use pulldown_cmark::{Parser, Event};
 use horrorshow::prelude::*;
-use std::borrow::Cow;
 
 /// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -58,6 +60,7 @@ impl<'a> Render for Markdown<'a> {
     #[inline]
     fn render(&self, tmpl: &mut TemplateBuffer) {
         tmpl << RenderMarkdown {
+            footnotes: HashMap::new(),
             iter: Parser::new(&self.data),
             base: &self.base
         };
@@ -66,10 +69,16 @@ impl<'a> Render for Markdown<'a> {
 
 struct RenderMarkdown<'a, I> {
     iter: I,
+    footnotes: HashMap<Cow<'a, str>, u32>,
     base: &'a str,
 }
 
 impl<'a, I> RenderMarkdown<'a, I> {
+    fn footnote(&mut self, name: Cow<'a, str>) -> u32 {
+        let next_idx = (self.footnotes.len() as u32) + 1;
+        *self.footnotes.entry(name).or_insert(next_idx)
+    }
+
     fn make_relative<'b>(&self, dest: Cow<'b, str>) -> Cow<'b, str> {
         if dest.starts_with("./") {
             if self.base.is_empty() {
@@ -110,9 +119,19 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     // Because rust doesn't reborrow? (WTF?)
                     let s: &mut Self = &mut *self;
                     match tag {
+                        Tag::FootnoteDefinition(name) => tmpl << html! {
+                            p(class="footnote", id=format_args!("footnote-{}", name)) {
+                                sup(class="footnote-label") : s.footnote(name);
+                                : s;
+                            }
+                        },
                         Tag::Paragraph          => tmpl << html! { p : s },
                         Tag::Rule               => tmpl << html! { hr: s },
                         Tag::BlockQuote         => tmpl << html! { blockquote : s },
+                        Tag::Table(_)           => tmpl << html! { table : s },
+                        Tag::TableHead          => tmpl << html! { thead { tr : s } },
+                        Tag::TableRow           => tmpl << html! { tr : s },
+                        Tag::TableCell          => tmpl << html! { td : s },
                         Tag::List(Some(0))      => tmpl << html! { ol : s },
                         Tag::List(Some(start))  => tmpl << html! { ol(start = start) : s },
                         Tag::List(None)         => tmpl << html! { ul : s },
@@ -145,9 +164,9 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                             Start(_) => nest += 1,
                                             End(_) if nest == 0 => break,
                                             End(_) => nest -= 1,
-                                            Text(txt) | InlineHtml(txt) => tmpl << &*txt,
+                                            Text(txt) => tmpl << &*txt,
                                             SoftBreak | HardBreak => tmpl << " ",
-                                            Html(_) => (),
+                                            FootnoteReference(_) | InlineHtml(_) | Html(_) => (),
                                         }
                                     }
                                 }))
@@ -165,6 +184,11 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 },
                 End(_) => break,
+                FootnoteReference(name) => tmpl << html! {
+                    sup(class="footnote-reference") {
+                        a(href=format_args!("#{}", name)) : self.footnote(name);
+                    }
+                },
                 Text(text) => tmpl << &*text,
                 Html(html) | InlineHtml(html) => tmpl << raw!(html),
                 SoftBreak => tmpl << "\n",
