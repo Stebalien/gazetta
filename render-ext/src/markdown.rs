@@ -119,7 +119,7 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     let s: &mut Self = &mut *self;
                     match tag {
                         Tag::FootnoteDefinition(name) => tmpl << html! {
-                            p(class="footnote", id=format_args!("footnote-{}", name)) {
+                            div(class="footnote", id=format_args!("footnote-{}", name)) {
                                 sup(class="footnote-label") : s.footnote(name);
                                 : s;
                             }
