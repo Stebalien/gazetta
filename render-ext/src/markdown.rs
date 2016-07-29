@@ -186,7 +186,7 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                 End(_) => break,
                 FootnoteReference(name) => tmpl << html! {
                     sup(class="footnote-reference") {
-                        a(href=format_args!("#{}", name)) : self.footnote(name);
+                        a(href=format_args!("#footnote-{}", name)) : self.footnote(name);
                     }
                 },
                 Text(text) => tmpl << &*text,
