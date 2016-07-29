@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -493,13 +493,15 @@
 <span id="449">449</span>
 <span id="450">450</span>
 <span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright ⓒ 2015-2016 Kevin B. Knapp and [`clap-rs` contributors](https://github.com/kbknapp/clap-rs/blob/master/CONTRIBUTORS.md).</span>
 <span class='comment'>// Licensed under the MIT license</span>
 <span class='comment'>// (see LICENSE or &lt;http://opensource.org/licenses/MIT&gt;) All files in the project carrying such</span>
 <span class='comment'>// notice may not be copied, modified, or distributed except according to those terms.</span>
 
-<span class='doccomment'>//! A simple to use, efficient, and full featured library for parsing command line arguments and subcommands when writing console, or terminal applications.</span>
+<span class='doccomment'>//! A simple-to-use, efficient, and full-featured library for parsing command line arguments and subcommands when writing console/terminal applications.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ## About</span>
 <span class='doccomment'>//!</span>
@@ -838,7 +840,7 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! The following is a list of optional `clap` features:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! * **&quot;suggestions&quot;**: Turns on the `Did you mean &#39;--myoption&#39; ?` feature for when users make typos.</span>
+<span class='doccomment'>//! * **&quot;suggestions&quot;**: Turns on the `Did you mean &#39;--myoption&#39;?` feature for when users make typos.</span>
 <span class='doccomment'>//! * **&quot;color&quot;**: Turns on colored error messages. This feature only works on non-Windows OSs.</span>
 <span class='doccomment'>//! * **&quot;lints&quot;**: This is **not** included by default and should only be used while developing to run basic lints against changes. This can only be used on Rust nightly.</span>
 <span class='doccomment'>//! * **&quot;debug&quot;**: This is **not** included by default and should only be used while developing to display debugging information.</span>
@@ -885,7 +887,7 @@
         <span class='ident'>missing_debug_implementations</span>,
         <span class='ident'>missing_copy_implementations</span>,
         <span class='ident'>trivial_casts</span>,
-        <span class='ident'>trivial_numeric_casts</span>,
+        <span class='comment'>//trivial_numeric_casts,       // While bitflags fails this lint</span>
         <span class='ident'>unused_import_braces</span>,
         <span class='ident'>unused_allocation</span>,
         <span class='ident'>unused_qualifications</span>)]</span>
@@ -942,7 +944,9 @@
     <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
     <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Shell</span> {
         <span class='doccomment'>/// Generates a .sh completion file for the Bourne Again SHell (BASH)</span>
-        <span class='ident'>Bash</span>
+        <span class='ident'>Bash</span>,
+        <span class='doccomment'>/// Generates a .fish completion file for the friendly interactive shell (fish)</span>
+        <span class='ident'>Fish</span>,
     }
 }
 </pre>

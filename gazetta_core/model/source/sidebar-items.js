@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Source","The Source object reads and interprets a source directory."]]});

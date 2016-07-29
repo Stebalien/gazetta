@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/app/settings.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/app/settings.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>settings.rs.html -- source</title>
@@ -702,6 +702,7 @@
 <span id="658">658</span>
 <span id="659">659</span>
 <span id="660">660</span>
+<span id="661">661</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
@@ -1052,11 +1053,12 @@
     <span class='doccomment'>///         &quot;myprog&quot;, &quot;subcmd&quot;, &quot;--option&quot;, &quot;value&quot;, &quot;-fff&quot;, &quot;--flag&quot;</span>
     <span class='doccomment'>///     ]);</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// // All trailing arguments will be stored under the subcommand&#39;s sub-matches using a value</span>
-    <span class='doccomment'>/// // of the runtime subcommand name (in this case &quot;subcmd&quot;)</span>
+    <span class='doccomment'>/// // All trailing arguments will be stored under the subcommand&#39;s sub-matches using an empty</span>
+    <span class='doccomment'>/// // string argument name</span>
     <span class='doccomment'>/// match m.subcommand() {</span>
     <span class='doccomment'>///     (external, Some(ext_m)) =&gt; {</span>
-    <span class='doccomment'>///          let ext_args: Vec&lt;&amp;str&gt; = ext_m.values_of(external).unwrap().collect();</span>
+    <span class='doccomment'>///          let ext_args: Vec&lt;&amp;str&gt; = ext_m.values_of(&quot;&quot;).unwrap().collect();</span>
+    <span class='doccomment'>///          assert_eq!(external, &quot;subcmd&quot;);</span>
     <span class='doccomment'>///          assert_eq!(ext_args, [&quot;--option&quot;, &quot;value&quot;, &quot;-fff&quot;, &quot;--flag&quot;]);</span>
     <span class='doccomment'>///     },</span>
     <span class='doccomment'>///     _ =&gt; {},</span>
@@ -1291,7 +1293,7 @@
     <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>FromStr</span><span class='op'>&gt;</span>::<span class='prelude-val'>Err</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>.<span class='ident'>to_ascii_lowercase</span>() {
             <span class='string'>&quot;subcommandsnegatereqs&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>SubcommandsNegateReqs</span>),
-            <span class='string'>&quot;subcommandsrequired&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>SubcommandRequired</span>),
+            <span class='string'>&quot;subcommandrequired&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>SubcommandRequired</span>),
             <span class='string'>&quot;argrequiredelsehelp&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>ArgRequiredElseHelp</span>),
             <span class='string'>&quot;globalversion&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>GlobalVersion</span>),
             <span class='string'>&quot;versionlesssubcommands&quot;</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>AppSettings</span>::<span class='ident'>VersionlessSubcommands</span>),
@@ -1326,7 +1328,7 @@
     <span class='kw'>fn</span> <span class='ident'>app_settings_fromstr</span>() {
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;subcommandsnegatereqs&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
                    <span class='ident'>AppSettings</span>::<span class='ident'>SubcommandsNegateReqs</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;subcommandsrequired&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;subcommandrequired&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
                    <span class='ident'>AppSettings</span>::<span class='ident'>SubcommandRequired</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;argrequiredelsehelp&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
                    <span class='ident'>AppSettings</span>::<span class='ident'>ArgRequiredElseHelp</span>);

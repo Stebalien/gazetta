@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#6-451' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>A simple to use, efficient, and full featured library for parsing command line arguments and subcommands when writing console, or terminal applications.</p>
+               </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#6-453' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A simple-to-use, efficient, and full-featured library for parsing command line arguments and subcommands when writing console/terminal applications.</p>
 
 <h2 id='about' class='section-header'><a href='#about'>About</a></h2>
 <p><code>clap</code> is used to parse <em>and validate</em> the string of command line arguments provided by the user at runtime. You provide the list of valid possibilities, and <code>clap</code> handles the rest. This means you focus on your <em>applications</em> functionality, and less on the parsing and validating of arguments.</p>
@@ -369,7 +369,7 @@ features = [ &quot;suggestions&quot;, &quot;color&quot; ]
 <p>The following is a list of optional <code>clap</code> features:</p>
 
 <ul>
-<li><strong>&quot;suggestions&quot;</strong>: Turns on the <code>Did you mean &#39;--myoption&#39; ?</code> feature for when users make typos.</li>
+<li><strong>&quot;suggestions&quot;</strong>: Turns on the <code>Did you mean &#39;--myoption&#39;?</code> feature for when users make typos.</li>
 <li><strong>&quot;color&quot;</strong>: Turns on colored error messages. This feature only works on non-Windows OSs.</li>
 <li><strong>&quot;lints&quot;</strong>: This is <strong>not</strong> included by default and should only be used while developing to run basic lints against changes. This can only be used on Rust nightly.</li>
 <li><strong>&quot;debug&quot;</strong>: This is <strong>not</strong> included by default and should only be used while developing to display debugging information.</li>
@@ -418,6 +418,16 @@ evaluable expression, suitable for use as a static array size, or the value of a
 parsing arguments. This enum also provides a <code>variants()</code> function which can be used to
 retrieve a <code>Vec&lt;&amp;&#39;static str&gt;</code> of the variant names, as well as implementing <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>FromStr</code></a> and
 <a href="https://doc.rust-lang.org/std/fmt/trait.Display.html"><code>Display</code></a> automatically.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.crate_authors!.html'
+                                  title='clap::crate_authors!'>crate_authors!</a></td>
+                           <td class='docblock short'>
+                                <p>Allows you to pull the authors for the app from your Cargo.toml at
+compile time as
+&quot;author1 lastname. <a href="mailto:author1@example.com">author1@example.com</a>&quot;,
+    &quot;author2 lastname. <a href="mailto:author2@example.com">author2@example.com</a>&quot;</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

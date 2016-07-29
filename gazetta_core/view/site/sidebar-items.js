@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Site","A \"website\""]]});

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/errors.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/errors.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>errors.rs.html -- source</title>
@@ -871,6 +871,8 @@
 <span id="827">827</span>
 <span id="828">828</span>
 <span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>process</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>StdError</span>;
@@ -1318,6 +1320,10 @@
               <span class='ident'>A</span>: <span class='ident'>AnyArg</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Display</span>,
               <span class='ident'>U</span>: <span class='ident'>Display</span>
     {
+        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
+            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>when</span>: <span class='ident'>color</span>
+        };
         <span class='kw'>let</span> <span class='ident'>suffix</span> <span class='op'>=</span>
             <span class='ident'>suggestions</span>::<span class='ident'>did_you_mean_suffix</span>(<span class='ident'>bad_val</span>.<span class='ident'>as_ref</span>(),
                                              <span class='ident'>good_vals</span>.<span class='ident'>iter</span>(),
@@ -1325,17 +1331,14 @@
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sorted</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
         <span class='kw'>for</span> <span class='ident'>v</span> <span class='kw'>in</span> <span class='ident'>good_vals</span> {
-            <span class='ident'>sorted</span>.<span class='ident'>push</span>(<span class='ident'>v</span>.<span class='ident'>as_ref</span>());
+            <span class='kw'>let</span> <span class='ident'>val</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='ident'>v</span>));
+            <span class='ident'>sorted</span>.<span class='ident'>push</span>(<span class='ident'>val</span>);
         }
         <span class='ident'>sorted</span>.<span class='ident'>sort</span>();
-        <span class='kw'>let</span> <span class='ident'>valid_values</span> <span class='op'>=</span> <span class='ident'>sorted</span>.<span class='ident'>join</span>(<span class='string'>&quot; &quot;</span>);
-        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>fmt</span>::<span class='ident'>Colorizer</span> {
-            <span class='ident'>use_stderr</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>when</span>: <span class='ident'>color</span>
-        };
+        <span class='kw'>let</span> <span class='ident'>valid_values</span> <span class='op'>=</span> <span class='ident'>sorted</span>.<span class='ident'>join</span>(<span class='string'>&quot;, &quot;</span>);
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} &#39;{}&#39; isn&#39;t a valid value for &#39;{}&#39;\n\t\
-                            [values:{}]\n\
+                            [values: {}]\n\
                             {}\n\n\
                             {}\n\n\
                             For more information try {}&quot;</span>,
@@ -1365,7 +1368,7 @@
         };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The subcommand &#39;{}&#39; wasn&#39;t recognized\n\t\
-                            Did you mean &#39;{}&#39; ?\n\n\
+                            Did you mean &#39;{}&#39;?\n\n\
                             If you believe you received this message in error, try \
                             re-running with &#39;{} {} {}&#39;\n\n\
                             {}\n\n\
@@ -1395,11 +1398,12 @@
         };
         <span class='ident'>Error</span> {
             <span class='ident'>message</span>: <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} The subcommand &#39;{}&#39; wasn&#39;t recognized\n\n\
-                            USAGE:\n\t\
+                            {}\n\t\
                                 {} help &lt;subcommands&gt;...\n\n\
                             For more information try {}&quot;</span>,
                              <span class='ident'>c</span>.<span class='ident'>error</span>(<span class='string'>&quot;error:&quot;</span>),
                              <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>),
+                             <span class='ident'>c</span>.<span class='ident'>warning</span>(<span class='string'>&quot;USAGE:&quot;</span>),
                              <span class='ident'>name</span>,
                              <span class='ident'>c</span>.<span class='ident'>good</span>(<span class='string'>&quot;--help&quot;</span>)),
             <span class='ident'>kind</span>: <span class='ident'>ErrorKind</span>::<span class='ident'>UnrecognizedSubcommand</span>,

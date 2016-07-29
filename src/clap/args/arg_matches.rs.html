@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.9.1/src/args/arg_matches.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/args/arg_matches.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg_matches.rs.html -- source</title>
@@ -705,6 +705,7 @@
 <span id="661">661</span>
 <span id="662">662</span>
 <span id="663">663</span>
+<span id="664">664</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>OsStr</span>, <span class='ident'>OsString</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
@@ -1201,11 +1202,12 @@
     <span class='doccomment'>///         &quot;myprog&quot;, &quot;subcmd&quot;, &quot;--option&quot;, &quot;value&quot;, &quot;-fff&quot;, &quot;--flag&quot;</span>
     <span class='doccomment'>///     ]);</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// // All trailing arguments will be stored under the subcommand&#39;s sub-matches using a value</span>
-    <span class='doccomment'>/// // of the runtime subcommand name (in this case &quot;subcmd&quot;)</span>
+    <span class='doccomment'>/// // All trailing arguments will be stored under the subcommand&#39;s sub-matches using an empty</span>
+    <span class='doccomment'>/// // string argument name</span>
     <span class='doccomment'>/// match app_m.subcommand() {</span>
     <span class='doccomment'>///     (external, Some(sub_m)) =&gt; {</span>
-    <span class='doccomment'>///          let ext_args: Vec&lt;&amp;str&gt; = sub_m.values_of(external).unwrap().collect();</span>
+    <span class='doccomment'>///          let ext_args: Vec&lt;&amp;str&gt; = sub_m.values_of(&quot;&quot;).unwrap().collect();</span>
+    <span class='doccomment'>///          assert_eq!(external, &quot;subcmd&quot;);</span>
     <span class='doccomment'>///          assert_eq!(ext_args, [&quot;--option&quot;, &quot;value&quot;, &quot;-fff&quot;, &quot;--flag&quot;]);</span>
     <span class='doccomment'>///     },</span>
     <span class='doccomment'>///     _ =&gt; {},</span>

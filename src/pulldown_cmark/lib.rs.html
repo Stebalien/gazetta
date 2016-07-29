@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.3/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.8/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -70,24 +70,42 @@
 <span id="26">26</span>
 <span id="27">27</span>
 <span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2015 Google Inc. All rights reserved.</span>
 <span class='comment'>//</span>
-<span class='comment'>// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class='comment'>// you may not use this file except in compliance with the License.</span>
-<span class='comment'>// You may obtain a copy of the License at</span>
+<span class='comment'>// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class='comment'>// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class='comment'>// in the Software without restriction, including without limitation the rights</span>
+<span class='comment'>// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class='comment'>// copies of the Software, and to permit persons to whom the Software is</span>
+<span class='comment'>// furnished to do so, subject to the following conditions:</span>
 <span class='comment'>//</span>
-<span class='comment'>//     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class='comment'>// The above copyright notice and this permission notice shall be included in</span>
+<span class='comment'>// all copies or substantial portions of the Software.</span>
 <span class='comment'>//</span>
-<span class='comment'>// Unless required by applicable law or agreed to in writing, software</span>
-<span class='comment'>// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class='comment'>// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class='comment'>// See the License for the specific language governing permissions and</span>
-<span class='comment'>// limitations under the License.</span>
+<span class='comment'>// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class='comment'>// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class='comment'>// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class='comment'>// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class='comment'>// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class='comment'>// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class='comment'>// THE SOFTWARE.</span>
 
 <span class='doccomment'>//! Pull parser for commonmark.</span>
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>html</span>;
+
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
 
 <span class='kw'>mod</span> <span class='ident'>passes</span>;
 <span class='kw'>mod</span> <span class='ident'>parse</span>;
@@ -98,7 +116,7 @@
 <span class='kw'>mod</span> <span class='ident'>utils</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>passes</span>::<span class='ident'>Parser</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>parse</span>::{<span class='ident'>Event</span>, <span class='ident'>Tag</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>parse</span>::{<span class='ident'>Event</span>, <span class='ident'>Tag</span>, <span class='ident'>Options</span>, <span class='ident'>OPTION_ENABLE_TABLES</span>, <span class='ident'>OPTION_ENABLE_FOOTNOTES</span>};
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

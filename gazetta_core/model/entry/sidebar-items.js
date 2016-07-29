@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Entry","An entry in the website."],["StaticEntry","A static entry."]]});
