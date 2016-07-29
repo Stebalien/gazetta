@@ -240,7 +240,6 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
-<span id="199">199</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -260,8 +259,7 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
-
-<span class='kw'>use</span> <span class='ident'>pulldown_cmark</span>::{<span class='ident'>Parser</span>, <span class='ident'>Event</span>};
+<span class='kw'>use</span> <span class='ident'>pulldown_cmark</span>::{<span class='ident'>Parser</span>, <span class='ident'>Event</span>, <span class='ident'>OPTION_ENABLE_TABLES</span>, <span class='ident'>OPTION_ENABLE_FOOTNOTES</span>};
 <span class='kw'>use</span> <span class='ident'>horrorshow</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 
 <span class='doccomment'>/// Markdown renderer</span>
@@ -305,7 +303,7 @@
     <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='ident'>RenderMarkdown</span> {
             <span class='ident'>footnotes</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
-            <span class='ident'>iter</span>: <span class='ident'>Parser</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>data</span>),
+            <span class='ident'>iter</span>: <span class='ident'>Parser</span>::<span class='ident'>new_ext</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>data</span>, <span class='ident'>OPTION_ENABLE_TABLES</span> <span class='op'>|</span> <span class='ident'>OPTION_ENABLE_FOOTNOTES</span>),
             <span class='ident'>base</span>: <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>base</span>
         };
     }
