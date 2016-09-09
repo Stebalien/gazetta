@@ -34,10 +34,11 @@ impl<'a> Render for Date<'a> {
                                        self.0.year(),
                                        self.0.month(),
                                        self.0.day())
-                ) : format_args!("{:04}-{:02}-{:02}",
-                                 self.0.year(),
-                                 self.0.month(),
-                                 self.0.day())
+            ) {
+                span(class="date-year") : format_args!("{:04}", self.0.year());
+                span(class="date-month") : format_args!("{:02}", self.0.month());
+                span(class="date-day") : format_args!("{:02}", self.0.day());
+            }
         }
     }
 }
