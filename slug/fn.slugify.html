@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-7' class='srclink' href='../src/slug/lib.rs.html#20-71' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-7' class='srclink' href='../src/slug/lib.rs.html#21-67' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub fn slugify&lt;S:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;&gt;(s: S) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></pre><div class='docblock'><p>Convert any unicode string to an ascii &quot;slug&quot; (useful for file names/url components)</p>
 
 <p>The returned &quot;slug&quot; will consist of a-z, 0-9, and &#39;-&#39;. Furthermore, a slug will
@@ -60,8 +60,8 @@ never contain more than one &#39;-&#39; in a row and will never start or end wit
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;test\nit   now!&quot;</span>), <span class='string'>&quot;test-it-now&quot;</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;  --test_-_cool&quot;</span>), <span class='string'>&quot;test-cool&quot;</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;Æúű--cool?&quot;</span>), <span class='string'>&quot;aeuu-cool&quot;</span>);
-<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;You &amp; Me&quot;</span>), <span class='string'>&quot;you-and-me&quot;</span>);
-<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;user@example.com&quot;</span>), <span class='string'>&quot;user-at-example-com&quot;</span>);</pre>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;You &amp; Me&quot;</span>), <span class='string'>&quot;you-me&quot;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>slugify</span>(<span class='string'>&quot;user@example.com&quot;</span>), <span class='string'>&quot;user-example-com&quot;</span>);</pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

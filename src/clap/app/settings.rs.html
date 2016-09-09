@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/app/settings.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/app/settings.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>settings.rs.html -- source</title>
@@ -703,9 +703,11 @@
 <span id="659">659</span>
 <span id="660">660</span>
 <span id="661">661</span>
+<span id="662">662</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
+<span class='comment'>// Std</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
     <span class='ident'>flags</span> <span class='ident'>Flags</span>: <span class='ident'>u32</span> {
@@ -1361,7 +1363,7 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;hidden&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
                    <span class='ident'>AppSettings</span>::<span class='ident'>Hidden</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;dontdelimittrailingvalues&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>unwrap</span>(),
-                    <span class='ident'>AppSettings</span>::<span class='ident'>DontDelimitTrailingValues</span>);
+                   <span class='ident'>AppSettings</span>::<span class='ident'>DontDelimitTrailingValues</span>);
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='string'>&quot;hahahaha&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>AppSettings</span><span class='op'>&gt;</span>().<span class='ident'>is_err</span>());
     }
 }

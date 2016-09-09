@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/args/settings.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/args/settings.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>settings.rs.html -- source</title>
@@ -137,9 +137,11 @@
 <span id="93">93</span>
 <span id="94">94</span>
 <span id="95">95</span>
+<span id="96">96</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
+<span class='comment'>// Std</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
     <span class='ident'>flags</span> <span class='ident'>Flags</span>: <span class='ident'>u16</span> {

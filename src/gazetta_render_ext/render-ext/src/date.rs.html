@@ -86,6 +86,7 @@
 <span id="42">42</span>
 <span id="43">43</span>
 <span id="44">44</span>
+<span id="45">45</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -123,10 +124,11 @@
                                        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>year</span>(),
                                        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>month</span>(),
                                        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>day</span>())
-                ) : <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;{:04}-{:02}-{:02}&quot;</span>,
-                                 <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>year</span>(),
-                                 <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>month</span>(),
-                                 <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>day</span>())
+            ) {
+                <span class='ident'>span</span>(<span class='ident'>class</span><span class='op'>=</span><span class='string'>&quot;date-year&quot;</span>) : <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;{:04}&quot;</span>, <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>year</span>());
+                <span class='ident'>span</span>(<span class='ident'>class</span><span class='op'>=</span><span class='string'>&quot;date-month&quot;</span>) : <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;{:02}&quot;</span>, <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>month</span>());
+                <span class='ident'>span</span>(<span class='ident'>class</span><span class='op'>=</span><span class='string'>&quot;date-day&quot;</span>) : <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;{:02}&quot;</span>, <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>day</span>());
+            }
         }
     }
 }

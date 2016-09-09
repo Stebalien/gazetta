@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/args/arg.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/args/arg.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg.rs.html -- source</title>
@@ -2396,60 +2396,6 @@
 <span id="2352">2352</span>
 <span id="2353">2353</span>
 <span id="2354">2354</span>
-<span id="2355">2355</span>
-<span id="2356">2356</span>
-<span id="2357">2357</span>
-<span id="2358">2358</span>
-<span id="2359">2359</span>
-<span id="2360">2360</span>
-<span id="2361">2361</span>
-<span id="2362">2362</span>
-<span id="2363">2363</span>
-<span id="2364">2364</span>
-<span id="2365">2365</span>
-<span id="2366">2366</span>
-<span id="2367">2367</span>
-<span id="2368">2368</span>
-<span id="2369">2369</span>
-<span id="2370">2370</span>
-<span id="2371">2371</span>
-<span id="2372">2372</span>
-<span id="2373">2373</span>
-<span id="2374">2374</span>
-<span id="2375">2375</span>
-<span id="2376">2376</span>
-<span id="2377">2377</span>
-<span id="2378">2378</span>
-<span id="2379">2379</span>
-<span id="2380">2380</span>
-<span id="2381">2381</span>
-<span id="2382">2382</span>
-<span id="2383">2383</span>
-<span id="2384">2384</span>
-<span id="2385">2385</span>
-<span id="2386">2386</span>
-<span id="2387">2387</span>
-<span id="2388">2388</span>
-<span id="2389">2389</span>
-<span id="2390">2390</span>
-<span id="2391">2391</span>
-<span id="2392">2392</span>
-<span id="2393">2393</span>
-<span id="2394">2394</span>
-<span id="2395">2395</span>
-<span id="2396">2396</span>
-<span id="2397">2397</span>
-<span id="2398">2398</span>
-<span id="2399">2399</span>
-<span id="2400">2400</span>
-<span id="2401">2401</span>
-<span id="2402">2402</span>
-<span id="2403">2403</span>
-<span id="2404">2404</span>
-<span id="2405">2405</span>
-<span id="2406">2406</span>
-<span id="2407">2407</span>
-<span id="2408">2408</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
@@ -2600,89 +2546,37 @@
 
         <span class='kw'>for</span> (<span class='ident'>k</span>, <span class='ident'>v</span>) <span class='kw'>in</span> <span class='ident'>arg_settings</span>.<span class='ident'>iter</span>() {
             <span class='ident'>a</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>k</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>() {
-                <span class='string'>&quot;short&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>short</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;long&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>long</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;help&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>help</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;required&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>required</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;takes_value&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>takes_value</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;index&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>index</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>u64</span>),
-                <span class='string'>&quot;global&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>global</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;multiple&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>multiple</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;hidden&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>hidden</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;next_line_help&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>next_line_help</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;empty_values&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>empty_values</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;group&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>group</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;number_of_values&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>number_of_values</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>u64</span>),
-                <span class='string'>&quot;max_values&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>max_values</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>u64</span>),
-                <span class='string'>&quot;min_values&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>min_values</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>u64</span>),
-                <span class='string'>&quot;value_name&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>value_name</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;use_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>use_delimiter</span>(<span class='ident'>v</span>.<span class='ident'>as_bool</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;value_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>value_delimiter</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;required_unless&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>required_unless</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;display_order&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>display_order</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>unwrap</span>() <span class='kw'>as</span> <span class='ident'>usize</span>),
-                <span class='string'>&quot;default_value&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>a</span>.<span class='ident'>default_value</span>(<span class='ident'>v</span>.<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>()),
-                <span class='string'>&quot;value_names&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>value_name</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
-                <span class='string'>&quot;groups&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>group</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
-                <span class='string'>&quot;requires&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>requires</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
-                <span class='string'>&quot;conflicts_with&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>conflicts_with</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
-                <span class='string'>&quot;overrides_with&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>overrides_with</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
-                <span class='string'>&quot;possible_values&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>possible_value</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
-                <span class='string'>&quot;required_unless_one&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>required_unless</span>(<span class='ident'>s</span>);
-                        }
-                    }
-                    <span class='ident'>a</span>
-                }
+                <span class='string'>&quot;short&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>short</span>),
+                <span class='string'>&quot;long&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>long</span>),
+                <span class='string'>&quot;help&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>help</span>),
+                <span class='string'>&quot;required&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>required</span>),
+                <span class='string'>&quot;takes_value&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>takes_value</span>),
+                <span class='string'>&quot;index&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_u64</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>index</span>),
+                <span class='string'>&quot;global&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>global</span>),
+                <span class='string'>&quot;multiple&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>multiple</span>),
+                <span class='string'>&quot;hidden&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>hidden</span>),
+                <span class='string'>&quot;next_line_help&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>next_line_help</span>),
+                <span class='string'>&quot;empty_values&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>empty_values</span>),
+                <span class='string'>&quot;group&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>group</span>),
+                <span class='string'>&quot;number_of_values&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_u64</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>number_of_values</span>),
+                <span class='string'>&quot;max_values&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_u64</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>max_values</span>),
+                <span class='string'>&quot;min_values&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_u64</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>min_values</span>),
+                <span class='string'>&quot;value_name&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>value_name</span>),
+                <span class='string'>&quot;use_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>use_delimiter</span>),
+                <span class='string'>&quot;require_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_bool</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>require_delimiter</span>),
+                <span class='string'>&quot;value_delimiter&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>value_delimiter</span>),
+                <span class='string'>&quot;required_unless&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>required_unless</span>),
+                <span class='string'>&quot;display_order&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_usize</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>display_order</span>),
+                <span class='string'>&quot;default_value&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_to_str</span><span class='macro'>!</span>(<span class='ident'>a</span>, <span class='ident'>v</span>, <span class='ident'>default_value</span>),
+                <span class='string'>&quot;value_names&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>value_name</span>),
+                <span class='string'>&quot;groups&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>group</span>),
+                <span class='string'>&quot;requires&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>requires</span>),
+                <span class='string'>&quot;conflicts_with&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>conflicts_with</span>),
+                <span class='string'>&quot;overrides_with&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>overrides_with</span>),
+                <span class='string'>&quot;possible_values&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>possible_value</span>),
+                <span class='string'>&quot;required_unless_one&quot;</span> <span class='op'>=&gt;</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>required_unless</span>),
                 <span class='string'>&quot;required_unless_all&quot;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>for</span> <span class='ident'>ys</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>ys</span>.<span class='ident'>as_str</span>() {
-                            <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>.<span class='ident'>required_unless</span>(<span class='ident'>s</span>);
-                        }
-                    }
+                    <span class='ident'>a</span> <span class='op'>=</span> <span class='macro'>yaml_vec_or_str</span><span class='macro'>!</span>(<span class='ident'>v</span>, <span class='ident'>a</span>, <span class='ident'>required_unless</span>);
                     <span class='ident'>a</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequiredUnlessAll</span>);
                     <span class='ident'>a</span>
                 }
@@ -2921,9 +2815,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Any valid UTF-8 is allowed in the help text. The one exception is when one wishes to</span>
     <span class='doccomment'>/// include a newline in the help text and have the following text be properly aligned with all</span>
-    <span class='doccomment'>/// the other help text. To include a newline **and** be properly aligned with all other</span>
-    <span class='doccomment'>/// arguments help text, it must be specified via a tag inside curly braces, like so `{n}`.</span>
-    <span class='doccomment'>/// Using the standard `\n` will produce a newline, but it will not be properly aligned.</span>
+    <span class='doccomment'>/// the other help text.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -4482,8 +4374,8 @@
         <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
         <span class='self'>self</span>.<span class='ident'>val_delim</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>d</span>.<span class='ident'>chars</span>()
-                               .<span class='ident'>nth</span>(<span class='number'>0</span>)
-                               .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to get value_delimiter from arg&quot;</span>));
+            .<span class='ident'>nth</span>(<span class='number'>0</span>)
+            .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to get value_delimiter from arg&quot;</span>));
         <span class='self'>self</span>
     }
 
@@ -4678,8 +4570,8 @@
     <span class='doccomment'>///         .short(&quot;o&quot;)</span>
     <span class='doccomment'>///         .takes_value(true)</span>
     <span class='doccomment'>///         .value_names(&amp;[&quot;value1&quot;, &quot;value2&quot;])</span>
-    <span class='doccomment'>///         .help(&quot;Some really long help and complex{n}\</span>
-    <span class='doccomment'>///                help that makes more sense to be{n}\</span>
+    <span class='doccomment'>///         .help(&quot;Some really long help and complex\n\</span>
+    <span class='doccomment'>///                help that makes more sense to be\n\</span>
     <span class='doccomment'>///                on a line after the option&quot;)</span>
     <span class='doccomment'>///         .next_line_help(true))</span>
     <span class='doccomment'>///     .get_matches_from(vec![</span>

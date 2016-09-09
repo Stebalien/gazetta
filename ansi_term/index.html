@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/ansi_term/lib.rs.html#1-896' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-0' class='srclink' href='../src/ansi_term/lib.rs.html#1-1099' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This is a library for controlling colours and formatting, such as
 red bold text or blue underlined text, on ANSI terminals.</p>
 
@@ -194,23 +194,62 @@ the result of the <code>format!</code> call, using the same mechanism as some
 statically-available <code>&amp;str</code> slices. Secondly, that the <code>ANSIStrings</code> value
 works in the same way as its singular counterpart, with a <code>Display</code>
 implementation that only performs the formatting when required.</p>
+
+<h2 id='byte-strings' class='section-header'><a href='#byte-strings'>Byte strings</a></h2>
+<p>This library also supports formatting <code>[u8]</code> byte strings; this supports
+applications working with text in an unknown encoding.  <code>Style</code> and
+<code>Color</code> support painting <code>[u8]</code> values, resulting in an <code>ANSIByteString</code>.
+This type does not implement <code>Display</code>, as it may not contain UTF-8, but
+it does provide a method <code>write_to</code> to write the result to any
+<code>io::Write</code>:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Green</span>;
+<span class='ident'>Green</span>.<span class='ident'>paint</span>(<span class='string'>&quot;user data&quot;</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>write_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>stdout</span>()).<span class='ident'>unwrap</span>();</pre>
+
+<p>Similarly, the type <code>ANSIByteStrings</code> supports writing a list of
+<code>ANSIByteString</code> values with minimal escape sequences:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>Colour</span>::<span class='ident'>Green</span>;
+<span class='kw'>use</span> <span class='ident'>ansi_term</span>::<span class='ident'>ANSIByteStrings</span>;
+<span class='ident'>ANSIByteStrings</span>(<span class='kw-2'>&amp;</span>[
+    <span class='ident'>Green</span>.<span class='ident'>paint</span>(<span class='string'>&quot;user data 1\n&quot;</span>.<span class='ident'>as_bytes</span>()),
+    <span class='ident'>Green</span>.<span class='ident'>bold</span>().<span class='ident'>paint</span>(<span class='string'>&quot;user data 2\n&quot;</span>.<span class='ident'>as_bytes</span>()),
+]).<span class='ident'>write_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>stdout</span>()).<span class='ident'>unwrap</span>();</pre>
 </div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
 <table><tr><td><code>pub use <a class='enum' href='../ansi_term/enum.Colour.html' title='ansi_term::Colour'>Colour</a> as Color;</code></td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.ANSIString.html'
-                                  title='ansi_term::ANSIString'>ANSIString</a></td>
+                           <td><a class='struct' href='struct.ANSIGenericString.html'
+                                  title='ansi_term::ANSIGenericString'>ANSIGenericString</a></td>
                            <td class='docblock short'>
-                                <p>An ANSI String is a string coupled with the Style to display it
-in a terminal.</p>
+                                <p>An ANSIGenericString includes a generic string type and a Style to
+display that string.  ANSIString and ANSIByteString are aliases for
+this type on str and [u8], respectively.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.ANSIStrings.html'
-                                  title='ansi_term::ANSIStrings'>ANSIStrings</a></td>
+                           <td><a class='struct' href='struct.ANSIGenericStrings.html'
+                                  title='ansi_term::ANSIGenericStrings'>ANSIGenericStrings</a></td>
                            <td class='docblock short'>
-                                <p>A set of <code>ANSIString</code>s collected together, in order to be written with a
-minimum of control characters.</p>
+                                <p>A set of <code>ANSIGenericString</code>s collected together, in order to be
+written with a minimum of control characters.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Infix.html'
+                                  title='ansi_term::Infix'>Infix</a></td>
+                           <td class='docblock short'>
+                                <p>Like <code>ANSIString</code>, but only displays the difference between two
+styles.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Prefix.html'
+                                  title='ansi_term::Prefix'>Prefix</a></td>
+                           <td class='docblock short'>
+                                <p>Like <code>ANSIString</code>, but only displays the style prefix.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -220,6 +259,13 @@ minimum of control characters.</p>
                                 <p>A style is a collection of properties that can format a string
 using ANSI escape codes.</p>
                            </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Suffix.html'
+                                  title='ansi_term::Suffix'>Suffix</a></td>
+                           <td class='docblock short'>
+                                <p>Like <code>ANSIString</code>, but only displays the style suffix.</p>
+                           </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -228,6 +274,54 @@ using ANSI escape codes.</p>
                            <td class='docblock short'>
                                 <p>A colour is one specific type of ANSI escape code, and can refer
 to either the foreground or background colour.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.ANSIByteStrings.html'
+                                  title='ansi_term::ANSIByteStrings'>ANSIByteStrings</a></td>
+                           <td class='docblock short'>
+                                <p>A function to construct an ANSIByteStrings instance.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.ANSIStrings.html'
+                                  title='ansi_term::ANSIStrings'>ANSIStrings</a></td>
+                           <td class='docblock short'>
+                                <p>A function to construct an ANSIStrings instance.</p>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.ANSIByteString.html'
+                                  title='ansi_term::ANSIByteString'>ANSIByteString</a></td>
+                           <td class='docblock short'>
+                                <p>An ANSIByteString represents a formatted series of bytes.  Use
+ANSIByteString when styling text with an unknown encoding.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.ANSIByteStrings.html'
+                                  title='ansi_term::ANSIByteStrings'>ANSIByteStrings</a></td>
+                           <td class='docblock short'>
+                                <p>A set of <code>ANSIByteString</code>s collected together, in order to be
+written with a minimum of control characters.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.ANSIString.html'
+                                  title='ansi_term::ANSIString'>ANSIString</a></td>
+                           <td class='docblock short'>
+                                <p>An ANSI String is a string coupled with the Style to display it
+in a terminal.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.ANSIStrings.html'
+                                  title='ansi_term::ANSIStrings'>ANSIStrings</a></td>
+                           <td class='docblock short'>
+                                <p>A set of <code>ANSIString</code>s collected together, in order to be written with a
+minimum of control characters.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

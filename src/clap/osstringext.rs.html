@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/osstringext.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/osstringext.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>osstringext.rs.html -- source</title>
@@ -186,14 +186,12 @@
 <span id="142">142</span>
 <span id="143">143</span>
 <span id="144">144</span>
-<span id="145">145</span>
 </pre><pre class='rust '>
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
+<span class='kw'>use</span> <span class='ident'>INVALID_UTF8</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>))]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>os</span>::<span class='ident'>unix</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStrExt</span>;
-
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
-<span class='kw'>use</span> <span class='ident'>INVALID_UTF8</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)]</span>
 <span class='kw'>trait</span> <span class='ident'>OsStrExt3</span> {

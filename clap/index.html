@@ -403,16 +403,16 @@ $ <span class='ident'>cargo</span> <span class='ident'>build</span> <span class=
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro._clap_count_exprs!.html'
-                                  title='clap::_clap_count_exprs!'>_clap_count_exprs!</a></td>
+                           <td><a class='macro' href='macro._clap_count_exprs.html'
+                                  title='clap::_clap_count_exprs'>_clap_count_exprs</a></td>
                            <td class='docblock short'>
                                 <p>Counts the number of comma-delimited expressions passed to it.  The result is a compile-time
 evaluable expression, suitable for use as a static array size, or the value of a <code>const</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.arg_enum!.html'
-                                  title='clap::arg_enum!'>arg_enum!</a></td>
+                           <td><a class='macro' href='macro.arg_enum.html'
+                                  title='clap::arg_enum'>arg_enum</a></td>
                            <td class='docblock short'>
                                 <p>Convenience macro to generate more complete enums with variants to be used as a type when
 parsing arguments. This enum also provides a <code>variants()</code> function which can be used to
@@ -421,8 +421,8 @@ retrieve a <code>Vec&lt;&amp;&#39;static str&gt;</code> of the variant names, as
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.crate_authors!.html'
-                                  title='clap::crate_authors!'>crate_authors!</a></td>
+                           <td><a class='macro' href='macro.crate_authors.html'
+                                  title='clap::crate_authors'>crate_authors</a></td>
                            <td class='docblock short'>
                                 <p>Allows you to pull the authors for the app from your Cargo.toml at
 compile time as
@@ -431,16 +431,16 @@ compile time as
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.crate_version!.html'
-                                  title='clap::crate_version!'>crate_version!</a></td>
+                           <td><a class='macro' href='macro.crate_version.html'
+                                  title='clap::crate_version'>crate_version</a></td>
                            <td class='docblock short'>
                                 <p>Allows you to pull the version from your Cargo.toml at compile time as
 MAJOR.MINOR.PATCH_PKGVERSION_PRE</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.value_t!.html'
-                                  title='clap::value_t!'>value_t!</a></td>
+                           <td><a class='macro' href='macro.value_t.html'
+                                  title='clap::value_t'>value_t</a></td>
                            <td class='docblock short'>
                                 <p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>std::str::FromStr</code></a> from an
 argument value. This macro returns a <code>Result&lt;T,String&gt;</code> which allows you as the developer to
@@ -450,16 +450,16 @@ it to get a single value, or a iterator as with the <a href="./struct.ArgMatches
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.value_t_or_exit!.html'
-                                  title='clap::value_t_or_exit!'>value_t_or_exit!</a></td>
+                           <td><a class='macro' href='macro.value_t_or_exit.html'
+                                  title='clap::value_t_or_exit'>value_t_or_exit</a></td>
                            <td class='docblock short'>
                                 <p>Convenience macro getting a typed value <code>T</code> where <code>T</code> implements <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>std::str::FromStr</code></a> or
 exiting upon error, instead of returning a <a href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a> type.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.values_t!.html'
-                                  title='clap::values_t!'>values_t!</a></td>
+                           <td><a class='macro' href='macro.values_t.html'
+                                  title='clap::values_t'>values_t</a></td>
                            <td class='docblock short'>
                                 <p>Convenience macro getting a typed value <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> where <code>T</code> implements <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>std::str::FromStr</code></a>
 This macro returns a <a href="./type.Result.html"><code>clap::Result&lt;Vec&lt;T&gt;&gt;</code></a> which allows you as the developer to decide
@@ -467,8 +467,8 @@ what you&#39;d like to do on a failed parse.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.values_t_or_exit!.html'
-                                  title='clap::values_t_or_exit!'>values_t_or_exit!</a></td>
+                           <td><a class='macro' href='macro.values_t_or_exit.html'
+                                  title='clap::values_t_or_exit'>values_t_or_exit</a></td>
                            <td class='docblock short'>
                                 <p>Convenience macro getting a typed value <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> where <code>T</code> implements <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>std::str::FromStr</code></a>
 or exiting upon error.</p>

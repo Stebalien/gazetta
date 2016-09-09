@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/completions.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/completions.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>completions.rs.html -- source</title>
@@ -461,12 +461,52 @@
 <span id="417">417</span>
 <span id="418">418</span>
 <span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
 </pre><pre class='rust '>
+<span class='comment'>// Std</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
 
+<span class='comment'>// Internal</span>
 <span class='kw'>use</span> <span class='ident'>app</span>::<span class='ident'>parser</span>::<span class='ident'>Parser</span>;
-<span class='kw'>use</span> <span class='ident'>shell</span>::<span class='ident'>Shell</span>;
 <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>ArgSettings</span>, <span class='ident'>OptBuilder</span>};
+<span class='kw'>use</span> <span class='ident'>shell</span>::<span class='ident'>Shell</span>;
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>w</span> {
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>buf</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>to_w</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> {
@@ -477,15 +517,15 @@
     };
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ComplGen</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ComplGen</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>
+    <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span>
+{
     <span class='ident'>p</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>Parser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>ComplGen</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>p</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>Parser</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>ComplGen</span> {
-            <span class='ident'>p</span>: <span class='ident'>p</span>,
-        }
+        <span class='ident'>ComplGen</span> { <span class='ident'>p</span>: <span class='ident'>p</span> }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>generate</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>for_shell</span>: <span class='ident'>Shell</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>) {
@@ -496,8 +536,8 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>gen_bash</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>) {
-        <span class='macro'>w</span><span class='macro'>!</span>(<span class='ident'>buf</span>, <span class='macro'>format</span><span class='macro'>!</span>(
-<span class='string'>&quot;_{name}() {{
+        <span class='macro'>w</span><span class='macro'>!</span>(<span class='ident'>buf</span>,
+           <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;_{name}() {{
     local i cur prev opts cmds
     COMPREPLY=()
     cur=\&quot;${{COMP_WORDS[COMP_CWORD]}}\&quot;
@@ -539,12 +579,13 @@
 
 complete -F _{name} {name}
 &quot;</span>,
-            <span class='ident'>name</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>(),
-            <span class='ident'>name_opts</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>all_options_for_path</span>(<span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()),
-            <span class='ident'>name_opts_details</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>option_details_for_path</span>(<span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()),
-            <span class='ident'>subcmds</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>all_subcommands</span>(),
-            <span class='ident'>subcmd_details</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>subcommand_details</span>()
-        ).<span class='ident'>as_bytes</span>());
+                   <span class='ident'>name</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>(),
+                   <span class='ident'>name_opts</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>all_options_for_path</span>(<span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()),
+                   <span class='ident'>name_opts_details</span> <span class='op'>=</span>
+                       <span class='self'>self</span>.<span class='ident'>option_details_for_path</span>(<span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()),
+                   <span class='ident'>subcmds</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>all_subcommands</span>(),
+                   <span class='ident'>subcmd_details</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>subcommand_details</span>())
+               .<span class='ident'>as_bytes</span>());
     }
 
     <span class='kw'>fn</span> <span class='ident'>all_subcommands</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
@@ -552,13 +593,12 @@ complete -F _{name} {name}
         <span class='kw'>let</span> <span class='ident'>scs</span> <span class='op'>=</span> <span class='ident'>get_all_subcommands</span>(<span class='self'>self</span>.<span class='ident'>p</span>);
 
         <span class='kw'>for</span> <span class='ident'>sc</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>scs</span> {
-            <span class='ident'>subcmds</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(
-                <span class='string'>&quot;{}
+            <span class='ident'>subcmds</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}
             {name})
                 cmd+=\&quot;_{name}\&quot;
                 ;;&quot;</span>,
-                <span class='ident'>subcmds</span>,
-                <span class='ident'>name</span><span class='op'>=</span><span class='ident'>sc</span>.<span class='ident'>replace</span>(<span class='string'>&quot;-&quot;</span>, <span class='string'>&quot;_&quot;</span>));
+                              <span class='ident'>subcmds</span>,
+                              <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>sc</span>.<span class='ident'>replace</span>(<span class='string'>&quot;-&quot;</span>, <span class='string'>&quot;_&quot;</span>));
         }
 
         <span class='ident'>subcmds</span>
@@ -571,8 +611,7 @@ complete -F _{name} {name}
         <span class='ident'>scs</span>.<span class='ident'>dedup</span>();
 
         <span class='kw'>for</span> <span class='ident'>sc</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>scs</span> {
-            <span class='ident'>subcmd_dets</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(
-                <span class='string'>&quot;{}
+            <span class='ident'>subcmd_dets</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}
         {subcmd})
             opts=\&quot;{sc_opts}\&quot;
             if [[ ${{cur}} == -* || ${{COMP_CWORD}} -eq {level} ]] ; then
@@ -588,12 +627,11 @@ complete -F _{name} {name}
             COMPREPLY=( $(compgen -W \&quot;${{opts}}\&quot; -- ${{cur}}) )
             return 0
             ;;&quot;</span>,
-                <span class='ident'>subcmd_dets</span>,
-                <span class='ident'>subcmd</span><span class='op'>=</span><span class='ident'>sc</span>.<span class='ident'>replace</span>(<span class='string'>&quot;-&quot;</span>, <span class='string'>&quot;_&quot;</span>),
-                <span class='ident'>sc_opts</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>all_options_for_path</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>sc</span>),
-                <span class='ident'>level</span><span class='op'>=</span><span class='ident'>sc</span>.<span class='ident'>split</span>(<span class='string'>&quot;_&quot;</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span><span class='number'>1</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>n</span><span class='op'>|</span> <span class='ident'>acc</span> <span class='op'>+</span> <span class='ident'>n</span>),
-                <span class='ident'>opts_details</span><span class='op'>=</span><span class='self'>self</span>.<span class='ident'>option_details_for_path</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>sc</span>)
-            );
+                                  <span class='ident'>subcmd_dets</span>,
+                                  <span class='ident'>subcmd</span> <span class='op'>=</span> <span class='ident'>sc</span>.<span class='ident'>replace</span>(<span class='string'>&quot;-&quot;</span>, <span class='string'>&quot;_&quot;</span>),
+                                  <span class='ident'>sc_opts</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>all_options_for_path</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>sc</span>),
+                                  <span class='ident'>level</span> <span class='op'>=</span> <span class='ident'>sc</span>.<span class='ident'>split</span>(<span class='string'>&quot;_&quot;</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='number'>1</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>n</span><span class='op'>|</span> <span class='ident'>acc</span> <span class='op'>+</span> <span class='ident'>n</span>),
+                                  <span class='ident'>opts_details</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>option_details_for_path</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>sc</span>));
         }
 
         <span class='ident'>subcmd_dets</span>
@@ -603,25 +641,45 @@ complete -F _{name} {name}
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>p</span>;
         <span class='kw'>for</span> <span class='ident'>sc</span> <span class='kw'>in</span> <span class='ident'>path</span>.<span class='ident'>split</span>(<span class='string'>&#39;_&#39;</span>).<span class='ident'>skip</span>(<span class='number'>1</span>) {
             <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;iter;sc={}&quot;</span>, <span class='ident'>sc</span>);
-            <span class='ident'>p</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>()
-                              .<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>sc</span>
-                                  <span class='op'>||</span> (<span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span>.<span class='ident'>is_some</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span>.<span class='ident'>as_ref</span>()
-                                                                                    .<span class='ident'>unwrap</span>()
-                                                                                    .<span class='ident'>iter</span>()
-                                                                                    .<span class='ident'>any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>n</span>,_)<span class='op'>|</span> <span class='ident'>n</span><span class='op'>==</span><span class='ident'>sc</span> )))
-                              .<span class='ident'>next</span>()
-                              .<span class='ident'>unwrap</span>().<span class='ident'>p</span>;
+            <span class='ident'>p</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>subcommands</span>
+                .<span class='ident'>iter</span>()
+                .<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
+                    <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>sc</span> <span class='op'>||</span>
+                    (<span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span>.<span class='ident'>is_some</span>() <span class='op'>&amp;&amp;</span>
+                     <span class='ident'>s</span>.<span class='ident'>p</span>
+                        .<span class='ident'>meta</span>
+                        .<span class='ident'>aliases</span>
+                        .<span class='ident'>as_ref</span>()
+                        .<span class='ident'>unwrap</span>()
+                        .<span class='ident'>iter</span>()
+                        .<span class='ident'>any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>n</span>, _)<span class='op'>|</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='ident'>sc</span>))
+                })
+                .<span class='ident'>unwrap</span>()
+                .<span class='ident'>p</span>;
         }
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>p</span>.<span class='ident'>short_list</span>.<span class='ident'>iter</span>().<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>s</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} -{}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>s</span>));
-        <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>opts</span>, <span class='ident'>p</span>.<span class='ident'>long_list</span>.<span class='ident'>iter</span>()
-                                                 .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>l</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} --{}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>l</span>)));
-        <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>opts</span>, <span class='ident'>p</span>.<span class='ident'>positionals</span>.<span class='ident'>values</span>()
-                                                   .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>p</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>p</span>)));
-        <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>opts</span>, <span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>()
-                                                   .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>s</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span>)));
+        <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>,
+                       <span class='ident'>opts</span>,
+                       <span class='ident'>p</span>.<span class='ident'>long_list</span>
+                           .<span class='ident'>iter</span>()
+                           .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>l</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} --{}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>l</span>)));
+        <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>,
+                       <span class='ident'>opts</span>,
+                       <span class='ident'>p</span>.<span class='ident'>positionals</span>
+                           .<span class='ident'>values</span>()
+                           .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>p</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>p</span>)));
+        <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>,
+                       <span class='ident'>opts</span>,
+                       <span class='ident'>p</span>.<span class='ident'>subcommands</span>
+                           .<span class='ident'>iter</span>()
+                           .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>s</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span>)));
         <span class='kw'>for</span> <span class='ident'>sc</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>subcommands</span> {
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>aliases</span>) <span class='op'>=</span> <span class='ident'>sc</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span> {
-                <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>opts</span>, <span class='ident'>aliases</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>n</span>,_)<span class='op'>|</span> <span class='ident'>n</span>).<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>a</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>a</span>)));
+                <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>,
+                               <span class='ident'>opts</span>,
+                               <span class='ident'>aliases</span>.<span class='ident'>iter</span>()
+                                   .<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>n</span>, _)<span class='op'>|</span> <span class='ident'>n</span>)
+                                   .<span class='ident'>fold</span>(<span class='ident'>String</span>::<span class='ident'>new</span>(), <span class='op'>|</span><span class='ident'>acc</span>, <span class='ident'>a</span><span class='op'>|</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{} {}&quot;</span>, <span class='ident'>acc</span>, <span class='ident'>a</span>)));
             }
         }
         <span class='ident'>opts</span>
@@ -631,7 +689,21 @@ complete -F _{name} {name}
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>p</span>;
         <span class='kw'>for</span> <span class='ident'>sc</span> <span class='kw'>in</span> <span class='ident'>path</span>.<span class='ident'>split</span>(<span class='string'>&#39;_&#39;</span>).<span class='ident'>skip</span>(<span class='number'>1</span>) {
             <span class='macro'>debugln</span><span class='macro'>!</span>(<span class='string'>&quot;iter;sc={}&quot;</span>, <span class='ident'>sc</span>);
-            <span class='ident'>p</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>().<span class='ident'>filter</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>sc</span> <span class='op'>||</span> (<span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span>.<span class='ident'>is_some</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>().<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>n</span>,_)<span class='op'>|</span> <span class='ident'>n</span><span class='op'>==</span><span class='ident'>sc</span> ))).<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>p</span>;
+            <span class='ident'>p</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>subcommands</span>
+                .<span class='ident'>iter</span>()
+                .<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
+                    <span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>sc</span> <span class='op'>||</span>
+                    (<span class='ident'>s</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>aliases</span>.<span class='ident'>is_some</span>() <span class='op'>&amp;&amp;</span>
+                     <span class='ident'>s</span>.<span class='ident'>p</span>
+                        .<span class='ident'>meta</span>
+                        .<span class='ident'>aliases</span>
+                        .<span class='ident'>as_ref</span>()
+                        .<span class='ident'>unwrap</span>()
+                        .<span class='ident'>iter</span>()
+                        .<span class='ident'>any</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>n</span>, _)<span class='op'>|</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='ident'>sc</span>))
+                })
+                .<span class='ident'>unwrap</span>()
+                .<span class='ident'>p</span>;
         }
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>opts</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
         <span class='kw'>for</span> <span class='ident'>o</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>opts</span> {
@@ -640,21 +712,27 @@ complete -F _{name} {name}
                 --{})
                     COMPREPLY=({})
                     return 0
-                    ;;&quot;</span>, <span class='ident'>opts</span>, <span class='ident'>l</span>, <span class='ident'>vals_for</span>(<span class='ident'>o</span>));
+                    ;;&quot;</span>,
+                               <span class='ident'>opts</span>,
+                               <span class='ident'>l</span>,
+                               <span class='ident'>vals_for</span>(<span class='ident'>o</span>));
             }
             <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>o</span>.<span class='ident'>short</span> {
                 <span class='ident'>opts</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}
                     -{})
                     COMPREPLY=({})
                     return 0
-                    ;;&quot;</span>, <span class='ident'>opts</span>, <span class='ident'>s</span>, <span class='ident'>vals_for</span>(<span class='ident'>o</span>));
+                    ;;&quot;</span>,
+                               <span class='ident'>opts</span>,
+                               <span class='ident'>s</span>,
+                               <span class='ident'>vals_for</span>(<span class='ident'>o</span>));
             }
         }
         <span class='ident'>opts</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>gen_fish</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>) {
-        <span class='kw'>let</span> <span class='ident'>command</span> <span class='op'>=</span>  <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>command</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>subcommands</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>get_all_subcommands</span>(<span class='self'>self</span>.<span class='ident'>p</span>);
         <span class='kw'>let</span> <span class='ident'>has_subcommands</span> <span class='op'>=</span> <span class='ident'>subcommands</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>1</span>;
 
@@ -675,7 +753,7 @@ end
         };
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>detect_subcommand_function</span>;
-        <span class='ident'>gen_fish_inner</span>(<span class='ident'>command</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='macro'>vec</span><span class='macro'>!</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>, <span class='ident'>has_subcommands</span>);
+        <span class='ident'>gen_fish_inner</span>(<span class='ident'>command</span>, <span class='self'>self</span>, <span class='macro'>vec</span><span class='macro'>!</span>[], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>, <span class='ident'>has_subcommands</span>);
         <span class='macro'>w</span><span class='macro'>!</span>(<span class='ident'>buf</span>, <span class='ident'>buffer</span>.<span class='ident'>as_bytes</span>());
     }
 }
@@ -699,7 +777,7 @@ end
         }
         <span class='ident'>subcmds</span>.<span class='ident'>push</span>(<span class='ident'>sc</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>name</span>.<span class='ident'>clone</span>());
     }
-    <span class='kw'>for</span> <span class='ident'>sc_v</span> <span class='kw'>in</span> <span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>ref</span> <span class='ident'>s</span><span class='op'>|</span> <span class='ident'>get_all_subcommands</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>p</span>)) {
+    <span class='kw'>for</span> <span class='ident'>sc_v</span> <span class='kw'>in</span> <span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>get_all_subcommands</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>p</span>)) {
         <span class='ident'>subcmds</span>.<span class='ident'>extend</span>(<span class='ident'>sc_v</span>);
     }
     <span class='ident'>subcmds</span>.<span class='ident'>sort</span>();
@@ -733,7 +811,7 @@ end
             }
         }
     }
-    <span class='kw'>for</span> <span class='ident'>sc_v</span> <span class='kw'>in</span> <span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>ref</span> <span class='ident'>s</span><span class='op'>|</span> <span class='ident'>get_all_subcommand_paths</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>p</span>, <span class='bool-val'>false</span>)) {
+    <span class='kw'>for</span> <span class='ident'>sc_v</span> <span class='kw'>in</span> <span class='ident'>p</span>.<span class='ident'>subcommands</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>get_all_subcommand_paths</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>.<span class='ident'>p</span>, <span class='bool-val'>false</span>)) {
         <span class='ident'>subcmds</span>.<span class='ident'>extend</span>(<span class='ident'>sc_v</span>);
     }
     <span class='ident'>subcmds</span>
@@ -743,18 +821,16 @@ end
     <span class='kw'>use</span> <span class='ident'>args</span>::<span class='ident'>AnyArg</span>;
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ret</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>needs_quotes</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>vals</span>) <span class='op'>=</span> <span class='ident'>o</span>.<span class='ident'>possible_vals</span>() {
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>vals</span>) <span class='op'>=</span> <span class='ident'>o</span>.<span class='ident'>possible_vals</span>() {
         <span class='ident'>needs_quotes</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
         <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;$(compgen -W \&quot;{}\&quot; -- ${{cur}})&quot;</span>, <span class='ident'>vals</span>.<span class='ident'>join</span>(<span class='string'>&quot; &quot;</span>));
-    } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>vec</span>) <span class='op'>=</span> <span class='ident'>o</span>.<span class='ident'>val_names</span>() {
+    } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>vec</span>) <span class='op'>=</span> <span class='ident'>o</span>.<span class='ident'>val_names</span>() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>it</span> <span class='op'>=</span> <span class='ident'>vec</span>.<span class='ident'>iter</span>().<span class='ident'>peekable</span>();
         <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((_, <span class='ident'>val</span>)) <span class='op'>=</span> <span class='ident'>it</span>.<span class='ident'>next</span>() {
-            <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&lt;{}&gt;{}&quot;</span>, <span class='ident'>ret</span>, <span class='ident'>val</span>,
-                <span class='kw'>if</span> <span class='ident'>it</span>.<span class='ident'>peek</span>().<span class='ident'>is_some</span>() {
-                    <span class='string'>&quot; &quot;</span>
-                } <span class='kw'>else</span> {
-                    <span class='string'>&quot;&quot;</span>
-                });
+            <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&lt;{}&gt;{}&quot;</span>,
+                          <span class='ident'>ret</span>,
+                          <span class='ident'>val</span>,
+                          <span class='kw'>if</span> <span class='ident'>it</span>.<span class='ident'>peek</span>().<span class='ident'>is_some</span>() { <span class='string'>&quot; &quot;</span> } <span class='kw'>else</span> { <span class='string'>&quot;&quot;</span> });
         }
         <span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='ident'>vec</span>.<span class='ident'>len</span>();
         <span class='kw'>if</span> <span class='ident'>o</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>) <span class='op'>&amp;&amp;</span> <span class='ident'>num</span> <span class='op'>==</span> <span class='number'>1</span> {
@@ -763,12 +839,10 @@ end
     } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>num</span>) <span class='op'>=</span> <span class='ident'>o</span>.<span class='ident'>num_vals</span>() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>it</span> <span class='op'>=</span> (<span class='number'>0</span>..<span class='ident'>num</span>).<span class='ident'>peekable</span>();
         <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(_) <span class='op'>=</span> <span class='ident'>it</span>.<span class='ident'>next</span>() {
-            <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&lt;{}&gt;{}&quot;</span>, <span class='ident'>ret</span>, <span class='ident'>o</span>.<span class='ident'>name</span>(),
-            <span class='kw'>if</span> <span class='ident'>it</span>.<span class='ident'>peek</span>().<span class='ident'>is_some</span>() {
-                <span class='string'>&quot; &quot;</span>
-            } <span class='kw'>else</span> {
-                <span class='string'>&quot;&quot;</span>
-            });
+            <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&lt;{}&gt;{}&quot;</span>,
+                          <span class='ident'>ret</span>,
+                          <span class='ident'>o</span>.<span class='ident'>name</span>(),
+                          <span class='kw'>if</span> <span class='ident'>it</span>.<span class='ident'>peek</span>().<span class='ident'>is_some</span>() { <span class='string'>&quot; &quot;</span> } <span class='kw'>else</span> { <span class='string'>&quot;&quot;</span> });
         }
         <span class='kw'>if</span> <span class='ident'>o</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>) <span class='op'>&amp;&amp;</span> <span class='ident'>num</span> <span class='op'>==</span> <span class='number'>1</span> {
             <span class='ident'>ret</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}...&quot;</span>, <span class='ident'>ret</span>);
@@ -785,7 +859,7 @@ end
     <span class='ident'>ret</span>
 }
 
-<span class='kw'>fn</span> <span class='ident'>gen_fish_inner</span>(<span class='ident'>root_command</span>: <span class='kw-2'>&amp;</span><span class='ident'>String</span>,
+<span class='kw'>fn</span> <span class='ident'>gen_fish_inner</span>(<span class='ident'>root_command</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
                   <span class='ident'>comp_gen</span>: <span class='kw-2'>&amp;</span><span class='ident'>ComplGen</span>,
                   <span class='ident'>parent_cmds</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
                   <span class='ident'>buffer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>,
@@ -808,11 +882,11 @@ end
     <span class='kw'>for</span> <span class='ident'>option</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>opts</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>template</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;complete -c {}&quot;</span>, <span class='ident'>root_command</span>);
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parent_cmds</span>.<span class='ident'>is_empty</span>() {
-            <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_seen_subcommand_from {}&#39;&quot;</span>,
-                                      <span class='ident'>command</span>).<span class='ident'>as_str</span>());
+            <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_seen_subcommand_from {}&#39;&quot;</span>, <span class='ident'>command</span>).<span class='ident'>as_str</span>());
         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>has_no_subcommand_fn</span> {
             <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_{}_no_subcommand&#39;&quot;</span>,
-                                      <span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()).<span class='ident'>as_str</span>());
+                                      <span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>())
+                .<span class='ident'>as_str</span>());
         }
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>data</span>) <span class='op'>=</span> <span class='ident'>option</span>.<span class='ident'>short</span> {
             <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -s {}&quot;</span>, <span class='ident'>data</span>).<span class='ident'>as_str</span>());
@@ -833,11 +907,11 @@ end
     <span class='kw'>for</span> <span class='ident'>flag</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>flags</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>template</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;complete -c {}&quot;</span>, <span class='ident'>root_command</span>);
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parent_cmds</span>.<span class='ident'>is_empty</span>() {
-            <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_seen_subcommand_from {}&#39;&quot;</span>,
-                                      <span class='ident'>command</span>).<span class='ident'>as_str</span>());
+            <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_seen_subcommand_from {}&#39;&quot;</span>, <span class='ident'>command</span>).<span class='ident'>as_str</span>());
         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>has_no_subcommand_fn</span> {
             <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_{}_no_subcommand&#39;&quot;</span>,
-                                      <span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()).<span class='ident'>as_str</span>());
+                                      <span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>())
+                .<span class='ident'>as_str</span>());
         }
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>data</span>) <span class='op'>=</span> <span class='ident'>flag</span>.<span class='ident'>short</span> {
             <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -s {}&quot;</span>, <span class='ident'>data</span>).<span class='ident'>as_str</span>());
@@ -857,10 +931,12 @@ end
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>template</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;complete -c {}&quot;</span>, <span class='ident'>root_command</span>);
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>parent_cmds</span>.<span class='ident'>is_empty</span>() {
                 <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_seen_subcommand_from {}&#39;&quot;</span>,
-                                          <span class='ident'>subcommand</span>).<span class='ident'>as_str</span>());
+                                          <span class='ident'>subcommand</span>)
+                    .<span class='ident'>as_str</span>());
             } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>has_no_subcommand_fn</span> {
                 <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -n &#39;__fish_{}_no_subcommand&#39;&quot;</span>,
-                                          <span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()).<span class='ident'>as_str</span>());
+                                          <span class='ident'>comp_gen</span>.<span class='ident'>p</span>.<span class='ident'>meta</span>.<span class='ident'>bin_name</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>())
+                    .<span class='ident'>as_str</span>());
             }
             <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='string'>&quot; -f&quot;</span>);
             <span class='ident'>template</span>.<span class='ident'>push_str</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot; -a &#39;{}&#39;&quot;</span>, <span class='ident'>subcommand</span>).<span class='ident'>as_str</span>());

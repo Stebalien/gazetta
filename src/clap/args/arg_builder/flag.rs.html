@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/args/arg_builder/flag.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/args/arg_builder/flag.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>flag.rs.html -- source</title>
@@ -240,15 +240,19 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
 </pre><pre class='rust '>
-<span class='comment'>// use std::collections::HashSet;</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Display</span>, <span class='ident'>Formatter</span>, <span class='prelude-ty'>Result</span>};
+<span class='comment'>// Std</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>convert</span>::<span class='ident'>From</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Display</span>, <span class='ident'>Formatter</span>, <span class='prelude-ty'>Result</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>result</span>::<span class='prelude-ty'>Result</span> <span class='kw'>as</span> <span class='ident'>StdResult</span>;
 
+<span class='comment'>// Third Party</span>
 <span class='kw'>use</span> <span class='ident'>vec_map</span>::<span class='ident'>VecMap</span>;
 
+<span class='comment'>// Internal</span>
 <span class='kw'>use</span> <span class='ident'>Arg</span>;
 <span class='kw'>use</span> <span class='ident'>args</span>::{<span class='ident'>AnyArg</span>, <span class='ident'>DispOrder</span>};
 <span class='kw'>use</span> <span class='ident'>args</span>::<span class='ident'>settings</span>::{<span class='ident'>ArgFlags</span>, <span class='ident'>ArgSettings</span>};
@@ -422,8 +426,8 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>FlagBuilder</span>;
     <span class='kw'>use</span> <span class='ident'>args</span>::<span class='ident'>settings</span>::<span class='ident'>ArgSettings</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>FlagBuilder</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>flagbuilder_display</span>() {

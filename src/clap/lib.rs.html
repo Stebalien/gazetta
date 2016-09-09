@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -887,7 +887,7 @@
         <span class='ident'>missing_debug_implementations</span>,
         <span class='ident'>missing_copy_implementations</span>,
         <span class='ident'>trivial_casts</span>,
-        <span class='comment'>//trivial_numeric_casts,       // While bitflags fails this lint</span>
+<span class='comment'>// trivial_numeric_casts,       // While bitflags fails this lint</span>
         <span class='ident'>unused_import_braces</span>,
         <span class='ident'>unused_allocation</span>,
         <span class='ident'>unused_qualifications</span>)]</span>
@@ -907,13 +907,13 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>yaml_rust</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;color&quot;</span>))]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>all</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>, <span class='ident'>not</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;windows&quot;</span>)))]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unicode_width</span>;
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>vec_map</span>;
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;wrap_help&quot;</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>term_size</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unicode_segmentation</span>;
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>yaml_rust</span>::<span class='ident'>YamlLoader</span>;

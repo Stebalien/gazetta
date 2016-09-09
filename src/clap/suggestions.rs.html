@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/suggestions.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/suggestions.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>suggestions.rs.html -- source</title>
@@ -149,10 +149,14 @@
 <span id="105">105</span>
 <span id="106">106</span>
 <span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
 </pre><pre class='rust '>
+<span class='comment'>// Third Party</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;suggestions&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>strsim</span>;
 
+<span class='comment'>// Internal</span>
 <span class='kw'>use</span> <span class='ident'>fmt</span>::<span class='ident'>Format</span>;
 
 <span class='doccomment'>/// Produces a string from a given list of possible values which is similar to</span>

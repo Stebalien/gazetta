@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.10.0/src/args/subcommand.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.11.3/src/args/subcommand.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>subcommand.rs.html -- source</title>
@@ -108,10 +108,14 @@
 <span id="64">64</span>
 <span id="65">65</span>
 <span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
 </pre><pre class='rust '>
+<span class='comment'>// Third Party</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>yaml_rust</span>::<span class='ident'>Yaml</span>;
 
+<span class='comment'>// Internal</span>
 <span class='kw'>use</span> <span class='ident'>App</span>;
 <span class='kw'>use</span> <span class='ident'>ArgMatches</span>;
 
