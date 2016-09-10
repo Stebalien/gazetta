@@ -51,7 +51,7 @@ impl<'a, G> Render for Assets<'a, G>
                 link(rel="stylesheet", href=css);
             }
             @ if let Some(js) = self.0.javascript {
-                script(src=js) {}
+                script(async, src=js) {}
             }
             @ if let Some(icon) = self.0.icon {
                 link(rel="shortcut icon", href=icon);
