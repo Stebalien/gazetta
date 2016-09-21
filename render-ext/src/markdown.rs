@@ -125,7 +125,14 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             }
                         },
                         Tag::Paragraph          => tmpl << html! { p : s },
-                        Tag::Rule               => tmpl << html! { hr: s },
+                        Tag::Rule               => {
+                            // Eat the end tag.
+                            match s.iter.next() {
+                                Some(End(Tag::Rule)) => (),
+                                _ => panic!("stuff inside horizontal rule tag?"),
+                            }
+                            tmpl << html! { hr; }
+                        },
                         Tag::BlockQuote         => tmpl << html! { blockquote : s },
                         Tag::Table(_)           => tmpl << html! { table : s },
                         Tag::TableHead          => tmpl << html! { thead { tr : s } },
