@@ -81,13 +81,13 @@ to determine if its contents matched.</p>
         <span class='comment'>// thereby preventing its contents from matching</span>
         <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>e</span>),
     }
-}</pre>
+}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
 
 <p>The above code will print:</p>
 
 <pre class='rust rust-example-rendered'>
 <span class='op'>/</span><span class='ident'>media</span><span class='op'>/</span><span class='ident'>pictures</span><span class='op'>/</span><span class='ident'>kittens</span>.<span class='ident'>jpg</span>
-<span class='op'>/</span><span class='ident'>media</span><span class='op'>/</span><span class='ident'>pictures</span><span class='op'>/</span><span class='ident'>puppies</span>.<span class='ident'>jpg</span></pre>
+<span class='op'>/</span><span class='ident'>media</span><span class='op'>/</span><span class='ident'>pictures</span><span class='op'>/</span><span class='ident'>puppies</span>.<span class='ident'>jpg</span><a class='test-arrow' target='_blank' href=''>Run</a></pre>
 
 <p>If you want to ignore unreadable paths, you can use something like
 <code>filter_map</code>:</p>
@@ -98,7 +98,7 @@ to determine if its contents matched.</p>
 
 <span class='kw'>for</span> <span class='ident'>path</span> <span class='kw'>in</span> <span class='ident'>glob</span>(<span class='string'>&quot;/media/pictures/*.jpg&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>filter_map</span>(<span class='prelude-ty'>Result</span>::<span class='ident'>ok</span>) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>path</span>.<span class='ident'>display</span>());
-}</pre>
+}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

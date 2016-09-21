@@ -71,7 +71,7 @@ access your YAML document.</p>
 <span class='kw'>let</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>Array</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Yaml</span>::<span class='ident'>Integer</span>(<span class='number'>1</span>), <span class='ident'>Yaml</span>::<span class='ident'>Integer</span>(<span class='number'>2</span>)]);
 <span class='kw'>for</span> <span class='ident'>v</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>is_some</span>());
-}</pre>
+}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
 </div><h2 class='variants'>Variants</h2>
 <span id='variant.Real' class='variant'><span id='Real.v' class='invisible'><code>Real(<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></span></span><div class='docblock'><p>float types are stored as String, and parsed on demand.
 Note that f64 does NOT implement Eq trait and can NOT be stored in BTreeMap</p>

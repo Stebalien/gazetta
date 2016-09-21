@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.12.1/src/args/arg.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.13.0/src/args/arg.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg.rs.html -- source</title>
@@ -2467,6 +2467,10 @@
 <span id="2423">2423</span>
 <span id="2424">2424</span>
 <span id="2425">2425</span>
+<span id="2426">2426</span>
+<span id="2427">2427</span>
+<span id="2428">2428</span>
+<span id="2429">2429</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml&quot;</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
@@ -3783,12 +3787,8 @@
     <span class='doccomment'>/// [option]: ./struct.Arg.html#method.takes_value</span>
     <span class='doccomment'>/// [`Arg::number_of_values(1)`]: ./struct.Arg.html#method.number_of_values</span>
     <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>multiple</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>multi</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>multiple</span>(<span class='self'>self</span>, <span class='ident'>multi</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>multi</span> {
-            <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>) <span class='op'>&amp;&amp;</span>
-                <span class='self'>self</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>) {
-                <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>use_delimiter</span>(<span class='bool-val'>true</span>);
-            }
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>)
         } <span class='kw'>else</span> {
             <span class='self'>self</span>.<span class='ident'>unset</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>)
@@ -4159,12 +4159,6 @@
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>number_of_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>qty</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>if</span> <span class='ident'>qty</span> <span class='op'>&gt;</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>) {
-            <span class='self'>self</span>.<span class='ident'>unsetb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>);
-            <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
-        } <span class='kw'>else</span> {
-            <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>use_delimiter</span>(<span class='bool-val'>false</span>);
-        }
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='self'>self</span>.<span class='ident'>num_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>qty</span>);
         <span class='self'>self</span>
@@ -4264,12 +4258,6 @@
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// [`Arg::multiple(true)`]: ./struct.Arg.html#method.multiple</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>max_values</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>qty</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>if</span> <span class='ident'>qty</span> <span class='op'>&gt;</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>settings</span>.<span class='ident'>is_set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>) {
-            <span class='self'>self</span>.<span class='ident'>unsetb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>);
-            <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
-        } <span class='kw'>else</span> {
-            <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>use_delimiter</span>(<span class='bool-val'>false</span>);
-        }
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>TakesValue</span>);
         <span class='self'>self</span>.<span class='ident'>max_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>qty</span>);
         <span class='self'>self</span>
@@ -4341,10 +4329,6 @@
     <span class='doccomment'>/// **NOTE:** The default is `false`. When set to `true` the default [`Arg::value_delimiter`]</span>
     <span class='doccomment'>/// is the comma `,`.</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// **NOTE:** When using methods like [`Arg::multiple`] or [`Arg::max_values`] (i.e. methods</span>
-    <span class='doccomment'>/// that imply multiple values, this `use_delimiter` setting will automatically be set to</span>
-    <span class='doccomment'>/// `true` and use the comma (`,`) by default.</span>
-    <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// The following example shows the default behavior.</span>
@@ -4366,7 +4350,7 @@
     <span class='doccomment'>/// assert_eq!(delims.values_of(&quot;option&quot;).unwrap().collect::&lt;Vec&lt;_&gt;&gt;(), [&quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;]);</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// The next example shows the difference when turning delimiters off. This is the default</span>
-    <span class='doccomment'>/// behavior, unless one of the methods/settings which implies multiple values is set.</span>
+    <span class='doccomment'>/// behavior</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
@@ -4406,6 +4390,8 @@
     <span class='doccomment'>/// assumed that more values will follow regardless of whether or not a delimiter is used.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** The default is `false`.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// **NOTE:** Setting this to true implies [`Arg::use_delimiter(true)`]</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// **NOTE:** It&#39;s a good idea to inform the user that use of a delimiter is required, either</span>
     <span class='doccomment'>/// through help text or other means.</span>
@@ -4472,12 +4458,15 @@
     <span class='doccomment'>/// assert!(delims.is_present(&quot;opt&quot;));</span>
     <span class='doccomment'>/// assert_eq!(delims.values_of(&quot;opt&quot;).unwrap().collect::&lt;Vec&lt;_&gt;&gt;(), [&quot;val1&quot;, &quot;val2&quot;, &quot;val3&quot;]);</span>
     <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// [`Arg::use_delimiter(true)`]: ./struct.Arg.html#method.use_delimiter</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>require_delimiter</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>d</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>if</span> <span class='ident'>d</span> {
+            <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>use_delimiter</span>(<span class='bool-val'>true</span>);
             <span class='self'>self</span>.<span class='ident'>unsetb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>ValueDelimiterNotSet</span>);
             <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
             <span class='self'>self</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequireDelimiter</span>)
         } <span class='kw'>else</span> {
+            <span class='self'>self</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>use_delimiter</span>(<span class='bool-val'>false</span>);
             <span class='self'>self</span>.<span class='ident'>unsetb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>UseValueDelimiter</span>);
             <span class='self'>self</span>.<span class='ident'>unset</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequireDelimiter</span>)
         }
@@ -4671,6 +4660,8 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
+    <span class='doccomment'>/// First we use the default value without providing any value at runtime.</span>
+    <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```rust</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
     <span class='doccomment'>/// let m = App::new(&quot;defvals&quot;)</span>
@@ -4684,6 +4675,23 @@
     <span class='doccomment'>/// assert_eq!(m.value_of(&quot;opt&quot;), Some(&quot;myval&quot;));</span>
     <span class='doccomment'>/// assert!(m.is_present(&quot;opt&quot;));</span>
     <span class='doccomment'>/// assert_eq!(m.occurrences_of(&quot;opt&quot;), 0);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// Next we provide a valu at runtime to override the default.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```rust</span>
+    <span class='doccomment'>/// # use clap::{App, Arg};</span>
+    <span class='doccomment'>/// let m = App::new(&quot;defvals&quot;)</span>
+    <span class='doccomment'>///     .arg(Arg::with_name(&quot;opt&quot;)</span>
+    <span class='doccomment'>///         .long(&quot;myopt&quot;)</span>
+    <span class='doccomment'>///         .default_value(&quot;myval&quot;))</span>
+    <span class='doccomment'>///     .get_matches_from(vec![</span>
+    <span class='doccomment'>///         &quot;defvals&quot;, &quot;--myopt=non_default&quot;</span>
+    <span class='doccomment'>///     ]);</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// assert_eq!(m.value_of(&quot;opt&quot;), Some(&quot;non_default&quot;));</span>
+    <span class='doccomment'>/// assert!(m.is_present(&quot;opt&quot;));</span>
+    <span class='doccomment'>/// assert_eq!(m.occurrences_of(&quot;opt&quot;), 1);</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// [`ArgMatches::occurrences_of`]: /struct.ArgMatches.html#method.occurrences_of</span>
     <span class='doccomment'>/// [`ArgMatches::value_of`]: ./struct.ArgMatches.html#method.value_of</span>

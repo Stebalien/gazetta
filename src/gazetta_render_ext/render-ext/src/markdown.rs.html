@@ -240,6 +240,13 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -368,7 +375,14 @@
                             }
                         },
                         <span class='ident'>Tag</span>::<span class='ident'>Paragraph</span>          <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>p</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Rule</span>               <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>hr</span>: <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Rule</span>               <span class='op'>=&gt;</span> {
+                            <span class='comment'>// Eat the end tag.</span>
+                            <span class='kw'>match</span> <span class='ident'>s</span>.<span class='ident'>iter</span>.<span class='ident'>next</span>() {
+                                <span class='prelude-val'>Some</span>(<span class='ident'>End</span>(<span class='ident'>Tag</span>::<span class='ident'>Rule</span>)) <span class='op'>=&gt;</span> (),
+                                _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;stuff inside horizontal rule tag?&quot;</span>),
+                            }
+                            <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>hr</span>; }
+                        },
                         <span class='ident'>Tag</span>::<span class='ident'>BlockQuote</span>         <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>blockquote</span> : <span class='ident'>s</span> },
                         <span class='ident'>Tag</span>::<span class='ident'>Table</span>(_)           <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>table</span> : <span class='ident'>s</span> },
                         <span class='ident'>Tag</span>::<span class='ident'>TableHead</span>          <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>thead</span> { <span class='ident'>tr</span> : <span class='ident'>s</span> } },
