@@ -247,6 +247,8 @@
 <span id="203">203</span>
 <span id="204">204</span>
 <span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
 </pre><pre class='rust '>
 <span class='comment'>/*  Copyright (C) 2015 Steven Allen
  *
@@ -310,8 +312,8 @@
     <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='ident'>RenderMarkdown</span> {
             <span class='ident'>footnotes</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
-            <span class='ident'>iter</span>: <span class='ident'>Parser</span>::<span class='ident'>new_ext</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>data</span>, <span class='ident'>OPTION_ENABLE_TABLES</span> <span class='op'>|</span> <span class='ident'>OPTION_ENABLE_FOOTNOTES</span>),
-            <span class='ident'>base</span>: <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>base</span>
+            <span class='ident'>iter</span>: <span class='ident'>Parser</span>::<span class='ident'>new_ext</span>(<span class='self'>self</span>.<span class='ident'>data</span>, <span class='ident'>OPTION_ENABLE_TABLES</span> <span class='op'>|</span> <span class='ident'>OPTION_ENABLE_FOOTNOTES</span>),
+            <span class='ident'>base</span>: <span class='self'>self</span>.<span class='ident'>base</span>
         };
     }
 }
@@ -429,13 +431,15 @@
                         },
                         <span class='ident'>Tag</span>::<span class='ident'>CodeBlock</span>(<span class='ident'>info</span>)    <span class='op'>=&gt;</span> {
                             <span class='comment'>// TODO Highlight code.</span>
-                            <span class='kw'>let</span> <span class='ident'>lang</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>info</span>.<span class='ident'>split</span>(<span class='string'>&quot; &quot;</span>).<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
-                            <span class='comment'>// Why? Because the format_args...</span>
-                            (<span class='op'>|</span><span class='ident'>f</span><span class='op'>|</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
-                                <span class='ident'>pre</span> {
-                                    <span class='ident'>code</span>(<span class='ident'>class</span>? <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>lang</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='ident'>f</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> }) : <span class='ident'>s</span>
+                            <span class='kw'>let</span> <span class='ident'>lang</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>info</span>.<span class='ident'>split</span>(<span class='string'>&#39; &#39;</span>).<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
+                            <span class='comment'>// Why? Because the format_args and lifetimes...</span>
+                            <span class='kw'>match</span> <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;language-{}&quot;</span>, <span class='ident'>lang</span>) {
+                                <span class='ident'>f</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
+                                    <span class='ident'>pre</span> {
+                                        <span class='ident'>code</span>(<span class='ident'>class</span>? <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>lang</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='ident'>f</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> }) : <span class='ident'>s</span>
+                                    }
                                 }
-                            })(<span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;language-{}&quot;</span>, <span class='ident'>lang</span>))
+                            }
                         },
                     }
                 },
