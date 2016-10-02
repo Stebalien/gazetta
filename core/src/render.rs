@@ -118,7 +118,7 @@ pub trait Gazetta: Sized {
             let dest_dir = output.join(&entry.name);
             try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
 
-            let page = Page::for_entry(&entry);
+            let page = Page::for_entry(entry);
 
             if let Some(ref index) = entry.index {
 

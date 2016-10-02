@@ -182,7 +182,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                         origin.push_str(&scheme_data.username);
                         if let Some(ref pw) = scheme_data.password {
                             origin.push(':');
-                            origin.push_str(&pw);
+                            origin.push_str(pw);
                         }
                         origin.push('@');
                     }

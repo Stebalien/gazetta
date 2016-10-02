@@ -71,7 +71,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
         const U32_MAX_AS_I64: i64 = ::std::u32::MAX as i64;
 
         fn dir_to_glob(mut dir: String) -> Result<glob::Pattern, SourceError> {
-            if !dir.ends_with("/") {
+            if !dir.ends_with('/') {
                 dir.push('/');
             }
             dir.push('*');
@@ -79,7 +79,7 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
         }
 
         fn name_to_glob(name: &str) -> glob::Pattern {
-            let mut s = glob::Pattern::escape(&name);
+            let mut s = glob::Pattern::escape(name);
             s.push_str("/*");
             glob::Pattern::new(&s).unwrap()
         }
@@ -156,9 +156,9 @@ impl<EntryMeta> Entry<EntryMeta> where EntryMeta: Meta {
                     },
                     sort: match index.remove(&yaml::SORT) {
                         Some(Yaml::String(key)) => {
-                            let (dir, key) = if key.starts_with("+") {
+                            let (dir, key) = if key.starts_with('+') {
                                 (index::SortDirection::Ascending, &key[1..])
-                            } else if key.starts_with("-") {
+                            } else if key.starts_with('-') {
                                 (index::SortDirection::Descending, &key[1..])
                             } else {
                                 (index::SortDirection::default(), &key[..])

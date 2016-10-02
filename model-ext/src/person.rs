@@ -96,7 +96,7 @@ impl Person {
                 also: try!(person.remove(&ALSO)
                            .map(Link::many_from_yaml)
                            .bubble_result())
-                    .unwrap_or(Vec::new()),
+                    .unwrap_or_else(Vec::new),
                 key: try!(person.remove(&KEY).map(Key::from_yaml).bubble_result()),
             },
             Yaml::String(name) => Person {

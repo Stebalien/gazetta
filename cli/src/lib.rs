@@ -142,7 +142,7 @@ fn _run(render_paths: &RenderPaths) -> ! {
                     bail!("Target '{}' exists.", dest_path.display());
                 }
             }
-            render_paths.render_paths(&source_path, &dest_path);
+            render_paths.render_paths(&source_path, dest_path);
         }
         ("new", Some(matches)) => {
             let mut path: PathBuf = matches.value_of("WHERE").unwrap().into();

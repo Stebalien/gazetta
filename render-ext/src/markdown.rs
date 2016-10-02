@@ -60,8 +60,8 @@ impl<'a> Render for Markdown<'a> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         tmpl << RenderMarkdown {
             footnotes: HashMap::new(),
-            iter: Parser::new_ext(&self.data, OPTION_ENABLE_TABLES | OPTION_ENABLE_FOOTNOTES),
-            base: &self.base
+            iter: Parser::new_ext(self.data, OPTION_ENABLE_TABLES | OPTION_ENABLE_FOOTNOTES),
+            base: self.base
         };
     }
 }
@@ -179,13 +179,15 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                         },
                         Tag::CodeBlock(info)    => {
                             // TODO Highlight code.
-                            let lang = &*info.split(" ").next().unwrap();
-                            // Why? Because the format_args...
-                            (|f| tmpl << html! {
-                                pre {
-                                    code(class? = if !lang.is_empty() { Some(f) } else { None }) : s
+                            let lang = &*info.split(' ').next().unwrap();
+                            // Why? Because the format_args and lifetimes...
+                            match format_args!("language-{}", lang) {
+                                f => tmpl << html! {
+                                    pre {
+                                        code(class? = if !lang.is_empty() { Some(f) } else { None }) : s
+                                    }
                                 }
-                            })(format_args!("language-{}", lang))
+                            }
                         },
                     }
                 },

@@ -31,7 +31,7 @@ impl Meta for SourceMeta {
         Ok(SourceMeta {
             nav: try! {
                 meta.remove(&NAV).map(Link::many_from_yaml).bubble_result()
-            }.unwrap_or(Vec::new()),
+            }.unwrap_or_else(Vec::new),
             author: try! {
                 try! {
                     meta.remove(&AUTHOR).map(Person::from_yaml).bubble_result()
