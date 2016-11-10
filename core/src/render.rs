@@ -23,7 +23,7 @@ use util::{self, StreamHasher};
 use model::{Source, Meta};
 use view::{Site, Page, Index, Paginate};
 use error::{RenderError, AnnotatedError};
-use std::hash::SipHasher;
+use std::collections::hash_map::DefaultHasher;
 use str_stack::StrStack;
 
 
@@ -42,7 +42,7 @@ fn compile_asset<P>(paths: &[P],
 
     let hash = {
         let output = try_annotate!(File::create(&tmp_path), tmp_path);
-        let mut output = StreamHasher::<_, SipHasher>::new(output);
+        let mut output = StreamHasher::<_, DefaultHasher>::new(output);
         util::concat(paths, &mut output)?;
         output.finish()
     };
