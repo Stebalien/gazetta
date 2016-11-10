@@ -151,21 +151,21 @@
 <span id="107">107</span>
 <span id="108">108</span>
 </pre><pre class='rust '>
-<span class='comment'>/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see &lt;http://www.gnu.org/licenses/&gt;.
- */</span>
+<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This file is part of gazetta.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class='comment'>//  License.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class='comment'>//  the GNU General Public License for more details.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class='comment'>//</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>usize</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
@@ -199,14 +199,14 @@
 
 <span class='kw'>fn</span> <span class='ident'>_load_front</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(<span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>, <span class='ident'>String</span>), <span class='ident'>SourceError</span><span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='number'>100</span>);
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>)));
-    <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>)) <span class='kw'>as</span> <span class='ident'>u64</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>)<span class='question-mark'>?</span>);
+    <span class='ident'>file</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>)<span class='question-mark'>?</span>;
     <span class='kw'>if</span> <span class='ident'>buf</span>.<span class='ident'>trim_right</span>() <span class='op'>==</span> <span class='string'>&quot;---&quot;</span> {
         <span class='comment'>// Parse yaml header.</span>
         <span class='kw'>loop</span> {
             <span class='kw'>match</span> <span class='ident'>file</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>) {
                 <span class='prelude-val'>Ok</span>(<span class='ident'>len</span>) <span class='op'>=&gt;</span> {
-                    <span class='kw'>match</span> <span class='ident'>buf</span>[<span class='ident'>buf</span>.<span class='ident'>len</span>()<span class='op'>-</span><span class='ident'>len</span>..].<span class='ident'>trim_right</span>() {
+                    <span class='kw'>match</span> <span class='ident'>buf</span>[<span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>len</span>..].<span class='ident'>trim_right</span>() {
                         <span class='string'>&quot;...&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
                         <span class='string'>&quot;---&quot;</span> <span class='op'>=&gt;</span> {
                             <span class='kw'>let</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='ident'>buf</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>len</span>;
@@ -214,11 +214,11 @@
                             <span class='ident'>buf</span>.<span class='ident'>truncate</span>(<span class='ident'>end</span>);
                             <span class='ident'>buf</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;...\n&quot;</span>);
                             <span class='kw'>break</span>;
-                        },
-                        _ <span class='op'>=&gt;</span> ()
+                        }
+                        _ <span class='op'>=&gt;</span> (),
                     }
-                },
-                <span class='prelude-val'>Err</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='kw'>if</span> <span class='ident'>e</span>.<span class='ident'>kind</span>() <span class='op'>==</span> <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Interrupted</span> <span class='op'>=&gt;</span> {},
+                }
+                <span class='prelude-val'>Err</span>(<span class='kw-2'>ref</span> <span class='ident'>e</span>) <span class='kw'>if</span> <span class='ident'>e</span>.<span class='ident'>kind</span>() <span class='op'>==</span> <span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Interrupted</span> <span class='op'>=&gt;</span> {}
                 <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>.<span class='ident'>into</span>()),
             }
         }
@@ -226,7 +226,7 @@
         <span class='kw'>return</span> <span class='prelude-val'>Ok</span>((<span class='ident'>BTreeMap</span>::<span class='ident'>new</span>(), <span class='ident'>String</span>::<span class='ident'>new</span>()));
     }
     <span class='comment'>// Parse yaml</span>
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>docs</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>));
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>docs</span> <span class='op'>=</span> <span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>)<span class='question-mark'>?</span>;
     <span class='ident'>docs</span>.<span class='ident'>truncate</span>(<span class='number'>1</span>);
     <span class='kw'>let</span> <span class='ident'>meta</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>docs</span>.<span class='ident'>pop</span>() {
         <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='ident'>data</span>)) <span class='op'>=&gt;</span> <span class='ident'>data</span>,
@@ -234,7 +234,7 @@
     };
 
     <span class='ident'>buf</span>.<span class='ident'>clear</span>();
-    <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>read_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>));
+    <span class='ident'>file</span>.<span class='ident'>read_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>)<span class='question-mark'>?</span>;
     <span class='prelude-val'>Ok</span>((<span class='ident'>meta</span>, <span class='ident'>buf</span>))
 }
 
@@ -242,7 +242,7 @@
     <span class='ident'>_load</span>(<span class='ident'>path</span>.<span class='ident'>as_ref</span>())
 }
 <span class='kw'>fn</span> <span class='ident'>_load</span>(<span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>, <span class='ident'>SourceError</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>));
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>)<span class='question-mark'>?</span>;
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='ident'>file</span>.<span class='ident'>metadata</span>().<span class='ident'>ok</span>().<span class='ident'>map_or</span>(<span class='number'>100</span>, <span class='op'>|</span><span class='ident'>m</span><span class='op'>|</span> {
         <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='ident'>m</span>.<span class='ident'>len</span>();
         <span class='kw'>if</span> <span class='ident'>len</span> <span class='op'>&gt;</span> <span class='ident'>usize</span>::<span class='ident'>MAX</span> <span class='kw'>as</span> <span class='ident'>u64</span> {
@@ -251,8 +251,8 @@
             <span class='ident'>len</span> <span class='kw'>as</span> <span class='ident'>usize</span>
         }
     }));
-    <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>file</span>.<span class='ident'>read_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>));
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>docs</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>));
+    <span class='ident'>file</span>.<span class='ident'>read_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buf</span>)<span class='question-mark'>?</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>docs</span> <span class='op'>=</span> <span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>)<span class='question-mark'>?</span>;
     <span class='ident'>docs</span>.<span class='ident'>truncate</span>(<span class='number'>1</span>);
     <span class='kw'>match</span> <span class='ident'>docs</span>.<span class='ident'>pop</span>() {
         <span class='prelude-val'>Some</span>(<span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='ident'>data</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>data</span>),
@@ -316,11 +316,9 @@
     <script>
         window.rootPath = "../../../../../";
         window.currentCrate = "gazetta_core";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../../../jquery.js"></script>
     <script src="../../../../../main.js"></script>
-    
     <script defer src="../../../../../search-index.js"></script>
 </body>
 </html>

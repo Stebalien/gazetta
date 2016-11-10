@@ -101,23 +101,22 @@
 <span id="57">57</span>
 <span id="58">58</span>
 <span id="59">59</span>
-<span id="60">60</span>
 </pre><pre class='rust '>
-<span class='comment'>/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see &lt;http://www.gnu.org/licenses/&gt;.
- */</span>
+<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This file is part of gazetta.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class='comment'>//  License.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class='comment'>//  the GNU General Public License for more details.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class='comment'>//</span>
 <span class='kw'>use</span> <span class='ident'>horrorshow</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>gazetta_core</span>::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
 <span class='kw'>use</span> <span class='ident'>gazetta_core</span>::<span class='ident'>view</span>::<span class='ident'>Page</span>;
@@ -155,14 +154,13 @@
 {
     <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>format</span> {
-            <span class='string'>&quot;mkd&quot;</span><span class='op'>|</span><span class='string'>&quot;md&quot;</span><span class='op'>|</span><span class='string'>&quot;markdown&quot;</span>   <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> ::<span class='ident'>Markdown</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>data</span>, <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>href</span>),
-            <span class='string'>&quot;html&quot;</span>                  <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>raw</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>data</span>),
-            <span class='string'>&quot;&quot;</span><span class='op'>|</span><span class='string'>&quot;text&quot;</span><span class='op'>|</span><span class='string'>&quot;txt&quot;</span>         <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>data</span>,
-            <span class='ident'>format</span>                  <span class='op'>=&gt;</span> <span class='ident'>tmpl</span>.<span class='ident'>record_error</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;unknown format &#39;{}&#39;&quot;</span>, <span class='ident'>format</span>)),
+            <span class='string'>&quot;mkd&quot;</span> <span class='op'>|</span> <span class='string'>&quot;md&quot;</span> <span class='op'>|</span> <span class='string'>&quot;markdown&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> ::<span class='ident'>Markdown</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>data</span>, <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>href</span>),
+            <span class='string'>&quot;html&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>raw</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>data</span>),
+            <span class='string'>&quot;&quot;</span> <span class='op'>|</span> <span class='string'>&quot;text&quot;</span> <span class='op'>|</span> <span class='string'>&quot;txt&quot;</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>content</span>.<span class='ident'>data</span>,
+            <span class='ident'>format</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span>.<span class='ident'>record_error</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;unknown format &#39;{}&#39;&quot;</span>, <span class='ident'>format</span>)),
         }
     }
 }
-
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -220,11 +218,9 @@
     <script>
         window.rootPath = "../../../../";
         window.currentCrate = "gazetta_render_ext";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../../jquery.js"></script>
     <script src="../../../../main.js"></script>
-    
     <script defer src="../../../../search-index.js"></script>
 </body>
 </html>

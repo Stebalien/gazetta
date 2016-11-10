@@ -96,33 +96,37 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
 </pre><pre class='rust '>
-<span class='comment'>/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see &lt;http://www.gnu.org/licenses/&gt;.
- */</span>
+<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This file is part of gazetta.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class='comment'>//  License.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class='comment'>//  the GNU General Public License for more details.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class='comment'>//</span>
 
 <span class='kw'>use</span> ::<span class='ident'>glob</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>SortField</span> {
-    <span class='ident'>Date</span>, <span class='ident'>Title</span>
+    <span class='ident'>Date</span>,
+    <span class='ident'>Title</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>SortDirection</span> {
-    <span class='ident'>Ascending</span>, <span class='ident'>Descending</span>
+    <span class='ident'>Ascending</span>,
+    <span class='ident'>Descending</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Default</span>, <span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
@@ -208,11 +212,9 @@
     <script>
         window.rootPath = "../../../../../";
         window.currentCrate = "gazetta_core";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../../../jquery.js"></script>
     <script src="../../../../../main.js"></script>
-    
     <script defer src="../../../../../search-index.js"></script>
 </body>
 </html>

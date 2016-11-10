@@ -88,22 +88,23 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
 </pre><pre class='rust '>
-<span class='comment'>/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see &lt;http://www.gnu.org/licenses/&gt;.
- */</span>
+<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This file is part of gazetta.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class='comment'>//  License.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class='comment'>//  the GNU General Public License for more details.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class='comment'>//</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>BubbleResult</span> {
     <span class='kw'>type</span> <span class='ident'>Value</span>;
     <span class='kw'>type</span> <span class='ident'>Error</span>;
@@ -126,15 +127,16 @@
 
     <span class='kw'>fn</span> <span class='ident'>bubble_result</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Value</span>, <span class='self'>Self</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>v</span>.<span class='ident'>bubble_result</span>() {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>v</span>)),
-                <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
-            },
+            <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> {
+                <span class='kw'>match</span> <span class='ident'>v</span>.<span class='ident'>bubble_result</span>() {
+                    <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>v</span>)),
+                    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>),
+                }
+            }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='prelude-val'>None</span>),
         }
     }
 }
-
 </pre>
 </section>
     <section id='search' class="content hidden"></section>
@@ -192,11 +194,9 @@
     <script>
         window.rootPath = "../../../../";
         window.currentCrate = "gazetta_model_ext";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../../jquery.js"></script>
     <script src="../../../../main.js"></script>
-    
     <script defer src="../../../../search-index.js"></script>
 </body>
 </html>

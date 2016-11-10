@@ -252,7 +252,7 @@ the two-digit year is used to guess the century number then.</p>
 </ul>
 
 <p>It is able to handle leap seconds when given second is 60.</p>
-</div><h4 id='method.to_naive_datetime_with_offset' class='method'><span id='to_naive_datetime_with_offset.v' class='invisible'><code>fn <a href='#method.to_naive_datetime_with_offset' class='fnname'>to_naive_datetime_with_offset</a>(&amp;self, offset: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>) -&gt; <a class='type' href='../../../chrono/format/type.ParseResult.html' title='chrono::format::ParseResult'>ParseResult</a>&lt;<a class='struct' href='../../../chrono/naive/datetime/struct.NaiveDateTime.html' title='chrono::naive::datetime::NaiveDateTime'>NaiveDateTime</a>&gt;</code></span></h4>
+</div><h4 id='method.to_naive_datetime_with_offset' class='method'><span id='to_naive_datetime_with_offset.v' class='invisible'><code>fn <a href='#method.to_naive_datetime_with_offset' class='fnname'>to_naive_datetime_with_offset</a>(&amp;self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; offset: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='type' href='../../../chrono/format/type.ParseResult.html' title='chrono::format::ParseResult'>ParseResult</a>&lt;<a class='struct' href='../../../chrono/naive/datetime/struct.NaiveDateTime.html' title='chrono::naive::datetime::NaiveDateTime'>NaiveDateTime</a>&gt;</code></span></h4>
 <div class='docblock'><p>Returns a parsed naive date and time out of given fields,
 except for the <a href="#structfield.offset"><code>offset</code></a> field (assumed to have a given value).
 This is required for parsing a local time or other known-timezone inputs.</p>
@@ -269,7 +269,7 @@ Either way those fields have to be consistent to each other.</p>
 from date and time fields or a single <a href="#structfield.timestamp"><code>timestamp</code></a> field,
 plus a time zone offset.
 Either way those fields have to be consistent to each other.</p>
-</div><h4 id='method.to_datetime_with_timezone' class='method'><span id='to_datetime_with_timezone.v' class='invisible'><code>fn <a href='#method.to_datetime_with_timezone' class='fnname'>to_datetime_with_timezone</a>&lt;Tz:&nbsp;<a class='trait' href='../../../chrono/offset/trait.TimeZone.html' title='chrono::offset::TimeZone'>TimeZone</a>&gt;(&amp;self, tz: &amp;Tz) -&gt; <a class='type' href='../../../chrono/format/type.ParseResult.html' title='chrono::format::ParseResult'>ParseResult</a>&lt;<a class='struct' href='../../../chrono/datetime/struct.DateTime.html' title='chrono::datetime::DateTime'>DateTime</a>&lt;Tz&gt;&gt;</code></span></h4>
+</div><h4 id='method.to_datetime_with_timezone' class='method'><span id='to_datetime_with_timezone.v' class='invisible'><code>fn <a href='#method.to_datetime_with_timezone' class='fnname'>to_datetime_with_timezone</a>&lt;Tz:&nbsp;<a class='trait' href='../../../chrono/offset/trait.TimeZone.html' title='chrono::offset::TimeZone'>TimeZone</a>&gt;(&amp;self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tz: &amp;Tz)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='type' href='../../../chrono/format/type.ParseResult.html' title='chrono::format::ParseResult'>ParseResult</a>&lt;<a class='struct' href='../../../chrono/datetime/struct.DateTime.html' title='chrono::datetime::DateTime'>DateTime</a>&lt;Tz&gt;&gt;</code></span></h4>
 <div class='docblock'><p>Returns a parsed timezone-aware date and time out of given fields,
 with an additional <code>TimeZone</code> used to interpret and validate the local date.</p>
 
@@ -348,11 +348,9 @@ If parsed fields include an UTC offset, it also has to be consistent to
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "chrono";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.13.0/src/args/arg_matches.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.18.0/src/args/arg_matches.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>arg_matches.rs.html -- source</title>
@@ -709,6 +709,13 @@
 <span id="665">665</span>
 <span id="666">666</span>
 <span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
 </pre><pre class='rust '>
 <span class='comment'>// Std</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
@@ -843,10 +850,11 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```ignore&quot;</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(    <span class='ident'>unix</span> , <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```&quot;</span>)]</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
     <span class='doccomment'>/// use std::ffi::OsString;</span>
-    <span class='doccomment'>/// use std::os::unix::ffi::OsStrExt;</span>
+    <span class='doccomment'>/// use std::os::unix::ffi::{OsStrExt,OsStringExt};</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// let m = App::new(&quot;utf8&quot;)</span>
     <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt; &#39;some arg&#39;&quot;))</span>
@@ -877,10 +885,11 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```ignore&quot;</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(    <span class='ident'>unix</span> , <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```&quot;</span>)]</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
     <span class='doccomment'>/// use std::ffi::OsString;</span>
-    <span class='doccomment'>/// use std::os::unix::ffi::OsStrExt;</span>
+    <span class='doccomment'>/// use std::os::unix::ffi::{OsStrExt,OsStringExt};</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// let m = App::new(&quot;utf8&quot;)</span>
     <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt; &#39;some arg&#39;&quot;))</span>
@@ -939,19 +948,22 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```ignore&quot;</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(    <span class='ident'>unix</span> , <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```&quot;</span>)]</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
     <span class='doccomment'>/// use std::ffi::OsString;</span>
-    <span class='doccomment'>/// use std::os::unix::ffi::OsStrExt;</span>
+    <span class='doccomment'>/// use std::os::unix::ffi::OsStringExt;</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// let m = App::new(&quot;utf8&quot;)</span>
-    <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt; &#39;some arg&#39;&quot;))</span>
+    <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt;... &#39;some arg&#39;&quot;))</span>
     <span class='doccomment'>///     .get_matches_from(vec![OsString::from(&quot;myprog&quot;),</span>
-    <span class='doccomment'>///                             // &quot;Hi {0xe9}!&quot;</span>
-    <span class='doccomment'>///                             OsString::from_vec(vec![b&#39;H&#39;, b&#39;i&#39;, b&#39; &#39;, 0xe9, b&#39;!&#39;])]);</span>
-    <span class='doccomment'>/// let itr = m.values_of_lossy(&quot;arg&quot;).unwrap();</span>
-    <span class='doccomment'>/// assert_eq!(&amp;*itr.next().unwrap(), &quot;Hi&quot;);</span>
-    <span class='doccomment'>/// assert_eq!(&amp;*itr.next().unwrap(), &quot;\u{FFFD}!&quot;);</span>
+    <span class='doccomment'>///                             // &quot;Hi&quot;</span>
+    <span class='doccomment'>///                             OsString::from_vec(vec![b&#39;H&#39;, b&#39;i&#39;]),</span>
+    <span class='doccomment'>///                             // &quot;{0xe9}!&quot;</span>
+    <span class='doccomment'>///                             OsString::from_vec(vec![0xe9, b&#39;!&#39;])]);</span>
+    <span class='doccomment'>/// let mut itr = m.values_of_lossy(&quot;arg&quot;).unwrap().into_iter();</span>
+    <span class='doccomment'>/// assert_eq!(&amp;itr.next().unwrap()[..], &quot;Hi&quot;);</span>
+    <span class='doccomment'>/// assert_eq!(&amp;itr.next().unwrap()[..], &quot;\u{FFFD}!&quot;);</span>
     <span class='doccomment'>/// assert_eq!(itr.next(), None);</span>
     <span class='doccomment'>/// ```</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>values_of_lossy</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
@@ -972,22 +984,23 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```ignore&quot;</span>)]</span>
+    <span class='attribute'>#[<span class='ident'>cfg_attr</span>(    <span class='ident'>unix</span> , <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```&quot;</span>)]</span>
     <span class='doccomment'>/// # use clap::{App, Arg};</span>
-    <span class='doccomment'>/// use std::ffi::OsString;</span>
-    <span class='doccomment'>/// use std::os::unix::ffi::OsStrExt;</span>
+    <span class='doccomment'>/// use std::ffi::{OsStr,OsString};</span>
+    <span class='doccomment'>/// use std::os::unix::ffi::{OsStrExt,OsStringExt};</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// let m = App::new(&quot;utf8&quot;)</span>
-    <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt; &#39;some arg&#39;&quot;))</span>
+    <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt;... &#39;some arg&#39;&quot;))</span>
     <span class='doccomment'>///     .get_matches_from(vec![OsString::from(&quot;myprog&quot;),</span>
     <span class='doccomment'>///                                 // &quot;Hi&quot;</span>
     <span class='doccomment'>///                                 OsString::from_vec(vec![b&#39;H&#39;, b&#39;i&#39;]),</span>
     <span class='doccomment'>///                                 // &quot;{0xe9}!&quot;</span>
     <span class='doccomment'>///                                 OsString::from_vec(vec![0xe9, b&#39;!&#39;])]);</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let itr = m.values_of_os(&quot;arg&quot;).unwrap();</span>
-    <span class='doccomment'>/// assert_eq!(itr.next(), Some(&amp;*OsString::from(&quot;Hi&quot;)));</span>
-    <span class='doccomment'>/// assert_eq!(itr.next(), Some(&amp;*OsString::from_vec(vec![0xe9, b&#39;!&#39;])));</span>
+    <span class='doccomment'>/// let mut itr = m.values_of_os(&quot;arg&quot;).unwrap().into_iter();</span>
+    <span class='doccomment'>/// assert_eq!(itr.next(), Some(OsStr::new(&quot;Hi&quot;)));</span>
+    <span class='doccomment'>/// assert_eq!(itr.next(), Some(OsStr::from_bytes(&amp;[0xe9, b&#39;!&#39;])));</span>
     <span class='doccomment'>/// assert_eq!(itr.next(), None);</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// [`OsValues`]: ./struct.OsValues.html</span>
@@ -1140,7 +1153,7 @@
     <span class='doccomment'>/// Given the above fictional subcommand hierarchy, valid runtime uses would be (not an all</span>
     <span class='doccomment'>/// inclusive list, and not including argument options per command for brevity and clarity):</span>
     <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```ignore</span>
+    <span class='doccomment'>/// ```sh</span>
     <span class='doccomment'>/// $ git clone url</span>
     <span class='doccomment'>/// $ git push origin path</span>
     <span class='doccomment'>/// $ git add ref local</span>
@@ -1341,10 +1354,11 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// ```ignore</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```ignore&quot;</span>)]</span>
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(    <span class='ident'>unix</span> , <span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot; ```&quot;</span>)]</span>
 <span class='doccomment'>/// # use clap::{App, Arg};</span>
 <span class='doccomment'>/// use std::ffi::OsString;</span>
-<span class='doccomment'>/// use std::os::unix::ffi::OsStrExt;</span>
+<span class='doccomment'>/// use std::os::unix::ffi::{OsStrExt,OsStringExt};</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// let m = App::new(&quot;utf8&quot;)</span>
 <span class='doccomment'>///     .arg(Arg::from_usage(&quot;&lt;arg&gt; &#39;some arg&#39;&quot;))</span>
@@ -1434,11 +1448,9 @@
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "clap";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

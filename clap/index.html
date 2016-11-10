@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#6-453' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-0' class='srclink' href='../src/clap/lib.rs.html#6-447' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A simple-to-use, efficient, and full-featured library for parsing command line arguments and subcommands when writing console/terminal applications.</p>
 
 <h2 id='about' class='section-header'><a href='#about'>About</a></h2>
@@ -152,15 +152,17 @@
     }
 
     <span class='comment'>// more program logic goes here...</span>
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 
-<p>The following example is functionally the same as the one above, but shows a far less verbose method but sacrifices some of the advanced configuration options (not shown in this small example).</p>
+<p>The following example is functionally the same as the one above,
+but shows a far less verbose method but sacrifices some of the advanced configuration options
+(not shown in this small example).</p>
 
 <pre class='rust rust-example-rendered'>
 <span class='comment'>// (Full example with detailed comments in examples/01a_quick_example.rs)</span>
 <span class='comment'>//</span>
-<span class='comment'>// This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments which is less</span>
-<span class='comment'>// less verbose</span>
+<span class='comment'>// This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments</span>
+<span class='comment'>// which is less verbose</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>clap</span>;
 <span class='kw'>use</span> <span class='ident'>clap</span>::{<span class='ident'>Arg</span>, <span class='ident'>App</span>, <span class='ident'>SubCommand</span>};
 
@@ -181,16 +183,15 @@
                           .<span class='ident'>get_matches</span>();
 
     <span class='comment'>// Same as previous example...</span>
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 
 <p>The following combines the previous two examples by using the less verbose <code>from_usage</code> methods and the performance of the Builder Pattern.</p>
 
 <pre class='rust rust-example-rendered'>
 <span class='comment'>// (Full example with detailed comments in examples/01c_quick_example.rs)</span>
-<span class='comment'>// Must be compiled with `--features unstable`</span>
 <span class='comment'>//</span>
-<span class='comment'>// This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments which is less</span>
-<span class='comment'>// less verbose</span>
+<span class='comment'>// This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments</span>
+<span class='comment'>// which is less less verbose</span>
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>clap</span>;
 
@@ -211,7 +212,7 @@
     ).<span class='ident'>get_matches</span>();
 
 <span class='comment'>// Same as previous examples...</span>
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 
 <p>This final method shows how you can use a YAML file to build your CLI and keep your Rust source tidy or support multiple localized translations by having different YAML files for each localization. First, create the <code>cli.yml</code> file to hold your CLI options, but it could be called anything we like (we&#39;ll use the same both examples above to keep it functionally equivalent):</p>
 
@@ -245,7 +246,10 @@ subcommands:
                 help: print debug information
 </code></pre>
 
-<p>Now we create our <code>main.rs</code> file just like we would have with the previous two examples:</p>
+<p>Because this feature is not compiled in by default we need to enable a feature flag in Cargo.toml:
+Simply change your <code>clap = &quot;2&quot;</code> to <code>clap = {version = &quot;2&quot;, features = [&quot;yaml&quot;]}</code>.</p>
+
+<p>At last we create our <code>main.rs</code> file just like we would have with the previous two examples:</p>
 
 <pre class='rust rust-example-rendered'>
 <span class='comment'>// (Full example with detailed comments in examples/17_yaml.rs)</span>
@@ -262,35 +266,33 @@ subcommands:
     <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='ident'>App</span>::<span class='ident'>from_yaml</span>(<span class='ident'>yaml</span>).<span class='ident'>get_matches</span>();
 
     <span class='comment'>// Same as previous examples...</span>
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
-
-<p><strong>NOTE</strong>: The YAML and macro builder options require adding a special <code>features</code> flag when compiling <code>clap</code> because they are not compiled by default. Simply change your <code>clap = &quot;2&quot;</code> to <code>clap = {version = &quot;2&quot;, features = [&quot;yaml&quot;]}</code> for YAML, or <code>features = [&quot;unstable&quot;]</code> for the macro builder, in your <code>Cargo.toml</code>.</p>
+}</pre>
 
 <p>If you were to compile any of the above programs and run them with the flag <code>--help</code> or <code>-h</code> (or <code>help</code> subcommand, since we defined <code>test</code> as a subcommand) the following would be output</p>
 
-<pre class='rust rust-example-rendered'>
-$ <span class='ident'>myprog</span> <span class='op'>-</span><span class='op'>-</span><span class='ident'>help</span>
-<span class='ident'>My</span> <span class='ident'>Super</span> <span class='ident'>Program</span> <span class='number'>1.0</span>
-<span class='ident'>Kevin</span> <span class='ident'>K</span>. <span class='op'>&lt;</span><span class='ident'>kbknapp</span>@<span class='ident'>gmail</span>.<span class='ident'>com</span><span class='op'>&gt;</span>
-<span class='ident'>Does</span> <span class='ident'>awesome</span> <span class='ident'>things</span>
+<pre><code class="language-text">$ myprog --help
+My Super Program 1.0
+Kevin K. &lt;kbknapp@gmail.com&gt;
+Does awesome things
 
-<span class='ident'>USAGE</span>:
-    <span class='ident'>MyApp</span> [<span class='ident'>FLAGS</span>] [<span class='ident'>OPTIONS</span>] <span class='op'>&lt;</span><span class='ident'>INPUT</span><span class='op'>&gt;</span> [<span class='ident'>SUBCOMMAND</span>]
+USAGE:
+    MyApp [FLAGS] [OPTIONS] &lt;INPUT&gt; [SUBCOMMAND]
 
-<span class='ident'>FLAGS</span>:
-    <span class='op'>-</span><span class='ident'>h</span>, <span class='op'>-</span><span class='op'>-</span><span class='ident'>help</span>       <span class='ident'>Prints</span> <span class='ident'>this</span> <span class='ident'>message</span>
-    <span class='op'>-</span><span class='ident'>v</span>               <span class='ident'>Sets</span> <span class='ident'>the</span> <span class='ident'>level</span> <span class='ident'>of</span> <span class='ident'>verbosity</span>
-    <span class='op'>-</span><span class='ident'>V</span>, <span class='op'>-</span><span class='op'>-</span><span class='ident'>version</span>    <span class='ident'>Prints</span> <span class='ident'>version</span> <span class='ident'>information</span>
+FLAGS:
+    -h, --help       Prints this message
+    -v               Sets the level of verbosity
+    -V, --version    Prints version information
 
-<span class='ident'>OPTIONS</span>:
-    <span class='op'>-</span><span class='ident'>c</span>, <span class='op'>-</span><span class='op'>-</span><span class='ident'>config</span> <span class='op'>&lt;</span><span class='ident'>FILE</span><span class='op'>&gt;</span>    <span class='ident'>Sets</span> <span class='ident'>a</span> <span class='ident'>custom</span> <span class='ident'>config</span> <span class='ident'>file</span>
+OPTIONS:
+    -c, --config &lt;FILE&gt;    Sets a custom config file
 
-<span class='ident'>ARGS</span>:
-    <span class='ident'>INPUT</span>    <span class='ident'>The</span> <span class='ident'>input</span> <span class='ident'>file</span> <span class='ident'>to</span> <span class='kw'>use</span>
+ARGS:
+    INPUT    The input file to use
 
-<span class='ident'>SUBCOMMANDS</span>:
-    <span class='ident'>help</span>    <span class='ident'>Prints</span> <span class='ident'>this</span> <span class='ident'>message</span>
-    <span class='ident'>test</span>    <span class='ident'>Controls</span> <span class='ident'>testing</span> <span class='ident'>features</span><a class='test-arrow' target='_blank' href=''>Run</a></pre>
+SUBCOMMANDS:
+    help    Prints this message
+    test    Controls testing features
+</code></pre>
 
 <p><strong>NOTE:</strong> You could also run <code>myapp test --help</code> to see similar output and options for the <code>test</code> subcommand.</p>
 
@@ -322,7 +324,7 @@ $ <span class='ident'>myprog</span> <span class='op'>-</span><span class='op'>-<
 
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
   <span class='ident'>App</span>::<span class='ident'>new</span>(<span class='string'>&quot;fake&quot;</span>).<span class='ident'>version</span>(<span class='string'>&quot;v1.0-beta&quot;</span>).<span class='ident'>get_matches</span>();
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 
 <ul>
 <li>Build your program <code>$ cargo build --release</code></li>
@@ -332,11 +334,11 @@ $ <span class='ident'>myprog</span> <span class='op'>-</span><span class='op'>-<
 <h2 id='usage' class='section-header'><a href='#usage'>Usage</a></h2>
 <p>For full usage, add <code>clap</code> as a dependency in your <code>Cargo.toml</code> file to use from crates.io:</p>
 
-<pre><code class="language-toml"> [dependencies]
- clap = &quot;2&quot;
+<pre><code class="language-toml">[dependencies]
+clap = &quot;2&quot;
 </code></pre>
 
-<p>Or track the latest on the master branch at github:</p>
+<p>Or get the latest changes from the master branch at github:</p>
 
 <pre><code class="language-toml">[dependencies.clap]
 git = &quot;https://github.com/kbknapp/clap-rs.git&quot;
@@ -349,7 +351,14 @@ git = &quot;https://github.com/kbknapp/clap-rs.git&quot;
 <p>Then run <code>cargo build</code> or <code>cargo update &amp;&amp; cargo build</code> for your project.</p>
 
 <h3 id='optional-dependencies--features' class='section-header'><a href='#optional-dependencies--features'>Optional Dependencies / Features</a></h3>
-<p>If you&#39;d like to keep your dependency list to <strong>only</strong> <code>clap</code>, you can disable any features that require an additional dependency. To do this, add this to your <code>Cargo.toml</code>:</p>
+<h4 id='features-enabled-by-default' class='section-header'><a href='#features-enabled-by-default'>Features enabled by default</a></h4>
+<ul>
+<li><strong>&quot;suggestions&quot;</strong>: Turns on the <code>Did you mean &#39;--myoption&#39;?</code> feature for when users make typos.</li>
+<li><strong>&quot;color&quot;</strong>: Turns on colored error messages. This feature only works on non-Windows OSs.</li>
+<li><strong>&quot;wrap_help&quot;</strong>: Wraps the help at the actual terminal width when available, instead of 120 chracters.</li>
+</ul>
+
+<p>To disable these, add this to your <code>Cargo.toml</code>:</p>
 
 <pre><code class="language-toml">[dependencies.clap]
 version = &quot;2&quot;
@@ -366,15 +375,9 @@ default-features = false
 features = [ &quot;suggestions&quot;, &quot;color&quot; ]
 </code></pre>
 
-<p>The following is a list of optional <code>clap</code> features:</p>
-
+<h4 id='opt-in-features' class='section-header'><a href='#opt-in-features'>Opt-in features</a></h4>
 <ul>
-<li><strong>&quot;suggestions&quot;</strong>: Turns on the <code>Did you mean &#39;--myoption&#39;?</code> feature for when users make typos.</li>
-<li><strong>&quot;color&quot;</strong>: Turns on colored error messages. This feature only works on non-Windows OSs.</li>
-<li><strong>&quot;lints&quot;</strong>: This is <strong>not</strong> included by default and should only be used while developing to run basic lints against changes. This can only be used on Rust nightly.</li>
-<li><strong>&quot;debug&quot;</strong>: This is <strong>not</strong> included by default and should only be used while developing to display debugging information.</li>
-<li><strong>&quot;yaml&quot;</strong>: This is <strong>not</strong> included by default. Enables building CLIs from YAML documents.</li>
-<li><strong>&quot;unstable&quot;</strong>: This is <strong>not</strong> included by default. Enables unstable features, unstable refers to whether or not they may change, not performance stability.</li>
+<li><strong>&quot;yaml&quot;</strong>: Enables building CLIs from YAML documents.</li>
 </ul>
 
 <h3 id='more-information' class='section-header'><a href='#more-information'>More Information</a></h3>
@@ -389,14 +392,20 @@ features = [ &quot;suggestions&quot;, &quot;color&quot; ]
 
 <p><em>Note</em>: Apologies for the resolution of the first video, it will be updated to a better resolution soon. The other videos have a proper resolution.</p>
 
-<h3 id='running-the-tests' class='section-header'><a href='#running-the-tests'>Running the tests</a></h3>
-<p>If contributing, you can run the tests as follows (assuming you&#39;re in the <code>clap-rs</code> directory)</p>
+<h3 id='for-clap-contributors' class='section-header'><a href='#for-clap-contributors'>For clap contributors</a></h3>
+<p>If contributing, you can run theese commands to test everything:</p>
 
-<pre class='rust rust-example-rendered'>
-$ <span class='ident'>cargo</span> <span class='ident'>test</span> <span class='op'>&amp;&amp;</span> <span class='ident'>make</span> <span class='op'>-</span><span class='ident'>C</span> <span class='ident'>clap</span><span class='op'>-</span><span class='ident'>tests</span> <span class='ident'>test</span>
-$ <span class='ident'>cargo</span> <span class='ident'>test</span> <span class='op'>-</span><span class='op'>-</span><span class='ident'>features</span> <span class='ident'>yaml</span>
+<pre><code class="language-sh">$ cargo test --no-default-features
+$ cargo test --features yaml
+</code></pre>
 
-$ <span class='ident'>cargo</span> <span class='ident'>build</span> <span class='op'>-</span><span class='op'>-</span><span class='ident'>features</span> <span class='ident'>lints</span><a class='test-arrow' target='_blank' href=''>Run</a></pre>
+<p>If you have a nightly compiler you can append <code>--features lints</code> to both commands
+to get style warnings and code smells; If you get one from code you think is fine,
+you can ignore it by prepending <code>#[cfg_attr(feature=&quot;lints&quot;, allow(lint_name))]</code>
+to the function or impl block.</p>
+
+<p>If you are debugging (or just trying to understand the code) you can enable the
+&quot;debug&quot; feature which will trace function calls and brances in some parts of the code.</p>
 
 <h2 id='license' class='section-header'><a href='#license'>License</a></h2>
 <p><code>clap</code> is licensed under the MIT license. Please read the <a href="LICENSE-MIT">LICENSE-MIT</a> file in this repository for more information.</p>
@@ -418,6 +427,14 @@ evaluable expression, suitable for use as a static array size, or the value of a
 parsing arguments. This enum also provides a <code>variants()</code> function which can be used to
 retrieve a <code>Vec&lt;&amp;&#39;static str&gt;</code> of the variant names, as well as implementing <a href="https://doc.rust-lang.org/std/str/trait.FromStr.html"><code>FromStr</code></a> and
 <a href="https://doc.rust-lang.org/std/fmt/trait.Display.html"><code>Display</code></a> automatically.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.clap_app.html'
+                                  title='clap::clap_app'>clap_app</a></td>
+                           <td class='docblock-short'>
+                                <p>Build <code>App</code>, <code>Arg</code>s, <code>SubCommand</code>s and <code>Group</code>s with Usage-string like input
+but without the parsing.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -637,11 +654,9 @@ methods <a href="./struct.Arg.html#method.set"><code>Arg::set</code></a>, <a hre
     <script>
         window.rootPath = "../";
         window.currentCrate = "clap";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

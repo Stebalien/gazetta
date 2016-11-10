@@ -71,7 +71,7 @@ access your YAML document.</p>
 <span class='kw'>let</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>Array</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Yaml</span>::<span class='ident'>Integer</span>(<span class='number'>1</span>), <span class='ident'>Yaml</span>::<span class='ident'>Integer</span>(<span class='number'>2</span>)]);
 <span class='kw'>for</span> <span class='ident'>v</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>() {
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>v</span>.<span class='ident'>as_i64</span>().<span class='ident'>is_some</span>());
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 </div><h2 class='variants'>Variants</h2>
 <span id='variant.Real' class='variant'><span id='Real.v' class='invisible'><code>Real(<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>)</code></span></span><div class='docblock'><p>float types are stored as String, and parsed on demand.
 Note that f64 does NOT implement Eq trait and can NOT be stored in BTreeMap</p>
@@ -127,12 +127,12 @@ also return <code>BadValue</code>.</p>
 <div class='impl-items'><h4 id='associatedtype.Output' class='type'><span id='Output.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Index.html#associatedtype.Output' class='type'>Output</a> = <a class='enum' href='../../yaml_rust/yaml/enum.Yaml.html' title='yaml_rust::yaml::Yaml'>Yaml</a></code></span></h4>
 <div class='docblock'><p>The returned type after indexing</p>
 </div><h4 id='method.index' class='method'><span id='index.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Index.html#tymethod.index' class='fnname'>index</a>(&amp;self, idx: &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; &amp;<a class='enum' href='../../yaml_rust/yaml/enum.Yaml.html' title='yaml_rust::yaml::Yaml'>Yaml</a></code></span></h4>
-<div class='docblock'><p>The method for the indexing (<code>Foo[Bar]</code>) operation</p>
+<div class='docblock'><p>The method for the indexing (<code>container[index]</code>) operation</p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Index.html' title='core::ops::Index'>Index</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt; for <a class='enum' href='../../yaml_rust/yaml/enum.Yaml.html' title='yaml_rust::yaml::Yaml'>Yaml</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-66' class='srclink' href='../../src/yaml_rust/yaml.rs.html#264-273' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='associatedtype.Output-1' class='type'><span id='Output.t-1' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Index.html#associatedtype.Output' class='type'>Output</a> = <a class='enum' href='../../yaml_rust/yaml/enum.Yaml.html' title='yaml_rust::yaml::Yaml'>Yaml</a></code></span></h4>
 <div class='docblock'><p>The returned type after indexing</p>
 </div><h4 id='method.index-1' class='method'><span id='index.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Index.html#tymethod.index' class='fnname'>index</a>(&amp;self, idx: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; &amp;<a class='enum' href='../../yaml_rust/yaml/enum.Yaml.html' title='yaml_rust::yaml::Yaml'>Yaml</a></code></span></h4>
-<div class='docblock'><p>The method for the indexing (<code>Foo[Bar]</code>) operation</p>
+<div class='docblock'><p>The method for the indexing (<code>container[index]</code>) operation</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
 
@@ -189,11 +189,9 @@ also return <code>BadValue</code>.</p>
     <script>
         window.rootPath = "../../";
         window.currentCrate = "yaml_rust";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

@@ -249,22 +249,23 @@
 <span id="205">205</span>
 <span id="206">206</span>
 <span id="207">207</span>
+<span id="208">208</span>
 </pre><pre class='rust '>
-<span class='comment'>/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see &lt;http://www.gnu.org/licenses/&gt;.
- */</span>
+<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This file is part of gazetta.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class='comment'>//  License.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class='comment'>//  the GNU General Public License for more details.</span>
+<span class='comment'>//</span>
+<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class='comment'>//</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
@@ -310,10 +311,11 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Render</span> <span class='kw'>for</span> <span class='ident'>Markdown</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
-        <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='ident'>RenderMarkdown</span> {
+        <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span>
+        <span class='ident'>RenderMarkdown</span> {
             <span class='ident'>footnotes</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
             <span class='ident'>iter</span>: <span class='ident'>Parser</span>::<span class='ident'>new_ext</span>(<span class='self'>self</span>.<span class='ident'>data</span>, <span class='ident'>OPTION_ENABLE_TABLES</span> <span class='op'>|</span> <span class='ident'>OPTION_ENABLE_FOOTNOTES</span>),
-            <span class='ident'>base</span>: <span class='self'>self</span>.<span class='ident'>base</span>
+            <span class='ident'>base</span>: <span class='self'>self</span>.<span class='ident'>base</span>,
         };
     }
 }
@@ -351,13 +353,13 @@
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>Event</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>RenderOnce</span> <span class='kw'>for</span> <span class='ident'>RenderMarkdown</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Event</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>RenderOnce</span> <span class='kw'>for</span> <span class='ident'>RenderMarkdown</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>render_once</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='self'>self</span>.<span class='ident'>render_mut</span>(<span class='ident'>tmpl</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span><span class='op'>=</span><span class='ident'>Event</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>RenderMut</span> <span class='kw'>for</span> <span class='ident'>RenderMarkdown</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>Event</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>RenderMut</span> <span class='kw'>for</span> <span class='ident'>RenderMarkdown</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>I</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>render_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
         <span class='kw'>use</span> <span class='ident'>pulldown_cmark</span>::<span class='ident'>Event</span>::<span class='op'>*</span>;
         <span class='kw'>use</span> <span class='ident'>pulldown_cmark</span>::<span class='ident'>Tag</span>;
@@ -376,27 +378,27 @@
                                 : <span class='ident'>s</span>;
                             }
                         },
-                        <span class='ident'>Tag</span>::<span class='ident'>Paragraph</span>          <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>p</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Rule</span>               <span class='op'>=&gt;</span> {
+                        <span class='ident'>Tag</span>::<span class='ident'>Paragraph</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>p</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Rule</span> <span class='op'>=&gt;</span> {
                             <span class='comment'>// Eat the end tag.</span>
                             <span class='kw'>match</span> <span class='ident'>s</span>.<span class='ident'>iter</span>.<span class='ident'>next</span>() {
                                 <span class='prelude-val'>Some</span>(<span class='ident'>End</span>(<span class='ident'>Tag</span>::<span class='ident'>Rule</span>)) <span class='op'>=&gt;</span> (),
                                 _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;stuff inside horizontal rule tag?&quot;</span>),
                             }
                             <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>hr</span>; }
-                        },
-                        <span class='ident'>Tag</span>::<span class='ident'>BlockQuote</span>         <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>blockquote</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Table</span>(_)           <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>table</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>TableHead</span>          <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>thead</span> { <span class='ident'>tr</span> : <span class='ident'>s</span> } },
-                        <span class='ident'>Tag</span>::<span class='ident'>TableRow</span>           <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>tr</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>TableCell</span>          <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>td</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>List</span>(<span class='prelude-val'>Some</span>(<span class='number'>0</span>))      <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>ol</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>List</span>(<span class='prelude-val'>Some</span>(<span class='ident'>start</span>))  <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>ol</span>(<span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>start</span>) : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>List</span>(<span class='prelude-val'>None</span>)         <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>ul</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Item</span>               <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>li</span> : <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Emphasis</span>           <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>em</span>: <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Strong</span>             <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>strong</span>: <span class='ident'>s</span> },
-                        <span class='ident'>Tag</span>::<span class='ident'>Code</span>               <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>code</span>: <span class='ident'>s</span> },
+                        }
+                        <span class='ident'>Tag</span>::<span class='ident'>BlockQuote</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>blockquote</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Table</span>(_) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>table</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>TableHead</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>thead</span> { <span class='ident'>tr</span> : <span class='ident'>s</span> } },
+                        <span class='ident'>Tag</span>::<span class='ident'>TableRow</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>tr</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>TableCell</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>td</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>List</span>(<span class='prelude-val'>Some</span>(<span class='number'>0</span>)) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>ol</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>List</span>(<span class='prelude-val'>Some</span>(<span class='ident'>start</span>)) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>ol</span>(<span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>start</span>) : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>List</span>(<span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>ul</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Item</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>li</span> : <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Emphasis</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>em</span>: <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Strong</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>strong</span>: <span class='ident'>s</span> },
+                        <span class='ident'>Tag</span>::<span class='ident'>Code</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>code</span>: <span class='ident'>s</span> },
                         <span class='ident'>Tag</span>::<span class='ident'>Header</span>(<span class='ident'>level</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>level</span> {
                             <span class='number'>1</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>h1</span> : <span class='ident'>s</span> },
                             <span class='number'>2</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>h2</span> : <span class='ident'>s</span> },
@@ -406,14 +408,14 @@
                             <span class='number'>6</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> { <span class='ident'>h6</span> : <span class='ident'>s</span> },
                             _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(),
                         },
-                        <span class='ident'>Tag</span>::<span class='ident'>Link</span>(<span class='ident'>dest</span>, <span class='ident'>title</span>)  <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
+                        <span class='ident'>Tag</span>::<span class='ident'>Link</span>(<span class='ident'>dest</span>, <span class='ident'>title</span>) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
                             <span class='comment'>// TODO: Escape href?</span>
                             <span class='ident'>a</span>(<span class='ident'>href</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>.<span class='ident'>make_relative</span>(<span class='ident'>dest</span>),
-                            <span class='ident'>title</span>? <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>title</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>title</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> }) : <span class='ident'>s</span>
+                              <span class='ident'>title</span><span class='question-mark'>?</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>title</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>title</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> }) : <span class='ident'>s</span>
                         },
                         <span class='ident'>Tag</span>::<span class='ident'>Image</span>(<span class='ident'>dest</span>, <span class='ident'>title</span>) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
                             <span class='ident'>img</span>(<span class='ident'>src</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>s</span>.<span class='ident'>make_relative</span>(<span class='ident'>dest</span>),
-                                <span class='ident'>title</span>? <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>title</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>title</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
+                                <span class='ident'>title</span><span class='question-mark'>?</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>title</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>title</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
                                 <span class='ident'>alt</span> <span class='op'>=</span> <span class='ident'>FnRenderer</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>tmpl</span><span class='op'>|</span> {
                                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>nest</span> <span class='op'>=</span> <span class='number'>0</span>;
                                     <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>event</span>) <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>iter</span>.<span class='ident'>next</span>() {
@@ -429,20 +431,20 @@
                                     }
                                 }))
                         },
-                        <span class='ident'>Tag</span>::<span class='ident'>CodeBlock</span>(<span class='ident'>info</span>)    <span class='op'>=&gt;</span> {
+                        <span class='ident'>Tag</span>::<span class='ident'>CodeBlock</span>(<span class='ident'>info</span>) <span class='op'>=&gt;</span> {
                             <span class='comment'>// TODO Highlight code.</span>
                             <span class='kw'>let</span> <span class='ident'>lang</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>info</span>.<span class='ident'>split</span>(<span class='string'>&#39; &#39;</span>).<span class='ident'>next</span>().<span class='ident'>unwrap</span>();
                             <span class='comment'>// Why? Because the format_args and lifetimes...</span>
                             <span class='kw'>match</span> <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='string'>&quot;language-{}&quot;</span>, <span class='ident'>lang</span>) {
                                 <span class='ident'>f</span> <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
                                     <span class='ident'>pre</span> {
-                                        <span class='ident'>code</span>(<span class='ident'>class</span>? <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>lang</span>.<span class='ident'>is_empty</span>() { <span class='prelude-val'>Some</span>(<span class='ident'>f</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> }) : <span class='ident'>s</span>
+                                        <span class='ident'>code</span>(<span class='ident'>class</span><span class='question-mark'>?</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>lang</span>.<span class='ident'>is_empty</span>() {<span class='prelude-val'>Some</span>(<span class='ident'>f</span>)} <span class='kw'>else</span> {<span class='prelude-val'>None</span>}) : <span class='ident'>s</span>
                                     }
                                 }
                             }
-                        },
+                        }
                     }
-                },
+                }
                 <span class='ident'>End</span>(_) <span class='op'>=&gt;</span> <span class='kw'>break</span>,
                 <span class='ident'>FootnoteReference</span>(<span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span> <span class='macro'>html</span><span class='macro'>!</span> {
                     <span class='ident'>sup</span>(<span class='ident'>class</span><span class='op'>=</span><span class='string'>&quot;footnote-reference&quot;</span>) {
@@ -514,11 +516,9 @@
     <script>
         window.rootPath = "../../../../";
         window.currentCrate = "gazetta_render_ext";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../../jquery.js"></script>
     <script src="../../../../main.js"></script>
-    
     <script defer src="../../../../search-index.js"></script>
 </body>
 </html>

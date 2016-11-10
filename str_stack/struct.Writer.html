@@ -56,7 +56,7 @@
 <div class='docblock'><p>Writes a slice of bytes into this writer, returning whether the write succeeded. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Write.html#tymethod.write_str">Read more</a></p>
 </div><h4 id='method.write_char' class='method'><span id='write_char.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Write.html#method.write_char' class='fnname'>write_char</a>(&amp;mut self, c: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.char.html'>char</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
 <div class='docblock'><p>Writes a <code>char</code> into this writer, returning whether the write succeeded. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Write.html#method.write_char">Read more</a></p>
-</div><h4 id='method.write_fmt' class='method'><span id='write_fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Write.html#method.write_fmt' class='fnname'>write_fmt</a>(&amp;mut self, args: <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>,&nbsp;<a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Error.html' title='core::fmt::Error'>Error</a>&gt;</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+</div><h4 id='method.write_fmt' class='method'><span id='write_fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Write.html#method.write_fmt' class='fnname'>write_fmt</a>(&amp;mut self, args: <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Error.html' title='core::fmt::Error'>Error</a>&gt;</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Glue for usage of the <code>write!</code> macro with implementors of this trait. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Write.html#method.write_fmt">Read more</a></p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../str_stack/struct.Writer.html' title='str_stack::Writer'>Writer</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-115' class='srclink' href='../src/str_stack/lib.rs.html#298-302' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.drop' class='method'><span id='drop.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#tymethod.drop' class='fnname'>drop</a>(&amp;mut self)</code></span></h4>
@@ -117,11 +117,9 @@
     <script>
         window.rootPath = "../";
         window.currentCrate = "str_stack";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

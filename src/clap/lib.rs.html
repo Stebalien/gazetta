@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.13.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.18.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -489,12 +489,6 @@
 <span id="445">445</span>
 <span id="446">446</span>
 <span id="447">447</span>
-<span id="448">448</span>
-<span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright ⓒ 2015-2016 Kevin B. Knapp and [`clap-rs` contributors](https://github.com/kbknapp/clap-rs/blob/master/CONTRIBUTORS.md).</span>
 <span class='comment'>// Licensed under the MIT license</span>
@@ -615,13 +609,15 @@
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! The following example is functionally the same as the one above, but shows a far less verbose method but sacrifices some of the advanced configuration options (not shown in this small example).</span>
+<span class='doccomment'>//! The following example is functionally the same as the one above,</span>
+<span class='doccomment'>//! but shows a far less verbose method but sacrifices some of the advanced configuration options</span>
+<span class='doccomment'>//! (not shown in this small example).</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```no_run</span>
 <span class='doccomment'>//! // (Full example with detailed comments in examples/01a_quick_example.rs)</span>
 <span class='doccomment'>//! //</span>
-<span class='doccomment'>//! // This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments which is less</span>
-<span class='doccomment'>//! // less verbose</span>
+<span class='doccomment'>//! // This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments</span>
+<span class='doccomment'>//! // which is less verbose</span>
 <span class='doccomment'>//! extern crate clap;</span>
 <span class='doccomment'>//! use clap::{Arg, App, SubCommand};</span>
 <span class='doccomment'>//!</span>
@@ -647,12 +643,11 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! The following combines the previous two examples by using the less verbose `from_usage` methods and the performance of the Builder Pattern.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```ignore</span>
+<span class='doccomment'>//! ```no_run</span>
 <span class='doccomment'>//! // (Full example with detailed comments in examples/01c_quick_example.rs)</span>
-<span class='doccomment'>//! // Must be compiled with `--features unstable`</span>
 <span class='doccomment'>//! //</span>
-<span class='doccomment'>//! // This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments which is less</span>
-<span class='doccomment'>//! // less verbose</span>
+<span class='doccomment'>//! // This example demonstrates clap&#39;s &quot;usage strings&quot; method of creating arguments</span>
+<span class='doccomment'>//! // which is less less verbose</span>
 <span class='doccomment'>//! #[macro_use]</span>
 <span class='doccomment'>//! extern crate clap;</span>
 <span class='doccomment'>//!</span>
@@ -709,7 +704,10 @@
 <span class='doccomment'>//!                 help: print debug information</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Now we create our `main.rs` file just like we would have with the previous two examples:</span>
+<span class='doccomment'>//! Because this feature is not compiled in by default we need to enable a feature flag in Cargo.toml:</span>
+<span class='doccomment'>//! Simply change your `clap = &quot;2&quot;` to `clap = {version = &quot;2&quot;, features = [&quot;yaml&quot;]}`.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! At last we create our `main.rs` file just like we would have with the previous two examples:</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```ignore</span>
 <span class='doccomment'>//! // (Full example with detailed comments in examples/17_yaml.rs)</span>
@@ -729,11 +727,9 @@
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! **NOTE**: The YAML and macro builder options require adding a special `features` flag when compiling `clap` because they are not compiled by default. Simply change your `clap = &quot;2&quot;` to `clap = {version = &quot;2&quot;, features = [&quot;yaml&quot;]}` for YAML, or `features = [&quot;unstable&quot;]` for the macro builder, in your `Cargo.toml`.</span>
-<span class='doccomment'>//!</span>
 <span class='doccomment'>//! If you were to compile any of the above programs and run them with the flag `--help` or `-h` (or `help` subcommand, since we defined `test` as a subcommand) the following would be output</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```ignore</span>
+<span class='doccomment'>//! ```text</span>
 <span class='doccomment'>//! $ myprog --help</span>
 <span class='doccomment'>//! My Super Program 1.0</span>
 <span class='doccomment'>//! Kevin K. &lt;kbknapp@gmail.com&gt;</span>
@@ -784,7 +780,7 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! * Add the following to your `src/main.rs`</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```ignore</span>
+<span class='doccomment'>//! ```no_run</span>
 <span class='doccomment'>//! extern crate clap;</span>
 <span class='doccomment'>//! use clap::App;</span>
 <span class='doccomment'>//!</span>
@@ -800,11 +796,12 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! For full usage, add `clap` as a dependency in your `Cargo.toml` file to use from crates.io:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//!  ```toml</span>
-<span class='doccomment'>//!  [dependencies]</span>
-<span class='doccomment'>//!  clap = &quot;2&quot;</span>
-<span class='doccomment'>//!  ```</span>
-<span class='doccomment'>//!  Or track the latest on the master branch at github:</span>
+<span class='doccomment'>//! ```toml</span>
+<span class='doccomment'>//! [dependencies]</span>
+<span class='doccomment'>//! clap = &quot;2&quot;</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Or get the latest changes from the master branch at github:</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```toml</span>
 <span class='doccomment'>//! [dependencies.clap]</span>
@@ -819,7 +816,13 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ### Optional Dependencies / Features</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! If you&#39;d like to keep your dependency list to **only** `clap`, you can disable any features that require an additional dependency. To do this, add this to your `Cargo.toml`:</span>
+<span class='doccomment'>//! #### Features enabled by default</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! * **&quot;suggestions&quot;**: Turns on the `Did you mean &#39;--myoption&#39;?` feature for when users make typos.</span>
+<span class='doccomment'>//! * **&quot;color&quot;**: Turns on colored error messages. This feature only works on non-Windows OSs.</span>
+<span class='doccomment'>//! * **&quot;wrap_help&quot;**: Wraps the help at the actual terminal width when available, instead of 120 chracters.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! To disable these, add this to your `Cargo.toml`:</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```toml</span>
 <span class='doccomment'>//! [dependencies.clap]</span>
@@ -838,14 +841,9 @@
 <span class='doccomment'>//! features = [ &quot;suggestions&quot;, &quot;color&quot; ]</span>
 <span class='doccomment'>//! ```</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! The following is a list of optional `clap` features:</span>
+<span class='doccomment'>//! #### Opt-in features</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! * **&quot;suggestions&quot;**: Turns on the `Did you mean &#39;--myoption&#39;?` feature for when users make typos.</span>
-<span class='doccomment'>//! * **&quot;color&quot;**: Turns on colored error messages. This feature only works on non-Windows OSs.</span>
-<span class='doccomment'>//! * **&quot;lints&quot;**: This is **not** included by default and should only be used while developing to run basic lints against changes. This can only be used on Rust nightly.</span>
-<span class='doccomment'>//! * **&quot;debug&quot;**: This is **not** included by default and should only be used while developing to display debugging information.</span>
-<span class='doccomment'>//! * **&quot;yaml&quot;**: This is **not** included by default. Enables building CLIs from YAML documents.</span>
-<span class='doccomment'>//! * **&quot;unstable&quot;**: This is **not** included by default. Enables unstable features, unstable refers to whether or not they may change, not performance stability.</span>
+<span class='doccomment'>//! * **&quot;yaml&quot;**: Enables building CLIs from YAML documents.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ### More Information</span>
 <span class='doccomment'>//!</span>
@@ -861,43 +859,44 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! *Note*: Apologies for the resolution of the first video, it will be updated to a better resolution soon. The other videos have a proper resolution.</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ### Running the tests</span>
+<span class='doccomment'>//! ### For clap contributors</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! If contributing, you can run the tests as follows (assuming you&#39;re in the `clap-rs` directory)</span>
+<span class='doccomment'>//! If contributing, you can run theese commands to test everything:</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```ignore</span>
-<span class='doccomment'>//! $ cargo test &amp;&amp; make -C clap-tests test</span>
+<span class='doccomment'>//! ```sh</span>
+<span class='doccomment'>//! $ cargo test --no-default-features</span>
 <span class='doccomment'>//! $ cargo test --features yaml</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Only on nightly compiler:</span>
-<span class='doccomment'>//! $ cargo build --features lints</span>
 <span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! If you have a nightly compiler you can append `--features lints` to both commands</span>
+<span class='doccomment'>//! to get style warnings and code smells; If you get one from code you think is fine,</span>
+<span class='doccomment'>//! you can ignore it by prepending `#[cfg_attr(feature=&quot;lints&quot;, allow(lint_name))]`</span>
+<span class='doccomment'>//! to the function or impl block.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! If you are debugging (or just trying to understand the code) you can enable the</span>
+<span class='doccomment'>//! &quot;debug&quot; feature which will trace function calls and brances in some parts of the code.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ## License</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! `clap` is licensed under the MIT license. Please read the [LICENSE-MIT](LICENSE-MIT) file in this repository for more information.</span>
 
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span><span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>plugin</span>))]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>plugin</span>(<span class='ident'>clippy</span>))]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>deny</span>(<span class='ident'>warnings</span>))]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)), <span class='ident'>deny</span>(<span class='ident'>unstable_features</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(
         <span class='ident'>missing_docs</span>,
         <span class='ident'>missing_debug_implementations</span>,
         <span class='ident'>missing_copy_implementations</span>,
         <span class='ident'>trivial_casts</span>,
-<span class='comment'>// trivial_numeric_casts,       // While bitflags fails this lint</span>
         <span class='ident'>unused_import_braces</span>,
-        <span class='ident'>unused_allocation</span>,
-        <span class='ident'>unused_qualifications</span>)]</span>
-<span class='comment'>// clippy false positives, or ones we&#39;re ok with...</span>
+        <span class='ident'>unused_allocation</span>)]</span>
+<span class='comment'>// Lints we&#39;d like to deny but are currently failing for upstream crates</span>
+<span class='comment'>//      unused_qualifications       (bitflags, clippy)</span>
+<span class='comment'>//      trivial_numeric_casts       (bitflags)</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;nightly&quot;</span>)), <span class='ident'>forbid</span>(<span class='ident'>unstable_features</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>feature</span>(<span class='ident'>plugin</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>plugin</span>(<span class='ident'>clippy</span>))]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>deny</span>(<span class='ident'>warnings</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>cyclomatic_complexity</span>))]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>doc_markdown</span>))]</span>
-<span class='comment'>// Only while bitflats uses &quot;_first&quot; inside it&#39;s macros</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>used_underscore_binding</span>))]</span>
-<span class='comment'>// Only while bitflats fails this lint</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>cfg_attr</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;lints&quot;</span>, <span class='ident'>allow</span>(<span class='ident'>if_not_else</span>))]</span>
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;suggestions&quot;</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>strsim</span>;
@@ -921,7 +920,7 @@
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>app</span>::{<span class='ident'>App</span>, <span class='ident'>AppSettings</span>};
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>fmt</span>::<span class='ident'>Format</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>Error</span>, <span class='ident'>ErrorKind</span>, <span class='prelude-ty'>Result</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>shell</span>::<span class='ident'>Shell</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>completions</span>::<span class='ident'>Shell</span>;
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>mod</span> <span class='ident'>macros</span>;
@@ -937,19 +936,7 @@
 
 <span class='kw'>const</span> <span class='ident'>INTERNAL_ERROR_MSG</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Fatal internal error. Please consider filing a bug \
                                           report at https://github.com/kbknapp/clap-rs/issues&quot;</span>;
-<span class='kw'>const</span> <span class='ident'>INVALID_UTF8</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;unexpected invalid UTF-8 code point&quot;</span>;
-
-<span class='kw'>mod</span> <span class='ident'>shell</span> {
-    <span class='doccomment'>/// Describes which shell to produce a completions file for</span>
-    <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Shell</span> {
-        <span class='doccomment'>/// Generates a .sh completion file for the Bourne Again SHell (BASH)</span>
-        <span class='ident'>Bash</span>,
-        <span class='doccomment'>/// Generates a .fish completion file for the friendly interactive shell (fish)</span>
-        <span class='ident'>Fish</span>,
-    }
-}
-</pre>
+<span class='kw'>const</span> <span class='ident'>INVALID_UTF8</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;unexpected invalid UTF-8 code point&quot;</span>;</pre>
 </section>
     <section id='search' class="content hidden"></section>
 
@@ -1006,11 +993,9 @@
     <script>
         window.rootPath = "../../";
         window.currentCrate = "clap";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

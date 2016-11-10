@@ -72,7 +72,7 @@ unlikely.</p>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='kw'>let</span> <span class='ident'>my_uuid</span> <span class='op'>=</span> <span class='ident'>Uuid</span>::<span class='ident'>new_v4</span>();
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>my_uuid</span>);
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 
 <p>To parse parse a UUID in the simple format and print it as a urn:</p>
 
@@ -82,7 +82,7 @@ unlikely.</p>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='kw'>let</span> <span class='ident'>my_uuid</span> <span class='op'>=</span> <span class='ident'>Uuid</span>::<span class='ident'>parse_str</span>(<span class='string'>&quot;936DA01F9ABD4d9d80C702AF85C822A8&quot;</span>).<span class='ident'>unwrap</span>();
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>my_uuid</span>.<span class='ident'>to_urn_string</span>());
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 
 <h1 id='strings' class='section-header'><a href='#strings'>Strings</a></h1>
 <p>Examples of string representations:</p>
@@ -192,11 +192,9 @@ unlikely.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "uuid";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

@@ -130,7 +130,7 @@ C, in the local timezone.</p>
 C.</p>
 
 <p>Example: &quot;Thu Jan  1 00:00:00 1970&quot;</p>
-</div><h4 id='method.strftime' class='method'><span id='strftime.v' class='invisible'><code>fn <a href='#method.strftime' class='fnname'>strftime</a>&lt;'a&gt;(&amp;'a self, format: &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../time/struct.TmFmt.html' title='time::TmFmt'>TmFmt</a>&lt;'a&gt;,&nbsp;<a class='enum' href='../time/enum.ParseError.html' title='time::ParseError'>ParseError</a>&gt;</code></span></h4>
+</div><h4 id='method.strftime' class='method'><span id='strftime.v' class='invisible'><code>fn <a href='#method.strftime' class='fnname'>strftime</a>&lt;'a&gt;(&amp;'a self, format: &amp;'a <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../time/struct.TmFmt.html' title='time::TmFmt'>TmFmt</a>&lt;'a&gt;, <a class='enum' href='../time/enum.ParseError.html' title='time::ParseError'>ParseError</a>&gt;</code></span></h4>
 <div class='docblock'><p>Formats the time according to the format string.</p>
 </div><h4 id='method.rfc822' class='method'><span id='rfc822.v' class='invisible'><code>fn <a href='#method.rfc822' class='fnname'>rfc822</a>(&amp;self) -&gt; <a class='struct' href='../time/struct.TmFmt.html' title='time::TmFmt'>TmFmt</a></code></span></h4>
 <div class='docblock'><p>Returns a TmFmt that outputs according to RFC 822.</p>
@@ -253,11 +253,9 @@ utc:   &quot;2012-02-22T14:53:18Z&quot;</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "time";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

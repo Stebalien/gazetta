@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-72' class='srclink' href='../num_traits/ops/checked/trait.CheckedMul.html?gotosrc=72' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait CheckedMul: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Mul.html' title='core::ops::Mul'>Mul</a>&lt;Self,&nbsp;Output=Self&gt; {
+<pre class='rust trait'>pub trait CheckedMul: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Mul.html' title='core::ops::Mul'>Mul</a>&lt;Self, Output=Self&gt; {
     fn <a href='#tymethod.checked_mul' class='fnname'>checked_mul</a>(&amp;self, v: &amp;Self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
 }</pre><div class='docblock'><p>Performs multiplication that returns <code>None</code> instead of wrapping around on underflow or
 overflow.</p>
@@ -128,11 +128,9 @@ or overflow happens, <code>None</code> is returned.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "num";
-        window.playgroundUrl = "http://play.rust-lang.org/";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    <script src="../playpen.js"></script>
     <script defer src="../search-index.js"></script>
 </body>
 </html>

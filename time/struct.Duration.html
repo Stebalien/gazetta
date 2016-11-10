@@ -110,12 +110,12 @@ or <code>None</code> on overflow (exceeding 2<sup>63</sup> nanoseconds in either
 <div class='docblock'><p>A duration where the stored seconds and nanoseconds are equal to zero.</p>
 </div><h4 id='method.is_zero' class='method'><span id='is_zero.v' class='invisible'><code>fn <a href='#method.is_zero' class='fnname'>is_zero</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
 <div class='docblock'><p>Returns <code>true</code> if the duration equals <code>Duration::zero()</code>.</p>
-</div><h4 id='method.from_std' class='method'><span id='from_std.v' class='invisible'><code>fn <a href='#method.from_std' class='fnname'>from_std</a>(duration: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>StdDuration</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../time/struct.Duration.html' title='time::Duration'>Duration</a>,&nbsp;<a class='struct' href='../time/struct.OutOfRangeError.html' title='time::OutOfRangeError'>OutOfRangeError</a>&gt;</code></span></h4>
+</div><h4 id='method.from_std' class='method'><span id='from_std.v' class='invisible'><code>fn <a href='#method.from_std' class='fnname'>from_std</a>(duration: <a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>StdDuration</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../time/struct.Duration.html' title='time::Duration'>Duration</a>, <a class='struct' href='../time/struct.OutOfRangeError.html' title='time::OutOfRangeError'>OutOfRangeError</a>&gt;</code></span></h4>
 <div class='docblock'><p>Creates a <code>time::Duration</code> object from <code>std::time::Duration</code></p>
 
 <p>This function errors when original duration is larger than the maximum
 value supported for this type.</p>
-</div><h4 id='method.to_std' class='method'><span id='to_std.v' class='invisible'><code>fn <a href='#method.to_std' class='fnname'>to_std</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>StdDuration</a>,&nbsp;<a class='struct' href='../time/struct.OutOfRangeError.html' title='time::OutOfRangeError'>OutOfRangeError</a>&gt;</code></span></h4>
+</div><h4 id='method.to_std' class='method'><span id='to_std.v' class='invisible'><code>fn <a href='#method.to_std' class='fnname'>to_std</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/time/duration/struct.Duration.html' title='std::time::duration::Duration'>StdDuration</a>, <a class='struct' href='../time/struct.OutOfRangeError.html' title='time::OutOfRangeError'>OutOfRangeError</a>&gt;</code></span></h4>
 <div class='docblock'><p>Creates a <code>std::time::Duration</code> object from <code>time::Duration</code></p>
 
 <p>This function errors when duration is less than zero. As standard
@@ -233,11 +233,9 @@ library implementation is limited to non-negative values.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "time";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

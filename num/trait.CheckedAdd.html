@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-64' class='srclink' href='../num_traits/ops/checked/trait.CheckedAdd.html?gotosrc=64' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait CheckedAdd: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;Self,&nbsp;Output=Self&gt; {
+<pre class='rust trait'>pub trait CheckedAdd: <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Add.html' title='core::ops::Add'>Add</a>&lt;Self, Output=Self&gt; {
     fn <a href='#tymethod.checked_add' class='fnname'>checked_add</a>(&amp;self, v: &amp;Self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
 }</pre><div class='docblock'><p>Performs addition that returns <code>None</code> instead of wrapping around on
 overflow.</p>
@@ -128,11 +128,9 @@ returned.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "num";
-        window.playgroundUrl = "http://play.rust-lang.org/";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    <script src="../playpen.js"></script>
     <script defer src="../search-index.js"></script>
 </body>
 </html>
