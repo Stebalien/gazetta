@@ -1,18 +1,18 @@
-/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see <http://www.gnu.org/licenses/>.
- */
+//  Copyright (C) 2015 Steven Allen
+//
+//  This file is part of gazetta.
+//
+//  This program is free software: you can redistribute it and/or modify it under the terms of the
+//  GNU General Public License as published by the Free Software Foundation version 3 of the
+//  License.
+//
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+//  the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along with this program.  If
+//  not, see <http://www.gnu.org/licenses/>.
+//
 
 use std::io::{self, BufWriter};
 use std::fs::{self, File};
@@ -32,7 +32,8 @@ use str_stack::StrStack;
 fn compile_asset<P>(paths: &[P],
                     target: &Path,
                     prefix: &str,
-                    ext: &str) -> Result<String, AnnotatedError<io::Error>>
+                    ext: &str)
+                    -> Result<String, AnnotatedError<io::Error>>
     where P: AsRef<Path>
 {
     let mut tmp_path = target.join("assets");
@@ -42,7 +43,7 @@ fn compile_asset<P>(paths: &[P],
     let hash = {
         let output = try_annotate!(File::create(&tmp_path), tmp_path);
         let mut output = StreamHasher::<_, SipHasher>::new(output);
-        try!(util::concat(paths, &mut output));
+        util::concat(paths, &mut output)?;
         output.finish()
     };
 
@@ -75,8 +76,8 @@ pub trait Gazetta: Sized {
     /// much all of the provided render logic.
     fn render<P: AsRef<Path>>(&self,
                               source: &Source<Self::SiteMeta, Self::PageMeta>,
-                              output: P) -> Result<(), AnnotatedError<RenderError>>
-    {
+                              output: P)
+                              -> Result<(), AnnotatedError<RenderError>> {
         let output = output.as_ref();
 
         {
@@ -85,25 +86,31 @@ pub trait Gazetta: Sized {
         }
 
         let js_href = if !source.javascript.is_empty() {
-            Some(try!(compile_asset(&source.javascript, output, "main", "js")))
-        } else { None };
+            Some(compile_asset(&source.javascript, output, "main", "js")?)
+        } else {
+            None
+        };
 
         let css_href = if !source.stylesheets.is_empty() {
-            Some(try!(compile_asset(&source.stylesheets, output, "main", "css")))
-        } else { None };
+            Some(compile_asset(&source.stylesheets, output, "main", "css")?)
+        } else {
+            None
+        };
 
         let icon_href = if let Some(ref icon) = source.icon {
-            Some(try!(compile_asset(&[&icon], output, "icon", "png")))
-        } else { None };
+            Some(compile_asset(&[&icon], output, "icon", "png")?)
+        } else {
+            None
+        };
 
         let site = Site {
             title: &source.title,
             origin: &source.origin,
             prefix: &source.prefix,
             meta: &source.meta,
-            javascript: js_href.as_ref().map(|s|&s[..]),
-            stylesheets: css_href.as_ref().map(|s|&s[..]),
-            icon: icon_href.as_ref().map(|s|&s[..]),
+            javascript: js_href.as_ref().map(|s| &s[..]),
+            stylesheets: css_href.as_ref().map(|s| &s[..]),
+            icon: icon_href.as_ref().map(|s| &s[..]),
         };
 
         for static_entry in &source.static_entries {
@@ -111,7 +118,8 @@ pub trait Gazetta: Sized {
             if let Some(parent) = dst.parent() {
                 try_annotate!(fs::create_dir_all(parent), parent.clone());
             }
-            try_annotate!(self.render_static(&site, &static_entry.source, &dst), static_entry.source.clone());
+            try_annotate!(self.render_static(&site, &static_entry.source, &dst),
+                          static_entry.source.clone());
         }
 
         for entry in &source.entries {
@@ -123,21 +131,22 @@ pub trait Gazetta: Sized {
             if let Some(ref index) = entry.index {
 
                 let children: Vec<_> = source.build_index(entry)
-                                             .into_iter()
-                                             .map(Page::for_entry)
-                                             .collect();
+                    .into_iter()
+                    .map(Page::for_entry)
+                    .collect();
 
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
                     let num_pages = (children.len() / paginate) +
-                        if children.len() % paginate == 0 { 0 } else { 1 };
+                                    if children.len() % paginate == 0 { 0 } else { 1 };
 
                     if num_pages == 0 {
                         let mut index_file_path = dest_dir;
                         index_file_path.push("index.html");
 
-                        let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
+                        let index_file = try_annotate!(File::create(&index_file_path),
+                                                       index_file_path);
 
                         try_annotate!(html! {
                             |tmpl| self.render_page(&site, &Page {
@@ -151,10 +160,14 @@ pub trait Gazetta: Sized {
                                 }),
                                 ..page
                             }, tmpl);
-                        }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+                        }
+                                          .write_to_io(&mut BufWriter::new(index_file)),
+                                      index_file_path);
 
                     } else {
-                        let mut page_stack = StrStack::with_capacity((num_pages-1)*(entry.name.len() + 10), num_pages);
+                        let mut page_stack = StrStack::with_capacity((num_pages - 1) *
+                                                                     (entry.name.len() + 10),
+                                                                     num_pages);
                         for page_num in 1..num_pages {
                             let _ = write!(page_stack, "{}/index/{}", &entry.name, page_num);
                         }
@@ -162,12 +175,15 @@ pub trait Gazetta: Sized {
                         pages.push(&*entry.name);
                         pages.extend(&page_stack);
 
-                        for (page_num, (children_range, href)) in children.chunks(paginate).zip(&pages).enumerate() {
+                        for (page_num, (children_range, href)) in children.chunks(paginate)
+                            .zip(&pages)
+                            .enumerate() {
                             let mut index_file_path = output.join(&href);
                             try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
                             index_file_path.push("index.html");
 
-                            let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
+                            let index_file = try_annotate!(File::create(&index_file_path),
+                                                           index_file_path);
                             try_annotate!(html! {
                                 |tmpl| self.render_page(&site, &Page {
                                     index: Some(Index {
@@ -181,7 +197,9 @@ pub trait Gazetta: Sized {
                                     href: &href,
                                     ..page
                                 }, tmpl);
-                            }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+                            }
+                                              .write_to_io(&mut BufWriter::new(index_file)),
+                                          index_file_path);
                         }
                     }
                 } else {
@@ -199,7 +217,9 @@ pub trait Gazetta: Sized {
                             }),
                             ..page
                         }, tmpl);
-                    }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+                    }
+                                      .write_to_io(&mut BufWriter::new(index_file)),
+                                  index_file_path);
                 }
             } else {
                 let mut index_file_path = dest_dir;
@@ -209,7 +229,9 @@ pub trait Gazetta: Sized {
 
                 try_annotate!(html! {
                     |tmpl| self.render_page(&site, &page, tmpl);
-                }.write_to_io(&mut BufWriter::new(index_file)), index_file_path);
+                }
+                                  .write_to_io(&mut BufWriter::new(index_file)),
+                              index_file_path);
             }
         }
         Ok(())

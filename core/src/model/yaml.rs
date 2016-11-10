@@ -1,18 +1,18 @@
-/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see <http://www.gnu.org/licenses/>.
- */
+//  Copyright (C) 2015 Steven Allen
+//
+//  This file is part of gazetta.
+//
+//  This program is free software: you can redistribute it and/or modify it under the terms of the
+//  GNU General Public License as published by the Free Software Foundation version 3 of the
+//  License.
+//
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+//  the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along with this program.  If
+//  not, see <http://www.gnu.org/licenses/>.
+//
 
 use std::usize;
 use std::fs::File;
@@ -46,14 +46,14 @@ pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(BTreeMap<Yaml, Yaml>, Stri
 
 fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
     let mut buf = String::with_capacity(100);
-    let mut file = BufReader::new(try!(File::open(path)));
-    try!(file.read_line(&mut buf)) as u64;
+    let mut file = BufReader::new(File::open(path)?);
+    file.read_line(&mut buf)?;
     if buf.trim_right() == "---" {
         // Parse yaml header.
         loop {
             match file.read_line(&mut buf) {
                 Ok(len) => {
-                    match buf[buf.len()-len..].trim_right() {
+                    match buf[buf.len() - len..].trim_right() {
                         "..." => break,
                         "---" => {
                             let end = buf.len() - len;
@@ -61,11 +61,11 @@ fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceErro
                             buf.truncate(end);
                             buf.push_str("...\n");
                             break;
-                        },
-                        _ => ()
+                        }
+                        _ => (),
                     }
-                },
-                Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {},
+                }
+                Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {}
                 Err(e) => return Err(e.into()),
             }
         }
@@ -73,7 +73,7 @@ fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceErro
         return Ok((BTreeMap::new(), String::new()));
     }
     // Parse yaml
-    let mut docs = try!(YamlLoader::load_from_str(&buf));
+    let mut docs = YamlLoader::load_from_str(&buf)?;
     docs.truncate(1);
     let meta = match docs.pop() {
         Some(Yaml::Hash(data)) => data,
@@ -81,7 +81,7 @@ fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceErro
     };
 
     buf.clear();
-    try!(file.read_to_string(&mut buf));
+    file.read_to_string(&mut buf)?;
     Ok((meta, buf))
 }
 
@@ -89,7 +89,7 @@ pub fn load<P: AsRef<Path>>(path: P) -> Result<BTreeMap<Yaml, Yaml>, SourceError
     _load(path.as_ref())
 }
 fn _load(path: &Path) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {
-    let mut file = try!(File::open(path));
+    let mut file = File::open(path)?;
     let mut buf = String::with_capacity(file.metadata().ok().map_or(100, |m| {
         let len = m.len();
         if len > usize::MAX as u64 {
@@ -98,8 +98,8 @@ fn _load(path: &Path) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {
             len as usize
         }
     }));
-    try!(file.read_to_string(&mut buf));
-    let mut docs = try!(YamlLoader::load_from_str(&buf));
+    file.read_to_string(&mut buf)?;
+    let mut docs = YamlLoader::load_from_str(&buf)?;
     docs.truncate(1);
     match docs.pop() {
         Some(Yaml::Hash(data)) => Ok(data),

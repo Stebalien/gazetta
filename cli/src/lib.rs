@@ -1,18 +1,18 @@
-/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see <http://www.gnu.org/licenses/>.
- */
+//  Copyright (C) 2015 Steven Allen
+//
+//  This file is part of gazetta.
+//
+//  This program is free software: you can redistribute it and/or modify it under the terms of the
+//  GNU General Public License as published by the Free Software Foundation version 3 of the
+//  License.
+//
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+//  the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along with this program.  If
+//  not, see <http://www.gnu.org/licenses/>.
+//
 
 extern crate gazetta_core;
 extern crate chrono;
@@ -80,54 +80,55 @@ fn build_argparser(name: &str) -> App {
     App::new(name)
         .version(env!("CARGO_PKG_VERSION"))
         .arg(Arg::with_name("SOURCE")
-             .short("s")
-             .long("source")
-             .takes_value(true)
-             .help("Specify the source directory (defaults to the current directory)"))
+            .short("s")
+            .long("source")
+            .takes_value(true)
+            .help("Specify the source directory (defaults to the current directory)"))
         .subcommand(SubCommand::with_name("render")
-                    .about("Render the website")
-                    .arg(Arg::with_name("FORCE")
-                         .short("f")
-                         .long("force")
-                         .help("Overwrite any existing DEST."))
-                    .arg(Arg::with_name("DEST")
-                         .required(true)
-                         .index(1)
-                         .help("Destination directory")))
+            .about("Render the website")
+            .arg(Arg::with_name("FORCE")
+                .short("f")
+                .long("force")
+                .help("Overwrite any existing DEST."))
+            .arg(Arg::with_name("DEST")
+                .required(true)
+                .index(1)
+                .help("Destination directory")))
         .subcommand(SubCommand::with_name("new")
-                    .about("Create a new page")
-                    .arg(Arg::with_name("EDIT")
-                         .short("e")
-                         .long("edit")
-                         .help("Edit new page in your $EDITOR"))
-                    .arg(Arg::with_name("WHERE")
-                         .required(true)
-                         .index(1)
-                         .help("Directory in which to create the page"))
-                    .arg(Arg::with_name("TITLE")
-                         .required(true)
-                         .index(2)
-                         .help("The page title")))
+            .about("Create a new page")
+            .arg(Arg::with_name("EDIT")
+                .short("e")
+                .long("edit")
+                .help("Edit new page in your $EDITOR"))
+            .arg(Arg::with_name("WHERE")
+                .required(true)
+                .index(1)
+                .help("Directory in which to create the page"))
+            .arg(Arg::with_name("TITLE")
+                .required(true)
+                .index(2)
+                .help("The page title")))
 
 }
 
 fn _run(render_paths: &RenderPaths) -> ! {
     let name = env::args().next().unwrap();
     let matches = build_argparser(&name).get_matches();
-    let source_path: Cow<Path> = matches.value_of("SOURCE").map(|v|Cow::Borrowed(v.as_ref())).unwrap_or_else(|| {
-        let mut path = PathBuf::new();
-        path.push(".");
-        while path.exists() {
-            path.push("gazetta.yaml");
-            let is_root = path.exists();
-            path.pop();
-            if is_root {
-                return Cow::Owned(path);
+    let source_path: Cow<Path> =
+        matches.value_of("SOURCE").map(|v| Cow::Borrowed(v.as_ref())).unwrap_or_else(|| {
+            let mut path = PathBuf::new();
+            path.push(".");
+            while path.exists() {
+                path.push("gazetta.yaml");
+                let is_root = path.exists();
+                path.pop();
+                if is_root {
+                    return Cow::Owned(path);
+                }
+                path.push("..");
             }
-            path.push("..");
-        }
-        bail!("Could not find a gazetta config in this directory or any parent directories.");
-    });
+            bail!("Could not find a gazetta config in this directory or any parent directories.");
+        });
 
     match matches.subcommand() {
         ("render", Some(matches)) => {
@@ -163,19 +164,23 @@ fn _run(render_paths: &RenderPaths) -> ! {
             println!("Created page: {}", path.display());
             if matches.is_present("EDIT") {
                 path.pop();
-                match Command::new(env::var_os("EDITOR").as_ref().map(|p|&**p).unwrap_or("vim".as_ref()))
+                match Command::new(env::var_os("EDITOR")
+                        .as_ref()
+                        .map(|p| &**p)
+                        .unwrap_or("vim".as_ref()))
                     .arg("index.md")
                     .current_dir(path)
-                    .status()
-                {
-                    Ok(status) => match status.code() {
-                        Some(code) => process::exit(code),
-                        None => bail!("Editor was killed."),
-                    },
+                    .status() {
+                    Ok(status) => {
+                        match status.code() {
+                            Some(code) => process::exit(code),
+                            None => bail!("Editor was killed."),
+                        }
+                    }
                     Err(e) => bail!("Failed to spawn editor: {}", e),
                 }
             }
-        },
+        }
         _ => {
             bail!("{}", matches.usage());
         }

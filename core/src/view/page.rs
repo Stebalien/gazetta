@@ -1,18 +1,18 @@
-/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see <http://www.gnu.org/licenses/>.
- */
+//  Copyright (C) 2015 Steven Allen
+//
+//  This file is part of gazetta.
+//
+//  This program is free software: you can redistribute it and/or modify it under the terms of the
+//  GNU General Public License as published by the Free Software Foundation version 3 of the
+//  License.
+//
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+//  the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along with this program.  If
+//  not, see <http://www.gnu.org/licenses/>.
+//
 
 use std::ops::Deref;
 use std::fmt;
@@ -28,7 +28,7 @@ use super::Index;
 pub struct Page<'a, G>
     where G: Gazetta + 'a,
           G::PageMeta: 'a,
-          G::SiteMeta: 'a,
+          G::SiteMeta: 'a
 {
     /// The page's title.
     pub title: &'a str,
@@ -51,7 +51,7 @@ pub struct Page<'a, G>
     /// The page's content.
     ///
     /// If you want to use the default renderer, just render the page itself.
-    /// 
+    ///
     /// ```norun
     /// html! {
     ///     div(id="content") : page;
@@ -63,17 +63,17 @@ pub struct Page<'a, G>
 impl<'a, G> Page<'a, G>
     where G: Gazetta + 'a,
           G::PageMeta: 'a,
-          G::SiteMeta: 'a,
+          G::SiteMeta: 'a
 {
     /// Creates a page for an entry. This does *not* fill in the index.
     pub fn for_entry(entry: &'a Entry<G::PageMeta>) -> Self {
         Page {
             title: &entry.title,
             date: entry.date.as_ref(),
-            description: entry.description.as_ref().map(|v|&**v),
+            description: entry.description.as_ref().map(|v| &**v),
             content: Content {
                 data: &entry.content,
-                format: &entry.format
+                format: &entry.format,
             },
             href: &entry.name,
             index: None,
@@ -93,13 +93,14 @@ pub struct Content<'a> {
 impl<'a, G> Copy for Page<'a, G>
     where G: Gazetta + 'a,
           G::PageMeta: 'a,
-          G::SiteMeta: 'a,
-{ }
+          G::SiteMeta: 'a
+{
+}
 
 impl<'a, G> Clone for Page<'a, G>
     where G: Gazetta + 'a,
           G::PageMeta: 'a,
-          G::SiteMeta: 'a,
+          G::SiteMeta: 'a
 {
     fn clone(&self) -> Self {
         *self
@@ -109,7 +110,7 @@ impl<'a, G> Clone for Page<'a, G>
 impl<'a, G> fmt::Debug for Page<'a, G>
     where G: Gazetta + 'a,
           G::PageMeta: fmt::Debug + 'a,
-          G::SiteMeta: 'a,
+          G::SiteMeta: 'a
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("Page")
@@ -126,11 +127,10 @@ impl<'a, G> fmt::Debug for Page<'a, G>
 impl<'a, G> Deref for Page<'a, G>
     where G: Gazetta + 'a,
           G::PageMeta: 'a,
-          G::SiteMeta: 'a,
+          G::SiteMeta: 'a
 {
     type Target = G::PageMeta;
     fn deref(&self) -> &Self::Target {
         self.meta
     }
 }
-

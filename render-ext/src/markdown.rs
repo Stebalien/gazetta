@@ -1,18 +1,18 @@
-/*  Copyright (C) 2015 Steven Allen
- *
- *  This file is part of gazetta.
- *
- *  This program is free software: you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation version 3 of the
- *  License.
- *
- *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
- *  the GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along with this program.  If
- *  not, see <http://www.gnu.org/licenses/>.
- */
+//  Copyright (C) 2015 Steven Allen
+//
+//  This file is part of gazetta.
+//
+//  This program is free software: you can redistribute it and/or modify it under the terms of the
+//  GNU General Public License as published by the Free Software Foundation version 3 of the
+//  License.
+//
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+//  the GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License along with this program.  If
+//  not, see <http://www.gnu.org/licenses/>.
+//
 
 use std::collections::HashMap;
 use std::borrow::Cow;
@@ -58,10 +58,11 @@ impl<'a> RenderMut for Markdown<'a> {
 impl<'a> Render for Markdown<'a> {
     #[inline]
     fn render(&self, tmpl: &mut TemplateBuffer) {
-        tmpl << RenderMarkdown {
+        tmpl <<
+        RenderMarkdown {
             footnotes: HashMap::new(),
             iter: Parser::new_ext(self.data, OPTION_ENABLE_TABLES | OPTION_ENABLE_FOOTNOTES),
-            base: self.base
+            base: self.base,
         };
     }
 }
@@ -99,13 +100,13 @@ impl<'a, I> RenderMarkdown<'a, I> {
     }
 }
 
-impl<'a, I: Iterator<Item=Event<'a>>> RenderOnce for RenderMarkdown<'a, I> {
+impl<'a, I: Iterator<Item = Event<'a>>> RenderOnce for RenderMarkdown<'a, I> {
     fn render_once(mut self, mut tmpl: &mut TemplateBuffer) {
         self.render_mut(tmpl)
     }
 }
 
-impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
+impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
     fn render_mut(&mut self, mut tmpl: &mut TemplateBuffer) {
         use pulldown_cmark::Event::*;
         use pulldown_cmark::Tag;
@@ -124,27 +125,27 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                 : s;
                             }
                         },
-                        Tag::Paragraph          => tmpl << html! { p : s },
-                        Tag::Rule               => {
+                        Tag::Paragraph => tmpl << html! { p : s },
+                        Tag::Rule => {
                             // Eat the end tag.
                             match s.iter.next() {
                                 Some(End(Tag::Rule)) => (),
                                 _ => panic!("stuff inside horizontal rule tag?"),
                             }
                             tmpl << html! { hr; }
-                        },
-                        Tag::BlockQuote         => tmpl << html! { blockquote : s },
-                        Tag::Table(_)           => tmpl << html! { table : s },
-                        Tag::TableHead          => tmpl << html! { thead { tr : s } },
-                        Tag::TableRow           => tmpl << html! { tr : s },
-                        Tag::TableCell          => tmpl << html! { td : s },
-                        Tag::List(Some(0))      => tmpl << html! { ol : s },
-                        Tag::List(Some(start))  => tmpl << html! { ol(start = start) : s },
-                        Tag::List(None)         => tmpl << html! { ul : s },
-                        Tag::Item               => tmpl << html! { li : s },
-                        Tag::Emphasis           => tmpl << html! { em: s },
-                        Tag::Strong             => tmpl << html! { strong: s },
-                        Tag::Code               => tmpl << html! { code: s },
+                        }
+                        Tag::BlockQuote => tmpl << html! { blockquote : s },
+                        Tag::Table(_) => tmpl << html! { table : s },
+                        Tag::TableHead => tmpl << html! { thead { tr : s } },
+                        Tag::TableRow => tmpl << html! { tr : s },
+                        Tag::TableCell => tmpl << html! { td : s },
+                        Tag::List(Some(0)) => tmpl << html! { ol : s },
+                        Tag::List(Some(start)) => tmpl << html! { ol(start = start) : s },
+                        Tag::List(None) => tmpl << html! { ul : s },
+                        Tag::Item => tmpl << html! { li : s },
+                        Tag::Emphasis => tmpl << html! { em: s },
+                        Tag::Strong => tmpl << html! { strong: s },
+                        Tag::Code => tmpl << html! { code: s },
                         Tag::Header(level) => match level {
                             1 => tmpl << html! { h1 : s },
                             2 => tmpl << html! { h2 : s },
@@ -154,10 +155,10 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             6 => tmpl << html! { h6 : s },
                             _ => panic!(),
                         },
-                        Tag::Link(dest, title)  => tmpl << html! {
+                        Tag::Link(dest, title) => tmpl << html! {
                             // TODO: Escape href?
                             a(href = &*s.make_relative(dest),
-                            title? = if !title.is_empty() { Some(&*title) } else { None }) : s
+                              title? = if !title.is_empty() { Some(&*title) } else { None }) : s
                         },
                         Tag::Image(dest, title) => tmpl << html! {
                             img(src = &*s.make_relative(dest),
@@ -177,20 +178,20 @@ impl<'a, I: Iterator<Item=Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                     }
                                 }))
                         },
-                        Tag::CodeBlock(info)    => {
+                        Tag::CodeBlock(info) => {
                             // TODO Highlight code.
                             let lang = &*info.split(' ').next().unwrap();
                             // Why? Because the format_args and lifetimes...
                             match format_args!("language-{}", lang) {
                                 f => tmpl << html! {
                                     pre {
-                                        code(class? = if !lang.is_empty() { Some(f) } else { None }) : s
+                                        code(class? = if !lang.is_empty() {Some(f)} else {None}) : s
                                     }
                                 }
                             }
-                        },
+                        }
                     }
-                },
+                }
                 End(_) => break,
                 FootnoteReference(name) => tmpl << html! {
                     sup(class="footnote-reference") {
