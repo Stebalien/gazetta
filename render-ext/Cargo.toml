@@ -14,5 +14,5 @@ path = "../core"
 version = "0.1"
 
 [dependencies]
-horrorshow = "0.5"
+horrorshow = "0.6"
 pulldown-cmark = "0.0.8"

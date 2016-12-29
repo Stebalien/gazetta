@@ -51,7 +51,7 @@ impl<'a, G> Render for Content<'a, G>
     fn render(&self, tmpl: &mut TemplateBuffer) {
         match self.0.content.format {
             "mkd" | "md" | "markdown" => tmpl << ::Markdown::new(self.0.content.data, self.0.href),
-            "html" => tmpl << raw!(self.0.content.data),
+            "html" => tmpl << Raw(self.0.content.data),
             "" | "text" | "txt" => tmpl << self.0.content.data,
             format => tmpl.record_error(format!("unknown format '{}'", format)),
         }

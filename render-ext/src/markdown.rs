@@ -199,7 +199,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 },
                 Text(text) => tmpl << &*text,
-                Html(html) | InlineHtml(html) => tmpl << raw!(html),
+                Html(html) | InlineHtml(html) => tmpl << Raw(html),
                 SoftBreak => tmpl << "\n",
                 HardBreak => tmpl << html! { br },
             };
