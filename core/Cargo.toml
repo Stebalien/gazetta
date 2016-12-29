@@ -1,6 +1,6 @@
 [package]
 name = "gazetta-core"
-version = "0.1.3"
+version = "0.2.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 description = "A static site generator framework. Core."
 documentation = "https://stebalien.github.io/gazetta/gazetta_core/"

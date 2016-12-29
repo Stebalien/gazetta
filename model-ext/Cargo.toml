@@ -1,6 +1,6 @@
 [package]
 name = "gazetta-model-ext"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 description = "A static site generator framework. Extra models."
 documentation = "https://stebalien.github.io/gazetta/gazetta_model_ext/"
@@ -11,7 +11,7 @@ license = "GPL-3.0"
 
 [dependencies.gazetta-core]
 path = "../core"
-version = "0.1"
+version = "0.2"
 
 [dependencies]
 lazy_static = "0.2"

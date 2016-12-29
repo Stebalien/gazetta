@@ -1,6 +1,6 @@
 [package]
 name = "gazetta-cli"
-version = "0.1.3"
+version = "0.2.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 description = "A static site generator framework. Shared CLI code."
 documentation = "https://stebalien.github.io/gazetta/gazetta_cli/"
@@ -11,7 +11,7 @@ license = "GPL-3.0"
 
 [dependencies.gazetta-core]
 path = "../core"
-version = "0.1"
+version = "0.2"
 
 [dependencies]
 slug = "0.1"
