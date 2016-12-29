@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/horrorshow/lib.rs.html#1-328' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/horrorshow/lib.rs.html#1-332' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'>
 <h1 id='horrorshow' class='section-header'><a href='#horrorshow'>Horrorshow</a></h1>
 <p>An html templating library.</p>
@@ -55,10 +55,12 @@
 <h2 id='example' class='section-header'><a href='#example'>Example:</a></h2>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>horrorshow</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>horrorshow</span>::<span class='ident'>helper</span>::<span class='ident'>doctype</span>;
 <span class='kw'>let</span> <span class='ident'>actual</span> <span class='op'>=</span> <span class='macro'>html</span><span class='macro'>!</span> {
+    : <span class='ident'>doctype</span>::<span class='ident'>HTML</span>;
     <span class='ident'>html</span> {
         <span class='ident'>head</span> {
-            <span class='ident'>title</span> { : <span class='string'>&quot;Hello world!&quot;</span> }
+            <span class='ident'>title</span> : <span class='string'>&quot;Hello world!&quot;</span>;
         }
         <span class='ident'>body</span> {
             <span class='comment'>// attributes</span>
@@ -68,7 +70,7 @@
             }
             <span class='ident'>p</span> {
                 <span class='comment'>// Insert raw text (unescaped)</span>
-                : <span class='macro'>raw</span><span class='macro'>!</span>(<span class='string'>&quot;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&quot;</span>)
+                : <span class='ident'>Raw</span>(<span class='string'>&quot;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&quot;</span>)
             }
             <span class='ident'>ol</span>(<span class='ident'>id</span><span class='op'>=</span><span class='string'>&quot;count&quot;</span>) {
                 <span class='comment'>// You can embed for loops, while loops, and if statements.</span>
@@ -92,6 +94,7 @@
 }.<span class='ident'>into_string</span>().<span class='ident'>unwrap</span>();
 
 <span class='kw'>let</span> <span class='ident'>expected</span> <span class='op'>=</span> <span class='string'>&quot;\
+&lt;!DOCTYPE html&gt;\
 &lt;html&gt;\
   &lt;head&gt;\
     &lt;title&gt;Hello world!&lt;/title&gt;\
@@ -136,7 +139,7 @@ must implement <code>RenderOnce</code> (already implemented on &amp;str, String,
 <li><p><code>some_tag { ... }</code> -- Insert the tag <code>some_tag</code> and recursively evaluate the <code>...</code>.</p></li>
 <li><p><code>some_tag(...) { ... }</code> -- Same as above but with custom attributes.</p></li>
 <li><p><code>: rust_expression</code>, <code>: { rust_code }</code> -- Evaluate the expression or block and insert result
-current position. To insert literal html, mark it as raw with the <code>raw!</code> macro.</p></li>
+current position. To insert a literal html (unescaped), mark it as raw with the <code>Raw</code> marker type.</p></li>
 <li><p><code>|tmpl| rust_expression</code>, <code>|tmpl| { rust_code }</code> -- Evaluate the expression or block. This is
 actually a closure so the block/expression can append to the current template through <code>tmpl</code>
 (of type <code>&amp;mut TemplateBuffer</code>).</p></li>
@@ -294,6 +297,13 @@ template:</p>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
+                           <td><a class='mod' href='helper/index.html'
+                                  title='horrorshow::helper'>helper</a></td>
+                           <td class='docblock-short'>
+                                <p>Helpers templates.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='mod' href='prelude/index.html'
                                   title='horrorshow::prelude'>prelude</a></td>
                            <td class='docblock-short'>
@@ -332,13 +342,6 @@ Labels are anything that implements the <code>RenderOnce</code> trait (e.g. <cod
 some of which may be conditionally included into the final string.
 The delimiter/seperator and labels are anything that implements
 the <code>RenderOnce</code> trait (e.g. <code>String</code> or <code>&amp;str</code>).</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='macro' href='macro.raw.html'
-                                  title='horrorshow::raw'>raw</a></td>
-                           <td class='docblock-short'>
-                                <p>Mark a string as a raw. The string will not be rendered.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

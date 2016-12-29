@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.5.8/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -370,6 +370,10 @@
 <span id="326">326</span>
 <span id="327">327</span>
 <span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! # Horrorshow</span>
 <span class='doccomment'>//!</span>
@@ -381,10 +385,12 @@
 <span class='doccomment'>//! # #[macro_use] extern crate horrorshow;</span>
 <span class='doccomment'>//! # fn main() {</span>
 <span class='doccomment'>//! use horrorshow::prelude::*;</span>
+<span class='doccomment'>//! use horrorshow::helper::doctype;</span>
 <span class='doccomment'>//! let actual = html! {</span>
+<span class='doccomment'>//!     : doctype::HTML;</span>
 <span class='doccomment'>//!     html {</span>
 <span class='doccomment'>//!         head {</span>
-<span class='doccomment'>//!             title { : &quot;Hello world!&quot; }</span>
+<span class='doccomment'>//!             title : &quot;Hello world!&quot;;</span>
 <span class='doccomment'>//!         }</span>
 <span class='doccomment'>//!         body {</span>
 <span class='doccomment'>//!             // attributes</span>
@@ -394,7 +400,7 @@
 <span class='doccomment'>//!             }</span>
 <span class='doccomment'>//!             p {</span>
 <span class='doccomment'>//!                 // Insert raw text (unescaped)</span>
-<span class='doccomment'>//!                 : raw!(&quot;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&quot;)</span>
+<span class='doccomment'>//!                 : Raw(&quot;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&quot;)</span>
 <span class='doccomment'>//!             }</span>
 <span class='doccomment'>//!             ol(id=&quot;count&quot;) {</span>
 <span class='doccomment'>//!                 // You can embed for loops, while loops, and if statements.</span>
@@ -418,6 +424,7 @@
 <span class='doccomment'>//! }.into_string().unwrap();</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! let expected = &quot;\</span>
+<span class='doccomment'>//! &lt;!DOCTYPE html&gt;\</span>
 <span class='doccomment'>//! &lt;html&gt;\</span>
 <span class='doccomment'>//!   &lt;head&gt;\</span>
 <span class='doccomment'>//!     &lt;title&gt;Hello world!&lt;/title&gt;\</span>
@@ -473,7 +480,7 @@
 <span class='doccomment'>//! * `some_tag(...) { ... }` -- Same as above but with custom attributes.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! * `: rust_expression`, `: { rust_code }` -- Evaluate the expression or block and insert result</span>
-<span class='doccomment'>//! current position. To insert literal html, mark it as raw with the `raw!` macro.</span>
+<span class='doccomment'>//! current position. To insert a literal html (unescaped), mark it as raw with the `Raw` marker type.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! * `|tmpl| rust_expression`, `|tmpl| { rust_code }` -- Evaluate the expression or block. This is</span>
 <span class='doccomment'>//! actually a closure so the block/expression can append to the current template through `tmpl`</span>
@@ -671,6 +678,7 @@
 <span class='doccomment'>/// Traits that should always be imported.</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>prelude</span>;
 
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>helper</span>;
 
 <span class='doccomment'>/// Helper trait for dispatching `attr ?= `.</span>
 <span class='doccomment'>///</span>
