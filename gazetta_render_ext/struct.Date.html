@@ -9,6 +9,7 @@
 
     <title>gazetta_render_ext::Date - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='index.html'>gazetta_render_ext</a></p><script>window.sidebarCurrent = {name: 'Date', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct Date</p><div class="block items"><ul><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>gazetta_render_ext</a></p><script>window.sidebarCurrent = {name: 'Date', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,22 +43,26 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gazetta_render_ext</a>::<wbr><a class='struct' href=''>Date</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gazetta_render_ext</a>::<wbr><a class="struct" href=''>Date</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#20' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Date&lt;'a&gt;(pub &amp;'a <a class='type' href='../gazetta_core/model/type.Date.html' title='gazetta_core::model::Date'>DateModel</a>);</pre><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../horrorshow/render/trait.RenderOnce.html' title='horrorshow::render::RenderOnce'>RenderOnce</a> for <a class='struct' href='../gazetta_render_ext/struct.Date.html' title='gazetta_render_ext::Date'>Date</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#22-26' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.render_once' class='method'><span id='render_once.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#tymethod.render_once' class='fnname'>render_once</a>(self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></span></h4>
+<pre class='rust struct'>pub struct Date&lt;'a&gt;(pub &amp;'a <a class="type" href="../gazetta_core/model/type.Date.html" title="type gazetta_core::model::Date">DateModel</a>);</pre>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-RenderOnce' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../horrorshow/render/trait.RenderOnce.html" title="trait horrorshow::render::RenderOnce">RenderOnce</a> for <a class="struct" href="../gazetta_render_ext/struct.Date.html" title="struct gazetta_render_ext::Date">Date</a>&lt;'a&gt;</code><a href='#impl-RenderOnce' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#22-26' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.render_once' class="method"><span id='render_once.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#tymethod.render_once' class='fnname'>render_once</a>(self, tmpl: &amp;mut <a class="struct" href="../horrorshow/template/struct.TemplateBuffer.html" title="struct horrorshow::template::TemplateBuffer">TemplateBuffer</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#23-25' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Render this into a template buffer.</p>
-</div><h4 id='method.size_hint' class='method'><span id='size_hint.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#method.size_hint' class='fnname'>size_hint</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
+</div><h4 id='method.size_hint' class="method"><span id='size_hint.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.RenderOnce.html#method.size_hint' class='fnname'>size_hint</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/horrorshow/render.rs.html#12-14' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a (very) rough estimate of how many bytes this Render will use.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../horrorshow/render/trait.RenderMut.html' title='horrorshow::render::RenderMut'>RenderMut</a> for <a class='struct' href='../gazetta_render_ext/struct.Date.html' title='gazetta_render_ext::Date'>Date</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#28-32' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.render_mut' class='method'><span id='render_mut.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.RenderMut.html#tymethod.render_mut' class='fnname'>render_mut</a>(&amp;mut self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></span></h4>
+</div></div><h3 id='impl-RenderMut' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../horrorshow/render/trait.RenderMut.html" title="trait horrorshow::render::RenderMut">RenderMut</a> for <a class="struct" href="../gazetta_render_ext/struct.Date.html" title="struct gazetta_render_ext::Date">Date</a>&lt;'a&gt;</code><a href='#impl-RenderMut' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#28-32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.render_mut' class="method"><span id='render_mut.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.RenderMut.html#tymethod.render_mut' class='fnname'>render_mut</a>(&amp;mut self, tmpl: &amp;mut <a class="struct" href="../horrorshow/template/struct.TemplateBuffer.html" title="struct horrorshow::template::TemplateBuffer">TemplateBuffer</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#29-31' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Render this into a template buffer.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../horrorshow/render/trait.Render.html' title='horrorshow::render::Render'>Render</a> for <a class='struct' href='../gazetta_render_ext/struct.Date.html' title='gazetta_render_ext::Date'>Date</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#34-49' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.render' class='method'><span id='render.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.Render.html#tymethod.render' class='fnname'>render</a>(&amp;self, tmpl: &amp;mut <a class='struct' href='../horrorshow/template/struct.TemplateBuffer.html' title='horrorshow::template::TemplateBuffer'>TemplateBuffer</a>)</code></span></h4>
+</div></div><h3 id='impl-Render' class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../horrorshow/render/trait.Render.html" title="trait horrorshow::render::Render">Render</a> for <a class="struct" href="../gazetta_render_ext/struct.Date.html" title="struct gazetta_render_ext::Date">Date</a>&lt;'a&gt;</code><a href='#impl-Render' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#34-49' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.render' class="method"><span id='render.v' class='invisible'><code>fn <a href='../horrorshow/render/trait.Render.html#tymethod.render' class='fnname'>render</a>(&amp;self, tmpl: &amp;mut <a class="struct" href="../horrorshow/template/struct.TemplateBuffer.html" title="struct horrorshow::template::TemplateBuffer">TemplateBuffer</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_render_ext/date.rs.html#35-48' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Render this into a template buffer.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
@@ -116,7 +121,6 @@
         window.rootPath = "../";
         window.currentCrate = "gazetta_render_ext";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

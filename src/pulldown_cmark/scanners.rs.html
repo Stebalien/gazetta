@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.8/src/scanners.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.8/src/scanners.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>scanners.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -708,671 +709,671 @@
 <span id="664">664</span>
 <span id="665">665</span>
 <span id="666">666</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright 2015 Google Inc. All rights reserved.</span>
-<span class='comment'>//</span>
-<span class='comment'>// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
-<span class='comment'>// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
-<span class='comment'>// in the Software without restriction, including without limitation the rights</span>
-<span class='comment'>// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
-<span class='comment'>// copies of the Software, and to permit persons to whom the Software is</span>
-<span class='comment'>// furnished to do so, subject to the following conditions:</span>
-<span class='comment'>//</span>
-<span class='comment'>// The above copyright notice and this permission notice shall be included in</span>
-<span class='comment'>// all copies or substantial portions of the Software.</span>
-<span class='comment'>//</span>
-<span class='comment'>// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
-<span class='comment'>// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
-<span class='comment'>// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
-<span class='comment'>// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
-<span class='comment'>// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
-<span class='comment'>// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
-<span class='comment'>// THE SOFTWARE.</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright 2015 Google Inc. All rights reserved.</span>
+<span class="comment">//</span>
+<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="comment">// in the Software without restriction, including without limitation the rights</span>
+<span class="comment">// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="comment">// copies of the Software, and to permit persons to whom the Software is</span>
+<span class="comment">// furnished to do so, subject to the following conditions:</span>
+<span class="comment">//</span>
+<span class="comment">// The above copyright notice and this permission notice shall be included in</span>
+<span class="comment">// all copies or substantial portions of the Software.</span>
+<span class="comment">//</span>
+<span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="comment">// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="comment">// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="comment">// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="comment">// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="comment">// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="comment">// THE SOFTWARE.</span>
 
-<span class='doccomment'>//! Scanners for fragments of CommonMark syntax</span>
+<span class="doccomment">//! Scanners for fragments of CommonMark syntax</span>
 
-<span class='kw'>use</span> <span class='ident'>entities</span>;
-<span class='kw'>use</span> <span class='ident'>utils</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>::{<span class='ident'>Borrowed</span>, <span class='ident'>Owned</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>char</span>;
+<span class="kw">use</span> <span class="ident">entities</span>;
+<span class="kw">use</span> <span class="ident">utils</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>::{<span class="ident">Borrowed</span>, <span class="ident">Owned</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">char</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>puncttable</span>::{<span class='ident'>is_ascii_punctuation</span>, <span class='ident'>is_punctuation</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">puncttable</span>::{<span class="ident">is_ascii_punctuation</span>, <span class="ident">is_punctuation</span>};
 
-<span class='comment'>// sorted for binary_search</span>
-<span class='kw'>const</span> <span class='ident'>HTML_TAGS</span>: [<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>; <span class='number'>50</span>] <span class='op'>=</span> [<span class='string'>&quot;article&quot;</span>, <span class='string'>&quot;aside&quot;</span>, <span class='string'>&quot;blockquote&quot;</span>,
-    <span class='string'>&quot;body&quot;</span>, <span class='string'>&quot;button&quot;</span>, <span class='string'>&quot;canvas&quot;</span>, <span class='string'>&quot;caption&quot;</span>, <span class='string'>&quot;col&quot;</span>, <span class='string'>&quot;colgroup&quot;</span>, <span class='string'>&quot;dd&quot;</span>, <span class='string'>&quot;div&quot;</span>,
-    <span class='string'>&quot;dl&quot;</span>, <span class='string'>&quot;dt&quot;</span>, <span class='string'>&quot;embed&quot;</span>, <span class='string'>&quot;fieldset&quot;</span>, <span class='string'>&quot;figcaption&quot;</span>, <span class='string'>&quot;figure&quot;</span>, <span class='string'>&quot;footer&quot;</span>, <span class='string'>&quot;form&quot;</span>,
-    <span class='string'>&quot;h1&quot;</span>, <span class='string'>&quot;h2&quot;</span>, <span class='string'>&quot;h3&quot;</span>, <span class='string'>&quot;h4&quot;</span>, <span class='string'>&quot;h5&quot;</span>, <span class='string'>&quot;h6&quot;</span>, <span class='string'>&quot;header&quot;</span>, <span class='string'>&quot;hgroup&quot;</span>, <span class='string'>&quot;hr&quot;</span>, <span class='string'>&quot;iframe&quot;</span>,
-    <span class='string'>&quot;li&quot;</span>, <span class='string'>&quot;map&quot;</span>, <span class='string'>&quot;object&quot;</span>, <span class='string'>&quot;ol&quot;</span>, <span class='string'>&quot;output&quot;</span>, <span class='string'>&quot;p&quot;</span>, <span class='string'>&quot;pre&quot;</span>, <span class='string'>&quot;progress&quot;</span>, <span class='string'>&quot;script&quot;</span>,
-    <span class='string'>&quot;section&quot;</span>, <span class='string'>&quot;style&quot;</span>, <span class='string'>&quot;table&quot;</span>, <span class='string'>&quot;tbody&quot;</span>, <span class='string'>&quot;td&quot;</span>, <span class='string'>&quot;textarea&quot;</span>, <span class='string'>&quot;tfoot&quot;</span>, <span class='string'>&quot;th&quot;</span>,
-    <span class='string'>&quot;thead&quot;</span>, <span class='string'>&quot;tr&quot;</span>, <span class='string'>&quot;ul&quot;</span>, <span class='string'>&quot;video&quot;</span>];
+<span class="comment">// sorted for binary_search</span>
+<span class="kw">const</span> <span class="ident">HTML_TAGS</span>: [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>; <span class="number">50</span>] <span class="op">=</span> [<span class="string">&quot;article&quot;</span>, <span class="string">&quot;aside&quot;</span>, <span class="string">&quot;blockquote&quot;</span>,
+    <span class="string">&quot;body&quot;</span>, <span class="string">&quot;button&quot;</span>, <span class="string">&quot;canvas&quot;</span>, <span class="string">&quot;caption&quot;</span>, <span class="string">&quot;col&quot;</span>, <span class="string">&quot;colgroup&quot;</span>, <span class="string">&quot;dd&quot;</span>, <span class="string">&quot;div&quot;</span>,
+    <span class="string">&quot;dl&quot;</span>, <span class="string">&quot;dt&quot;</span>, <span class="string">&quot;embed&quot;</span>, <span class="string">&quot;fieldset&quot;</span>, <span class="string">&quot;figcaption&quot;</span>, <span class="string">&quot;figure&quot;</span>, <span class="string">&quot;footer&quot;</span>, <span class="string">&quot;form&quot;</span>,
+    <span class="string">&quot;h1&quot;</span>, <span class="string">&quot;h2&quot;</span>, <span class="string">&quot;h3&quot;</span>, <span class="string">&quot;h4&quot;</span>, <span class="string">&quot;h5&quot;</span>, <span class="string">&quot;h6&quot;</span>, <span class="string">&quot;header&quot;</span>, <span class="string">&quot;hgroup&quot;</span>, <span class="string">&quot;hr&quot;</span>, <span class="string">&quot;iframe&quot;</span>,
+    <span class="string">&quot;li&quot;</span>, <span class="string">&quot;map&quot;</span>, <span class="string">&quot;object&quot;</span>, <span class="string">&quot;ol&quot;</span>, <span class="string">&quot;output&quot;</span>, <span class="string">&quot;p&quot;</span>, <span class="string">&quot;pre&quot;</span>, <span class="string">&quot;progress&quot;</span>, <span class="string">&quot;script&quot;</span>,
+    <span class="string">&quot;section&quot;</span>, <span class="string">&quot;style&quot;</span>, <span class="string">&quot;table&quot;</span>, <span class="string">&quot;tbody&quot;</span>, <span class="string">&quot;td&quot;</span>, <span class="string">&quot;textarea&quot;</span>, <span class="string">&quot;tfoot&quot;</span>, <span class="string">&quot;th&quot;</span>,
+    <span class="string">&quot;thead&quot;</span>, <span class="string">&quot;tr&quot;</span>, <span class="string">&quot;ul&quot;</span>, <span class="string">&quot;video&quot;</span>];
 
-<span class='kw'>const</span> <span class='ident'>URI_SCHEMES</span>: [<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>; <span class='number'>164</span>] <span class='op'>=</span> [<span class='string'>&quot;aaa&quot;</span>, <span class='string'>&quot;aaas&quot;</span>, <span class='string'>&quot;about&quot;</span>, <span class='string'>&quot;acap&quot;</span>,
-    <span class='string'>&quot;adiumxtra&quot;</span>, <span class='string'>&quot;afp&quot;</span>, <span class='string'>&quot;afs&quot;</span>, <span class='string'>&quot;aim&quot;</span>, <span class='string'>&quot;apt&quot;</span>, <span class='string'>&quot;attachment&quot;</span>, <span class='string'>&quot;aw&quot;</span>, <span class='string'>&quot;beshare&quot;</span>,
-    <span class='string'>&quot;bitcoin&quot;</span>, <span class='string'>&quot;bolo&quot;</span>, <span class='string'>&quot;callto&quot;</span>, <span class='string'>&quot;cap&quot;</span>, <span class='string'>&quot;chrome&quot;</span>, <span class='string'>&quot;chrome-extension&quot;</span>, <span class='string'>&quot;cid&quot;</span>,
-    <span class='string'>&quot;coap&quot;</span>, <span class='string'>&quot;com-eventbrite-attendee&quot;</span>, <span class='string'>&quot;content&quot;</span>, <span class='string'>&quot;crid&quot;</span>, <span class='string'>&quot;cvs&quot;</span>, <span class='string'>&quot;data&quot;</span>, <span class='string'>&quot;dav&quot;</span>,
-    <span class='string'>&quot;dict&quot;</span>, <span class='string'>&quot;dlna-playcontainer&quot;</span>, <span class='string'>&quot;dlna-playsingle&quot;</span>, <span class='string'>&quot;dns&quot;</span>, <span class='string'>&quot;doi&quot;</span>, <span class='string'>&quot;dtn&quot;</span>,
-    <span class='string'>&quot;dvb&quot;</span>, <span class='string'>&quot;ed2k&quot;</span>, <span class='string'>&quot;facetime&quot;</span>, <span class='string'>&quot;feed&quot;</span>, <span class='string'>&quot;file&quot;</span>, <span class='string'>&quot;finger&quot;</span>, <span class='string'>&quot;fish&quot;</span>, <span class='string'>&quot;ftp&quot;</span>, <span class='string'>&quot;geo&quot;</span>,
-    <span class='string'>&quot;gg&quot;</span>, <span class='string'>&quot;git&quot;</span>, <span class='string'>&quot;gizmoproject&quot;</span>, <span class='string'>&quot;go&quot;</span>, <span class='string'>&quot;gopher&quot;</span>, <span class='string'>&quot;gtalk&quot;</span>, <span class='string'>&quot;h323&quot;</span>, <span class='string'>&quot;hcp&quot;</span>,
-    <span class='string'>&quot;http&quot;</span>, <span class='string'>&quot;https&quot;</span>, <span class='string'>&quot;iax&quot;</span>, <span class='string'>&quot;icap&quot;</span>, <span class='string'>&quot;icon&quot;</span>, <span class='string'>&quot;im&quot;</span>, <span class='string'>&quot;imap&quot;</span>, <span class='string'>&quot;info&quot;</span>, <span class='string'>&quot;ipn&quot;</span>, <span class='string'>&quot;ipp&quot;</span>,
-    <span class='string'>&quot;irc&quot;</span>, <span class='string'>&quot;irc6&quot;</span>, <span class='string'>&quot;ircs&quot;</span>, <span class='string'>&quot;iris&quot;</span>, <span class='string'>&quot;iris.beep&quot;</span>, <span class='string'>&quot;iris.lwz&quot;</span>, <span class='string'>&quot;iris.xpc&quot;</span>,
-    <span class='string'>&quot;iris.xpcs&quot;</span>, <span class='string'>&quot;itms&quot;</span>, <span class='string'>&quot;jar&quot;</span>, <span class='string'>&quot;javascript&quot;</span>, <span class='string'>&quot;jms&quot;</span>, <span class='string'>&quot;keyparc&quot;</span>, <span class='string'>&quot;lastfm&quot;</span>,
-    <span class='string'>&quot;ldap&quot;</span>, <span class='string'>&quot;ldaps&quot;</span>, <span class='string'>&quot;magnet&quot;</span>, <span class='string'>&quot;mailto&quot;</span>, <span class='string'>&quot;maps&quot;</span>, <span class='string'>&quot;market&quot;</span>, <span class='string'>&quot;message&quot;</span>, <span class='string'>&quot;mid&quot;</span>,
-    <span class='string'>&quot;mms&quot;</span>, <span class='string'>&quot;ms-help&quot;</span>, <span class='string'>&quot;msnim&quot;</span>, <span class='string'>&quot;msrp&quot;</span>, <span class='string'>&quot;msrps&quot;</span>, <span class='string'>&quot;mtqp&quot;</span>, <span class='string'>&quot;mumble&quot;</span>, <span class='string'>&quot;mupdate&quot;</span>,
-    <span class='string'>&quot;mvn&quot;</span>, <span class='string'>&quot;news&quot;</span>, <span class='string'>&quot;nfs&quot;</span>, <span class='string'>&quot;ni&quot;</span>, <span class='string'>&quot;nih&quot;</span>, <span class='string'>&quot;nntp&quot;</span>, <span class='string'>&quot;notes&quot;</span>, <span class='string'>&quot;oid&quot;</span>,
-    <span class='string'>&quot;opaquelocktoken&quot;</span>, <span class='string'>&quot;palm&quot;</span>, <span class='string'>&quot;paparazzi&quot;</span>, <span class='string'>&quot;platform&quot;</span>, <span class='string'>&quot;pop&quot;</span>, <span class='string'>&quot;pres&quot;</span>, <span class='string'>&quot;proxy&quot;</span>,
-    <span class='string'>&quot;psyc&quot;</span>, <span class='string'>&quot;query&quot;</span>, <span class='string'>&quot;res&quot;</span>, <span class='string'>&quot;resource&quot;</span>, <span class='string'>&quot;rmi&quot;</span>, <span class='string'>&quot;rsync&quot;</span>, <span class='string'>&quot;rtmp&quot;</span>, <span class='string'>&quot;rtsp&quot;</span>,
-    <span class='string'>&quot;secondlife&quot;</span>, <span class='string'>&quot;service&quot;</span>, <span class='string'>&quot;session&quot;</span>, <span class='string'>&quot;sftp&quot;</span>, <span class='string'>&quot;sgn&quot;</span>, <span class='string'>&quot;shttp&quot;</span>, <span class='string'>&quot;sieve&quot;</span>, <span class='string'>&quot;sip&quot;</span>,
-    <span class='string'>&quot;sips&quot;</span>, <span class='string'>&quot;skype&quot;</span>, <span class='string'>&quot;smb&quot;</span>, <span class='string'>&quot;sms&quot;</span>, <span class='string'>&quot;snmp&quot;</span>, <span class='string'>&quot;soap.beep&quot;</span>, <span class='string'>&quot;soap.beeps&quot;</span>, <span class='string'>&quot;soldat&quot;</span>,
-    <span class='string'>&quot;spotify&quot;</span>, <span class='string'>&quot;ssh&quot;</span>, <span class='string'>&quot;steam&quot;</span>, <span class='string'>&quot;svn&quot;</span>, <span class='string'>&quot;tag&quot;</span>, <span class='string'>&quot;teamspeak&quot;</span>, <span class='string'>&quot;tel&quot;</span>, <span class='string'>&quot;telnet&quot;</span>,
-    <span class='string'>&quot;tftp&quot;</span>, <span class='string'>&quot;things&quot;</span>, <span class='string'>&quot;thismessage&quot;</span>, <span class='string'>&quot;tip&quot;</span>, <span class='string'>&quot;tn3270&quot;</span>, <span class='string'>&quot;tv&quot;</span>, <span class='string'>&quot;udp&quot;</span>, <span class='string'>&quot;unreal&quot;</span>,
-    <span class='string'>&quot;urn&quot;</span>, <span class='string'>&quot;ut2004&quot;</span>, <span class='string'>&quot;vemmi&quot;</span>, <span class='string'>&quot;ventrilo&quot;</span>, <span class='string'>&quot;view-source&quot;</span>, <span class='string'>&quot;webcal&quot;</span>, <span class='string'>&quot;ws&quot;</span>, <span class='string'>&quot;wss&quot;</span>,
-    <span class='string'>&quot;wtai&quot;</span>, <span class='string'>&quot;wyciwyg&quot;</span>, <span class='string'>&quot;xcon&quot;</span>, <span class='string'>&quot;xcon-userid&quot;</span>, <span class='string'>&quot;xfire&quot;</span>, <span class='string'>&quot;xmlrpc.beep&quot;</span>,
-    <span class='string'>&quot;xmlrpc.beeps&quot;</span>, <span class='string'>&quot;xmpp&quot;</span>, <span class='string'>&quot;xri&quot;</span>, <span class='string'>&quot;ymsgr&quot;</span>, <span class='string'>&quot;z39.50r&quot;</span>, <span class='string'>&quot;z39.50s&quot;</span>];
+<span class="kw">const</span> <span class="ident">URI_SCHEMES</span>: [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>; <span class="number">164</span>] <span class="op">=</span> [<span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;aaas&quot;</span>, <span class="string">&quot;about&quot;</span>, <span class="string">&quot;acap&quot;</span>,
+    <span class="string">&quot;adiumxtra&quot;</span>, <span class="string">&quot;afp&quot;</span>, <span class="string">&quot;afs&quot;</span>, <span class="string">&quot;aim&quot;</span>, <span class="string">&quot;apt&quot;</span>, <span class="string">&quot;attachment&quot;</span>, <span class="string">&quot;aw&quot;</span>, <span class="string">&quot;beshare&quot;</span>,
+    <span class="string">&quot;bitcoin&quot;</span>, <span class="string">&quot;bolo&quot;</span>, <span class="string">&quot;callto&quot;</span>, <span class="string">&quot;cap&quot;</span>, <span class="string">&quot;chrome&quot;</span>, <span class="string">&quot;chrome-extension&quot;</span>, <span class="string">&quot;cid&quot;</span>,
+    <span class="string">&quot;coap&quot;</span>, <span class="string">&quot;com-eventbrite-attendee&quot;</span>, <span class="string">&quot;content&quot;</span>, <span class="string">&quot;crid&quot;</span>, <span class="string">&quot;cvs&quot;</span>, <span class="string">&quot;data&quot;</span>, <span class="string">&quot;dav&quot;</span>,
+    <span class="string">&quot;dict&quot;</span>, <span class="string">&quot;dlna-playcontainer&quot;</span>, <span class="string">&quot;dlna-playsingle&quot;</span>, <span class="string">&quot;dns&quot;</span>, <span class="string">&quot;doi&quot;</span>, <span class="string">&quot;dtn&quot;</span>,
+    <span class="string">&quot;dvb&quot;</span>, <span class="string">&quot;ed2k&quot;</span>, <span class="string">&quot;facetime&quot;</span>, <span class="string">&quot;feed&quot;</span>, <span class="string">&quot;file&quot;</span>, <span class="string">&quot;finger&quot;</span>, <span class="string">&quot;fish&quot;</span>, <span class="string">&quot;ftp&quot;</span>, <span class="string">&quot;geo&quot;</span>,
+    <span class="string">&quot;gg&quot;</span>, <span class="string">&quot;git&quot;</span>, <span class="string">&quot;gizmoproject&quot;</span>, <span class="string">&quot;go&quot;</span>, <span class="string">&quot;gopher&quot;</span>, <span class="string">&quot;gtalk&quot;</span>, <span class="string">&quot;h323&quot;</span>, <span class="string">&quot;hcp&quot;</span>,
+    <span class="string">&quot;http&quot;</span>, <span class="string">&quot;https&quot;</span>, <span class="string">&quot;iax&quot;</span>, <span class="string">&quot;icap&quot;</span>, <span class="string">&quot;icon&quot;</span>, <span class="string">&quot;im&quot;</span>, <span class="string">&quot;imap&quot;</span>, <span class="string">&quot;info&quot;</span>, <span class="string">&quot;ipn&quot;</span>, <span class="string">&quot;ipp&quot;</span>,
+    <span class="string">&quot;irc&quot;</span>, <span class="string">&quot;irc6&quot;</span>, <span class="string">&quot;ircs&quot;</span>, <span class="string">&quot;iris&quot;</span>, <span class="string">&quot;iris.beep&quot;</span>, <span class="string">&quot;iris.lwz&quot;</span>, <span class="string">&quot;iris.xpc&quot;</span>,
+    <span class="string">&quot;iris.xpcs&quot;</span>, <span class="string">&quot;itms&quot;</span>, <span class="string">&quot;jar&quot;</span>, <span class="string">&quot;javascript&quot;</span>, <span class="string">&quot;jms&quot;</span>, <span class="string">&quot;keyparc&quot;</span>, <span class="string">&quot;lastfm&quot;</span>,
+    <span class="string">&quot;ldap&quot;</span>, <span class="string">&quot;ldaps&quot;</span>, <span class="string">&quot;magnet&quot;</span>, <span class="string">&quot;mailto&quot;</span>, <span class="string">&quot;maps&quot;</span>, <span class="string">&quot;market&quot;</span>, <span class="string">&quot;message&quot;</span>, <span class="string">&quot;mid&quot;</span>,
+    <span class="string">&quot;mms&quot;</span>, <span class="string">&quot;ms-help&quot;</span>, <span class="string">&quot;msnim&quot;</span>, <span class="string">&quot;msrp&quot;</span>, <span class="string">&quot;msrps&quot;</span>, <span class="string">&quot;mtqp&quot;</span>, <span class="string">&quot;mumble&quot;</span>, <span class="string">&quot;mupdate&quot;</span>,
+    <span class="string">&quot;mvn&quot;</span>, <span class="string">&quot;news&quot;</span>, <span class="string">&quot;nfs&quot;</span>, <span class="string">&quot;ni&quot;</span>, <span class="string">&quot;nih&quot;</span>, <span class="string">&quot;nntp&quot;</span>, <span class="string">&quot;notes&quot;</span>, <span class="string">&quot;oid&quot;</span>,
+    <span class="string">&quot;opaquelocktoken&quot;</span>, <span class="string">&quot;palm&quot;</span>, <span class="string">&quot;paparazzi&quot;</span>, <span class="string">&quot;platform&quot;</span>, <span class="string">&quot;pop&quot;</span>, <span class="string">&quot;pres&quot;</span>, <span class="string">&quot;proxy&quot;</span>,
+    <span class="string">&quot;psyc&quot;</span>, <span class="string">&quot;query&quot;</span>, <span class="string">&quot;res&quot;</span>, <span class="string">&quot;resource&quot;</span>, <span class="string">&quot;rmi&quot;</span>, <span class="string">&quot;rsync&quot;</span>, <span class="string">&quot;rtmp&quot;</span>, <span class="string">&quot;rtsp&quot;</span>,
+    <span class="string">&quot;secondlife&quot;</span>, <span class="string">&quot;service&quot;</span>, <span class="string">&quot;session&quot;</span>, <span class="string">&quot;sftp&quot;</span>, <span class="string">&quot;sgn&quot;</span>, <span class="string">&quot;shttp&quot;</span>, <span class="string">&quot;sieve&quot;</span>, <span class="string">&quot;sip&quot;</span>,
+    <span class="string">&quot;sips&quot;</span>, <span class="string">&quot;skype&quot;</span>, <span class="string">&quot;smb&quot;</span>, <span class="string">&quot;sms&quot;</span>, <span class="string">&quot;snmp&quot;</span>, <span class="string">&quot;soap.beep&quot;</span>, <span class="string">&quot;soap.beeps&quot;</span>, <span class="string">&quot;soldat&quot;</span>,
+    <span class="string">&quot;spotify&quot;</span>, <span class="string">&quot;ssh&quot;</span>, <span class="string">&quot;steam&quot;</span>, <span class="string">&quot;svn&quot;</span>, <span class="string">&quot;tag&quot;</span>, <span class="string">&quot;teamspeak&quot;</span>, <span class="string">&quot;tel&quot;</span>, <span class="string">&quot;telnet&quot;</span>,
+    <span class="string">&quot;tftp&quot;</span>, <span class="string">&quot;things&quot;</span>, <span class="string">&quot;thismessage&quot;</span>, <span class="string">&quot;tip&quot;</span>, <span class="string">&quot;tn3270&quot;</span>, <span class="string">&quot;tv&quot;</span>, <span class="string">&quot;udp&quot;</span>, <span class="string">&quot;unreal&quot;</span>,
+    <span class="string">&quot;urn&quot;</span>, <span class="string">&quot;ut2004&quot;</span>, <span class="string">&quot;vemmi&quot;</span>, <span class="string">&quot;ventrilo&quot;</span>, <span class="string">&quot;view-source&quot;</span>, <span class="string">&quot;webcal&quot;</span>, <span class="string">&quot;ws&quot;</span>, <span class="string">&quot;wss&quot;</span>,
+    <span class="string">&quot;wtai&quot;</span>, <span class="string">&quot;wyciwyg&quot;</span>, <span class="string">&quot;xcon&quot;</span>, <span class="string">&quot;xcon-userid&quot;</span>, <span class="string">&quot;xfire&quot;</span>, <span class="string">&quot;xmlrpc.beep&quot;</span>,
+    <span class="string">&quot;xmlrpc.beeps&quot;</span>, <span class="string">&quot;xmpp&quot;</span>, <span class="string">&quot;xri&quot;</span>, <span class="string">&quot;ymsgr&quot;</span>, <span class="string">&quot;z39.50r&quot;</span>, <span class="string">&quot;z39.50s&quot;</span>];
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_ascii_whitespace</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    (<span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='number'>0x09</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='number'>0x0d</span>) <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39; &#39;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_ascii_whitespace</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    (<span class="ident">c</span> <span class="op">&gt;=</span> <span class="number">0x09</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span> <span class="op">&lt;=</span> <span class="number">0x0d</span>) <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39; &#39;</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_ascii_whitespace_no_nl</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;\t&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='number'>0x0b</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='number'>0x0c</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39; &#39;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_ascii_whitespace_no_nl</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;\t&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="number">0x0b</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="number">0x0c</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39; &#39;</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_ascii_alpha</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='ident'>c</span> {
-        <span class='string'>b&#39;a&#39;</span> ... <span class='string'>b&#39;z&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;A&#39;</span> ... <span class='string'>b&#39;Z&#39;</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_ascii_alpha</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">match</span> <span class="ident">c</span> {
+        <span class="string">b&#39;a&#39;</span> ... <span class="string">b&#39;z&#39;</span> <span class="op">|</span> <span class="string">b&#39;A&#39;</span> ... <span class="string">b&#39;Z&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+        _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_ascii_upper</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='ident'>c</span> {
-        <span class='string'>b&#39;A&#39;</span> ... <span class='string'>b&#39;Z&#39;</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_ascii_upper</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">match</span> <span class="ident">c</span> {
+        <span class="string">b&#39;A&#39;</span> ... <span class="string">b&#39;Z&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+        _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_ascii_alphanumeric</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='ident'>c</span> {
-        <span class='string'>b&#39;0&#39;</span> ... <span class='string'>b&#39;9&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;a&#39;</span> ... <span class='string'>b&#39;z&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;A&#39;</span> ... <span class='string'>b&#39;Z&#39;</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_ascii_alphanumeric</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">match</span> <span class="ident">c</span> {
+        <span class="string">b&#39;0&#39;</span> ... <span class="string">b&#39;9&#39;</span> <span class="op">|</span> <span class="string">b&#39;a&#39;</span> ... <span class="string">b&#39;z&#39;</span> <span class="op">|</span> <span class="string">b&#39;A&#39;</span> ... <span class="string">b&#39;Z&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+        _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>is_hexdigit</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='ident'>c</span> {
-        <span class='string'>b&#39;0&#39;</span> ... <span class='string'>b&#39;9&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;a&#39;</span> ... <span class='string'>b&#39;f&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;A&#39;</span> ... <span class='string'>b&#39;F&#39;</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-        _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+<span class="kw">fn</span> <span class="ident">is_hexdigit</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">match</span> <span class="ident">c</span> {
+        <span class="string">b&#39;0&#39;</span> ... <span class="string">b&#39;9&#39;</span> <span class="op">|</span> <span class="string">b&#39;a&#39;</span> ... <span class="string">b&#39;f&#39;</span> <span class="op">|</span> <span class="string">b&#39;A&#39;</span> ... <span class="string">b&#39;F&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+        _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>is_digit</span>(<span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='string'>b&#39;0&#39;</span> <span class='op'>&lt;=</span> <span class='ident'>c</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='string'>b&#39;9&#39;</span>
+<span class="kw">fn</span> <span class="ident">is_digit</span>(<span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="string">b&#39;0&#39;</span> <span class="op">&lt;=</span> <span class="ident">c</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span> <span class="op">&lt;=</span> <span class="string">b&#39;9&#39;</span>
 }
 
-<span class='comment'>// scan a single character</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_ch</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>data</span>.<span class='ident'>is_empty</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='number'>0</span>] <span class='op'>==</span> <span class='ident'>c</span> { <span class='number'>1</span> } <span class='kw'>else</span> { <span class='number'>0</span> }
+<span class="comment">// scan a single character</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_ch</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">data</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>] <span class="op">==</span> <span class="ident">c</span> { <span class="number">1</span> } <span class="kw">else</span> { <span class="number">0</span> }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_while</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span>
-        <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>().<span class='ident'>iter</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>c</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>f</span>(<span class='ident'>c</span>)) {
-        <span class='prelude-val'>Some</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span>,
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>data</span>.<span class='ident'>len</span>()
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_while</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>
+        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>().<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="op">!</span><span class="ident">f</span>(<span class="ident">c</span>)) {
+        <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=&gt;</span> <span class="ident">i</span>,
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">data</span>.<span class="ident">len</span>()
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_ch_repeat</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='ident'>scan_while</span>(<span class='ident'>data</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='ident'>c</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_ch_repeat</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="ident">scan_while</span>(<span class="ident">data</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="ident">c</span>)
 }
 
-<span class='comment'>// TODO: maybe should scan unicode whitespace too</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_whitespace_no_nl</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='ident'>scan_while</span>(<span class='ident'>data</span>, <span class='ident'>is_ascii_whitespace_no_nl</span>)
+<span class="comment">// TODO: maybe should scan unicode whitespace too</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_whitespace_no_nl</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="ident">scan_while</span>(<span class="ident">data</span>, <span class="ident">is_ascii_whitespace_no_nl</span>)
 }
 
-<span class='comment'>// Maybe returning Option&lt;usize&gt; would be more Rustic?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_eol</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>bool</span>) {
-    <span class='kw'>if</span> <span class='ident'>s</span>.<span class='ident'>is_empty</span>() { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='bool-val'>true</span>); }
-    <span class='kw'>match</span> <span class='ident'>s</span>.<span class='ident'>as_bytes</span>()[<span class='number'>0</span>] {
-        <span class='string'>b&#39;\n&#39;</span> <span class='op'>=&gt;</span> (<span class='number'>1</span>, <span class='bool-val'>true</span>),
-        <span class='string'>b&#39;\r&#39;</span> <span class='op'>=&gt;</span> (<span class='kw'>if</span> <span class='ident'>s</span>[<span class='number'>1</span>..].<span class='ident'>starts_with</span>(<span class='string'>&#39;\n&#39;</span>) { <span class='number'>2</span> } <span class='kw'>else</span> { <span class='number'>1</span> }, <span class='bool-val'>true</span>),
-        _ <span class='op'>=&gt;</span> (<span class='number'>0</span>, <span class='bool-val'>false</span>)
+<span class="comment">// Maybe returning Option&lt;usize&gt; would be more Rustic?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_eol</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">bool</span>) {
+    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">is_empty</span>() { <span class="kw">return</span> (<span class="number">0</span>, <span class="bool-val">true</span>); }
+    <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>] {
+        <span class="string">b&#39;\n&#39;</span> <span class="op">=&gt;</span> (<span class="number">1</span>, <span class="bool-val">true</span>),
+        <span class="string">b&#39;\r&#39;</span> <span class="op">=&gt;</span> (<span class="kw">if</span> <span class="ident">s</span>[<span class="number">1</span>..].<span class="ident">starts_with</span>(<span class="string">&#39;\n&#39;</span>) { <span class="number">2</span> } <span class="kw">else</span> { <span class="number">1</span> }, <span class="bool-val">true</span>),
+        _ <span class="op">=&gt;</span> (<span class="number">0</span>, <span class="bool-val">false</span>)
     }
 }
 
-<span class='comment'>// unusual among &quot;scan&quot; functions in that it scans from the _back_ of the string</span>
-<span class='comment'>// TODO: should also scan unicode whitespace?</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_trailing_whitespace</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>().<span class='ident'>iter</span>().<span class='ident'>rev</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>c</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>is_ascii_whitespace_no_nl</span>(<span class='ident'>c</span>)) {
-        <span class='prelude-val'>Some</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span>,
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>data</span>.<span class='ident'>len</span>()
+<span class="comment">// unusual among &quot;scan&quot; functions in that it scans from the _back_ of the string</span>
+<span class="comment">// TODO: should also scan unicode whitespace?</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_trailing_whitespace</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>().<span class="ident">iter</span>().<span class="ident">rev</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="op">!</span><span class="ident">is_ascii_whitespace_no_nl</span>(<span class="ident">c</span>)) {
+        <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=&gt;</span> <span class="ident">i</span>,
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">data</span>.<span class="ident">len</span>()
     }
 }
 
-<span class='kw'>fn</span> <span class='ident'>scan_codepoint</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> {
-    <span class='ident'>data</span>.<span class='ident'>chars</span>().<span class='ident'>next</span>()
+<span class="kw">fn</span> <span class="ident">scan_codepoint</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">char</span><span class="op">&gt;</span> {
+    <span class="ident">data</span>.<span class="ident">chars</span>().<span class="ident">next</span>()
 }
 
-<span class='comment'>// get last codepoint in string</span>
-<span class='kw'>fn</span> <span class='ident'>scan_trailing_codepoint</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> {
-    <span class='comment'>// would just data.chars.next_back() be better?</span>
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>if</span> <span class='ident'>size</span> <span class='op'>==</span> <span class='number'>0</span> {
-        <span class='prelude-val'>None</span>
-    } <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>size</span> <span class='op'>-</span> <span class='number'>1</span>];
-        <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>&lt;</span> <span class='number'>0x80</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>char</span>)
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>size</span> <span class='op'>-</span> <span class='number'>2</span>;
-            <span class='kw'>while</span> (<span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] <span class='kw-2'>&amp;</span> <span class='number'>0xc0</span>) <span class='op'>==</span> <span class='number'>0x80</span> {
-                <span class='ident'>i</span> <span class='op'>-=</span> <span class='number'>1</span>;
+<span class="comment">// get last codepoint in string</span>
+<span class="kw">fn</span> <span class="ident">scan_trailing_codepoint</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">char</span><span class="op">&gt;</span> {
+    <span class="comment">// would just data.chars.next_back() be better?</span>
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">if</span> <span class="ident">size</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="prelude-val">None</span>
+    } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">size</span> <span class="op">-</span> <span class="number">1</span>];
+        <span class="kw">if</span> <span class="ident">c</span> <span class="op">&lt;</span> <span class="number">0x80</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">c</span> <span class="kw">as</span> <span class="ident">char</span>)
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">size</span> <span class="op">-</span> <span class="number">2</span>;
+            <span class="kw">while</span> (<span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] <span class="op">&amp;</span> <span class="number">0xc0</span>) <span class="op">==</span> <span class="number">0x80</span> {
+                <span class="ident">i</span> <span class="op">-=</span> <span class="number">1</span>;
             }
-            <span class='ident'>data</span>[<span class='ident'>i</span>..].<span class='ident'>chars</span>().<span class='ident'>next</span>()
+            <span class="ident">data</span>[<span class="ident">i</span>..].<span class="ident">chars</span>().<span class="ident">next</span>()
         }
     }
 }
 
-<span class='comment'>// Maybe Option, size of 0 makes sense at EOF</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_blank_line</span>(<span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>scan_whitespace_no_nl</span>(<span class='ident'>text</span>);
-    <span class='kw'>if</span> <span class='kw'>let</span> (<span class='ident'>n</span>, <span class='bool-val'>true</span>) <span class='op'>=</span> <span class='ident'>scan_eol</span>(<span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>i</span>..]) {
-        <span class='ident'>i</span> <span class='op'>+</span> <span class='ident'>n</span>
-    } <span class='kw'>else</span> {
-        <span class='number'>0</span>
+<span class="comment">// Maybe Option, size of 0 makes sense at EOF</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_blank_line</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">scan_whitespace_no_nl</span>(<span class="ident">text</span>);
+    <span class="kw">if</span> <span class="kw">let</span> (<span class="ident">n</span>, <span class="bool-val">true</span>) <span class="op">=</span> <span class="ident">scan_eol</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>[<span class="ident">i</span>..]) {
+        <span class="ident">i</span> <span class="op">+</span> <span class="ident">n</span>
+    } <span class="kw">else</span> {
+        <span class="number">0</span>
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_nextline</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>match</span> <span class='ident'>s</span>.<span class='ident'>as_bytes</span>().<span class='ident'>iter</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;\n&#39;</span>) {
-        <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>,
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>s</span>.<span class='ident'>len</span>()
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_nextline</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>().<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;\n&#39;</span>) {
+        <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">x</span> <span class="op">+</span> <span class="number">1</span>,
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">s</span>.<span class="ident">len</span>()
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>count_tab</span>(<span class='ident'>bytes</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>count</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>c</span> <span class='kw'>in</span> <span class='ident'>bytes</span>.<span class='ident'>iter</span>().<span class='ident'>rev</span>() {
-        <span class='kw'>match</span> <span class='ident'>c</span> {
-            <span class='string'>b&#39;\t&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;\n&#39;</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-            <span class='ident'>x</span> <span class='kw'>if</span> (<span class='ident'>x</span> <span class='kw-2'>&amp;</span> <span class='number'>0xc0</span>) <span class='op'>!=</span> <span class='number'>0x80</span> <span class='op'>=&gt;</span> <span class='ident'>count</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            _ <span class='op'>=&gt;</span> ()
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_tab</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">c</span> <span class="kw">in</span> <span class="ident">bytes</span>.<span class="ident">iter</span>().<span class="ident">rev</span>() {
+        <span class="kw">match</span> <span class="ident">c</span> {
+            <span class="string">b&#39;\t&#39;</span> <span class="op">|</span> <span class="string">b&#39;\n&#39;</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
+            <span class="ident">x</span> <span class="kw">if</span> (<span class="ident">x</span> <span class="op">&amp;</span> <span class="number">0xc0</span>) <span class="op">!=</span> <span class="number">0x80</span> <span class="op">=&gt;</span> <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>,
+            _ <span class="op">=&gt;</span> ()
         }
     }
-    <span class='number'>4</span> <span class='op'>-</span> <span class='ident'>count</span> <span class='op'>%</span> <span class='number'>4</span>
+    <span class="number">4</span> <span class="op">-</span> <span class="ident">count</span> <span class="op">%</span> <span class="number">4</span>
 }
 
-<span class='comment'>// takes a loc because tabs might require left context</span>
-<span class='comment'>// return: number of bytes, number of spaces</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_leading_space</span>(<span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>loc</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>usize</span>) {
-    <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>text</span>.<span class='ident'>as_bytes</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>spaces</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>c</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>bytes</span>[<span class='ident'>loc</span>..] {
-        <span class='kw'>match</span> <span class='ident'>c</span> {
-            <span class='string'>b&#39; &#39;</span> <span class='op'>=&gt;</span> <span class='ident'>spaces</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39;\t&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>spaces</span> <span class='op'>+=</span> <span class='ident'>count_tab</span>(<span class='kw-2'>&amp;</span><span class='ident'>bytes</span>[.. <span class='ident'>loc</span> <span class='op'>+</span> <span class='ident'>i</span>]),
-            _ <span class='op'>=&gt;</span> <span class='kw'>break</span>
+<span class="comment">// takes a loc because tabs might require left context</span>
+<span class="comment">// return: number of bytes, number of spaces</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_leading_space</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">loc</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">as_bytes</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spaces</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">c</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">bytes</span>[<span class="ident">loc</span>..] {
+        <span class="kw">match</span> <span class="ident">c</span> {
+            <span class="string">b&#39; &#39;</span> <span class="op">=&gt;</span> <span class="ident">spaces</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39;\t&#39;</span> <span class="op">=&gt;</span> <span class="ident">spaces</span> <span class="op">+=</span> <span class="ident">count_tab</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>[.. <span class="ident">loc</span> <span class="op">+</span> <span class="ident">i</span>]),
+            _ <span class="op">=&gt;</span> <span class="kw">break</span>
         }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>
     }
-    (<span class='ident'>i</span>, <span class='ident'>spaces</span>)
+    (<span class="ident">i</span>, <span class="ident">spaces</span>)
 }
 
-<span class='comment'>// returned pair is (number of bytes, number of spaces)</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>calc_indent</span>(<span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>max</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>usize</span>) {
-    <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>text</span>.<span class='ident'>as_bytes</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>spaces</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>text</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>spaces</span> <span class='op'>&lt;</span> <span class='ident'>max</span> {
-        <span class='kw'>match</span> <span class='ident'>bytes</span>[<span class='ident'>i</span>] {
-            <span class='string'>b&#39; &#39;</span> <span class='op'>=&gt;</span> <span class='ident'>spaces</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39;\t&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>new_spaces</span> <span class='op'>=</span> <span class='ident'>spaces</span> <span class='op'>+</span> <span class='number'>4</span> <span class='op'>-</span> (<span class='ident'>spaces</span> <span class='kw-2'>&amp;</span> <span class='number'>3</span>);
-                <span class='kw'>if</span> <span class='ident'>new_spaces</span> <span class='op'>&gt;</span> <span class='ident'>max</span> {
-                    <span class='kw'>break</span>;
+<span class="comment">// returned pair is (number of bytes, number of spaces)</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">calc_indent</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">max</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">as_bytes</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spaces</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">text</span>.<span class="ident">len</span>() <span class="op">&amp;&amp;</span> <span class="ident">spaces</span> <span class="op">&lt;</span> <span class="ident">max</span> {
+        <span class="kw">match</span> <span class="ident">bytes</span>[<span class="ident">i</span>] {
+            <span class="string">b&#39; &#39;</span> <span class="op">=&gt;</span> <span class="ident">spaces</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39;\t&#39;</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">new_spaces</span> <span class="op">=</span> <span class="ident">spaces</span> <span class="op">+</span> <span class="number">4</span> <span class="op">-</span> (<span class="ident">spaces</span> <span class="op">&amp;</span> <span class="number">3</span>);
+                <span class="kw">if</span> <span class="ident">new_spaces</span> <span class="op">&gt;</span> <span class="ident">max</span> {
+                    <span class="kw">break</span>;
                 }
-                <span class='ident'>spaces</span> <span class='op'>=</span> <span class='ident'>new_spaces</span>;
+                <span class="ident">spaces</span> <span class="op">=</span> <span class="ident">new_spaces</span>;
             },
-            _ <span class='op'>=&gt;</span> <span class='kw'>break</span>
+            _ <span class="op">=&gt;</span> <span class="kw">break</span>
         }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    (<span class='ident'>i</span>, <span class='ident'>spaces</span>)
+    (<span class="ident">i</span>, <span class="ident">spaces</span>)
 }
 
-<span class='comment'>// return size of line containing hrule, including trailing newline, or 0</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_hrule</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>();
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>2</span> <span class='op'>&gt;=</span> <span class='ident'>size</span> { <span class='kw'>return</span> <span class='number'>0</span>; }
-    <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>bytes</span>[<span class='ident'>i</span>];
-    <span class='kw'>if</span> <span class='op'>!</span>(<span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;*&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;-&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;_&#39;</span>) { <span class='kw'>return</span> <span class='number'>0</span>; }
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-        <span class='kw'>match</span> <span class='ident'>bytes</span>[<span class='ident'>i</span>] {
-            <span class='string'>b&#39;\n&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;\r&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>scan_eol</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..]).<span class='number'>0</span>;
-                <span class='kw'>break</span>;
+<span class="comment">// return size of line containing hrule, including trailing newline, or 0</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_hrule</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>();
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&gt;=</span> <span class="ident">size</span> { <span class="kw">return</span> <span class="number">0</span>; }
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">bytes</span>[<span class="ident">i</span>];
+    <span class="kw">if</span> <span class="op">!</span>(<span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;*&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;-&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;_&#39;</span>) { <span class="kw">return</span> <span class="number">0</span>; }
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+        <span class="kw">match</span> <span class="ident">bytes</span>[<span class="ident">i</span>] {
+            <span class="string">b&#39;\n&#39;</span> <span class="op">|</span> <span class="string">b&#39;\r&#39;</span> <span class="op">=&gt;</span> {
+                <span class="ident">i</span> <span class="op">+=</span> <span class="ident">scan_eol</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..]).<span class="number">0</span>;
+                <span class="kw">break</span>;
             }
-            <span class='ident'>c2</span> <span class='kw'>if</span> <span class='ident'>c2</span> <span class='op'>==</span> <span class='ident'>c</span> <span class='op'>=&gt;</span> <span class='ident'>n</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39; &#39;</span> <span class='op'>=&gt;</span> (),
-            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='number'>0</span>
+            <span class="ident">c2</span> <span class="kw">if</span> <span class="ident">c2</span> <span class="op">==</span> <span class="ident">c</span> <span class="op">=&gt;</span> <span class="ident">n</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39; &#39;</span> <span class="op">=&gt;</span> (),
+            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="number">0</span>
         }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> <span class='number'>3</span> { <span class='ident'>i</span> } <span class='kw'>else</span> { <span class='number'>0</span> }
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> <span class="number">3</span> { <span class="ident">i</span> } <span class="kw">else</span> { <span class="number">0</span> }
 }
 
-<span class='comment'>// returns number of bytes in prefix and level</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_atx_header</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>i32</span>) {
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='ident'>level</span> <span class='op'>=</span> <span class='ident'>scan_ch_repeat</span>(<span class='ident'>data</span>, <span class='string'>b&#39;#&#39;</span>);
-    <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>level</span>;
-    <span class='kw'>if</span> <span class='ident'>level</span> <span class='op'>&gt;=</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='ident'>level</span> <span class='op'>&lt;=</span> <span class='number'>6</span> {
-        <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-            <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-                <span class='string'>b&#39; &#39;</span> <span class='op'>|</span> <span class='string'>b&#39;\t&#39;</span> ... <span class='string'>b&#39;\r&#39;</span> <span class='op'>=&gt;</span> (),
-                _ <span class='op'>=&gt;</span> <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>)
+<span class="comment">// returns number of bytes in prefix and level</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_atx_header</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">i32</span>) {
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="ident">level</span> <span class="op">=</span> <span class="ident">scan_ch_repeat</span>(<span class="ident">data</span>, <span class="string">b&#39;#&#39;</span>);
+    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">level</span>;
+    <span class="kw">if</span> <span class="ident">level</span> <span class="op">&gt;=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">level</span> <span class="op">&lt;=</span> <span class="number">6</span> {
+        <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+            <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+                <span class="string">b&#39; &#39;</span> <span class="op">|</span> <span class="string">b&#39;\t&#39;</span> ... <span class="string">b&#39;\r&#39;</span> <span class="op">=&gt;</span> (),
+                _ <span class="op">=&gt;</span> <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>)
             }
         }
-        (<span class='ident'>i</span>, <span class='ident'>level</span> <span class='kw'>as</span> <span class='ident'>i32</span>)
-    } <span class='kw'>else</span> {
-        (<span class='number'>0</span>, <span class='number'>0</span>)
+        (<span class="ident">i</span>, <span class="ident">level</span> <span class="kw">as</span> <span class="ident">i32</span>)
+    } <span class="kw">else</span> {
+        (<span class="number">0</span>, <span class="number">0</span>)
     }
 }
 
-<span class='comment'>// returns number of bytes in line (including trailing newline) and level</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_setext_header</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>i32</span>) {
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='ident'>size</span> { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>); }
-    <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>];
-    <span class='kw'>if</span> <span class='op'>!</span>(<span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;-&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;=&#39;</span>) { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>); }
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span> <span class='op'>+</span> <span class='ident'>scan_ch_repeat</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span> ..], <span class='ident'>c</span>);
-    <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>scan_blank_line</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..]);
-    <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>); }
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>n</span>;
-    <span class='kw'>let</span> <span class='ident'>level</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;=&#39;</span> { <span class='number'>1</span> } <span class='kw'>else</span> { <span class='number'>2</span> };
-    (<span class='ident'>i</span>, <span class='ident'>level</span>)
+<span class="comment">// returns number of bytes in line (including trailing newline) and level</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_setext_header</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">i32</span>) {
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">size</span> { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>); }
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>];
+    <span class="kw">if</span> <span class="op">!</span>(<span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;-&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;=&#39;</span>) { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>); }
+    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span> <span class="op">+</span> <span class="ident">scan_ch_repeat</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span> ..], <span class="ident">c</span>);
+    <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">scan_blank_line</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..]);
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>); }
+    <span class="ident">i</span> <span class="op">+=</span> <span class="ident">n</span>;
+    <span class="kw">let</span> <span class="ident">level</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;=&#39;</span> { <span class="number">1</span> } <span class="kw">else</span> { <span class="number">2</span> };
+    (<span class="ident">i</span>, <span class="ident">level</span>)
 }
 
-<span class='comment'>// returns number of bytes in line (including trailing newline) and column count</span>
-<span class='comment'>// TODO: alignment</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_table_head</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>i32</span>) {
-    <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>i</span>, <span class='ident'>spaces</span>) <span class='op'>=</span> <span class='ident'>calc_indent</span>(<span class='ident'>data</span>, <span class='number'>4</span>);
-    <span class='kw'>if</span> <span class='ident'>spaces</span> <span class='op'>&gt;</span> <span class='number'>3</span> <span class='op'>||</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='ident'>data</span>.<span class='ident'>len</span>() {
-        <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>);
+<span class="comment">// returns number of bytes in line (including trailing newline) and column count</span>
+<span class="comment">// TODO: alignment</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_table_head</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">i32</span>) {
+    <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">i</span>, <span class="ident">spaces</span>) <span class="op">=</span> <span class="ident">calc_indent</span>(<span class="ident">data</span>, <span class="number">4</span>);
+    <span class="kw">if</span> <span class="ident">spaces</span> <span class="op">&gt;</span> <span class="number">3</span> <span class="op">||</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">data</span>.<span class="ident">len</span>() {
+        <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>);
     }
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cols</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>start_col</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-    <span class='kw'>if</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] <span class='op'>==</span> <span class='string'>b&#39;|&#39;</span> {
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cols</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start_col</span> <span class="op">=</span> <span class="bool-val">true</span>;
+    <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] <span class="op">==</span> <span class="string">b&#39;|&#39;</span> {
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    <span class='kw'>for</span> <span class='ident'>c</span> <span class='kw'>in</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>..].<span class='ident'>iter</span>() {
-        <span class='kw'>let</span> <span class='ident'>eol</span> <span class='op'>=</span> <span class='ident'>scan_eol</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..]);
-        <span class='kw'>if</span> <span class='ident'>eol</span>.<span class='number'>1</span> {
-            <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>eol</span>.<span class='number'>0</span>;
-            <span class='kw'>break</span>;
+    <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>..].<span class="ident">iter</span>() {
+        <span class="kw">let</span> <span class="ident">eol</span> <span class="op">=</span> <span class="ident">scan_eol</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..]);
+        <span class="kw">if</span> <span class="ident">eol</span>.<span class="number">1</span> {
+            <span class="ident">i</span> <span class="op">+=</span> <span class="ident">eol</span>.<span class="number">0</span>;
+            <span class="kw">break</span>;
         }
-        <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
-            <span class='string'>b&#39; &#39;</span> <span class='op'>|</span> <span class='string'>b&#39;:&#39;</span> <span class='op'>=&gt;</span> (),
-            <span class='string'>b&#39;-&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='ident'>start_col</span> {
-                    <span class='ident'>cols</span> <span class='op'>+=</span> <span class='number'>1</span>;
-                    <span class='ident'>start_col</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">c</span> {
+            <span class="string">b&#39; &#39;</span> <span class="op">|</span> <span class="string">b&#39;:&#39;</span> <span class="op">=&gt;</span> (),
+            <span class="string">b&#39;-&#39;</span> <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="ident">start_col</span> {
+                    <span class="ident">cols</span> <span class="op">+=</span> <span class="number">1</span>;
+                    <span class="ident">start_col</span> <span class="op">=</span> <span class="bool-val">false</span>;
                 }
             },
-            <span class='string'>b&#39;|&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='ident'>start_col</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="string">b&#39;|&#39;</span> <span class="op">=&gt;</span> {
+                <span class="ident">start_col</span> <span class="op">=</span> <span class="bool-val">true</span>;
             },
-            _ <span class='op'>=&gt;</span> {
-                <span class='ident'>cols</span> <span class='op'>=</span> <span class='number'>0</span>;
-                <span class='kw'>break</span>;
+            _ <span class="op">=&gt;</span> {
+                <span class="ident">cols</span> <span class="op">=</span> <span class="number">0</span>;
+                <span class="kw">break</span>;
             },
         }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    <span class='kw'>if</span> <span class='ident'>cols</span> <span class='op'>&lt;</span> <span class='number'>2</span> {
-        (<span class='number'>0</span>, <span class='number'>0</span>)
-    } <span class='kw'>else</span> {
-        (<span class='ident'>i</span>, <span class='ident'>cols</span>)
+    <span class="kw">if</span> <span class="ident">cols</span> <span class="op">&lt;</span> <span class="number">2</span> {
+        (<span class="number">0</span>, <span class="number">0</span>)
+    } <span class="kw">else</span> {
+        (<span class="ident">i</span>, <span class="ident">cols</span>)
     }
 }
 
-<span class='comment'>// returns: number of bytes scanned, char</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_code_fence</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>u8</span>) {
-    <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='number'>0</span>];
-    <span class='kw'>if</span> <span class='op'>!</span>(<span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;`&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;~&#39;</span>) { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>); }
-    <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>1</span> <span class='op'>+</span> <span class='ident'>scan_ch_repeat</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='number'>1</span> ..], <span class='ident'>c</span>);
-    <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&gt;=</span> <span class='number'>3</span> {
-        <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;`&#39;</span> {
-            <span class='kw'>let</span> <span class='ident'>next_line</span> <span class='op'>=</span> <span class='ident'>i</span> <span class='op'>+</span> <span class='ident'>scan_nextline</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..]);
-            <span class='kw'>if</span> <span class='ident'>data</span>[<span class='ident'>i</span>..<span class='ident'>next_line</span>].<span class='ident'>find</span>(<span class='string'>&#39;`&#39;</span>).<span class='ident'>is_some</span>() {
-                <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>);
+<span class="comment">// returns: number of bytes scanned, char</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_code_fence</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">u8</span>) {
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>];
+    <span class="kw">if</span> <span class="op">!</span>(<span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;`&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;~&#39;</span>) { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>); }
+    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">1</span> <span class="op">+</span> <span class="ident">scan_ch_repeat</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="number">1</span> ..], <span class="ident">c</span>);
+    <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="number">3</span> {
+        <span class="kw">if</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;`&#39;</span> {
+            <span class="kw">let</span> <span class="ident">next_line</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">+</span> <span class="ident">scan_nextline</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..]);
+            <span class="kw">if</span> <span class="ident">data</span>[<span class="ident">i</span>..<span class="ident">next_line</span>].<span class="ident">find</span>(<span class="string">&#39;`&#39;</span>).<span class="ident">is_some</span>() {
+                <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>);
             }
         }
-        <span class='kw'>return</span> (<span class='ident'>i</span>, <span class='ident'>c</span>);
+        <span class="kw">return</span> (<span class="ident">i</span>, <span class="ident">c</span>);
     }
-    (<span class='number'>0</span>, <span class='number'>0</span>)
+    (<span class="number">0</span>, <span class="number">0</span>)
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_backticks</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='ident'>scan_ch_repeat</span>(<span class='ident'>data</span>, <span class='string'>b&#39;`&#39;</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_backticks</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="ident">scan_ch_repeat</span>(<span class="ident">data</span>, <span class="string">b&#39;`&#39;</span>)
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_blockquote_start</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>if</span> <span class='ident'>data</span>.<span class='ident'>starts_with</span>(<span class='string'>&#39;&gt;&#39;</span>) {
-        <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='number'>1</span>;
-        <span class='ident'>n</span> <span class='op'>+</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>n</span>..], <span class='string'>b&#39; &#39;</span>)
-    } <span class='kw'>else</span> {
-        <span class='number'>0</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_blockquote_start</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">starts_with</span>(<span class="string">&#39;&gt;&#39;</span>) {
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="number">1</span>;
+        <span class="ident">n</span> <span class="op">+</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">n</span>..], <span class="string">b&#39; &#39;</span>)
+    } <span class="kw">else</span> {
+        <span class="number">0</span>
     }
 }
 
-<span class='comment'>// return number of bytes scanned, delimeter, start index, and indent</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_listitem</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>u8</span>, <span class='ident'>usize</span>, <span class='ident'>usize</span>) {
-    <span class='kw'>if</span> <span class='ident'>data</span>.<span class='ident'>is_empty</span>() { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>); }
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='number'>0</span>];
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>c</span> {
-        <span class='string'>b&#39;-&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;+&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;*&#39;</span> <span class='op'>=&gt;</span> <span class='number'>1</span>,
-        <span class='string'>b&#39;0&#39;</span> ... <span class='string'>b&#39;9&#39;</span> <span class='op'>=&gt;</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>1</span>;
-            <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>scan_while</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..], <span class='ident'>is_digit</span>);
-            <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>data</span>[..<span class='ident'>i</span>].<span class='ident'>parse</span>().<span class='ident'>unwrap</span>();
-            <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&gt;=</span> <span class='ident'>data</span>.<span class='ident'>len</span>() { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>); }
-            <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>];
-            <span class='kw'>if</span> <span class='op'>!</span>(<span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;.&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;)&#39;</span>) { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>); }
-            <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>
+<span class="comment">// return number of bytes scanned, delimeter, start index, and indent</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_listitem</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+    <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">is_empty</span>() { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); }
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="ident">w</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">c</span> {
+        <span class="string">b&#39;-&#39;</span> <span class="op">|</span> <span class="string">b&#39;+&#39;</span> <span class="op">|</span> <span class="string">b&#39;*&#39;</span> <span class="op">=&gt;</span> <span class="number">1</span>,
+        <span class="string">b&#39;0&#39;</span> ... <span class="string">b&#39;9&#39;</span> <span class="op">=&gt;</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">i</span> <span class="op">+=</span> <span class="ident">scan_while</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..], <span class="ident">is_digit</span>);
+            <span class="ident">start</span> <span class="op">=</span> <span class="ident">data</span>[..<span class="ident">i</span>].<span class="ident">parse</span>().<span class="ident">unwrap</span>();
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="ident">data</span>.<span class="ident">len</span>() { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); }
+            <span class="ident">c</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>];
+            <span class="kw">if</span> <span class="op">!</span>(<span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;.&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;)&#39;</span>) { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); }
+            <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>
         }
-        _ <span class='op'>=&gt;</span> { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>); }
+        _ <span class="op">=&gt;</span> { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); }
     };
-    <span class='comment'>// TODO: replace calc_indent with scan_leading_whitespace, for tab correctness</span>
-    <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>postn</span>, <span class='kw-2'>mut</span> <span class='ident'>postindent</span>) <span class='op'>=</span> <span class='ident'>calc_indent</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>w</span>.. ], <span class='number'>5</span>);
-    <span class='kw'>if</span> <span class='ident'>postindent</span> <span class='op'>==</span> <span class='number'>0</span> {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>scan_eol</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>w</span>..]).<span class='number'>1</span> { <span class='kw'>return</span> (<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>); }
-        <span class='ident'>postindent</span> <span class='op'>+=</span> <span class='number'>1</span>;
-    } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>postindent</span> <span class='op'>&gt;</span> <span class='number'>4</span> {
-        <span class='ident'>postn</span> <span class='op'>=</span> <span class='number'>1</span>;
-        <span class='ident'>postindent</span> <span class='op'>=</span> <span class='number'>1</span>;
+    <span class="comment">// TODO: replace calc_indent with scan_leading_whitespace, for tab correctness</span>
+    <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">postn</span>, <span class="kw-2">mut</span> <span class="ident">postindent</span>) <span class="op">=</span> <span class="ident">calc_indent</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">w</span>.. ], <span class="number">5</span>);
+    <span class="kw">if</span> <span class="ident">postindent</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">scan_eol</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">w</span>..]).<span class="number">1</span> { <span class="kw">return</span> (<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); }
+        <span class="ident">postindent</span> <span class="op">+=</span> <span class="number">1</span>;
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">postindent</span> <span class="op">&gt;</span> <span class="number">4</span> {
+        <span class="ident">postn</span> <span class="op">=</span> <span class="number">1</span>;
+        <span class="ident">postindent</span> <span class="op">=</span> <span class="number">1</span>;
     }
-    (<span class='ident'>w</span> <span class='op'>+</span> <span class='ident'>postn</span>, <span class='ident'>c</span>, <span class='ident'>start</span>, <span class='ident'>w</span> <span class='op'>+</span> <span class='ident'>postindent</span>)
+    (<span class="ident">w</span> <span class="op">+</span> <span class="ident">postn</span>, <span class="ident">c</span>, <span class="ident">start</span>, <span class="ident">w</span> <span class="op">+</span> <span class="ident">postindent</span>)
 }
 
-<span class='comment'>// return whether delimeter run can open or close</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>compute_open_close</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>loc</span>: <span class='ident'>usize</span>, <span class='ident'>c</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='ident'>bool</span>, <span class='ident'>bool</span>) {
-    <span class='comment'>// TODO: handle Unicode, not just ASCII</span>
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='ident'>loc</span> <span class='op'>+</span> <span class='number'>1</span>;
-    <span class='kw'>while</span> <span class='ident'>end</span> <span class='op'>&lt;</span> <span class='ident'>size</span> <span class='op'>&amp;&amp;</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>end</span>] <span class='op'>==</span> <span class='ident'>c</span> {
-        <span class='ident'>end</span> <span class='op'>+=</span> <span class='number'>1</span>;
+<span class="comment">// return whether delimeter run can open or close</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compute_open_close</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">loc</span>: <span class="ident">usize</span>, <span class="ident">c</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">bool</span>, <span class="ident">bool</span>) {
+    <span class="comment">// TODO: handle Unicode, not just ASCII</span>
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">loc</span> <span class="op">+</span> <span class="number">1</span>;
+    <span class="kw">while</span> <span class="ident">end</span> <span class="op">&lt;</span> <span class="ident">size</span> <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">end</span>] <span class="op">==</span> <span class="ident">c</span> {
+        <span class="ident">end</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>beg</span> <span class='op'>=</span> <span class='ident'>loc</span>;
-    <span class='kw'>while</span> <span class='ident'>beg</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>beg</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='op'>==</span> <span class='ident'>c</span> {
-        <span class='ident'>beg</span> <span class='op'>-=</span> <span class='number'>1</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">beg</span> <span class="op">=</span> <span class="ident">loc</span>;
+    <span class="kw">while</span> <span class="ident">beg</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">beg</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">==</span> <span class="ident">c</span> {
+        <span class="ident">beg</span> <span class="op">-=</span> <span class="number">1</span>;
     }
-    <span class='kw'>let</span> (<span class='ident'>white_before</span>, <span class='ident'>punc_before</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>scan_trailing_codepoint</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[..<span class='ident'>beg</span>]) {
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='bool-val'>true</span>, <span class='bool-val'>false</span>),
-        <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (<span class='ident'>c</span>.<span class='ident'>is_whitespace</span>(), <span class='ident'>is_punctuation</span>(<span class='ident'>c</span>))
+    <span class="kw">let</span> (<span class="ident">white_before</span>, <span class="ident">punc_before</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">scan_trailing_codepoint</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">beg</span>]) {
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> (<span class="bool-val">true</span>, <span class="bool-val">false</span>),
+        <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> (<span class="ident">c</span>.<span class="ident">is_whitespace</span>(), <span class="ident">is_punctuation</span>(<span class="ident">c</span>))
     };
-    <span class='kw'>let</span> (<span class='ident'>white_after</span>, <span class='ident'>punc_after</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>scan_codepoint</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..]) {
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='bool-val'>true</span>, <span class='bool-val'>false</span>),
-        <span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (<span class='ident'>c</span>.<span class='ident'>is_whitespace</span>(), <span class='ident'>is_punctuation</span>(<span class='ident'>c</span>))
+    <span class="kw">let</span> (<span class="ident">white_after</span>, <span class="ident">punc_after</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">scan_codepoint</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..]) {
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> (<span class="bool-val">true</span>, <span class="bool-val">false</span>),
+        <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> (<span class="ident">c</span>.<span class="ident">is_whitespace</span>(), <span class="ident">is_punctuation</span>(<span class="ident">c</span>))
     };
-    <span class='kw'>let</span> <span class='ident'>left_flanking</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>white_after</span> <span class='op'>&amp;&amp;</span> (<span class='op'>!</span><span class='ident'>punc_after</span> <span class='op'>||</span> <span class='ident'>white_before</span> <span class='op'>||</span> <span class='ident'>punc_before</span>);
-    <span class='kw'>let</span> <span class='ident'>right_flanking</span> <span class='op'>=</span> <span class='op'>!</span><span class='ident'>white_before</span> <span class='op'>&amp;&amp;</span> (<span class='op'>!</span><span class='ident'>punc_before</span> <span class='op'>||</span> <span class='ident'>white_after</span> <span class='op'>||</span> <span class='ident'>punc_after</span>);
-    <span class='kw'>let</span> (<span class='ident'>can_open</span>, <span class='ident'>can_close</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>c</span> {
-        <span class='string'>b&#39;*&#39;</span> <span class='op'>=&gt;</span> (<span class='ident'>left_flanking</span>, <span class='ident'>right_flanking</span>),
-        <span class='string'>b&#39;_&#39;</span> <span class='op'>=&gt;</span> (<span class='ident'>left_flanking</span> <span class='op'>&amp;&amp;</span> (<span class='op'>!</span><span class='ident'>right_flanking</span> <span class='op'>||</span> <span class='ident'>punc_before</span>),
-                <span class='ident'>right_flanking</span> <span class='op'>&amp;&amp;</span> (<span class='op'>!</span><span class='ident'>left_flanking</span> <span class='op'>||</span> <span class='ident'>punc_after</span>)),
-        _ <span class='op'>=&gt;</span> (<span class='bool-val'>false</span>, <span class='bool-val'>false</span>)
+    <span class="kw">let</span> <span class="ident">left_flanking</span> <span class="op">=</span> <span class="op">!</span><span class="ident">white_after</span> <span class="op">&amp;&amp;</span> (<span class="op">!</span><span class="ident">punc_after</span> <span class="op">||</span> <span class="ident">white_before</span> <span class="op">||</span> <span class="ident">punc_before</span>);
+    <span class="kw">let</span> <span class="ident">right_flanking</span> <span class="op">=</span> <span class="op">!</span><span class="ident">white_before</span> <span class="op">&amp;&amp;</span> (<span class="op">!</span><span class="ident">punc_before</span> <span class="op">||</span> <span class="ident">white_after</span> <span class="op">||</span> <span class="ident">punc_after</span>);
+    <span class="kw">let</span> (<span class="ident">can_open</span>, <span class="ident">can_close</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">c</span> {
+        <span class="string">b&#39;*&#39;</span> <span class="op">=&gt;</span> (<span class="ident">left_flanking</span>, <span class="ident">right_flanking</span>),
+        <span class="string">b&#39;_&#39;</span> <span class="op">=&gt;</span> (<span class="ident">left_flanking</span> <span class="op">&amp;&amp;</span> (<span class="op">!</span><span class="ident">right_flanking</span> <span class="op">||</span> <span class="ident">punc_before</span>),
+                <span class="ident">right_flanking</span> <span class="op">&amp;&amp;</span> (<span class="op">!</span><span class="ident">left_flanking</span> <span class="op">||</span> <span class="ident">punc_after</span>)),
+        _ <span class="op">=&gt;</span> (<span class="bool-val">false</span>, <span class="bool-val">false</span>)
     };
-    (<span class='ident'>end</span> <span class='op'>-</span> <span class='ident'>loc</span>, <span class='ident'>can_open</span>, <span class='ident'>can_close</span>)
+    (<span class="ident">end</span> <span class="op">-</span> <span class="ident">loc</span>, <span class="ident">can_open</span>, <span class="ident">can_close</span>)
 }
 
-<span class='kw'>fn</span> <span class='ident'>cow_from_codepoint_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>radix</span>: <span class='ident'>u32</span>) <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>codepoint</span> <span class='op'>=</span> <span class='ident'>u32</span>::<span class='ident'>from_str_radix</span>(<span class='ident'>s</span>, <span class='ident'>radix</span>).<span class='ident'>unwrap</span>();
-    <span class='kw'>if</span> <span class='ident'>codepoint</span> <span class='op'>==</span> <span class='number'>0</span> {
-        <span class='ident'>codepoint</span> <span class='op'>=</span> <span class='number'>0xFFFD</span>;
+<span class="kw">fn</span> <span class="ident">cow_from_codepoint_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">radix</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codepoint</span> <span class="op">=</span> <span class="ident">u32</span>::<span class="ident">from_str_radix</span>(<span class="ident">s</span>, <span class="ident">radix</span>).<span class="ident">unwrap</span>();
+    <span class="kw">if</span> <span class="ident">codepoint</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="ident">codepoint</span> <span class="op">=</span> <span class="number">0xFFFD</span>;
     }
-    <span class='ident'>Owned</span>(<span class='ident'>char</span>::<span class='ident'>from_u32</span>(<span class='ident'>codepoint</span>).<span class='ident'>unwrap_or</span>(<span class='string'>&#39;\u{FFFD}&#39;</span>).<span class='ident'>to_string</span>())
+    <span class="ident">Owned</span>(<span class="ident">char</span>::<span class="ident">from_u32</span>(<span class="ident">codepoint</span>).<span class="ident">unwrap_or</span>(<span class="string">&#39;\u{FFFD}&#39;</span>).<span class="ident">to_string</span>())
 }
 
-<span class='comment'>// doesn&#39;t bother to check data[0] == &#39;&amp;&#39;</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_entity</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;&gt;</span>) {
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='number'>1</span>;
-    <span class='kw'>if</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='string'>b&#39;#&#39;</span>) <span class='op'>==</span> <span class='number'>1</span> {
-        <span class='ident'>end</span> <span class='op'>+=</span> <span class='number'>1</span>;
-        <span class='kw'>if</span> <span class='ident'>end</span> <span class='op'>&lt;</span> <span class='ident'>size</span> <span class='op'>&amp;&amp;</span> (<span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>end</span>] <span class='op'>==</span> <span class='string'>b&#39;x&#39;</span> <span class='op'>||</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>end</span>] <span class='op'>==</span> <span class='string'>b&#39;X&#39;</span>) {
-            <span class='ident'>end</span> <span class='op'>+=</span> <span class='number'>1</span>;
-            <span class='ident'>end</span> <span class='op'>+=</span> <span class='ident'>scan_while</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='ident'>is_hexdigit</span>);
-            <span class='kw'>if</span> <span class='ident'>end</span> <span class='op'>&gt;</span> <span class='number'>3</span> <span class='op'>&amp;&amp;</span> <span class='ident'>end</span> <span class='op'>&lt;</span> <span class='number'>12</span> <span class='op'>&amp;&amp;</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='string'>b&#39;;&#39;</span>) <span class='op'>==</span> <span class='number'>1</span> {
-                <span class='kw'>return</span> (<span class='ident'>end</span> <span class='op'>+</span> <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>cow_from_codepoint_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='number'>3</span>..<span class='ident'>end</span>], <span class='number'>16</span>)));
+<span class="comment">// doesn&#39;t bother to check data[0] == &#39;&amp;&#39;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_entity</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;&gt;</span>) {
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">end</span> <span class="op">=</span> <span class="number">1</span>;
+    <span class="kw">if</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="string">b&#39;#&#39;</span>) <span class="op">==</span> <span class="number">1</span> {
+        <span class="ident">end</span> <span class="op">+=</span> <span class="number">1</span>;
+        <span class="kw">if</span> <span class="ident">end</span> <span class="op">&lt;</span> <span class="ident">size</span> <span class="op">&amp;&amp;</span> (<span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">end</span>] <span class="op">==</span> <span class="string">b&#39;x&#39;</span> <span class="op">||</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">end</span>] <span class="op">==</span> <span class="string">b&#39;X&#39;</span>) {
+            <span class="ident">end</span> <span class="op">+=</span> <span class="number">1</span>;
+            <span class="ident">end</span> <span class="op">+=</span> <span class="ident">scan_while</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="ident">is_hexdigit</span>);
+            <span class="kw">if</span> <span class="ident">end</span> <span class="op">&gt;</span> <span class="number">3</span> <span class="op">&amp;&amp;</span> <span class="ident">end</span> <span class="op">&lt;</span> <span class="number">12</span> <span class="op">&amp;&amp;</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="string">b&#39;;&#39;</span>) <span class="op">==</span> <span class="number">1</span> {
+                <span class="kw">return</span> (<span class="ident">end</span> <span class="op">+</span> <span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="ident">cow_from_codepoint_str</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="number">3</span>..<span class="ident">end</span>], <span class="number">16</span>)));
             }
-        } <span class='kw'>else</span> {
-            <span class='ident'>end</span> <span class='op'>+=</span> <span class='ident'>scan_while</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='ident'>is_digit</span>);
-            <span class='kw'>if</span> <span class='ident'>end</span> <span class='op'>&gt;</span> <span class='number'>2</span> <span class='op'>&amp;&amp;</span> <span class='ident'>end</span> <span class='op'>&lt;</span> <span class='number'>11</span> <span class='op'>&amp;&amp;</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='string'>b&#39;;&#39;</span>) <span class='op'>==</span> <span class='number'>1</span> {
-                <span class='kw'>return</span> (<span class='ident'>end</span> <span class='op'>+</span> <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>cow_from_codepoint_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='number'>2</span>..<span class='ident'>end</span>], <span class='number'>10</span>)));
+        } <span class="kw">else</span> {
+            <span class="ident">end</span> <span class="op">+=</span> <span class="ident">scan_while</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="ident">is_digit</span>);
+            <span class="kw">if</span> <span class="ident">end</span> <span class="op">&gt;</span> <span class="number">2</span> <span class="op">&amp;&amp;</span> <span class="ident">end</span> <span class="op">&lt;</span> <span class="number">11</span> <span class="op">&amp;&amp;</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="string">b&#39;;&#39;</span>) <span class="op">==</span> <span class="number">1</span> {
+                <span class="kw">return</span> (<span class="ident">end</span> <span class="op">+</span> <span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="ident">cow_from_codepoint_str</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="number">2</span>..<span class="ident">end</span>], <span class="number">10</span>)));
             }
         }
-        <span class='kw'>return</span> (<span class='number'>0</span>, <span class='prelude-val'>None</span>);
+        <span class="kw">return</span> (<span class="number">0</span>, <span class="prelude-val">None</span>);
     }
-    <span class='ident'>end</span> <span class='op'>+=</span> <span class='ident'>scan_while</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='ident'>is_ascii_alphanumeric</span>);
-    <span class='kw'>if</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>end</span>..], <span class='string'>b&#39;;&#39;</span>) <span class='op'>==</span> <span class='number'>1</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>entities</span>::<span class='ident'>get_entity</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='number'>1</span>..<span class='ident'>end</span>]) {
-            <span class='kw'>return</span> (<span class='ident'>end</span> <span class='op'>+</span> <span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>Borrowed</span>(<span class='ident'>value</span>)));
+    <span class="ident">end</span> <span class="op">+=</span> <span class="ident">scan_while</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="ident">is_ascii_alphanumeric</span>);
+    <span class="kw">if</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">end</span>..], <span class="string">b&#39;;&#39;</span>) <span class="op">==</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="ident">entities</span>::<span class="ident">get_entity</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="number">1</span>..<span class="ident">end</span>]) {
+            <span class="kw">return</span> (<span class="ident">end</span> <span class="op">+</span> <span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="ident">Borrowed</span>(<span class="ident">value</span>)));
         }
     }
-    <span class='kw'>return</span> (<span class='number'>0</span>, <span class='prelude-val'>None</span>);
+    <span class="kw">return</span> (<span class="number">0</span>, <span class="prelude-val">None</span>);
 }
 
-<span class='comment'>// note: dest returned is raw, still needs to be unescaped</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_link_dest</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>)<span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='ident'>pointy_n</span> <span class='op'>=</span> <span class='ident'>scan_ch</span>(<span class='ident'>data</span>, <span class='string'>b&#39;&lt;&#39;</span>);
-    <span class='kw'>let</span> <span class='ident'>pointy</span> <span class='op'>=</span> <span class='ident'>pointy_n</span> <span class='op'>!=</span> <span class='number'>0</span>;
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>pointy_n</span>;
-    <span class='kw'>let</span> <span class='ident'>dest_beg</span> <span class='op'>=</span> <span class='ident'>i</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>in_parens</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-        <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-            <span class='string'>b&#39;\n&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;\r&#39;</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-            <span class='string'>b&#39; &#39;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>pointy</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>in_parens</span> { <span class='kw'>break</span>; }
+<span class="comment">// note: dest returned is raw, still needs to be unescaped</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_link_dest</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>)<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="ident">pointy_n</span> <span class="op">=</span> <span class="ident">scan_ch</span>(<span class="ident">data</span>, <span class="string">b&#39;&lt;&#39;</span>);
+    <span class="kw">let</span> <span class="ident">pointy</span> <span class="op">=</span> <span class="ident">pointy_n</span> <span class="op">!=</span> <span class="number">0</span>;
+    <span class="ident">i</span> <span class="op">+=</span> <span class="ident">pointy_n</span>;
+    <span class="kw">let</span> <span class="ident">dest_beg</span> <span class="op">=</span> <span class="ident">i</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">in_parens</span> <span class="op">=</span> <span class="bool-val">false</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+        <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+            <span class="string">b&#39;\n&#39;</span> <span class="op">|</span> <span class="string">b&#39;\r&#39;</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
+            <span class="string">b&#39; &#39;</span> <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">pointy</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">in_parens</span> { <span class="kw">break</span>; }
             }
-            <span class='string'>b&#39;(&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>pointy</span> {
-                    <span class='kw'>if</span> <span class='ident'>in_parens</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
-                    <span class='ident'>in_parens</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="string">b&#39;(&#39;</span> <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">pointy</span> {
+                    <span class="kw">if</span> <span class="ident">in_parens</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+                    <span class="ident">in_parens</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 }
             }
-            <span class='string'>b&#39;)&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>pointy</span> {
-                    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>in_parens</span> { <span class='kw'>break</span>; }
-                    <span class='ident'>in_parens</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+            <span class="string">b&#39;)&#39;</span> <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">pointy</span> {
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">in_parens</span> { <span class="kw">break</span>; }
+                    <span class="ident">in_parens</span> <span class="op">=</span> <span class="bool-val">false</span>;
                 }
             }
-            <span class='string'>b&#39;&gt;&#39;</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='ident'>pointy</span> { <span class='kw'>break</span>; }
+            <span class="string">b&#39;&gt;&#39;</span> <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="ident">pointy</span> { <span class="kw">break</span>; }
             }
-            <span class='string'>b&#39;\\&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            _ <span class='op'>=&gt;</span> ()
+            <span class="string">b&#39;\\&#39;</span> <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            _ <span class="op">=&gt;</span> ()
         }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    <span class='kw'>let</span> <span class='ident'>dest_end</span> <span class='op'>=</span> <span class='ident'>i</span>;
-    <span class='kw'>if</span> <span class='ident'>pointy</span> {
-        <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..], <span class='string'>b&#39;&gt;&#39;</span>);
-        <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>n</span>;
+    <span class="kw">let</span> <span class="ident">dest_end</span> <span class="op">=</span> <span class="ident">i</span>;
+    <span class="kw">if</span> <span class="ident">pointy</span> {
+        <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..], <span class="string">b&#39;&gt;&#39;</span>);
+        <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="ident">i</span> <span class="op">+=</span> <span class="ident">n</span>;
     }
-    <span class='prelude-val'>Some</span>((<span class='ident'>i</span>, <span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>dest_beg</span>..<span class='ident'>dest_end</span>]))
+    <span class="prelude-val">Some</span>((<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">dest_beg</span>..<span class="ident">dest_end</span>]))
 }
 
-<span class='comment'>// return value is: total bytes, link uri</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_autolink</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>scan_ch</span>(<span class='ident'>data</span>, <span class='string'>b&#39;&lt;&#39;</span>);
-    <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>n</span>;
-    <span class='kw'>let</span> <span class='ident'>link_beg</span> <span class='op'>=</span> <span class='ident'>i</span>;
-    <span class='kw'>let</span> <span class='ident'>n_uri</span> <span class='op'>=</span> <span class='ident'>scan_uri</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..]);
-    <span class='kw'>let</span> (<span class='ident'>n_link</span>, <span class='ident'>link</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>n_uri</span> <span class='op'>!=</span> <span class='number'>0</span> {
-        (<span class='ident'>n_uri</span>, <span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>link_beg</span> .. <span class='ident'>i</span> <span class='op'>+</span> <span class='ident'>n_uri</span>]))
-    } <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='ident'>n_email</span> <span class='op'>=</span> <span class='ident'>scan_email</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..]);
-        <span class='kw'>if</span> <span class='ident'>n_email</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
-        (<span class='ident'>n_email</span>, <span class='ident'>Owned</span>(<span class='string'>&quot;mailto:&quot;</span>.<span class='ident'>to_owned</span>() <span class='op'>+</span> <span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>link_beg</span>.. <span class='ident'>i</span> <span class='op'>+</span> <span class='ident'>n_email</span>]))
+<span class="comment">// return value is: total bytes, link uri</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_autolink</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">scan_ch</span>(<span class="ident">data</span>, <span class="string">b&#39;&lt;&#39;</span>);
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+    <span class="ident">i</span> <span class="op">+=</span> <span class="ident">n</span>;
+    <span class="kw">let</span> <span class="ident">link_beg</span> <span class="op">=</span> <span class="ident">i</span>;
+    <span class="kw">let</span> <span class="ident">n_uri</span> <span class="op">=</span> <span class="ident">scan_uri</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..]);
+    <span class="kw">let</span> (<span class="ident">n_link</span>, <span class="ident">link</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">n_uri</span> <span class="op">!=</span> <span class="number">0</span> {
+        (<span class="ident">n_uri</span>, <span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">link_beg</span> .. <span class="ident">i</span> <span class="op">+</span> <span class="ident">n_uri</span>]))
+    } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="ident">n_email</span> <span class="op">=</span> <span class="ident">scan_email</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..]);
+        <span class="kw">if</span> <span class="ident">n_email</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        (<span class="ident">n_email</span>, <span class="ident">Owned</span>(<span class="string">&quot;mailto:&quot;</span>.<span class="ident">to_owned</span>() <span class="op">+</span> <span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">link_beg</span>.. <span class="ident">i</span> <span class="op">+</span> <span class="ident">n_email</span>]))
     };
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>n_link</span>;
-    <span class='kw'>if</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..], <span class='string'>b&#39;&gt;&#39;</span>) <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
-    <span class='prelude-val'>Some</span>((<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>, <span class='ident'>link</span>))
+    <span class="ident">i</span> <span class="op">+=</span> <span class="ident">n_link</span>;
+    <span class="kw">if</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..], <span class="string">b&#39;&gt;&#39;</span>) <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+    <span class="prelude-val">Some</span>((<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">link</span>))
 }
 
-<span class='kw'>fn</span> <span class='ident'>scan_uri</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>data</span>.<span class='ident'>len</span>() {
-        <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-            <span class='ident'>c</span> <span class='kw'>if</span> <span class='ident'>is_ascii_alphanumeric</span>(<span class='ident'>c</span>)  <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39;.&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;-&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39;:&#39;</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='number'>0</span>
+<span class="kw">fn</span> <span class="ident">scan_uri</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">data</span>.<span class="ident">len</span>() {
+        <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+            <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_ascii_alphanumeric</span>(<span class="ident">c</span>)  <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39;.&#39;</span> <span class="op">|</span> <span class="string">b&#39;-&#39;</span> <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39;:&#39;</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
+            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="number">0</span>
         }
     }
-    <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='ident'>data</span>.<span class='ident'>len</span>() { <span class='kw'>return</span> <span class='number'>0</span>; }
-    <span class='kw'>let</span> <span class='ident'>scheme</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>data</span>[..<span class='ident'>i</span>];
-    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>URI_SCHEMES</span>.<span class='ident'>binary_search_by</span>(<span class='op'>|</span><span class='ident'>probe</span><span class='op'>|</span> <span class='ident'>utils</span>::<span class='ident'>strcasecmp</span>(<span class='ident'>probe</span>, <span class='ident'>scheme</span>)).<span class='ident'>is_ok</span>() {
-        <span class='kw'>return</span> <span class='number'>0</span>;
+    <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">data</span>.<span class="ident">len</span>() { <span class="kw">return</span> <span class="number">0</span>; }
+    <span class="kw">let</span> <span class="ident">scheme</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">data</span>[..<span class="ident">i</span>];
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">URI_SCHEMES</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="ident">probe</span><span class="op">|</span> <span class="ident">utils</span>::<span class="ident">strcasecmp</span>(<span class="ident">probe</span>, <span class="ident">scheme</span>)).<span class="ident">is_ok</span>() {
+        <span class="kw">return</span> <span class="number">0</span>;
     }
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;  <span class='comment'>// scan the :</span>
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>data</span>.<span class='ident'>len</span>() {
-        <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-            <span class='string'>b&#39;\0&#39;</span> ... <span class='string'>b&#39; &#39;</span> <span class='op'>|</span> <span class='string'>b&#39;&lt;&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;&gt;&#39;</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
-            _ <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>
+    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;  <span class="comment">// scan the :</span>
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">data</span>.<span class="ident">len</span>() {
+        <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+            <span class="string">b&#39;\0&#39;</span> ... <span class="string">b&#39; &#39;</span> <span class="op">|</span> <span class="string">b&#39;&lt;&#39;</span> <span class="op">|</span> <span class="string">b&#39;&gt;&#39;</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
+            _ <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>
         }
     }
-    <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='ident'>data</span>.<span class='ident'>len</span>() { <span class='kw'>return</span> <span class='number'>0</span>; }
-    <span class='ident'>i</span>
+    <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">data</span>.<span class="ident">len</span>() { <span class="kw">return</span> <span class="number">0</span>; }
+    <span class="ident">i</span>
 }
 
-<span class='kw'>fn</span> <span class='ident'>scan_email</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='comment'>// using a regex library would be convenient, but doing it by hand is not too bad</span>
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-        <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-            <span class='ident'>c</span> <span class='kw'>if</span> <span class='ident'>is_ascii_alphanumeric</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39;.&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;!&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;#&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;$&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;%&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;&amp;&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;\&#39;&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;*&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;+&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;/&#39;</span> <span class='op'>|</span>
-            <span class='string'>b&#39;=&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;?&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;^&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;_&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;`&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;{&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;|&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;}&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;~&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;-&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            _ <span class='op'>=&gt;</span> <span class='kw'>break</span>
+<span class="kw">fn</span> <span class="ident">scan_email</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="comment">// using a regex library would be convenient, but doing it by hand is not too bad</span>
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+        <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+            <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_ascii_alphanumeric</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39;.&#39;</span> <span class="op">|</span> <span class="string">b&#39;!&#39;</span> <span class="op">|</span> <span class="string">b&#39;#&#39;</span> <span class="op">|</span> <span class="string">b&#39;$&#39;</span> <span class="op">|</span> <span class="string">b&#39;%&#39;</span> <span class="op">|</span> <span class="string">b&#39;&amp;&#39;</span> <span class="op">|</span> <span class="string">b&#39;\&#39;&#39;</span> <span class="op">|</span> <span class="string">b&#39;*&#39;</span> <span class="op">|</span> <span class="string">b&#39;+&#39;</span> <span class="op">|</span> <span class="string">b&#39;/&#39;</span> <span class="op">|</span>
+            <span class="string">b&#39;=&#39;</span> <span class="op">|</span> <span class="string">b&#39;?&#39;</span> <span class="op">|</span> <span class="string">b&#39;^&#39;</span> <span class="op">|</span> <span class="string">b&#39;_&#39;</span> <span class="op">|</span> <span class="string">b&#39;`&#39;</span> <span class="op">|</span> <span class="string">b&#39;{&#39;</span> <span class="op">|</span> <span class="string">b&#39;|&#39;</span> <span class="op">|</span> <span class="string">b&#39;}&#39;</span> <span class="op">|</span> <span class="string">b&#39;~&#39;</span> <span class="op">|</span> <span class="string">b&#39;-&#39;</span> <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            _ <span class="op">=&gt;</span> <span class="kw">break</span>
         }
     }
-    <span class='kw'>if</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..], <span class='string'>b&#39;@&#39;</span>) <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='number'>0</span>; }
-    <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
-    <span class='kw'>loop</span> {
-        <span class='kw'>let</span> <span class='ident'>label_beg</span> <span class='op'>=</span> <span class='ident'>i</span>;
-        <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-            <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-                <span class='ident'>c</span> <span class='kw'>if</span> <span class='ident'>is_ascii_alphanumeric</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-                <span class='string'>b&#39;-&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-                _ <span class='op'>=&gt;</span> <span class='kw'>break</span>,
+    <span class="kw">if</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..], <span class="string">b&#39;@&#39;</span>) <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="number">0</span>; }
+    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
+    <span class="kw">loop</span> {
+        <span class="kw">let</span> <span class="ident">label_beg</span> <span class="op">=</span> <span class="ident">i</span>;
+        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+            <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+                <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_ascii_alphanumeric</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+                <span class="string">b&#39;-&#39;</span> <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+                _ <span class="op">=&gt;</span> <span class="kw">break</span>,
             }
         }
-        <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='ident'>label_beg</span> <span class='op'>||</span> <span class='ident'>i</span> <span class='op'>-</span> <span class='ident'>label_beg</span> <span class='op'>&gt;</span> <span class='number'>63</span> <span class='op'>||</span>
-                <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>label_beg</span>] <span class='op'>==</span> <span class='string'>b&#39;-&#39;</span> <span class='op'>||</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='op'>==</span> <span class='string'>b&#39;-&#39;</span> { <span class='kw'>return</span> <span class='number'>0</span>; }
-        <span class='kw'>if</span> <span class='ident'>scan_ch</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>i</span>..], <span class='string'>b&#39;.&#39;</span>) <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>break</span>; }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>
+        <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">label_beg</span> <span class="op">||</span> <span class="ident">i</span> <span class="op">-</span> <span class="ident">label_beg</span> <span class="op">&gt;</span> <span class="number">63</span> <span class="op">||</span>
+                <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">label_beg</span>] <span class="op">==</span> <span class="string">b&#39;-&#39;</span> <span class="op">||</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">==</span> <span class="string">b&#39;-&#39;</span> { <span class="kw">return</span> <span class="number">0</span>; }
+        <span class="kw">if</span> <span class="ident">scan_ch</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">i</span>..], <span class="string">b&#39;.&#39;</span>) <span class="op">==</span> <span class="number">0</span> { <span class="kw">break</span>; }
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>
     }
-    <span class='ident'>i</span>
+    <span class="ident">i</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_attribute_name</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>len</span>();
-    <span class='kw'>if</span> <span class='ident'>size</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>return</span> <span class='number'>0</span>; }
-    <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='number'>0</span>] {
-        <span class='ident'>c</span> <span class='kw'>if</span> <span class='ident'>is_ascii_alpha</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (),
-        <span class='string'>b&#39;_&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;:&#39;</span> <span class='op'>=&gt;</span> (),
-        _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='number'>0</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scan_attribute_name</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>();
+    <span class="kw">if</span> <span class="ident">size</span> <span class="op">==</span> <span class="number">0</span> { <span class="kw">return</span> <span class="number">0</span>; }
+    <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="number">0</span>] {
+        <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_ascii_alpha</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> (),
+        <span class="string">b&#39;_&#39;</span> <span class="op">|</span> <span class="string">b&#39;:&#39;</span> <span class="op">=&gt;</span> (),
+        _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="number">0</span>
     }
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>1</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-        <span class='kw'>match</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-            <span class='ident'>c</span> <span class='kw'>if</span> <span class='ident'>is_ascii_alphanumeric</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            <span class='string'>b&#39;_&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;.&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;:&#39;</span> <span class='op'>|</span> <span class='string'>b&#39;-&#39;</span> <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>,
-            _ <span class='op'>=&gt;</span> <span class='kw'>break</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">1</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+        <span class="kw">match</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+            <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_ascii_alphanumeric</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            <span class="string">b&#39;_&#39;</span> <span class="op">|</span> <span class="string">b&#39;.&#39;</span> <span class="op">|</span> <span class="string">b&#39;:&#39;</span> <span class="op">|</span> <span class="string">b&#39;-&#39;</span> <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>,
+            _ <span class="op">=&gt;</span> <span class="kw">break</span>
         }
     }
-    <span class='ident'>i</span>
+    <span class="ident">i</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_escaped</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>loc</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>loc</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&gt;=</span> <span class='number'>1</span> <span class='op'>&amp;&amp;</span> <span class='ident'>data</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span> <span class='op'>-</span> <span class='number'>1</span>] <span class='op'>==</span> <span class='string'>b&#39;\\&#39;</span> {
-        <span class='ident'>i</span> <span class='op'>-=</span> <span class='number'>1</span>;
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_escaped</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">loc</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">loc</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">data</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span> <span class="op">-</span> <span class="number">1</span>] <span class="op">==</span> <span class="string">b&#39;\\&#39;</span> {
+        <span class="ident">i</span> <span class="op">-=</span> <span class="number">1</span>;
     }
-    ((<span class='ident'>loc</span> <span class='op'>-</span> <span class='ident'>i</span>) <span class='kw-2'>&amp;</span> <span class='number'>1</span>) <span class='op'>!=</span> <span class='number'>0</span>
+    ((<span class="ident">loc</span> <span class="op">-</span> <span class="ident">i</span>) <span class="op">&amp;</span> <span class="number">1</span>) <span class="op">!=</span> <span class="number">0</span>
 }
 
-<span class='comment'>// Remove backslash escapes and resolve entities</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unescape</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='kw'>if</span> <span class='ident'>input</span>.<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;\\&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;&amp;&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;\r&#39;</span>).<span class='ident'>is_none</span>() {
-        <span class='ident'>Borrowed</span>(<span class='ident'>input</span>)
-    } <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>mark</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>input</span>.<span class='ident'>len</span>() {
-            <span class='kw'>match</span> <span class='ident'>input</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>] {
-                <span class='string'>b&#39;\\&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>mark</span>..<span class='ident'>i</span>]);
-                    <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
-                    <span class='ident'>mark</span> <span class='op'>=</span> <span class='ident'>i</span>;
+<span class="comment">// Remove backslash escapes and resolve entities</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unescape</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">find</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39;\\&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39;&amp;&#39;</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39;\r&#39;</span>).<span class="ident">is_none</span>() {
+        <span class="ident">Borrowed</span>(<span class="ident">input</span>)
+    } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mark</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">input</span>.<span class="ident">len</span>() {
+            <span class="kw">match</span> <span class="ident">input</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>] {
+                <span class="string">b&#39;\\&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">result</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">mark</span>..<span class="ident">i</span>]);
+                    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
+                    <span class="ident">mark</span> <span class="op">=</span> <span class="ident">i</span>;
                 }
-                <span class='string'>b&#39;&amp;&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='kw'>match</span> <span class='ident'>scan_entity</span>(<span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>i</span>..]) {
-                        (<span class='ident'>n</span>, <span class='prelude-val'>Some</span>(<span class='ident'>value</span>)) <span class='op'>=&gt;</span> {
-                            <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>mark</span>..<span class='ident'>i</span>]);
-                            <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>value</span>);
-                            <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>n</span>;
-                            <span class='ident'>mark</span> <span class='op'>=</span> <span class='ident'>i</span>;
+                <span class="string">b&#39;&amp;&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="kw">match</span> <span class="ident">scan_entity</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">i</span>..]) {
+                        (<span class="ident">n</span>, <span class="prelude-val">Some</span>(<span class="ident">value</span>)) <span class="op">=&gt;</span> {
+                            <span class="ident">result</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">mark</span>..<span class="ident">i</span>]);
+                            <span class="ident">result</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>);
+                            <span class="ident">i</span> <span class="op">+=</span> <span class="ident">n</span>;
+                            <span class="ident">mark</span> <span class="op">=</span> <span class="ident">i</span>;
                         }
-                        _ <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>
+                        _ <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>
                     }
                 }
-                <span class='string'>b&#39;\r&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>mark</span>..<span class='ident'>i</span>]);
-                    <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
-                    <span class='ident'>mark</span> <span class='op'>=</span> <span class='ident'>i</span>;
+                <span class="string">b&#39;\r&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">result</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">mark</span>..<span class="ident">i</span>]);
+                    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
+                    <span class="ident">mark</span> <span class="op">=</span> <span class="ident">i</span>;
                 }
-                _ <span class='op'>=&gt;</span> <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>
+                _ <span class="op">=&gt;</span> <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>
             }
         }
-        <span class='ident'>result</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>input</span>[<span class='ident'>mark</span>..]);
-        <span class='ident'>Owned</span>(<span class='ident'>result</span>)
+        <span class="ident">result</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">mark</span>..]);
+        <span class="ident">Owned</span>(<span class="ident">result</span>)
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_html_tag</span>(<span class='ident'>tag</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='ident'>HTML_TAGS</span>.<span class='ident'>binary_search_by</span>(<span class='op'>|</span><span class='ident'>probe</span><span class='op'>|</span> <span class='ident'>utils</span>::<span class='ident'>strcasecmp</span>(<span class='ident'>probe</span>, <span class='ident'>tag</span>)).<span class='ident'>is_ok</span>()
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_html_tag</span>(<span class="ident">tag</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">HTML_TAGS</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="ident">probe</span><span class="op">|</span> <span class="ident">utils</span>::<span class="ident">strcasecmp</span>(<span class="ident">probe</span>, <span class="ident">tag</span>)).<span class="ident">is_ok</span>()
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>spaces</span>(<span class='ident'>n</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span>, <span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>a_bunch_of_spaces</span> <span class='op'>=</span> <span class='string'>&quot;                                &quot;</span>;
-    <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&lt;=</span> <span class='ident'>a_bunch_of_spaces</span>.<span class='ident'>len</span>() {
-        <span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span><span class='ident'>a_bunch_of_spaces</span>[..<span class='ident'>n</span>])
-    } <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-        <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>n</span> {
-            <span class='ident'>result</span>.<span class='ident'>push</span>(<span class='string'>&#39; &#39;</span>);
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">spaces</span>(<span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">a_bunch_of_spaces</span> <span class="op">=</span> <span class="string">&quot;                                &quot;</span>;
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">&lt;=</span> <span class="ident">a_bunch_of_spaces</span>.<span class="ident">len</span>() {
+        <span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span><span class="ident">a_bunch_of_spaces</span>[..<span class="ident">n</span>])
+    } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n</span> {
+            <span class="ident">result</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>);
         }
-        <span class='ident'>Owned</span>(<span class='ident'>result</span>)
+        <span class="ident">Owned</span>(<span class="ident">result</span>)
     }
 }
 </pre>
@@ -1433,7 +1434,6 @@
         window.rootPath = "../../";
         window.currentCrate = "pulldown_cmark";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

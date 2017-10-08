@@ -9,6 +9,7 @@
 
     <title>url - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'url', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate url</p><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'url', ty: 'mod', relpath: '../'};</script>
     </nav>
 
     <nav class="sub">
@@ -42,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>url</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>url</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -77,32 +78,32 @@ features = [&quot;query_encoding&quot;]
 <h1 id='url-parsing-and-data-structures' class='section-header'><a href='#url-parsing-and-data-structures'>URL parsing and data structures</a></h1>
 <p>First, URL parsing may fail for various reasons and therefore returns a <code>Result</code>.</p>
 
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>ParseError</span>};
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">Url</span>, <span class="ident">ParseError</span>};
 
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='string'>&quot;http://[:::1]&quot;</span>) <span class='op'>==</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseError</span>::<span class='ident'>InvalidIpv6Address</span>))</pre>
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Url</span>::<span class="ident">parse</span>(<span class="string">&quot;http://[:::1]&quot;</span>) <span class="op">==</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError</span>::<span class="ident">InvalidIpv6Address</span>))</pre>
 
 <p>Let’s parse a valid URL and look at its components.</p>
 
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>SchemeData</span>};
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">Url</span>, <span class="ident">SchemeData</span>};
 
-<span class='kw'>let</span> <span class='ident'>issue_list_url</span> <span class='op'>=</span> <span class='ident'>Url</span>::<span class='ident'>parse</span>(
-    <span class='string'>&quot;https://github.com/rust-lang/rust/issues?labels=E-easy&amp;state=open&quot;</span>
-).<span class='ident'>unwrap</span>();
+<span class="kw">let</span> <span class="ident">issue_list_url</span> <span class="op">=</span> <span class="ident">Url</span>::<span class="ident">parse</span>(
+    <span class="string">&quot;https://github.com/rust-lang/rust/issues?labels=E-easy&amp;state=open&quot;</span>
+).<span class="ident">unwrap</span>();
 
 
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>scheme</span> <span class='op'>==</span> <span class='string'>&quot;https&quot;</span>.<span class='ident'>to_string</span>());
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>domain</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;github.com&quot;</span>));
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>port</span>() <span class='op'>==</span> <span class='prelude-val'>None</span>);
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>path</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>[<span class='string'>&quot;rust-lang&quot;</span>.<span class='ident'>to_string</span>(),
-                                        <span class='string'>&quot;rust&quot;</span>.<span class='ident'>to_string</span>(),
-                                        <span class='string'>&quot;issues&quot;</span>.<span class='ident'>to_string</span>()][..]));
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>query</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;labels=E-easy&amp;state=open&quot;</span>.<span class='ident'>to_string</span>()));
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>issue_list_url</span>.<span class='ident'>fragment</span> <span class='op'>==</span> <span class='prelude-val'>None</span>);
-<span class='kw'>match</span> <span class='ident'>issue_list_url</span>.<span class='ident'>scheme_data</span> {
-    <span class='ident'>SchemeData</span>::<span class='ident'>Relative</span>(..) <span class='op'>=&gt;</span> {},  <span class='comment'>// Expected</span>
-    <span class='ident'>SchemeData</span>::<span class='ident'>NonRelative</span>(..) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(),
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">issue_list_url</span>.<span class="ident">scheme</span> <span class="op">==</span> <span class="string">&quot;https&quot;</span>.<span class="ident">to_string</span>());
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">issue_list_url</span>.<span class="ident">domain</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="string">&quot;github.com&quot;</span>));
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">issue_list_url</span>.<span class="ident">port</span>() <span class="op">==</span> <span class="prelude-val">None</span>);
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">issue_list_url</span>.<span class="ident">path</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;rust-lang&quot;</span>.<span class="ident">to_string</span>(),
+                                        <span class="string">&quot;rust&quot;</span>.<span class="ident">to_string</span>(),
+                                        <span class="string">&quot;issues&quot;</span>.<span class="ident">to_string</span>()][..]));
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">issue_list_url</span>.<span class="ident">query</span> <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="string">&quot;labels=E-easy&amp;state=open&quot;</span>.<span class="ident">to_string</span>()));
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">issue_list_url</span>.<span class="ident">fragment</span> <span class="op">==</span> <span class="prelude-val">None</span>);
+<span class="kw">match</span> <span class="ident">issue_list_url</span>.<span class="ident">scheme_data</span> {
+    <span class="ident">SchemeData</span>::<span class="ident">Relative</span>(..) <span class="op">=&gt;</span> {},  <span class="comment">// Expected</span>
+    <span class="ident">SchemeData</span>::<span class="ident">NonRelative</span>(..) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
 }</pre>
 
 <p>The <code>scheme</code>, <code>query</code>, and <code>fragment</code> are directly fields of the <code>Url</code> struct:
@@ -110,16 +111,16 @@ they apply to all URLs.
 Every other components has accessors because they only apply to URLs said to be
 “in a relative scheme”. <code>https</code> is a relative scheme, but <code>data</code> is not:</p>
 
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>SchemeData</span>};
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">Url</span>, <span class="ident">SchemeData</span>};
 
-<span class='kw'>let</span> <span class='ident'>data_url</span> <span class='op'>=</span> <span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='string'>&quot;data:text/plain,Hello#&quot;</span>).<span class='ident'>unwrap</span>();
+<span class="kw">let</span> <span class="ident">data_url</span> <span class="op">=</span> <span class="ident">Url</span>::<span class="ident">parse</span>(<span class="string">&quot;data:text/plain,Hello#&quot;</span>).<span class="ident">unwrap</span>();
 
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>data_url</span>.<span class='ident'>scheme</span> <span class='op'>==</span> <span class='string'>&quot;data&quot;</span>.<span class='ident'>to_string</span>());
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>data_url</span>.<span class='ident'>scheme_data</span> <span class='op'>==</span> <span class='ident'>SchemeData</span>::<span class='ident'>NonRelative</span>(<span class='string'>&quot;text/plain,Hello&quot;</span>.<span class='ident'>to_string</span>()));
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>data_url</span>.<span class='ident'>non_relative_scheme_data</span>() <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;text/plain,Hello&quot;</span>));
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>data_url</span>.<span class='ident'>query</span> <span class='op'>==</span> <span class='prelude-val'>None</span>);
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>data_url</span>.<span class='ident'>fragment</span> <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>()));</pre>
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data_url</span>.<span class="ident">scheme</span> <span class="op">==</span> <span class="string">&quot;data&quot;</span>.<span class="ident">to_string</span>());
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data_url</span>.<span class="ident">scheme_data</span> <span class="op">==</span> <span class="ident">SchemeData</span>::<span class="ident">NonRelative</span>(<span class="string">&quot;text/plain,Hello&quot;</span>.<span class="ident">to_string</span>()));
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data_url</span>.<span class="ident">non_relative_scheme_data</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="string">&quot;text/plain,Hello&quot;</span>));
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data_url</span>.<span class="ident">query</span> <span class="op">==</span> <span class="prelude-val">None</span>);
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data_url</span>.<span class="ident">fragment</span> <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>()));</pre>
 
 <h1 id='base-url' class='section-header'><a href='#base-url'>Base URL</a></h1>
 <p>Many contexts allow URL <em>references</em> that can be relative to a <em>base URL</em>:</p>
@@ -129,54 +130,54 @@ Every other components has accessors because they only apply to URLs said to be
 
 <p>Since parsed URL are absolute, giving a base is required:</p>
 
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>ParseError</span>};
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">Url</span>, <span class="ident">ParseError</span>};
 
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='string'>&quot;../main.css&quot;</span>) <span class='op'>==</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseError</span>::<span class='ident'>RelativeUrlWithoutBase</span>))</pre>
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Url</span>::<span class="ident">parse</span>(<span class="string">&quot;../main.css&quot;</span>) <span class="op">==</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError</span>::<span class="ident">RelativeUrlWithoutBase</span>))</pre>
 
 <p><code>UrlParser</code> is a method-chaining API to provide various optional parameters
 to URL parsing, including a base URL.</p>
 
-<pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>UrlParser</span>};
+<pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">url</span>::{<span class="ident">Url</span>, <span class="ident">UrlParser</span>};
 
-<span class='kw'>let</span> <span class='ident'>this_document</span> <span class='op'>=</span> <span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='string'>&quot;http://servo.github.io/rust-url/url/index.html&quot;</span>).<span class='ident'>unwrap</span>();
-<span class='kw'>let</span> <span class='ident'>css_url</span> <span class='op'>=</span> <span class='ident'>UrlParser</span>::<span class='ident'>new</span>().<span class='ident'>base_url</span>(<span class='kw-2'>&amp;</span><span class='ident'>this_document</span>).<span class='ident'>parse</span>(<span class='string'>&quot;../main.css&quot;</span>).<span class='ident'>unwrap</span>();
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>css_url</span>.<span class='ident'>serialize</span>() <span class='op'>==</span> <span class='string'>&quot;http://servo.github.io/rust-url/main.css&quot;</span>.<span class='ident'>to_string</span>());</pre>
+<span class="kw">let</span> <span class="ident">this_document</span> <span class="op">=</span> <span class="ident">Url</span>::<span class="ident">parse</span>(<span class="string">&quot;http://servo.github.io/rust-url/url/index.html&quot;</span>).<span class="ident">unwrap</span>();
+<span class="kw">let</span> <span class="ident">css_url</span> <span class="op">=</span> <span class="ident">UrlParser</span>::<span class="ident">new</span>().<span class="ident">base_url</span>(<span class="kw-2">&amp;</span><span class="ident">this_document</span>).<span class="ident">parse</span>(<span class="string">&quot;../main.css&quot;</span>).<span class="ident">unwrap</span>();
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">css_url</span>.<span class="ident">serialize</span>() <span class="op">==</span> <span class="string">&quot;http://servo.github.io/rust-url/main.css&quot;</span>.<span class="ident">to_string</span>());</pre>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='form_urlencoded/index.html'
-                                  title='url::form_urlencoded'>form_urlencoded</a></td>
+                           <td><a class="mod" href="form_urlencoded/index.html"
+                                  title='mod url::form_urlencoded'>form_urlencoded</a></td>
                            <td class='docblock-short'>
                                 <p>Parser and serializer for the <a href="http://url.spec.whatwg.org/#application/x-www-form-urlencoded"><code>application/x-www-form-urlencoded</code> format</a>,
 as used by HTML forms.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='format/index.html'
-                                  title='url::format'>format</a></td>
+                           <td><a class="mod" href="format/index.html"
+                                  title='mod url::format'>format</a></td>
                            <td class='docblock-short'>
                                 <p>Formatting utilities for URLs.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='percent_encoding/index.html'
-                                  title='url::percent_encoding'>percent_encoding</a></td>
+                           <td><a class="mod" href="percent_encoding/index.html"
+                                  title='mod url::percent_encoding'>percent_encoding</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='punycode/index.html'
-                                  title='url::punycode'>punycode</a></td>
+                           <td><a class="mod" href="punycode/index.html"
+                                  title='mod url::punycode'>punycode</a></td>
                            <td class='docblock-short'>
                                 <p>Punycode (<a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>) implementation.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='urlutils/index.html'
-                                  title='url::urlutils'>urlutils</a></td>
+                           <td><a class="mod" href="urlutils/index.html"
+                                  title='mod url::urlutils'>urlutils</a></td>
                            <td class='docblock-short'>
                                 <p>These methods are not meant for use in Rust code,
 only to help implement the JavaScript URLUtils API: <a href="http://url.spec.whatwg.org/#urlutils">http://url.spec.whatwg.org/#urlutils</a></p>
@@ -184,103 +185,103 @@ only to help implement the JavaScript URLUtils API: <a href="http://url.spec.wha
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Ipv6Address.html'
-                                  title='url::Ipv6Address'>Ipv6Address</a></td>
+                           <td><a class="struct" href="struct.Ipv6Address.html"
+                                  title='struct url::Ipv6Address'>Ipv6Address</a></td>
                            <td class='docblock-short'>
                                 <p>A 128 bit IPv6 address</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.OpaqueOrigin.html'
-                                  title='url::OpaqueOrigin'>OpaqueOrigin</a></td>
+                           <td><a class="struct" href="struct.OpaqueOrigin.html"
+                                  title='struct url::OpaqueOrigin'>OpaqueOrigin</a></td>
                            <td class='docblock-short'>
                                 <p>Opaque identifier for URLs that have file or other schemes</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.RelativeSchemeData.html'
-                                  title='url::RelativeSchemeData'>RelativeSchemeData</a></td>
+                           <td><a class="struct" href="struct.RelativeSchemeData.html"
+                                  title='struct url::RelativeSchemeData'>RelativeSchemeData</a></td>
                            <td class='docblock-short'>
                                 <p>Components for URLs in a <em>relative</em> scheme such as HTTP.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Url.html'
-                                  title='url::Url'>Url</a></td>
+                           <td><a class="struct" href="struct.Url.html"
+                                  title='struct url::Url'>Url</a></td>
                            <td class='docblock-short'>
                                 <p>The parsed representation of an absolute URL.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.UrlParser.html'
-                                  title='url::UrlParser'>UrlParser</a></td>
+                           <td><a class="struct" href="struct.UrlParser.html"
+                                  title='struct url::UrlParser'>UrlParser</a></td>
                            <td class='docblock-short'>
                                 <p>A set of optional parameters for URL parsing.</p>
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Host.html'
-                                  title='url::Host'>Host</a></td>
+                           <td><a class="enum" href="enum.Host.html"
+                                  title='enum url::Host'>Host</a></td>
                            <td class='docblock-short'>
                                 <p>The host name of an URL.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Origin.html'
-                                  title='url::Origin'>Origin</a></td>
+                           <td><a class="enum" href="enum.Origin.html"
+                                  title='enum url::Origin'>Origin</a></td>
                            <td class='docblock-short'>
                                 <p>The origin of the URL</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.ParseError.html'
-                                  title='url::ParseError'>ParseError</a></td>
+                           <td><a class="enum" href="enum.ParseError.html"
+                                  title='enum url::ParseError'>ParseError</a></td>
                            <td class='docblock-short'>
                                 <p>Errors that can occur during parsing.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.SchemeData.html'
-                                  title='url::SchemeData'>SchemeData</a></td>
+                           <td><a class="enum" href="enum.SchemeData.html"
+                                  title='enum url::SchemeData'>SchemeData</a></td>
                            <td class='docblock-short'>
                                 <p>The components of the URL whose representation depends on where the scheme is <em>relative</em>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.SchemeType.html'
-                                  title='url::SchemeType'>SchemeType</a></td>
+                           <td><a class="enum" href="enum.SchemeType.html"
+                                  title='enum url::SchemeType'>SchemeType</a></td>
                            <td class='docblock-short'>
                                 <p>Determines the behavior of the URL parser for a given scheme.</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.parse_path.html'
-                                  title='url::parse_path'>parse_path</a></td>
+                           <td><a class="fn" href="fn.parse_path.html"
+                                  title='fn url::parse_path'>parse_path</a></td>
                            <td class='docblock-short'>
                                 <p>Parse <code>input</code> as a “standalone” URL path,
 with an optional query string and fragment identifier.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.whatwg_scheme_type_mapper.html'
-                                  title='url::whatwg_scheme_type_mapper'>whatwg_scheme_type_mapper</a></td>
+                           <td><a class="fn" href="fn.whatwg_scheme_type_mapper.html"
+                                  title='fn url::whatwg_scheme_type_mapper'>whatwg_scheme_type_mapper</a></td>
                            <td class='docblock-short'>
                                 <p><a href="http://url.spec.whatwg.org/#relative-scheme">http://url.spec.whatwg.org/#relative-scheme</a></p>
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='type' href='type.ErrorHandler.html'
-                                  title='url::ErrorHandler'>ErrorHandler</a></td>
+                           <td><a class="type" href="type.ErrorHandler.html"
+                                  title='type url::ErrorHandler'>ErrorHandler</a></td>
                            <td class='docblock-short'>
                                 <p>This is called on non-fatal parse errors.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='type' href='type.ParseResult.html'
-                                  title='url::ParseResult'>ParseResult</a></td>
+                           <td><a class="type" href="type.ParseResult.html"
+                                  title='type url::ParseResult'>ParseResult</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -341,7 +342,6 @@ with an optional query string and fragment identifier.</p>
         window.rootPath = "../";
         window.currentCrate = "url";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

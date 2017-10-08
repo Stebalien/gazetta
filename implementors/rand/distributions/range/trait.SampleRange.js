@@ -1,6 +1,4 @@
 (function() {var implementors = {};
-implementors["gazetta_core"] = [];
-implementors["gazetta_model_ext"] = [];
 implementors["rand"] = [];
 
             if (window.register_implementors) {

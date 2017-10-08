@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/url-0.2.38/src/form_urlencoded.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/url-0.2.38/src/form_urlencoded.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>form_urlencoded.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -219,181 +220,181 @@
 <span id="175">175</span>
 <span id="176">176</span>
 <span id="177">177</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright 2013-2015 Simon Sapin.</span>
-<span class='comment'>//</span>
-<span class='comment'>// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
-<span class='comment'>// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
-<span class='comment'>// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
-<span class='comment'>// option. This file may not be copied, modified, or distributed</span>
-<span class='comment'>// except according to those terms.</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright 2013-2015 Simon Sapin.</span>
+<span class="comment">//</span>
+<span class="comment">// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
+<span class="comment">// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
+<span class="comment">// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
+<span class="comment">// option. This file may not be copied, modified, or distributed</span>
+<span class="comment">// except according to those terms.</span>
 
-<span class='doccomment'>//! Parser and serializer for the [`application/x-www-form-urlencoded` format](</span>
-<span class='doccomment'>//! http://url.spec.whatwg.org/#application/x-www-form-urlencoded),</span>
-<span class='doccomment'>//! as used by HTML forms.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Converts between a string (such as an URL’s query string)</span>
-<span class='doccomment'>//! and a sequence of (name, value) pairs.</span>
+<span class="doccomment">//! Parser and serializer for the [`application/x-www-form-urlencoded` format](</span>
+<span class="doccomment">//! http://url.spec.whatwg.org/#application/x-www-form-urlencoded),</span>
+<span class="doccomment">//! as used by HTML forms.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Converts between a string (such as an URL’s query string)</span>
+<span class="doccomment">//! and a sequence of (name, value) pairs.</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Borrow</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
-<span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>EncodingOverride</span>;
-<span class='kw'>use</span> <span class='ident'>percent_encoding</span>::{<span class='ident'>percent_encode_to</span>, <span class='ident'>percent_decode</span>, <span class='ident'>FORM_URLENCODED_ENCODE_SET</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
+<span class="kw">use</span> <span class="ident">encoding</span>::<span class="ident">EncodingOverride</span>;
+<span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">percent_encode_to</span>, <span class="ident">percent_decode</span>, <span class="ident">FORM_URLENCODED_ENCODE_SET</span>};
 
 
-<span class='doccomment'>/// Convert a byte string in the `application/x-www-form-urlencoded` format</span>
-<span class='doccomment'>/// into a vector of (name, value) pairs.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Use `parse(input.as_bytes())` to parse a `&amp;str` string.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The names and values are URL-decoded. For instance, `%23first=%25try%25` will be</span>
-<span class='doccomment'>/// converted to `[(&quot;#first&quot;, &quot;%try%&quot;)]`.</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>String</span>, <span class='ident'>String</span>)<span class='op'>&gt;</span> {
-    <span class='ident'>parse_internal</span>(<span class='ident'>input</span>, <span class='ident'>EncodingOverride</span>::<span class='ident'>utf8</span>(), <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>()
+<span class="doccomment">/// Convert a byte string in the `application/x-www-form-urlencoded` format</span>
+<span class="doccomment">/// into a vector of (name, value) pairs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use `parse(input.as_bytes())` to parse a `&amp;str` string.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The names and values are URL-decoded. For instance, `%23first=%25try%25` will be</span>
+<span class="doccomment">/// converted to `[(&quot;#first&quot;, &quot;%try%&quot;)]`.</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span> {
+    <span class="ident">parse_internal</span>(<span class="ident">input</span>, <span class="ident">EncodingOverride</span>::<span class="ident">utf8</span>(), <span class="bool-val">false</span>).<span class="ident">unwrap</span>()
 }
 
 
-<span class='doccomment'>/// Convert a byte string in the `application/x-www-form-urlencoded` format</span>
-<span class='doccomment'>/// into a vector of (name, value) pairs.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Use `parse(input.as_bytes())` to parse a `&amp;str` string.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function is only available if the `query_encoding` Cargo feature is enabled.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Arguments:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// * `encoding_override`: The character encoding each name and values is decoded as</span>
-<span class='doccomment'>///    after percent-decoding. Defaults to UTF-8.</span>
-<span class='doccomment'>/// * `use_charset`: The *use _charset_ flag*. If in doubt, set to `false`.</span>
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;query_encoding&quot;</span>)]</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse_with_encoding</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='ident'>encoding_override</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>::<span class='ident'>encoding</span>::<span class='ident'>EncodingRef</span><span class='op'>&gt;</span>,
-                           <span class='ident'>use_charset</span>: <span class='ident'>bool</span>)
-                           <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>String</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span> {
-    <span class='ident'>parse_internal</span>(<span class='ident'>input</span>, <span class='ident'>EncodingOverride</span>::<span class='ident'>from_opt_encoding</span>(<span class='ident'>encoding_override</span>), <span class='ident'>use_charset</span>)
+<span class="doccomment">/// Convert a byte string in the `application/x-www-form-urlencoded` format</span>
+<span class="doccomment">/// into a vector of (name, value) pairs.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Use `parse(input.as_bytes())` to parse a `&amp;str` string.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function is only available if the `query_encoding` Cargo feature is enabled.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Arguments:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * `encoding_override`: The character encoding each name and values is decoded as</span>
+<span class="doccomment">///    after percent-decoding. Defaults to UTF-8.</span>
+<span class="doccomment">/// * `use_charset`: The *use _charset_ flag*. If in doubt, set to `false`.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;query_encoding&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_with_encoding</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">encoding_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>::<span class="ident">encoding</span>::<span class="ident">EncodingRef</span><span class="op">&gt;</span>,
+                           <span class="ident">use_charset</span>: <span class="ident">bool</span>)
+                           <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;&gt;</span> {
+    <span class="ident">parse_internal</span>(<span class="ident">input</span>, <span class="ident">EncodingOverride</span>::<span class="ident">from_opt_encoding</span>(<span class="ident">encoding_override</span>), <span class="ident">use_charset</span>)
 }
 
 
-<span class='kw'>fn</span> <span class='ident'>parse_internal</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>], <span class='kw-2'>mut</span> <span class='ident'>encoding_override</span>: <span class='ident'>EncodingOverride</span>, <span class='kw-2'>mut</span> <span class='ident'>use_charset</span>: <span class='ident'>bool</span>)
-                  <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>String</span>, <span class='ident'>String</span>)<span class='op'>&gt;&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pairs</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-    <span class='kw'>for</span> <span class='ident'>piece</span> <span class='kw'>in</span> <span class='ident'>input</span>.<span class='ident'>split</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>b</span><span class='op'>|</span> <span class='ident'>b</span> <span class='op'>==</span> <span class='string'>b&#39;&amp;&#39;</span>) {
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>piece</span>.<span class='ident'>is_empty</span>() {
-            <span class='kw'>let</span> (<span class='ident'>name</span>, <span class='ident'>value</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>piece</span>.<span class='ident'>iter</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='ident'>b</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='string'>b&#39;=&#39;</span>) {
-                <span class='prelude-val'>Some</span>(<span class='ident'>position</span>) <span class='op'>=&gt;</span> (<span class='kw-2'>&amp;</span><span class='ident'>piece</span>[..<span class='ident'>position</span>], <span class='kw-2'>&amp;</span><span class='ident'>piece</span>[<span class='ident'>position</span> <span class='op'>+</span> <span class='number'>1</span>..]),
-                <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>piece</span>, <span class='kw-2'>&amp;</span>[][..])
+<span class="kw">fn</span> <span class="ident">parse_internal</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">encoding_override</span>: <span class="ident">EncodingOverride</span>, <span class="kw-2">mut</span> <span class="ident">use_charset</span>: <span class="ident">bool</span>)
+                  <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pairs</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+    <span class="kw">for</span> <span class="ident">piece</span> <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">split</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">b</span><span class="op">|</span> <span class="ident">b</span> <span class="op">==</span> <span class="string">b&#39;&amp;&#39;</span>) {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">piece</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">value</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">piece</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">b</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">b</span> <span class="op">==</span> <span class="string">b&#39;=&#39;</span>) {
+                <span class="prelude-val">Some</span>(<span class="ident">position</span>) <span class="op">=&gt;</span> (<span class="kw-2">&amp;</span><span class="ident">piece</span>[..<span class="ident">position</span>], <span class="kw-2">&amp;</span><span class="ident">piece</span>[<span class="ident">position</span> <span class="op">+</span> <span class="number">1</span>..]),
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> (<span class="ident">piece</span>, <span class="kw-2">&amp;</span>[][..])
             };
 
-            <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-            <span class='kw'>fn</span> <span class='ident'>replace_plus</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
-                <span class='ident'>input</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>b</span><span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>b</span> <span class='op'>==</span> <span class='string'>b&#39;+&#39;</span> { <span class='string'>b&#39; &#39;</span> } <span class='kw'>else</span> { <span class='ident'>b</span> }).<span class='ident'>collect</span>()
+            <span class="attribute">#[<span class="ident">inline</span>]</span>
+            <span class="kw">fn</span> <span class="ident">replace_plus</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+                <span class="ident">input</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">b</span><span class="op">|</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">==</span> <span class="string">b&#39;+&#39;</span> { <span class="string">b&#39; &#39;</span> } <span class="kw">else</span> { <span class="ident">b</span> }).<span class="ident">collect</span>()
             }
 
-            <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>replace_plus</span>(<span class='ident'>name</span>);
-            <span class='kw'>let</span> <span class='ident'>value</span> <span class='op'>=</span> <span class='ident'>replace_plus</span>(<span class='ident'>value</span>);
-            <span class='kw'>if</span> <span class='ident'>use_charset</span> <span class='op'>&amp;&amp;</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='string'>b&quot;_charset_&quot;</span> {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>encoding</span>) <span class='op'>=</span> <span class='ident'>EncodingOverride</span>::<span class='ident'>lookup</span>(<span class='kw-2'>&amp;</span><span class='ident'>value</span>) {
-                    <span class='ident'>encoding_override</span> <span class='op'>=</span> <span class='ident'>encoding</span>;
+            <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">replace_plus</span>(<span class="ident">name</span>);
+            <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">replace_plus</span>(<span class="ident">value</span>);
+            <span class="kw">if</span> <span class="ident">use_charset</span> <span class="op">&amp;&amp;</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">b&quot;_charset_&quot;</span> {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">encoding</span>) <span class="op">=</span> <span class="ident">EncodingOverride</span>::<span class="ident">lookup</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>) {
+                    <span class="ident">encoding_override</span> <span class="op">=</span> <span class="ident">encoding</span>;
                 }
-                <span class='ident'>use_charset</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+                <span class="ident">use_charset</span> <span class="op">=</span> <span class="bool-val">false</span>;
             }
-            <span class='ident'>pairs</span>.<span class='ident'>push</span>((<span class='ident'>name</span>, <span class='ident'>value</span>));
+            <span class="ident">pairs</span>.<span class="ident">push</span>((<span class="ident">name</span>, <span class="ident">value</span>));
         }
     }
-    <span class='kw'>if</span> <span class='op'>!</span>(<span class='ident'>encoding_override</span>.<span class='ident'>is_utf8</span>() <span class='op'>||</span> <span class='ident'>input</span>.<span class='ident'>is_ascii</span>()) {
-        <span class='kw'>return</span> <span class='prelude-val'>None</span>
+    <span class="kw">if</span> <span class="op">!</span>(<span class="ident">encoding_override</span>.<span class="ident">is_utf8</span>() <span class="op">||</span> <span class="ident">input</span>.<span class="ident">is_ascii</span>()) {
+        <span class="kw">return</span> <span class="prelude-val">None</span>
     }
 
-    <span class='prelude-val'>Some</span>(<span class='ident'>pairs</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span>(<span class='ident'>name</span>, <span class='ident'>value</span>)<span class='op'>|</span> (
-        <span class='ident'>encoding_override</span>.<span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='ident'>percent_decode</span>(<span class='kw-2'>&amp;</span><span class='ident'>name</span>)),
-        <span class='ident'>encoding_override</span>.<span class='ident'>decode</span>(<span class='kw-2'>&amp;</span><span class='ident'>percent_decode</span>(<span class='kw-2'>&amp;</span><span class='ident'>value</span>))
-    )).<span class='ident'>collect</span>())
+    <span class="prelude-val">Some</span>(<span class="ident">pairs</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="ident">value</span>)<span class="op">|</span> (
+        <span class="ident">encoding_override</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">percent_decode</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>)),
+        <span class="ident">encoding_override</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="ident">percent_decode</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>))
+    )).<span class="ident">collect</span>())
 }
 
 
-<span class='doccomment'>/// Convert an iterator of (name, value) pairs</span>
-<span class='doccomment'>/// into a string in the `application/x-www-form-urlencoded` format.</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>serialize</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>K</span>, <span class='ident'>V</span><span class='op'>&gt;</span>(<span class='ident'>pairs</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span>
-<span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span>, <span class='ident'>I</span>::<span class='ident'>Item</span>: <span class='ident'>Borrow</span><span class='op'>&lt;</span>(<span class='ident'>K</span>, <span class='ident'>V</span>)<span class='op'>&gt;</span>, <span class='ident'>K</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>V</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='ident'>serialize_internal</span>(<span class='ident'>pairs</span>, <span class='ident'>EncodingOverride</span>::<span class='ident'>utf8</span>())
+<span class="doccomment">/// Convert an iterator of (name, value) pairs</span>
+<span class="doccomment">/// into a string in the `application/x-www-form-urlencoded` format.</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">pairs</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="ident">String</span>
+<span class="kw">where</span> <span class="ident">I</span>: <span class="ident">IntoIterator</span>, <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="ident">K</span>, <span class="ident">V</span>)<span class="op">&gt;</span>, <span class="ident">K</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">V</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="ident">serialize_internal</span>(<span class="ident">pairs</span>, <span class="ident">EncodingOverride</span>::<span class="ident">utf8</span>())
 }
 
-<span class='doccomment'>/// Convert an iterator of (name, value) pairs</span>
-<span class='doccomment'>/// into a string in the `application/x-www-form-urlencoded` format.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// This function is only available if the `query_encoding` Cargo feature is enabled.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Arguments:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// * `encoding_override`: The character encoding each name and values is encoded as</span>
-<span class='doccomment'>///    before percent-encoding. Defaults to UTF-8.</span>
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;query_encoding&quot;</span>)]</span>
-<span class='attribute'>#[<span class='ident'>inline</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>serialize_with_encoding</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>K</span>, <span class='ident'>V</span><span class='op'>&gt;</span>(<span class='ident'>pairs</span>: <span class='ident'>I</span>,
-                                        <span class='ident'>encoding_override</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>::<span class='ident'>encoding</span>::<span class='ident'>EncodingRef</span><span class='op'>&gt;</span>)
-                                        <span class='op'>-&gt;</span> <span class='ident'>String</span>
-<span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span>, <span class='ident'>I</span>::<span class='ident'>Item</span>: <span class='ident'>Borrow</span><span class='op'>&lt;</span>(<span class='ident'>K</span>, <span class='ident'>V</span>)<span class='op'>&gt;</span>, <span class='ident'>K</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>V</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='ident'>serialize_internal</span>(<span class='ident'>pairs</span>, <span class='ident'>EncodingOverride</span>::<span class='ident'>from_opt_encoding</span>(<span class='ident'>encoding_override</span>))
+<span class="doccomment">/// Convert an iterator of (name, value) pairs</span>
+<span class="doccomment">/// into a string in the `application/x-www-form-urlencoded` format.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This function is only available if the `query_encoding` Cargo feature is enabled.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Arguments:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * `encoding_override`: The character encoding each name and values is encoded as</span>
+<span class="doccomment">///    before percent-encoding. Defaults to UTF-8.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;query_encoding&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">serialize_with_encoding</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">pairs</span>: <span class="ident">I</span>,
+                                        <span class="ident">encoding_override</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>::<span class="ident">encoding</span>::<span class="ident">EncodingRef</span><span class="op">&gt;</span>)
+                                        <span class="op">-&gt;</span> <span class="ident">String</span>
+<span class="kw">where</span> <span class="ident">I</span>: <span class="ident">IntoIterator</span>, <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="ident">K</span>, <span class="ident">V</span>)<span class="op">&gt;</span>, <span class="ident">K</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">V</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="ident">serialize_internal</span>(<span class="ident">pairs</span>, <span class="ident">EncodingOverride</span>::<span class="ident">from_opt_encoding</span>(<span class="ident">encoding_override</span>))
 }
 
-<span class='kw'>fn</span> <span class='ident'>serialize_internal</span><span class='op'>&lt;</span><span class='ident'>I</span>, <span class='ident'>K</span>, <span class='ident'>V</span><span class='op'>&gt;</span>(<span class='ident'>pairs</span>: <span class='ident'>I</span>, <span class='ident'>encoding_override</span>: <span class='ident'>EncodingOverride</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span>
-<span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>IntoIterator</span>, <span class='ident'>I</span>::<span class='ident'>Item</span>: <span class='ident'>Borrow</span><span class='op'>&lt;</span>(<span class='ident'>K</span>, <span class='ident'>V</span>)<span class='op'>&gt;</span>, <span class='ident'>K</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>, <span class='ident'>V</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>byte_serialize</span>(<span class='ident'>input</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>output</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>,
-                      <span class='ident'>encoding_override</span>: <span class='ident'>EncodingOverride</span>) {
-        <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>byte</span> <span class='kw'>in</span> <span class='ident'>encoding_override</span>.<span class='ident'>encode</span>(<span class='ident'>input</span>).<span class='ident'>iter</span>() {
-            <span class='kw'>if</span> <span class='ident'>byte</span> <span class='op'>==</span> <span class='string'>b&#39; &#39;</span> {
-                <span class='ident'>output</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;+&quot;</span>)
-            } <span class='kw'>else</span> {
-                <span class='ident'>percent_encode_to</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>byte</span>], <span class='ident'>FORM_URLENCODED_ENCODE_SET</span>, <span class='ident'>output</span>)
+<span class="kw">fn</span> <span class="ident">serialize_internal</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="ident">pairs</span>: <span class="ident">I</span>, <span class="ident">encoding_override</span>: <span class="ident">EncodingOverride</span>) <span class="op">-&gt;</span> <span class="ident">String</span>
+<span class="kw">where</span> <span class="ident">I</span>: <span class="ident">IntoIterator</span>, <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="ident">K</span>, <span class="ident">V</span>)<span class="op">&gt;</span>, <span class="ident">K</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">V</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">byte_serialize</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">output</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>,
+                      <span class="ident">encoding_override</span>: <span class="ident">EncodingOverride</span>) {
+        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">byte</span> <span class="kw">in</span> <span class="ident">encoding_override</span>.<span class="ident">encode</span>(<span class="ident">input</span>).<span class="ident">iter</span>() {
+            <span class="kw">if</span> <span class="ident">byte</span> <span class="op">==</span> <span class="string">b&#39; &#39;</span> {
+                <span class="ident">output</span>.<span class="ident">push_str</span>(<span class="string">&quot;+&quot;</span>)
+            } <span class="kw">else</span> {
+                <span class="ident">percent_encode_to</span>(<span class="kw-2">&amp;</span>[<span class="ident">byte</span>], <span class="ident">FORM_URLENCODED_ENCODE_SET</span>, <span class="ident">output</span>)
             }
         }
     }
 
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>output</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-    <span class='kw'>for</span> <span class='ident'>pair</span> <span class='kw'>in</span> <span class='ident'>pairs</span> {
-        <span class='kw'>let</span> <span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>, <span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=</span> <span class='ident'>pair</span>.<span class='ident'>borrow</span>();
-        <span class='kw'>if</span> <span class='ident'>output</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> {
-            <span class='ident'>output</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;&quot;</span>);
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+    <span class="kw">for</span> <span class="ident">pair</span> <span class="kw">in</span> <span class="ident">pairs</span> {
+        <span class="kw">let</span> <span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">name</span>, <span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=</span> <span class="ident">pair</span>.<span class="ident">borrow</span>();
+        <span class="kw">if</span> <span class="ident">output</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
+            <span class="ident">output</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;&quot;</span>);
         }
-        <span class='ident'>byte_serialize</span>(<span class='ident'>name</span>.<span class='ident'>as_ref</span>(), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>output</span>, <span class='ident'>encoding_override</span>);
-        <span class='ident'>output</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;=&quot;</span>);
-        <span class='ident'>byte_serialize</span>(<span class='ident'>value</span>.<span class='ident'>as_ref</span>(), <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>output</span>, <span class='ident'>encoding_override</span>);
+        <span class="ident">byte_serialize</span>(<span class="ident">name</span>.<span class="ident">as_ref</span>(), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">output</span>, <span class="ident">encoding_override</span>);
+        <span class="ident">output</span>.<span class="ident">push_str</span>(<span class="string">&quot;=&quot;</span>);
+        <span class="ident">byte_serialize</span>(<span class="ident">value</span>.<span class="ident">as_ref</span>(), <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">output</span>, <span class="ident">encoding_override</span>);
     }
-    <span class='ident'>output</span>
+    <span class="ident">output</span>
 }
 
 
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_form_urlencoded</span>() {
-        <span class='kw'>let</span> <span class='ident'>pairs</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>[
-            (<span class='string'>&quot;foo&quot;</span>.<span class='ident'>to_string</span>(), <span class='string'>&quot;é&amp;&quot;</span>.<span class='ident'>to_string</span>()),
-            (<span class='string'>&quot;bar&quot;</span>.<span class='ident'>to_string</span>(), <span class='string'>&quot;&quot;</span>.<span class='ident'>to_string</span>()),
-            (<span class='string'>&quot;foo&quot;</span>.<span class='ident'>to_string</span>(), <span class='string'>&quot;#&quot;</span>.<span class='ident'>to_string</span>())
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_form_urlencoded</span>() {
+        <span class="kw">let</span> <span class="ident">pairs</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[
+            (<span class="string">&quot;foo&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;é&amp;&quot;</span>.<span class="ident">to_string</span>()),
+            (<span class="string">&quot;bar&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>()),
+            (<span class="string">&quot;foo&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;#&quot;</span>.<span class="ident">to_string</span>())
         ];
-        <span class='kw'>let</span> <span class='ident'>encoded</span> <span class='op'>=</span> <span class='ident'>serialize</span>(<span class='ident'>pairs</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>encoded</span>, <span class='string'>&quot;foo=%C3%A9%26&amp;bar=&amp;foo=%23&quot;</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>parse</span>(<span class='ident'>encoded</span>.<span class='ident'>as_bytes</span>()), <span class='ident'>pairs</span>.<span class='ident'>to_vec</span>());
+        <span class="kw">let</span> <span class="ident">encoded</span> <span class="op">=</span> <span class="ident">serialize</span>(<span class="ident">pairs</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">encoded</span>, <span class="string">&quot;foo=%C3%A9%26&amp;bar=&amp;foo=%23&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">parse</span>(<span class="ident">encoded</span>.<span class="ident">as_bytes</span>()), <span class="ident">pairs</span>.<span class="ident">to_vec</span>());
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_form_serialize</span>() {
-        <span class='kw'>let</span> <span class='ident'>pairs</span> <span class='op'>=</span> [(<span class='string'>&quot;foo&quot;</span>, <span class='string'>&quot;é&amp;&quot;</span>),
-                     (<span class='string'>&quot;bar&quot;</span>, <span class='string'>&quot;&quot;</span>),
-                     (<span class='string'>&quot;foo&quot;</span>, <span class='string'>&quot;#&quot;</span>)];
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_form_serialize</span>() {
+        <span class="kw">let</span> <span class="ident">pairs</span> <span class="op">=</span> [(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;é&amp;&quot;</span>),
+                     (<span class="string">&quot;bar&quot;</span>, <span class="string">&quot;&quot;</span>),
+                     (<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;#&quot;</span>)];
 
-        <span class='kw'>let</span> <span class='ident'>want</span> <span class='op'>=</span> <span class='string'>&quot;foo=%C3%A9%26&amp;bar=&amp;foo=%23&quot;</span>;
-        <span class='comment'>// Works with referenced tuples</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>serialize</span>(<span class='ident'>pairs</span>.<span class='ident'>iter</span>()), <span class='ident'>want</span>);
-        <span class='comment'>// Works with owned tuples</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>serialize</span>(<span class='ident'>pairs</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> (<span class='ident'>p</span>.<span class='number'>0</span>, <span class='ident'>p</span>.<span class='number'>1</span>))), <span class='ident'>want</span>);
+        <span class="kw">let</span> <span class="ident">want</span> <span class="op">=</span> <span class="string">&quot;foo=%C3%A9%26&amp;bar=&amp;foo=%23&quot;</span>;
+        <span class="comment">// Works with referenced tuples</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">serialize</span>(<span class="ident">pairs</span>.<span class="ident">iter</span>()), <span class="ident">want</span>);
+        <span class="comment">// Works with owned tuples</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">serialize</span>(<span class="ident">pairs</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> (<span class="ident">p</span>.<span class="number">0</span>, <span class="ident">p</span>.<span class="number">1</span>))), <span class="ident">want</span>);
 
     }
 }
@@ -455,7 +456,6 @@
         window.rootPath = "../../";
         window.currentCrate = "url";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

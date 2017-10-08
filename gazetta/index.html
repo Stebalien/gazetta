@@ -9,6 +9,7 @@
 
     <title>gazetta - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'gazetta', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate gazetta</p><div class="block items"><ul><li><a href="#reexports">Reexports</a></li><li><a href="#modules">Modules</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'gazetta', ty: 'mod', relpath: '../'};</script>
     </nav>
 
     <nav class="sub">
@@ -42,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>gazetta</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>gazetta</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -51,46 +52,46 @@
 <div class='docblock'><p>This is the API documentation for gazetta. If you just want to use gazetta, see the
 <a href="http://stebalien.com/projects/gazetta">homepage</a>.</p>
 </div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
-<table><tr><td><code>pub use render::<a class='trait' href='../gazetta_core/render/trait.Gazetta.html' title='gazetta_core::render::Gazetta'>Gazetta</a>;</code></td></tr><tr><td><code>pub use view::<a class='struct' href='../gazetta_core/view/page/struct.Page.html' title='gazetta_core::view::page::Page'>Page</a>;</code></td></tr><tr><td><code>pub use view::<a class='struct' href='../gazetta_core/view/site/struct.Site.html' title='gazetta_core::view::site::Site'>Site</a>;</code></td></tr><tr><td><code>pub use model::<a class='struct' href='../gazetta_core/model/source/struct.Source.html' title='gazetta_core::model::source::Source'>Source</a>;</code></td></tr><tr><td><code>pub use model::<a class='trait' href='../gazetta_core/model/meta/trait.Meta.html' title='gazetta_core::model::meta::Meta'>Meta</a>;</code></td></tr><tr><td><code>pub use model::<a class='struct' href='../gazetta_model_ext/meta/struct.SourceMeta.html' title='gazetta_model_ext::meta::SourceMeta'>SourceMeta</a>;</code></td></tr><tr><td><code>pub use model::<a class='struct' href='../gazetta_model_ext/meta/struct.EntryMeta.html' title='gazetta_model_ext::meta::EntryMeta'>EntryMeta</a>;</code></td></tr><tr><td><code>pub use error::<a class='struct' href='../gazetta_core/error/struct.AnnotatedError.html' title='gazetta_core::error::AnnotatedError'>AnnotatedError</a>;</code></td></tr><tr><td><code>pub use error::<a class='enum' href='../gazetta_core/error/enum.SourceError.html' title='gazetta_core::error::SourceError'>SourceError</a>;</code></td></tr><tr><td><code>pub use error::<a class='type' href='../gazetta_core/error/type.RenderError.html' title='gazetta_core::error::RenderError'>RenderError</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table><tr><td><code>pub use render::<a class="trait" href="../gazetta_core/render/trait.Gazetta.html" title="trait gazetta_core::render::Gazetta">Gazetta</a>;</code></td></tr><tr><td><code>pub use view::<a class="struct" href="../gazetta_core/view/page/struct.Page.html" title="struct gazetta_core::view::page::Page">Page</a>;</code></td></tr><tr><td><code>pub use view::<a class="struct" href="../gazetta_core/view/site/struct.Site.html" title="struct gazetta_core::view::site::Site">Site</a>;</code></td></tr><tr><td><code>pub use model::<a class="struct" href="../gazetta_core/model/source/struct.Source.html" title="struct gazetta_core::model::source::Source">Source</a>;</code></td></tr><tr><td><code>pub use model::<a class="trait" href="../gazetta_core/model/meta/trait.Meta.html" title="trait gazetta_core::model::meta::Meta">Meta</a>;</code></td></tr><tr><td><code>pub use model::<a class="struct" href="../gazetta_model_ext/meta/struct.SourceMeta.html" title="struct gazetta_model_ext::meta::SourceMeta">SourceMeta</a>;</code></td></tr><tr><td><code>pub use model::<a class="struct" href="../gazetta_model_ext/meta/struct.EntryMeta.html" title="struct gazetta_model_ext::meta::EntryMeta">EntryMeta</a>;</code></td></tr><tr><td><code>pub use error::<a class="struct" href="../gazetta_core/error/struct.AnnotatedError.html" title="struct gazetta_core::error::AnnotatedError">AnnotatedError</a>;</code></td></tr><tr><td><code>pub use error::<a class="enum" href="../gazetta_core/error/enum.SourceError.html" title="enum gazetta_core::error::SourceError">SourceError</a>;</code></td></tr><tr><td><code>pub use error::<a class="type" href="../gazetta_core/error/type.RenderError.html" title="type gazetta_core::error::RenderError">RenderError</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='cli/index.html'
-                                  title='gazetta::cli'>cli</a></td>
+                           <td><a class="mod" href="cli/index.html"
+                                  title='mod gazetta::cli'>cli</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='error/index.html'
-                                  title='gazetta::error'>error</a></td>
+                           <td><a class="mod" href="error/index.html"
+                                  title='mod gazetta::error'>error</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='model/index.html'
-                                  title='gazetta::model'>model</a></td>
+                           <td><a class="mod" href="model/index.html"
+                                  title='mod gazetta::model'>model</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='prelude/index.html'
-                                  title='gazetta::prelude'>prelude</a></td>
+                           <td><a class="mod" href="prelude/index.html"
+                                  title='mod gazetta::prelude'>prelude</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='render/index.html'
-                                  title='gazetta::render'>render</a></td>
+                           <td><a class="mod" href="render/index.html"
+                                  title='mod gazetta::render'>render</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='view/index.html'
-                                  title='gazetta::view'>view</a></td>
+                           <td><a class="mod" href="view/index.html"
+                                  title='mod gazetta::view'>view</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -151,7 +152,6 @@
         window.rootPath = "../";
         window.currentCrate = "gazetta";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

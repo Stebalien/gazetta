@@ -9,6 +9,7 @@
 
     <title>chrono::offset::Offset - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>chrono</a>::<wbr><a href='index.html'>offset</a></p><script>window.sidebarCurrent = {name: 'Offset', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait Offset</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>chrono</a>::<wbr><a href='index.html'>offset</a></p><script>window.sidebarCurrent = {name: 'Offset', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,24 +43,28 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>chrono</a>::<wbr><a href='index.html'>offset</a>::<wbr><a class='trait' href=''>Offset</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>chrono</a>::<wbr><a href='index.html'>offset</a>::<wbr><a class="trait" href=''>Offset</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/chrono/offset/mod.rs.html#161-164' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Offset: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> {
-    fn <a href='#tymethod.local_minus_utc' class='fnname'>local_minus_utc</a>(&amp;self) -&gt; <a class='struct' href='../../chrono/duration/struct.Duration.html' title='chrono::duration::Duration'>Duration</a>;
+<pre class='rust trait'>pub trait Offset: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> {
+    fn <a href='#tymethod.local_minus_utc' class='fnname'>local_minus_utc</a>(&amp;self) -&gt; <a class="struct" href="../../chrono/duration/struct.Duration.html" title="struct chrono::duration::Duration">Duration</a>;
 }</pre><div class='docblock'><p>The offset from the local time to UTC.</p>
 </div>
-            <h2 id='required-methods'>Required Methods</h2>
+            <h2 id='required-methods' class='small-section-header'>
+              Required Methods<a href='#required-methods' class='anchor'></a>
+            </h2>
             <div class='methods'>
-        <h3 id='tymethod.local_minus_utc' class='method stab '><span id='local_minus_utc.v' class='invisible'><code>fn <a href='#tymethod.local_minus_utc' class='fnname'>local_minus_utc</a>(&amp;self) -&gt; <a class='struct' href='../../chrono/duration/struct.Duration.html' title='chrono::duration::Duration'>Duration</a></code></span></h3><div class='docblock'><p>Returns the offset from UTC to the local time stored.</p>
+        <h3 id='tymethod.local_minus_utc' class='method'><span id='local_minus_utc.v' class='invisible'><code>fn <a href='#tymethod.local_minus_utc' class='fnname'>local_minus_utc</a>(&amp;self) -&gt; <a class="struct" href="../../chrono/duration/struct.Duration.html" title="struct chrono::duration::Duration">Duration</a></code></span></h3><div class='docblock'><p>Returns the offset from UTC to the local time stored.</p>
 </div></div>
-        <h2 id='implementors'>Implementors</h2>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl Offset for <a class='struct' href='../../chrono/offset/utc/struct.UTC.html' title='chrono::offset::utc::UTC'>UTC</a></code></li>
-<li><code>impl Offset for <a class='struct' href='../../chrono/offset/fixed/struct.FixedOffset.html' title='chrono::offset::fixed::FixedOffset'>FixedOffset</a></code></li>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/chrono/offset/utc.rs.html#53-55' title='goto source code'>[src]</a></div><code>impl Offset for <a class="struct" href="../../chrono/offset/utc/struct.UTC.html" title="struct chrono::offset::utc::UTC">UTC</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/chrono/offset/fixed.rs.html#98-100' title='goto source code'>[src]</a></div><code>impl Offset for <a class="struct" href="../../chrono/offset/fixed/struct.FixedOffset.html" title="struct chrono::offset::fixed::FixedOffset">FixedOffset</a></code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/chrono/offset/trait.Offset.js">
                  </script></section>
@@ -119,7 +124,6 @@
         window.rootPath = "../../";
         window.currentCrate = "chrono";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

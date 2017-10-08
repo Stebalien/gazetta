@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.2.2/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.2.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -155,64 +156,64 @@
 <span id="111">111</span>
 <span id="112">112</span>
 <span id="113">113</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright 2015, Yuheng Chen. See the LICENSE file at the top-level</span>
-<span class='comment'>// directory of this distribution.</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright 2015, Yuheng Chen. See the LICENSE file at the top-level</span>
+<span class="comment">// directory of this distribution.</span>
 
-<span class='doccomment'>//! YAML 1.2 implementation in pure Rust.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Usage</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! This crate is [on github](https://github.com/chyh1990/yaml-rust) and can be</span>
-<span class='doccomment'>//! used by adding `yaml-rust` to the dependencies in your project&#39;s `Cargo.toml`.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```toml</span>
-<span class='doccomment'>//! [dependencies.yaml-rust]</span>
-<span class='doccomment'>//! git = &quot;https://github.com/chyh1990/yaml-rust.git&quot;</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! And this in your crate root:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! extern crate yaml_rust;</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Parse a string into `Vec&lt;Yaml&gt;` and then serialize it as a YAML string.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Examples</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! use yaml_rust::{YamlLoader, YamlEmitter};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! let docs = YamlLoader::load_from_str(&quot;[1, 2, 3]&quot;).unwrap();</span>
-<span class='doccomment'>//! let doc = &amp;docs[0]; // select the first document</span>
-<span class='doccomment'>//! assert_eq!(doc[0].as_i64().unwrap(), 1); // access elements by index</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! let mut out_str = String::new();</span>
-<span class='doccomment'>//! let mut emitter = YamlEmitter::new(&amp;mut out_str);</span>
-<span class='doccomment'>//! emitter.dump(doc).unwrap(); // dump the YAML object to a String</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
+<span class="doccomment">//! YAML 1.2 implementation in pure Rust.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Usage</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This crate is [on github](https://github.com/chyh1990/yaml-rust) and can be</span>
+<span class="doccomment">//! used by adding `yaml-rust` to the dependencies in your project&#39;s `Cargo.toml`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [dependencies.yaml-rust]</span>
+<span class="doccomment">//! git = &quot;https://github.com/chyh1990/yaml-rust.git&quot;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! And this in your crate root:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! extern crate yaml_rust;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Parse a string into `Vec&lt;Yaml&gt;` and then serialize it as a YAML string.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Examples</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! use yaml_rust::{YamlLoader, YamlEmitter};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let docs = YamlLoader::load_from_str(&quot;[1, 2, 3]&quot;).unwrap();</span>
+<span class="doccomment">//! let doc = &amp;docs[0]; // select the first document</span>
+<span class="doccomment">//! assert_eq!(doc[0].as_i64().unwrap(), 1); // access elements by index</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let mut out_str = String::new();</span>
+<span class="doccomment">//! let mut emitter = YamlEmitter::new(&amp;mut out_str);</span>
+<span class="doccomment">//! emitter.dump(doc).unwrap(); // dump the YAML object to a String</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>yaml</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>scanner</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>parser</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>emitter</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">yaml</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">scanner</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">parser</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">emitter</span>;
 
-<span class='comment'>// reexport key APIs</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>scanner</span>::<span class='ident'>ScanError</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>parser</span>::<span class='ident'>Event</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>yaml</span>::{<span class='ident'>Yaml</span>, <span class='ident'>YamlLoader</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>emitter</span>::{<span class='ident'>YamlEmitter</span>, <span class='ident'>EmitError</span>};
+<span class="comment">// reexport key APIs</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">scanner</span>::<span class="ident">ScanError</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">parser</span>::<span class="ident">Event</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">yaml</span>::{<span class="ident">Yaml</span>, <span class="ident">YamlLoader</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">emitter</span>::{<span class="ident">YamlEmitter</span>, <span class="ident">EmitError</span>};
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_api</span>() {
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span>
-<span class='string'>&quot;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_api</span>() {
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span>
+<span class="string">&quot;
 # from yaml-cpp example
 - name: Ogre
   position: [0, 5, 0]
@@ -236,36 +237,36 @@
     - name: Staff
       damage: 3
 &quot;</span>;
-        <span class='kw'>let</span> <span class='ident'>docs</span> <span class='op'>=</span> <span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>s</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>docs</span>[<span class='number'>0</span>];
+        <span class="kw">let</span> <span class="ident">docs</span> <span class="op">=</span> <span class="ident">YamlLoader</span>::<span class="ident">load_from_str</span>(<span class="ident">s</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">doc</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">docs</span>[<span class="number">0</span>];
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>doc</span>[<span class='number'>0</span>][<span class='string'>&quot;name&quot;</span>].<span class='ident'>as_str</span>().<span class='ident'>unwrap</span>(), <span class='string'>&quot;Ogre&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">doc</span>[<span class="number">0</span>][<span class="string">&quot;name&quot;</span>].<span class="ident">as_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;Ogre&quot;</span>);
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>emitter</span> <span class='op'>=</span> <span class='ident'>YamlEmitter</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>writer</span>);
-            <span class='ident'>emitter</span>.<span class='ident'>dump</span>(<span class='ident'>doc</span>).<span class='ident'>unwrap</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">emitter</span> <span class="op">=</span> <span class="ident">YamlEmitter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">writer</span>);
+            <span class="ident">emitter</span>.<span class="ident">dump</span>(<span class="ident">doc</span>).<span class="ident">unwrap</span>();
         }
 
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>writer</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span>);
     }
 
-    <span class='kw'>fn</span> <span class='ident'>try_fail</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Yaml</span><span class='op'>&gt;</span>, <span class='ident'>ScanError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>s</span>));
-        <span class='prelude-val'>Ok</span>(<span class='ident'>t</span>)
+    <span class="kw">fn</span> <span class="ident">try_fail</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Yaml</span><span class="op">&gt;</span>, <span class="ident">ScanError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">YamlLoader</span>::<span class="ident">load_from_str</span>(<span class="ident">s</span>));
+        <span class="prelude-val">Ok</span>(<span class="ident">t</span>)
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_fail</span>() {
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span>
-<span class='string'>&quot;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_fail</span>() {
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span>
+<span class="string">&quot;
 # syntax error
 scalar
 key: [1, 2]]
 key1:a2
 &quot;</span>;
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>s</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>try_fail</span>(<span class='ident'>s</span>).<span class='ident'>is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">YamlLoader</span>::<span class="ident">load_from_str</span>(<span class="ident">s</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">try_fail</span>(<span class="ident">s</span>).<span class="ident">is_err</span>());
     }
 
 }
@@ -327,7 +328,6 @@ key1:a2
         window.rootPath = "../../";
         window.currentCrate = "yaml_rust";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

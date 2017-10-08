@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.2.25/src/offset/fixed.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.2.25/src/offset/fixed.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>fixed.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -230,192 +231,192 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
-</pre><pre class='rust '>
-<span class='comment'>// This is a part of rust-chrono.</span>
-<span class='comment'>// Copyright (c) 2015, Kang Seonghoon.</span>
-<span class='comment'>// See README.md and LICENSE.txt for details.</span>
+</pre><pre class="rust ">
+<span class="comment">// This is a part of rust-chrono.</span>
+<span class="comment">// Copyright (c) 2015, Kang Seonghoon.</span>
+<span class="comment">// See README.md and LICENSE.txt for details.</span>
 
-<span class='doccomment'>/*!
+<span class="doccomment">/*!
  * The time zone which has a fixed offset from UTC.
  */</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-<span class='kw'>use</span> <span class='ident'>div</span>::<span class='ident'>div_mod_floor</span>;
-<span class='kw'>use</span> <span class='ident'>duration</span>::<span class='ident'>Duration</span>;
-<span class='kw'>use</span> <span class='ident'>naive</span>::<span class='ident'>date</span>::<span class='ident'>NaiveDate</span>;
-<span class='kw'>use</span> <span class='ident'>naive</span>::<span class='ident'>datetime</span>::<span class='ident'>NaiveDateTime</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>TimeZone</span>, <span class='ident'>Offset</span>, <span class='ident'>LocalResult</span>};
+<span class="kw">use</span> <span class="ident">div</span>::<span class="ident">div_mod_floor</span>;
+<span class="kw">use</span> <span class="ident">duration</span>::<span class="ident">Duration</span>;
+<span class="kw">use</span> <span class="ident">naive</span>::<span class="ident">date</span>::<span class="ident">NaiveDate</span>;
+<span class="kw">use</span> <span class="ident">naive</span>::<span class="ident">datetime</span>::<span class="ident">NaiveDateTime</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">TimeZone</span>, <span class="ident">Offset</span>, <span class="ident">LocalResult</span>};
 
-<span class='doccomment'>/// The time zone with fixed offset, from UTC-23:59:59 to UTC+23:59:59.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FixedOffset</span> {
-    <span class='ident'>local_minus_utc</span>: <span class='ident'>i32</span>,
+<span class="doccomment">/// The time zone with fixed offset, from UTC-23:59:59 to UTC+23:59:59.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FixedOffset</span> {
+    <span class="ident">local_minus_utc</span>: <span class="ident">i32</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>FixedOffset</span> {
-    <span class='doccomment'>/// Makes a new `FixedOffset` from the serialized representation.</span>
-    <span class='doccomment'>/// Used for serialization formats.</span>
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rustc-serialize&quot;</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>from_serialized</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FixedOffset</span><span class='op'>&gt;</span> {
-        <span class='comment'>// check if the values are in the range</span>
-        <span class='kw'>if</span> <span class='ident'>secs</span> <span class='op'>&lt;=</span> <span class='op'>-</span><span class='number'>86400</span> <span class='op'>||</span> <span class='number'>86400</span> <span class='op'>&lt;=</span> <span class='ident'>secs</span> { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
+<span class="kw">impl</span> <span class="ident">FixedOffset</span> {
+    <span class="doccomment">/// Makes a new `FixedOffset` from the serialized representation.</span>
+    <span class="doccomment">/// Used for serialization formats.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">from_serialized</span>(<span class="ident">secs</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span> {
+        <span class="comment">// check if the values are in the range</span>
+        <span class="kw">if</span> <span class="ident">secs</span> <span class="op">&lt;=</span> <span class="op">-</span><span class="number">86400</span> <span class="op">||</span> <span class="number">86400</span> <span class="op">&lt;=</span> <span class="ident">secs</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
 
-        <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='ident'>FixedOffset</span> { <span class='ident'>local_minus_utc</span>: <span class='ident'>secs</span> };
-        <span class='prelude-val'>Some</span>(<span class='ident'>offset</span>)
+        <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">FixedOffset</span> { <span class="ident">local_minus_utc</span>: <span class="ident">secs</span> };
+        <span class="prelude-val">Some</span>(<span class="ident">offset</span>)
     }
 
-    <span class='doccomment'>/// Returns a serialized representation of this `FixedOffset`.</span>
-    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rustc-serialize&quot;</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>to_serialized</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
-        <span class='self'>self</span>.<span class='ident'>local_minus_utc</span>
+    <span class="doccomment">/// Returns a serialized representation of this `FixedOffset`.</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">to_serialized</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
+        <span class="self">self</span>.<span class="ident">local_minus_utc</span>
     }
 
-    <span class='doccomment'>/// Makes a new `FixedOffset` for the Eastern Hemisphere with given timezone difference.</span>
-    <span class='doccomment'>/// The negative `secs` means the Western Hemisphere.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Panics on the out-of-bound `secs`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>east</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> {
-        <span class='ident'>FixedOffset</span>::<span class='ident'>east_opt</span>(<span class='ident'>secs</span>).<span class='ident'>expect</span>(<span class='string'>&quot;FixedOffset::east out of bounds&quot;</span>)
+    <span class="doccomment">/// Makes a new `FixedOffset` for the Eastern Hemisphere with given timezone difference.</span>
+    <span class="doccomment">/// The negative `secs` means the Western Hemisphere.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics on the out-of-bound `secs`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">east</span>(<span class="ident">secs</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">FixedOffset</span> {
+        <span class="ident">FixedOffset</span>::<span class="ident">east_opt</span>(<span class="ident">secs</span>).<span class="ident">expect</span>(<span class="string">&quot;FixedOffset::east out of bounds&quot;</span>)
     }
 
-    <span class='doccomment'>/// Makes a new `FixedOffset` for the Eastern Hemisphere with given timezone difference.</span>
-    <span class='doccomment'>/// The negative `secs` means the Western Hemisphere.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Returns `None` on the out-of-bound `secs`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>east_opt</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FixedOffset</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>-</span><span class='number'>86400</span> <span class='op'>&lt;</span> <span class='ident'>secs</span> <span class='op'>&amp;&amp;</span> <span class='ident'>secs</span> <span class='op'>&lt;</span> <span class='number'>86400</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span> { <span class='ident'>local_minus_utc</span>: <span class='ident'>secs</span> })
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>None</span>
+    <span class="doccomment">/// Makes a new `FixedOffset` for the Eastern Hemisphere with given timezone difference.</span>
+    <span class="doccomment">/// The negative `secs` means the Western Hemisphere.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns `None` on the out-of-bound `secs`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">east_opt</span>(<span class="ident">secs</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">-</span><span class="number">86400</span> <span class="op">&lt;</span> <span class="ident">secs</span> <span class="op">&amp;&amp;</span> <span class="ident">secs</span> <span class="op">&lt;</span> <span class="number">86400</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span> { <span class="ident">local_minus_utc</span>: <span class="ident">secs</span> })
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         }
     }
 
-    <span class='doccomment'>/// Makes a new `FixedOffset` for the Western Hemisphere with given timezone difference.</span>
-    <span class='doccomment'>/// The negative `secs` means the Eastern Hemisphere.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Panics on the out-of-bound `secs`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>west</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> {
-        <span class='ident'>FixedOffset</span>::<span class='ident'>west_opt</span>(<span class='ident'>secs</span>).<span class='ident'>expect</span>(<span class='string'>&quot;FixedOffset::west out of bounds&quot;</span>)
+    <span class="doccomment">/// Makes a new `FixedOffset` for the Western Hemisphere with given timezone difference.</span>
+    <span class="doccomment">/// The negative `secs` means the Eastern Hemisphere.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics on the out-of-bound `secs`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">west</span>(<span class="ident">secs</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="ident">FixedOffset</span> {
+        <span class="ident">FixedOffset</span>::<span class="ident">west_opt</span>(<span class="ident">secs</span>).<span class="ident">expect</span>(<span class="string">&quot;FixedOffset::west out of bounds&quot;</span>)
     }
 
-    <span class='doccomment'>/// Makes a new `FixedOffset` for the Western Hemisphere with given timezone difference.</span>
-    <span class='doccomment'>/// The negative `secs` means the Eastern Hemisphere.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Returns `None` on the out-of-bound `secs`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>west_opt</span>(<span class='ident'>secs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>FixedOffset</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>-</span><span class='number'>86400</span> <span class='op'>&lt;</span> <span class='ident'>secs</span> <span class='op'>&amp;&amp;</span> <span class='ident'>secs</span> <span class='op'>&lt;</span> <span class='number'>86400</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span> { <span class='ident'>local_minus_utc</span>: <span class='op'>-</span><span class='ident'>secs</span> })
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>None</span>
-        }
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>TimeZone</span> <span class='kw'>for</span> <span class='ident'>FixedOffset</span> {
-    <span class='kw'>type</span> <span class='ident'>Offset</span> <span class='op'>=</span> <span class='ident'>FixedOffset</span>;
-
-    <span class='kw'>fn</span> <span class='ident'>from_offset</span>(<span class='ident'>offset</span>: <span class='kw-2'>&amp;</span><span class='ident'>FixedOffset</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> { <span class='ident'>offset</span>.<span class='ident'>clone</span>() }
-
-    <span class='kw'>fn</span> <span class='ident'>offset_from_local_date</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_local</span>: <span class='kw-2'>&amp;</span><span class='ident'>NaiveDate</span>) <span class='op'>-&gt;</span> <span class='ident'>LocalResult</span><span class='op'>&lt;</span><span class='ident'>FixedOffset</span><span class='op'>&gt;</span> {
-        <span class='ident'>LocalResult</span>::<span class='ident'>Single</span>(<span class='self'>self</span>.<span class='ident'>clone</span>())
-    }
-    <span class='kw'>fn</span> <span class='ident'>offset_from_local_datetime</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_local</span>: <span class='kw-2'>&amp;</span><span class='ident'>NaiveDateTime</span>) <span class='op'>-&gt;</span> <span class='ident'>LocalResult</span><span class='op'>&lt;</span><span class='ident'>FixedOffset</span><span class='op'>&gt;</span> {
-        <span class='ident'>LocalResult</span>::<span class='ident'>Single</span>(<span class='self'>self</span>.<span class='ident'>clone</span>())
-    }
-
-    <span class='kw'>fn</span> <span class='ident'>offset_from_utc_date</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_utc</span>: <span class='kw-2'>&amp;</span><span class='ident'>NaiveDate</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> { <span class='self'>self</span>.<span class='ident'>clone</span>() }
-    <span class='kw'>fn</span> <span class='ident'>offset_from_utc_datetime</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>_utc</span>: <span class='kw-2'>&amp;</span><span class='ident'>NaiveDateTime</span>) <span class='op'>-&gt;</span> <span class='ident'>FixedOffset</span> { <span class='self'>self</span>.<span class='ident'>clone</span>() }
-}
-
-<span class='kw'>impl</span> <span class='ident'>Offset</span> <span class='kw'>for</span> <span class='ident'>FixedOffset</span> {
-    <span class='kw'>fn</span> <span class='ident'>local_minus_utc</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Duration</span> { <span class='ident'>Duration</span>::<span class='ident'>seconds</span>(<span class='self'>self</span>.<span class='ident'>local_minus_utc</span> <span class='kw'>as</span> <span class='ident'>i64</span>) }
-}
-
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>FixedOffset</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>let</span> <span class='ident'>offset</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>local_minus_utc</span>;
-        <span class='kw'>let</span> (<span class='ident'>sign</span>, <span class='ident'>offset</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>offset</span> <span class='op'>&lt;</span> <span class='number'>0</span> {(<span class='string'>&#39;-&#39;</span>, <span class='op'>-</span><span class='ident'>offset</span>)} <span class='kw'>else</span> {(<span class='string'>&#39;+&#39;</span>, <span class='ident'>offset</span>)};
-        <span class='kw'>let</span> (<span class='ident'>mins</span>, <span class='ident'>sec</span>) <span class='op'>=</span> <span class='ident'>div_mod_floor</span>(<span class='ident'>offset</span>, <span class='number'>60</span>);
-        <span class='kw'>let</span> (<span class='ident'>hour</span>, <span class='ident'>min</span>) <span class='op'>=</span> <span class='ident'>div_mod_floor</span>(<span class='ident'>mins</span>, <span class='number'>60</span>);
-        <span class='kw'>if</span> <span class='ident'>sec</span> <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}{:02}:{:02}&quot;</span>, <span class='ident'>sign</span>, <span class='ident'>hour</span>, <span class='ident'>min</span>)
-        } <span class='kw'>else</span> {
-            <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}{:02}:{:02}:{:02}&quot;</span>, <span class='ident'>sign</span>, <span class='ident'>hour</span>, <span class='ident'>min</span>, <span class='ident'>sec</span>)
+    <span class="doccomment">/// Makes a new `FixedOffset` for the Western Hemisphere with given timezone difference.</span>
+    <span class="doccomment">/// The negative `secs` means the Eastern Hemisphere.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns `None` on the out-of-bound `secs`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">west_opt</span>(<span class="ident">secs</span>: <span class="ident">i32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">-</span><span class="number">86400</span> <span class="op">&lt;</span> <span class="ident">secs</span> <span class="op">&amp;&amp;</span> <span class="ident">secs</span> <span class="op">&lt;</span> <span class="number">86400</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span> { <span class="ident">local_minus_utc</span>: <span class="op">-</span><span class="ident">secs</span> })
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>FixedOffset</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> { <span class='ident'>fmt</span>::<span class='ident'>Debug</span>::<span class='ident'>fmt</span>(<span class='self'>self</span>, <span class='ident'>f</span>) }
+<span class="kw">impl</span> <span class="ident">TimeZone</span> <span class="kw">for</span> <span class="ident">FixedOffset</span> {
+    <span class="kw">type</span> <span class="ident">Offset</span> <span class="op">=</span> <span class="ident">FixedOffset</span>;
+
+    <span class="kw">fn</span> <span class="ident">from_offset</span>(<span class="ident">offset</span>: <span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>) <span class="op">-&gt;</span> <span class="ident">FixedOffset</span> { <span class="ident">offset</span>.<span class="ident">clone</span>() }
+
+    <span class="kw">fn</span> <span class="ident">offset_from_local_date</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_local</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDate</span>) <span class="op">-&gt;</span> <span class="ident">LocalResult</span><span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span> {
+        <span class="ident">LocalResult</span>::<span class="ident">Single</span>(<span class="self">self</span>.<span class="ident">clone</span>())
+    }
+    <span class="kw">fn</span> <span class="ident">offset_from_local_datetime</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_local</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDateTime</span>) <span class="op">-&gt;</span> <span class="ident">LocalResult</span><span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span> {
+        <span class="ident">LocalResult</span>::<span class="ident">Single</span>(<span class="self">self</span>.<span class="ident">clone</span>())
+    }
+
+    <span class="kw">fn</span> <span class="ident">offset_from_utc_date</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_utc</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDate</span>) <span class="op">-&gt;</span> <span class="ident">FixedOffset</span> { <span class="self">self</span>.<span class="ident">clone</span>() }
+    <span class="kw">fn</span> <span class="ident">offset_from_utc_datetime</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_utc</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDateTime</span>) <span class="op">-&gt;</span> <span class="ident">FixedOffset</span> { <span class="self">self</span>.<span class="ident">clone</span>() }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;rustc-serialize&quot;</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>rustc_serialize</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>FixedOffset</span>;
-    <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Encodable</span>, <span class='ident'>Encoder</span>, <span class='ident'>Decodable</span>, <span class='ident'>Decoder</span>};
+<span class="kw">impl</span> <span class="ident">Offset</span> <span class="kw">for</span> <span class="ident">FixedOffset</span> {
+    <span class="kw">fn</span> <span class="ident">local_minus_utc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Duration</span> { <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="self">self</span>.<span class="ident">local_minus_utc</span> <span class="kw">as</span> <span class="ident">i64</span>) }
+}
 
-    <span class='comment'>// TODO the current serialization format is NEVER intentionally defined.</span>
-    <span class='comment'>// this basically follows the automatically generated implementation for those traits,</span>
-    <span class='comment'>// plus manual verification steps for avoiding security problem.</span>
-    <span class='comment'>// in the future it is likely to be redefined to more sane and reasonable format.</span>
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">FixedOffset</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">local_minus_utc</span>;
+        <span class="kw">let</span> (<span class="ident">sign</span>, <span class="ident">offset</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">offset</span> <span class="op">&lt;</span> <span class="number">0</span> {(<span class="string">&#39;-&#39;</span>, <span class="op">-</span><span class="ident">offset</span>)} <span class="kw">else</span> {(<span class="string">&#39;+&#39;</span>, <span class="ident">offset</span>)};
+        <span class="kw">let</span> (<span class="ident">mins</span>, <span class="ident">sec</span>) <span class="op">=</span> <span class="ident">div_mod_floor</span>(<span class="ident">offset</span>, <span class="number">60</span>);
+        <span class="kw">let</span> (<span class="ident">hour</span>, <span class="ident">min</span>) <span class="op">=</span> <span class="ident">div_mod_floor</span>(<span class="ident">mins</span>, <span class="number">60</span>);
+        <span class="kw">if</span> <span class="ident">sec</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}{:02}:{:02}&quot;</span>, <span class="ident">sign</span>, <span class="ident">hour</span>, <span class="ident">min</span>)
+        } <span class="kw">else</span> {
+            <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}{:02}:{:02}:{:02}&quot;</span>, <span class="ident">sign</span>, <span class="ident">hour</span>, <span class="ident">min</span>, <span class="ident">sec</span>)
+        }
+    }
+}
 
-    <span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>FixedOffset</span> {
-        <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-            <span class='kw'>let</span> <span class='ident'>secs</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>to_serialized</span>();
-            <span class='ident'>s</span>.<span class='ident'>emit_struct</span>(<span class='string'>&quot;FixedOffset&quot;</span>, <span class='number'>1</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;local_minus_utc&quot;</span>, <span class='number'>0</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>secs</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-                <span class='prelude-val'>Ok</span>(())
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">FixedOffset</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> { <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">f</span>) }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">rustc_serialize</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">FixedOffset</span>;
+    <span class="kw">use</span> <span class="ident">rustc_serialize</span>::{<span class="ident">Encodable</span>, <span class="ident">Encoder</span>, <span class="ident">Decodable</span>, <span class="ident">Decoder</span>};
+
+    <span class="comment">// TODO the current serialization format is NEVER intentionally defined.</span>
+    <span class="comment">// this basically follows the automatically generated implementation for those traits,</span>
+    <span class="comment">// plus manual verification steps for avoiding security problem.</span>
+    <span class="comment">// in the future it is likely to be redefined to more sane and reasonable format.</span>
+
+    <span class="kw">impl</span> <span class="ident">Encodable</span> <span class="kw">for</span> <span class="ident">FixedOffset</span> {
+        <span class="kw">fn</span> <span class="ident">encode</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Encoder</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+            <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">to_serialized</span>();
+            <span class="ident">s</span>.<span class="ident">emit_struct</span>(<span class="string">&quot;FixedOffset&quot;</span>, <span class="number">1</span>, <span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
+                <span class="macro">try</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">emit_struct_field</span>(<span class="string">&quot;local_minus_utc&quot;</span>, <span class="number">0</span>, <span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">secs</span>.<span class="ident">encode</span>(<span class="ident">s</span>)));
+                <span class="prelude-val">Ok</span>(())
             })
         }
     }
 
-    <span class='kw'>impl</span> <span class='ident'>Decodable</span> <span class='kw'>for</span> <span class='ident'>FixedOffset</span> {
-        <span class='kw'>fn</span> <span class='ident'>decode</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Decoder</span><span class='op'>&gt;</span>(<span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>FixedOffset</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-            <span class='ident'>d</span>.<span class='ident'>read_struct</span>(<span class='string'>&quot;FixedOffset&quot;</span>, <span class='number'>1</span>, <span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span> {
-                <span class='kw'>let</span> <span class='ident'>secs</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;local_minus_utc&quot;</span>, <span class='number'>0</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>));
-                <span class='ident'>FixedOffset</span>::<span class='ident'>from_serialized</span>(<span class='ident'>secs</span>).<span class='ident'>ok_or_else</span>(<span class='op'>||</span> <span class='ident'>d</span>.<span class='ident'>error</span>(<span class='string'>&quot;invalid offset&quot;</span>))
+    <span class="kw">impl</span> <span class="ident">Decodable</span> <span class="kw">for</span> <span class="ident">FixedOffset</span> {
+        <span class="kw">fn</span> <span class="ident">decode</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">Decoder</span><span class="op">&gt;</span>(<span class="ident">d</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">FixedOffset</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+            <span class="ident">d</span>.<span class="ident">read_struct</span>(<span class="string">&quot;FixedOffset&quot;</span>, <span class="number">1</span>, <span class="op">|</span><span class="ident">d</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">d</span>.<span class="ident">read_struct_field</span>(<span class="string">&quot;local_minus_utc&quot;</span>, <span class="number">0</span>, <span class="ident">Decodable</span>::<span class="ident">decode</span>));
+                <span class="ident">FixedOffset</span>::<span class="ident">from_serialized</span>(<span class="ident">secs</span>).<span class="ident">ok_or_else</span>(<span class="op">||</span> <span class="ident">d</span>.<span class="ident">error</span>(<span class="string">&quot;invalid offset&quot;</span>))
             })
         }
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_encodable</span>() {
-        <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>::<span class='ident'>encode</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_encodable</span>() {
+        <span class="kw">use</span> <span class="ident">rustc_serialize</span>::<span class="ident">json</span>::<span class="ident">encode</span>;
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>0</span>)).<span class='ident'>ok</span>(),
-                   <span class='prelude-val'>Some</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:0}&quot;#</span>.<span class='ident'>into</span>()));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>1234</span>)).<span class='ident'>ok</span>(),
-                   <span class='prelude-val'>Some</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:1234}&quot;#</span>.<span class='ident'>into</span>()));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>86399</span>)).<span class='ident'>ok</span>(),
-                   <span class='prelude-val'>Some</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:86399}&quot;#</span>.<span class='ident'>into</span>()));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>FixedOffset</span>::<span class='ident'>west</span>(<span class='number'>1234</span>)).<span class='ident'>ok</span>(),
-                   <span class='prelude-val'>Some</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:-1234}&quot;#</span>.<span class='ident'>into</span>()));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>encode</span>(<span class='kw-2'>&amp;</span><span class='ident'>FixedOffset</span>::<span class='ident'>west</span>(<span class='number'>86399</span>)).<span class='ident'>ok</span>(),
-                   <span class='prelude-val'>Some</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:-86399}&quot;#</span>.<span class='ident'>into</span>()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="number">0</span>)).<span class="ident">ok</span>(),
+                   <span class="prelude-val">Some</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:0}&quot;#</span>.<span class="ident">into</span>()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="number">1234</span>)).<span class="ident">ok</span>(),
+                   <span class="prelude-val">Some</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:1234}&quot;#</span>.<span class="ident">into</span>()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="number">86399</span>)).<span class="ident">ok</span>(),
+                   <span class="prelude-val">Some</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:86399}&quot;#</span>.<span class="ident">into</span>()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>::<span class="ident">west</span>(<span class="number">1234</span>)).<span class="ident">ok</span>(),
+                   <span class="prelude-val">Some</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:-1234}&quot;#</span>.<span class="ident">into</span>()));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">encode</span>(<span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>::<span class="ident">west</span>(<span class="number">86399</span>)).<span class="ident">ok</span>(),
+                   <span class="prelude-val">Some</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:-86399}&quot;#</span>.<span class="ident">into</span>()));
     }
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>test_decodable</span>() {
-        <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>json</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_decodable</span>() {
+        <span class="kw">use</span> <span class="ident">rustc_serialize</span>::<span class="ident">json</span>;
 
-        <span class='kw'>let</span> <span class='ident'>decode</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>|</span> <span class='ident'>json</span>::<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>FixedOffset</span><span class='op'>&gt;</span>(<span class='ident'>s</span>);
+        <span class="kw">let</span> <span class="ident">decode</span> <span class="op">=</span> <span class="op">|</span><span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">|</span> <span class="ident">json</span>::<span class="ident">decode</span>::<span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span>(<span class="ident">s</span>);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:0}&quot;#</span>).<span class='ident'>ok</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>0</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;: 1234}&quot;#</span>).<span class='ident'>ok</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>1234</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:86399}&quot;#</span>).<span class='ident'>ok</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span>::<span class='ident'>east</span>(<span class='number'>86399</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:-1234}&quot;#</span>).<span class='ident'>ok</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span>::<span class='ident'>west</span>(<span class='number'>1234</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:-86399}&quot;#</span>).<span class='ident'>ok</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>FixedOffset</span>::<span class='ident'>west</span>(<span class='number'>86399</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:0}&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="number">0</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;: 1234}&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="number">1234</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:86399}&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="number">86399</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:-1234}&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span>::<span class="ident">west</span>(<span class="number">1234</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:-86399}&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">FixedOffset</span>::<span class="ident">west</span>(<span class="number">86399</span>)));
 
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:86400}&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:-86400}&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:0.1}&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{&quot;local_minus_utc&quot;:null}&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;{}&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;0&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;1234&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;&quot;string&quot;&quot;#</span>).<span class='ident'>is_err</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>decode</span>(<span class='string'>r#&quot;null&quot;#</span>).<span class='ident'>is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:86400}&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:-86400}&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:0.1}&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{&quot;local_minus_utc&quot;:null}&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;{}&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;0&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;1234&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;&quot;string&quot;&quot;#</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">decode</span>(<span class="string">r#&quot;null&quot;#</span>).<span class="ident">is_err</span>());
     }
 }
 
@@ -477,7 +478,6 @@
         window.rootPath = "../../../";
         window.currentCrate = "chrono";
     </script>
-    <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
     <script defer src="../../../search-index.js"></script>
 </body>

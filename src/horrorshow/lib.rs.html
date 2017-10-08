@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -374,337 +375,337 @@
 <span id="330">330</span>
 <span id="331">331</span>
 <span id="332">332</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! # Horrorshow</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! An html templating library.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Example:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # #[macro_use] extern crate horrorshow;</span>
-<span class='doccomment'>//! # fn main() {</span>
-<span class='doccomment'>//! use horrorshow::prelude::*;</span>
-<span class='doccomment'>//! use horrorshow::helper::doctype;</span>
-<span class='doccomment'>//! let actual = html! {</span>
-<span class='doccomment'>//!     : doctype::HTML;</span>
-<span class='doccomment'>//!     html {</span>
-<span class='doccomment'>//!         head {</span>
-<span class='doccomment'>//!             title : &quot;Hello world!&quot;;</span>
-<span class='doccomment'>//!         }</span>
-<span class='doccomment'>//!         body {</span>
-<span class='doccomment'>//!             // attributes</span>
-<span class='doccomment'>//!             h1(id=&quot;heading&quot;) {</span>
-<span class='doccomment'>//!                 // Insert escaped text</span>
-<span class='doccomment'>//!                 : &quot;Hello! This is &lt;html /&gt;&quot;</span>
-<span class='doccomment'>//!             }</span>
-<span class='doccomment'>//!             p {</span>
-<span class='doccomment'>//!                 // Insert raw text (unescaped)</span>
-<span class='doccomment'>//!                 : Raw(&quot;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&quot;)</span>
-<span class='doccomment'>//!             }</span>
-<span class='doccomment'>//!             ol(id=&quot;count&quot;) {</span>
-<span class='doccomment'>//!                 // You can embed for loops, while loops, and if statements.</span>
-<span class='doccomment'>//!                 @ for i in 0..10 {</span>
-<span class='doccomment'>//!                     li(first? = (i == 0)) {</span>
-<span class='doccomment'>//!                         // Format some text.</span>
-<span class='doccomment'>//!                         : format_args!(&quot;{}&quot;, i+1)</span>
-<span class='doccomment'>//!                     }</span>
-<span class='doccomment'>//!                 }</span>
-<span class='doccomment'>//!             }</span>
-<span class='doccomment'>//!             // You need semi-colons for tags without children.</span>
-<span class='doccomment'>//!             br; br;</span>
-<span class='doccomment'>//!             p {</span>
-<span class='doccomment'>//!                 // You can also embed closures.</span>
-<span class='doccomment'>//!                 |tmpl| {</span>
-<span class='doccomment'>//!                     tmpl &lt;&lt; &quot;Easy!&quot;;</span>
-<span class='doccomment'>//!                 }</span>
-<span class='doccomment'>//!             }</span>
-<span class='doccomment'>//!         }</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }.into_string().unwrap();</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! let expected = &quot;\</span>
-<span class='doccomment'>//! &lt;!DOCTYPE html&gt;\</span>
-<span class='doccomment'>//! &lt;html&gt;\</span>
-<span class='doccomment'>//!   &lt;head&gt;\</span>
-<span class='doccomment'>//!     &lt;title&gt;Hello world!&lt;/title&gt;\</span>
-<span class='doccomment'>//!   &lt;/head&gt;\</span>
-<span class='doccomment'>//!   &lt;body&gt;\</span>
-<span class='doccomment'>//!     &lt;h1 id=\&quot;heading\&quot;&gt;Hello! This is &amp;lt;html /&amp;gt;&lt;/h1&gt;\</span>
-<span class='doccomment'>//!     &lt;p&gt;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&lt;/p&gt;\</span>
-<span class='doccomment'>//!     &lt;ol id=\&quot;count\&quot;&gt;\</span>
-<span class='doccomment'>//!       &lt;li first&gt;1&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;2&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;3&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;4&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;5&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;6&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;7&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;8&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;9&lt;/li&gt;\</span>
-<span class='doccomment'>//!       &lt;li&gt;10&lt;/li&gt;\</span>
-<span class='doccomment'>//!     &lt;/ol&gt;\</span>
-<span class='doccomment'>//!     &lt;br /&gt;&lt;br /&gt;\</span>
-<span class='doccomment'>//!     &lt;p&gt;Easy!&lt;/p&gt;\</span>
-<span class='doccomment'>//!   &lt;/body&gt;\</span>
-<span class='doccomment'>//! &lt;/html&gt;&quot;;</span>
-<span class='doccomment'>//! assert_eq!(expected, actual);</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # }</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Usage</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! #[macro_use]</span>
-<span class='doccomment'>//! extern crate horrorshow;</span>
-<span class='doccomment'>//! # fn main() {}</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Inside an html template, the following expressions are valid:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag;` -- Insert a the tag `some_tag`.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag(attr=rust_expresion,...);` -- Insert a the tag `some_tag` with the specified</span>
-<span class='doccomment'>//!    attributes. The attribute values will be evaluated as rust expressions at runtime and they</span>
-<span class='doccomment'>//!    must implement `RenderOnce` (already implemented on &amp;str, String, other templates, etc.).</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag(attr,...);` -- You can also omit the value.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag(attr? = Some(&quot;test&quot;),...);` -- You can optionally include an attribute.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag(attr? = some_boolean,...);` -- You can optionally include an attribute without a value.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag { ... }` -- Insert the tag `some_tag` and recursively evaluate the `...`.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `some_tag(...) { ... }` -- Same as above but with custom attributes.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `: rust_expression`, `: { rust_code }` -- Evaluate the expression or block and insert result</span>
-<span class='doccomment'>//! current position. To insert a literal html (unescaped), mark it as raw with the `Raw` marker type.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `|tmpl| rust_expression`, `|tmpl| { rust_code }` -- Evaluate the expression or block. This is</span>
-<span class='doccomment'>//! actually a closure so the block/expression can append to the current template through `tmpl`</span>
-<span class='doccomment'>//! (of type `&amp;mut TemplateBuffer`).</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! * `@ for ...`, `@ while ...`, `@ if ...` -- you can embed basic control flow expressions.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Traits, traits oh-my!</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! You will likely notice that there are four render traits:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! 1. `RenderOnce`</span>
-<span class='doccomment'>//! 2. `RenderMut`</span>
-<span class='doccomment'>//! 3. `Render`</span>
-<span class='doccomment'>//! 4. `RenderBox`</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! These three traits map to the four `Fn` traits and reflect the fact that some templates need</span>
-<span class='doccomment'>//! exclusive access (`RenderMut`) in order to be rendered and others might even consume their</span>
-<span class='doccomment'>//! environment (`RenderOnce`).</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! In general, just import `Template` into your environment (or import the prelude).</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Error Handling</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Both render and IO errors are handled in the background. If an io (or fmt) error occurs,</span>
-<span class='doccomment'>//! template rendering will continue but no more data will be written and the original `write_to_*`</span>
-<span class='doccomment'>//! call will return the error when rendering terminates. If you need to record a render error, use</span>
-<span class='doccomment'>//! `TemplateBuffer::record_error`. As with IO errors, custom errors DO NOT cause rendering to be</span>
-<span class='doccomment'>//! aborted. Instead, all recorded errors (if any) are returned when rendering completes.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! TL;DR: There is no way to abort rendering but you can report errors.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Escaping</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! This library does HTML escaping by default. However, it doesn&#39;t do any javascript/URL escaping.</span>
-<span class='doccomment'>//! Furthermore, it will do html escaping in any literal javascript you might include.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! For example, the following will display an alert:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # #[macro_use]</span>
-<span class='doccomment'>//! # extern crate horrorshow;</span>
-<span class='doccomment'>//! # fn main() {</span>
-<span class='doccomment'>//! html! {</span>
-<span class='doccomment'>//!   script {</span>
-<span class='doccomment'>//!     : &quot;alert(&#39;hello&#39;);&quot;</span>
-<span class='doccomment'>//!   }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! # ;</span>
-<span class='doccomment'>//! # }</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! The following will break due to html escaping (the `&quot;` will be escaped to `&amp;quot;`):</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # #[macro_use]</span>
-<span class='doccomment'>//! # extern crate horrorshow;</span>
-<span class='doccomment'>//! # fn main() {</span>
-<span class='doccomment'>//! html! {</span>
-<span class='doccomment'>//!   script {</span>
-<span class='doccomment'>//!     : &quot;alert(\&quot;hello\&quot;);&quot;</span>
-<span class='doccomment'>//!   }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! # ;</span>
-<span class='doccomment'>//! # }</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! And the following will display as-is (but won&#39;t run any javascript) due to the HTML escaping:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! # #[macro_use]</span>
-<span class='doccomment'>//! # extern crate horrorshow;</span>
-<span class='doccomment'>//! # fn main() {</span>
-<span class='doccomment'>//! html! {</span>
-<span class='doccomment'>//!     : &quot;&lt;script&gt;alert(\&quot;hello\&quot;);&lt;/script&gt;&quot;</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! # ;</span>
-<span class='doccomment'>//! # }</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! Output:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```html</span>
-<span class='doccomment'>//! &amp;lt;script&amp;gt;alert(&amp;quot;hello&amp;quot;);&amp;lt;/script&amp;gt;</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ## Returning Templates</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! To return a template directly, you have to create it using the `box_html!` macro instead of the</span>
-<span class='doccomment'>//! `html!` macro. The template type will be one of `Box&lt;RenderBox&gt;` (can be rendered once),</span>
-<span class='doccomment'>//! `Box&lt;RenderMut&gt;`, or `Box&lt;Render&gt;` depending on how the template affects its environment.</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! #[macro_use]</span>
-<span class='doccomment'>//! extern crate horrorshow;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! use horrorshow::{RenderOnce, RenderBox, RenderMut, Render};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! // Consume the environment</span>
-<span class='doccomment'>//! fn identity&lt;T: RenderOnce + &#39;static&gt;(something: T) -&gt; Box&lt;RenderBox + &#39;static&gt; {</span>
-<span class='doccomment'>//!     box_html! {</span>
-<span class='doccomment'>//!         : something</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! // Mutate the environment</span>
-<span class='doccomment'>//! fn counter() -&gt; Box&lt;RenderMut&gt; {</span>
-<span class='doccomment'>//!     let mut counter = 0;</span>
-<span class='doccomment'>//!     box_html! {</span>
-<span class='doccomment'>//!         |t| {</span>
-<span class='doccomment'>//!             write!(t, &quot;{}&quot;, counter);</span>
-<span class='doccomment'>//!             counter += 1;</span>
-<span class='doccomment'>//!         }</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! // Borrow the environment.</span>
-<span class='doccomment'>//! fn say_hello(name: String) -&gt; Box&lt;Render&gt; {</span>
-<span class='doccomment'>//!     let mut counter = 0;</span>
-<span class='doccomment'>//!     box_html! {</span>
-<span class='doccomment'>//!         span {</span>
-<span class='doccomment'>//!             : &quot;Hello &quot;;</span>
-<span class='doccomment'>//!             : &amp;name;</span>
-<span class='doccomment'>//!             : &quot;.&quot;;</span>
-<span class='doccomment'>//!         }</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # fn main() {}</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! *Note*: To avoid allocating, you can implement render manually instead of returning a boxed</span>
-<span class='doccomment'>//! template:</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//! #[macro_use]</span>
-<span class='doccomment'>//! extern crate horrorshow;</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! use horrorshow::{RenderOnce, TemplateBuffer, Template};</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! struct Page&lt;C&gt; {</span>
-<span class='doccomment'>//!     title: String,</span>
-<span class='doccomment'>//!     content: C,</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! impl Page&lt;String&gt; {</span>
-<span class='doccomment'>//!     fn from_string_content(title: String, content: String) -&gt; Self {</span>
-<span class='doccomment'>//!         Page { title: title, content: content }</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! impl&lt;C&gt; RenderOnce for Page&lt;C&gt; where C: RenderOnce {</span>
-<span class='doccomment'>//!     fn render_once(self, tmpl: &amp;mut TemplateBuffer) {</span>
-<span class='doccomment'>//!         let Page {title, content} = self;</span>
-<span class='doccomment'>//!         // The actual template:</span>
-<span class='doccomment'>//!         tmpl &lt;&lt; html! {</span>
-<span class='doccomment'>//!             article {</span>
-<span class='doccomment'>//!                 header {</span>
-<span class='doccomment'>//!                     h1 : title</span>
-<span class='doccomment'>//!                 }</span>
-<span class='doccomment'>//!                 section : content</span>
-<span class='doccomment'>//!             }</span>
-<span class='doccomment'>//!         };</span>
-<span class='doccomment'>//!     }</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! fn main() {</span>
-<span class='doccomment'>//!   let page = Page::from_string_content(String::from(&quot;My title&quot;),</span>
-<span class='doccomment'>//!                                        String::from(&quot;Some content.&quot;));</span>
-<span class='doccomment'>//!   assert_eq!(page.into_string().unwrap(),</span>
-<span class='doccomment'>//!              &quot;&lt;article&gt;\</span>
-<span class='doccomment'>//!                 &lt;header&gt;&lt;h1&gt;My title&lt;/h1&gt;&lt;/header&gt;\</span>
-<span class='doccomment'>//!                 &lt;section&gt;Some content.&lt;/section&gt;\</span>
-<span class='doccomment'>//!               &lt;/article&gt;&quot;);</span>
-<span class='doccomment'>//! }</span>
-<span class='doccomment'>//! ```</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! # Examples</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! See the test cases.</span>
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='kw'>mod</span> <span class='ident'>macros</span>;
+</pre><pre class="rust ">
+<span class="doccomment">//! # Horrorshow</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! An html templating library.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Example:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # #[macro_use] extern crate horrorshow;</span>
+<span class="doccomment">//! # fn main() {</span>
+<span class="doccomment">//! use horrorshow::prelude::*;</span>
+<span class="doccomment">//! use horrorshow::helper::doctype;</span>
+<span class="doccomment">//! let actual = html! {</span>
+<span class="doccomment">//!     : doctype::HTML;</span>
+<span class="doccomment">//!     html {</span>
+<span class="doccomment">//!         head {</span>
+<span class="doccomment">//!             title : &quot;Hello world!&quot;;</span>
+<span class="doccomment">//!         }</span>
+<span class="doccomment">//!         body {</span>
+<span class="doccomment">//!             // attributes</span>
+<span class="doccomment">//!             h1(id=&quot;heading&quot;) {</span>
+<span class="doccomment">//!                 // Insert escaped text</span>
+<span class="doccomment">//!                 : &quot;Hello! This is &lt;html /&gt;&quot;</span>
+<span class="doccomment">//!             }</span>
+<span class="doccomment">//!             p {</span>
+<span class="doccomment">//!                 // Insert raw text (unescaped)</span>
+<span class="doccomment">//!                 : Raw(&quot;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&quot;)</span>
+<span class="doccomment">//!             }</span>
+<span class="doccomment">//!             ol(id=&quot;count&quot;) {</span>
+<span class="doccomment">//!                 // You can embed for loops, while loops, and if statements.</span>
+<span class="doccomment">//!                 @ for i in 0..10 {</span>
+<span class="doccomment">//!                     li(first? = (i == 0)) {</span>
+<span class="doccomment">//!                         // Format some text.</span>
+<span class="doccomment">//!                         : format_args!(&quot;{}&quot;, i+1)</span>
+<span class="doccomment">//!                     }</span>
+<span class="doccomment">//!                 }</span>
+<span class="doccomment">//!             }</span>
+<span class="doccomment">//!             // You need semi-colons for tags without children.</span>
+<span class="doccomment">//!             br; br;</span>
+<span class="doccomment">//!             p {</span>
+<span class="doccomment">//!                 // You can also embed closures.</span>
+<span class="doccomment">//!                 |tmpl| {</span>
+<span class="doccomment">//!                     tmpl &lt;&lt; &quot;Easy!&quot;;</span>
+<span class="doccomment">//!                 }</span>
+<span class="doccomment">//!             }</span>
+<span class="doccomment">//!         }</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }.into_string().unwrap();</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let expected = &quot;\</span>
+<span class="doccomment">//! &lt;!DOCTYPE html&gt;\</span>
+<span class="doccomment">//! &lt;html&gt;\</span>
+<span class="doccomment">//!   &lt;head&gt;\</span>
+<span class="doccomment">//!     &lt;title&gt;Hello world!&lt;/title&gt;\</span>
+<span class="doccomment">//!   &lt;/head&gt;\</span>
+<span class="doccomment">//!   &lt;body&gt;\</span>
+<span class="doccomment">//!     &lt;h1 id=\&quot;heading\&quot;&gt;Hello! This is &amp;lt;html /&amp;gt;&lt;/h1&gt;\</span>
+<span class="doccomment">//!     &lt;p&gt;Let&#39;s &lt;i&gt;count&lt;/i&gt; to 10!&lt;/p&gt;\</span>
+<span class="doccomment">//!     &lt;ol id=\&quot;count\&quot;&gt;\</span>
+<span class="doccomment">//!       &lt;li first&gt;1&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;2&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;3&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;4&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;5&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;6&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;7&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;8&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;9&lt;/li&gt;\</span>
+<span class="doccomment">//!       &lt;li&gt;10&lt;/li&gt;\</span>
+<span class="doccomment">//!     &lt;/ol&gt;\</span>
+<span class="doccomment">//!     &lt;br /&gt;&lt;br /&gt;\</span>
+<span class="doccomment">//!     &lt;p&gt;Easy!&lt;/p&gt;\</span>
+<span class="doccomment">//!   &lt;/body&gt;\</span>
+<span class="doccomment">//! &lt;/html&gt;&quot;;</span>
+<span class="doccomment">//! assert_eq!(expected, actual);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Usage</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! #[macro_use]</span>
+<span class="doccomment">//! extern crate horrorshow;</span>
+<span class="doccomment">//! # fn main() {}</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Inside an html template, the following expressions are valid:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag;` -- Insert a the tag `some_tag`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag(attr=rust_expresion,...);` -- Insert a the tag `some_tag` with the specified</span>
+<span class="doccomment">//!    attributes. The attribute values will be evaluated as rust expressions at runtime and they</span>
+<span class="doccomment">//!    must implement `RenderOnce` (already implemented on &amp;str, String, other templates, etc.).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag(attr,...);` -- You can also omit the value.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag(attr? = Some(&quot;test&quot;),...);` -- You can optionally include an attribute.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag(attr? = some_boolean,...);` -- You can optionally include an attribute without a value.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag { ... }` -- Insert the tag `some_tag` and recursively evaluate the `...`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `some_tag(...) { ... }` -- Same as above but with custom attributes.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `: rust_expression`, `: { rust_code }` -- Evaluate the expression or block and insert result</span>
+<span class="doccomment">//! current position. To insert a literal html (unescaped), mark it as raw with the `Raw` marker type.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `|tmpl| rust_expression`, `|tmpl| { rust_code }` -- Evaluate the expression or block. This is</span>
+<span class="doccomment">//! actually a closure so the block/expression can append to the current template through `tmpl`</span>
+<span class="doccomment">//! (of type `&amp;mut TemplateBuffer`).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * `@ for ...`, `@ while ...`, `@ if ...` -- you can embed basic control flow expressions.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Traits, traits oh-my!</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! You will likely notice that there are four render traits:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! 1. `RenderOnce`</span>
+<span class="doccomment">//! 2. `RenderMut`</span>
+<span class="doccomment">//! 3. `Render`</span>
+<span class="doccomment">//! 4. `RenderBox`</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! These three traits map to the four `Fn` traits and reflect the fact that some templates need</span>
+<span class="doccomment">//! exclusive access (`RenderMut`) in order to be rendered and others might even consume their</span>
+<span class="doccomment">//! environment (`RenderOnce`).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In general, just import `Template` into your environment (or import the prelude).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Error Handling</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Both render and IO errors are handled in the background. If an io (or fmt) error occurs,</span>
+<span class="doccomment">//! template rendering will continue but no more data will be written and the original `write_to_*`</span>
+<span class="doccomment">//! call will return the error when rendering terminates. If you need to record a render error, use</span>
+<span class="doccomment">//! `TemplateBuffer::record_error`. As with IO errors, custom errors DO NOT cause rendering to be</span>
+<span class="doccomment">//! aborted. Instead, all recorded errors (if any) are returned when rendering completes.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! TL;DR: There is no way to abort rendering but you can report errors.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Escaping</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This library does HTML escaping by default. However, it doesn&#39;t do any javascript/URL escaping.</span>
+<span class="doccomment">//! Furthermore, it will do html escaping in any literal javascript you might include.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! For example, the following will display an alert:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # #[macro_use]</span>
+<span class="doccomment">//! # extern crate horrorshow;</span>
+<span class="doccomment">//! # fn main() {</span>
+<span class="doccomment">//! html! {</span>
+<span class="doccomment">//!   script {</span>
+<span class="doccomment">//!     : &quot;alert(&#39;hello&#39;);&quot;</span>
+<span class="doccomment">//!   }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! # ;</span>
+<span class="doccomment">//! # }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The following will break due to html escaping (the `&quot;` will be escaped to `&amp;quot;`):</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # #[macro_use]</span>
+<span class="doccomment">//! # extern crate horrorshow;</span>
+<span class="doccomment">//! # fn main() {</span>
+<span class="doccomment">//! html! {</span>
+<span class="doccomment">//!   script {</span>
+<span class="doccomment">//!     : &quot;alert(\&quot;hello\&quot;);&quot;</span>
+<span class="doccomment">//!   }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! # ;</span>
+<span class="doccomment">//! # }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! And the following will display as-is (but won&#39;t run any javascript) due to the HTML escaping:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! # #[macro_use]</span>
+<span class="doccomment">//! # extern crate horrorshow;</span>
+<span class="doccomment">//! # fn main() {</span>
+<span class="doccomment">//! html! {</span>
+<span class="doccomment">//!     : &quot;&lt;script&gt;alert(\&quot;hello\&quot;);&lt;/script&gt;&quot;</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! # ;</span>
+<span class="doccomment">//! # }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Output:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```html</span>
+<span class="doccomment">//! &amp;lt;script&amp;gt;alert(&amp;quot;hello&amp;quot;);&amp;lt;/script&amp;gt;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Returning Templates</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! To return a template directly, you have to create it using the `box_html!` macro instead of the</span>
+<span class="doccomment">//! `html!` macro. The template type will be one of `Box&lt;RenderBox&gt;` (can be rendered once),</span>
+<span class="doccomment">//! `Box&lt;RenderMut&gt;`, or `Box&lt;Render&gt;` depending on how the template affects its environment.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! #[macro_use]</span>
+<span class="doccomment">//! extern crate horrorshow;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! use horrorshow::{RenderOnce, RenderBox, RenderMut, Render};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Consume the environment</span>
+<span class="doccomment">//! fn identity&lt;T: RenderOnce + &#39;static&gt;(something: T) -&gt; Box&lt;RenderBox + &#39;static&gt; {</span>
+<span class="doccomment">//!     box_html! {</span>
+<span class="doccomment">//!         : something</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Mutate the environment</span>
+<span class="doccomment">//! fn counter() -&gt; Box&lt;RenderMut&gt; {</span>
+<span class="doccomment">//!     let mut counter = 0;</span>
+<span class="doccomment">//!     box_html! {</span>
+<span class="doccomment">//!         |t| {</span>
+<span class="doccomment">//!             write!(t, &quot;{}&quot;, counter);</span>
+<span class="doccomment">//!             counter += 1;</span>
+<span class="doccomment">//!         }</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // Borrow the environment.</span>
+<span class="doccomment">//! fn say_hello(name: String) -&gt; Box&lt;Render&gt; {</span>
+<span class="doccomment">//!     let mut counter = 0;</span>
+<span class="doccomment">//!     box_html! {</span>
+<span class="doccomment">//!         span {</span>
+<span class="doccomment">//!             : &quot;Hello &quot;;</span>
+<span class="doccomment">//!             : &amp;name;</span>
+<span class="doccomment">//!             : &quot;.&quot;;</span>
+<span class="doccomment">//!         }</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # fn main() {}</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! *Note*: To avoid allocating, you can implement render manually instead of returning a boxed</span>
+<span class="doccomment">//! template:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! #[macro_use]</span>
+<span class="doccomment">//! extern crate horrorshow;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! use horrorshow::{RenderOnce, TemplateBuffer, Template};</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! struct Page&lt;C&gt; {</span>
+<span class="doccomment">//!     title: String,</span>
+<span class="doccomment">//!     content: C,</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! impl Page&lt;String&gt; {</span>
+<span class="doccomment">//!     fn from_string_content(title: String, content: String) -&gt; Self {</span>
+<span class="doccomment">//!         Page { title: title, content: content }</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! impl&lt;C&gt; RenderOnce for Page&lt;C&gt; where C: RenderOnce {</span>
+<span class="doccomment">//!     fn render_once(self, tmpl: &amp;mut TemplateBuffer) {</span>
+<span class="doccomment">//!         let Page {title, content} = self;</span>
+<span class="doccomment">//!         // The actual template:</span>
+<span class="doccomment">//!         tmpl &lt;&lt; html! {</span>
+<span class="doccomment">//!             article {</span>
+<span class="doccomment">//!                 header {</span>
+<span class="doccomment">//!                     h1 : title</span>
+<span class="doccomment">//!                 }</span>
+<span class="doccomment">//!                 section : content</span>
+<span class="doccomment">//!             }</span>
+<span class="doccomment">//!         };</span>
+<span class="doccomment">//!     }</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn main() {</span>
+<span class="doccomment">//!   let page = Page::from_string_content(String::from(&quot;My title&quot;),</span>
+<span class="doccomment">//!                                        String::from(&quot;Some content.&quot;));</span>
+<span class="doccomment">//!   assert_eq!(page.into_string().unwrap(),</span>
+<span class="doccomment">//!              &quot;&lt;article&gt;\</span>
+<span class="doccomment">//!                 &lt;header&gt;&lt;h1&gt;My title&lt;/h1&gt;&lt;/header&gt;\</span>
+<span class="doccomment">//!                 &lt;section&gt;Some content.&lt;/section&gt;\</span>
+<span class="doccomment">//!               &lt;/article&gt;&quot;);</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Examples</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! See the test cases.</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
+<span class="kw">mod</span> <span class="ident">macros</span>;
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;ops&quot;</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>ops</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ops&quot;</span>)]</span>
+<span class="kw">mod</span> <span class="ident">ops</span>;
 
-<span class='kw'>mod</span> <span class='ident'>error</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>error</span>::<span class='ident'>Error</span>;
+<span class="kw">mod</span> <span class="ident">error</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">error</span>::<span class="ident">Error</span>;
 
-<span class='kw'>mod</span> <span class='ident'>template</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>template</span>::{<span class='ident'>TemplateBuffer</span>, <span class='ident'>Template</span>};
-<span class='kw'>mod</span> <span class='ident'>render</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>render</span>::{<span class='ident'>RenderOnce</span>, <span class='ident'>RenderMut</span>, <span class='ident'>Render</span>, <span class='ident'>RenderBox</span>, <span class='ident'>FnRenderer</span>, <span class='ident'>Raw</span>};
+<span class="kw">mod</span> <span class="ident">template</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">template</span>::{<span class="ident">TemplateBuffer</span>, <span class="ident">Template</span>};
+<span class="kw">mod</span> <span class="ident">render</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">render</span>::{<span class="ident">RenderOnce</span>, <span class="ident">RenderMut</span>, <span class="ident">Render</span>, <span class="ident">RenderBox</span>, <span class="ident">FnRenderer</span>, <span class="ident">Raw</span>};
 
-<span class='doccomment'>/// Traits that should always be imported.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>prelude</span>;
+<span class="doccomment">/// Traits that should always be imported.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prelude</span>;
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>helper</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">helper</span>;
 
-<span class='doccomment'>/// Helper trait for dispatching `attr ?= `.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// attr ?= Some(&quot;test&quot;) -&gt; attr=&quot;test&quot;</span>
-<span class='doccomment'>/// attr ?= true -&gt; attr</span>
-<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>BoolOption</span>: <span class='ident'>Sized</span> {
-    <span class='kw'>type</span> <span class='ident'>Value</span>;
-    <span class='kw'>fn</span> <span class='ident'>bool_option</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>bool</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Value</span><span class='op'>&gt;</span>);
+<span class="doccomment">/// Helper trait for dispatching `attr ?= `.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// attr ?= Some(&quot;test&quot;) -&gt; attr=&quot;test&quot;</span>
+<span class="doccomment">/// attr ?= true -&gt; attr</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">BoolOption</span>: <span class="ident">Sized</span> {
+    <span class="kw">type</span> <span class="ident">Value</span>;
+    <span class="kw">fn</span> <span class="ident">bool_option</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">bool</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span><span class="op">&gt;</span>);
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>BoolOption</span> <span class='kw'>for</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>type</span> <span class='ident'>Value</span> <span class='op'>=</span> <span class='ident'>T</span>;
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>bool_option</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>bool</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) {
-        (<span class='bool-val'>false</span>, <span class='self'>self</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">BoolOption</span> <span class="kw">for</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">T</span>;
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">bool_option</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">bool</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
+        (<span class="bool-val">false</span>, <span class="self">self</span>)
     }
 }
 
-<span class='comment'>// Need &amp;str because Value needs to implement RenderOnce (even though we never actually render</span>
-<span class='comment'>// it...)</span>
-<span class='kw'>impl</span> <span class='ident'>BoolOption</span> <span class='kw'>for</span> <span class='ident'>bool</span> {
-    <span class='kw'>type</span> <span class='ident'>Value</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>;
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>bool_option</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>bool</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span>) {
-        (<span class='bool-val'>true</span>, <span class='kw'>if</span> <span class='self'>self</span> { <span class='prelude-val'>Some</span>(<span class='string'>&quot;&quot;</span>) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> })
+<span class="comment">// Need &amp;str because Value needs to implement RenderOnce (even though we never actually render</span>
+<span class="comment">// it...)</span>
+<span class="kw">impl</span> <span class="ident">BoolOption</span> <span class="kw">for</span> <span class="ident">bool</span> {
+    <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>;
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">bool_option</span>(<span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">bool</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>) {
+        (<span class="bool-val">true</span>, <span class="kw">if</span> <span class="self">self</span> { <span class="prelude-val">Some</span>(<span class="string">&quot;&quot;</span>) } <span class="kw">else</span> { <span class="prelude-val">None</span> })
     }
 }
 </pre>
@@ -765,7 +766,6 @@
         window.rootPath = "../../";
         window.currentCrate = "horrorshow";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

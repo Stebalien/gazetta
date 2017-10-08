@@ -1,10 +1,4 @@
 (function() {var implementors = {};
-implementors["chrono"] = [];
-implementors["gazetta_core"] = [];
-implementors["gazetta_model_ext"] = [];
-implementors["lazy_static"] = [];
-implementors["libc"] = [];
-implementors["num"] = [];
 implementors["rand"] = [];
 
             if (window.register_implementors) {

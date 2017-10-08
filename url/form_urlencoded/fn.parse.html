@@ -9,6 +9,7 @@
 
     <title>url::form_urlencoded::parse - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>url</a>::<wbr><a href='index.html'>form_urlencoded</a>::<wbr><a class='fn' href=''>parse</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>url</a>::<wbr><a href='index.html'>form_urlencoded</a>::<wbr><a class="fn" href=''>parse</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/url/form_urlencoded.rs.html#30-32' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn parse(input: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>&gt;</pre><div class='docblock'><p>Convert a byte string in the <code>application/x-www-form-urlencoded</code> format
+<pre class='rust fn'>pub fn parse(input: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt;</pre><div class='docblock'><p>Convert a byte string in the <code>application/x-www-form-urlencoded</code> format
 into a vector of (name, value) pairs.</p>
 
 <p>Use <code>parse(input.as_bytes())</code> to parse a <code>&amp;str</code> string.</p>
@@ -112,7 +113,6 @@ converted to <code>[(&quot;#first&quot;, &quot;%try%&quot;)]</code>.</p>
         window.rootPath = "../../";
         window.currentCrate = "url";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

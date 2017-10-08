@@ -9,6 +9,7 @@
 
     <title>assets.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -108,69 +109,69 @@
 <span id="64">64</span>
 <span id="65">65</span>
 <span id="66">66</span>
-</pre><pre class='rust '>
-<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This file is part of gazetta.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
-<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
-<span class='comment'>//  License.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
-<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
-<span class='comment'>//  the GNU General Public License for more details.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
-<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-<span class='comment'>//</span>
-<span class='kw'>use</span> <span class='ident'>horrorshow</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>gazetta_core</span>::<span class='ident'>view</span>::<span class='ident'>Site</span>;
-<span class='kw'>use</span> <span class='ident'>gazetta_core</span>::<span class='ident'>render</span>::<span class='ident'>Gazetta</span>;
+</pre><pre class="rust ">
+<span class="comment">//  Copyright (C) 2015 Steven Allen</span>
+<span class="comment">//</span>
+<span class="comment">//  This file is part of gazetta.</span>
+<span class="comment">//</span>
+<span class="comment">//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class="comment">//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class="comment">//  License.</span>
+<span class="comment">//</span>
+<span class="comment">//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class="comment">//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class="comment">//  the GNU General Public License for more details.</span>
+<span class="comment">//</span>
+<span class="comment">//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class="comment">//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">//</span>
+<span class="kw">use</span> <span class="ident">horrorshow</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">gazetta_core</span>::<span class="ident">view</span>::<span class="ident">Site</span>;
+<span class="kw">use</span> <span class="ident">gazetta_core</span>::<span class="ident">render</span>::<span class="ident">Gazetta</span>;
 
-<span class='doccomment'>/// Renders common head tags for a site and page.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Assets</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>(<span class='kw'>pub</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Site</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>)
-    <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>;
+<span class="doccomment">/// Renders common head tags for a site and page.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Assets</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Site</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span>)
+    <span class="kw">where</span> <span class="ident">G</span>: <span class="ident">Gazetta</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">SiteMeta</span>: <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">PageMeta</span>: <span class="lifetime">&#39;a</span>;
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='ident'>RenderOnce</span> <span class='kw'>for</span> <span class='ident'>Assets</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span> <span class="ident">RenderOnce</span> <span class="kw">for</span> <span class="ident">Assets</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">G</span>: <span class="ident">Gazetta</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">SiteMeta</span>: <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">PageMeta</span>: <span class="lifetime">&#39;a</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>render_once</span>(<span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
-        <span class='self'>self</span>.<span class='ident'>render</span>(<span class='ident'>tmpl</span>)
+    <span class="kw">fn</span> <span class="ident">render_once</span>(<span class="self">self</span>, <span class="ident">tmpl</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TemplateBuffer</span>) {
+        <span class="self">self</span>.<span class="ident">render</span>(<span class="ident">tmpl</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='ident'>RenderMut</span> <span class='kw'>for</span> <span class='ident'>Assets</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span> <span class="ident">RenderMut</span> <span class="kw">for</span> <span class="ident">Assets</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">G</span>: <span class="ident">Gazetta</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">SiteMeta</span>: <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">PageMeta</span>: <span class="lifetime">&#39;a</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>render_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
-        <span class='self'>self</span>.<span class='ident'>render</span>(<span class='ident'>tmpl</span>)
+    <span class="kw">fn</span> <span class="ident">render_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tmpl</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TemplateBuffer</span>) {
+        <span class="self">self</span>.<span class="ident">render</span>(<span class="ident">tmpl</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span> <span class='ident'>Render</span> <span class='kw'>for</span> <span class='ident'>Assets</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>G</span><span class='op'>&gt;</span>
-    <span class='kw'>where</span> <span class='ident'>G</span>: <span class='ident'>Gazetta</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>SiteMeta</span>: <span class='lifetime'>&#39;a</span>,
-          <span class='ident'>G</span>::<span class='ident'>PageMeta</span>: <span class='lifetime'>&#39;a</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span> <span class="ident">Render</span> <span class="kw">for</span> <span class="ident">Assets</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">G</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">G</span>: <span class="ident">Gazetta</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">SiteMeta</span>: <span class="lifetime">&#39;a</span>,
+          <span class="ident">G</span>::<span class="ident">PageMeta</span>: <span class="lifetime">&#39;a</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>render</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>tmpl</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span>) {
-        <span class='ident'>tmpl</span> <span class='op'>&lt;&lt;</span>
-        <span class='macro'>html</span><span class='macro'>!</span> {
-            <span class='ident'>base</span>(<span class='ident'>href</span><span class='op'>=</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>prefix</span>);
-            @ <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>css</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>stylesheets</span> {
-                <span class='ident'>link</span>(<span class='ident'>rel</span><span class='op'>=</span><span class='string'>&quot;stylesheet&quot;</span>, <span class='ident'>href</span><span class='op'>=</span><span class='ident'>css</span>);
+    <span class="kw">fn</span> <span class="ident">render</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">tmpl</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TemplateBuffer</span>) {
+        <span class="ident">tmpl</span> <span class="op">&lt;&lt;</span>
+        <span class="macro">html</span><span class="macro">!</span> {
+            <span class="ident">base</span>(<span class="ident">href</span><span class="op">=</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">prefix</span>);
+            @ <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">css</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">stylesheets</span> {
+                <span class="ident">link</span>(<span class="ident">rel</span><span class="op">=</span><span class="string">&quot;stylesheet&quot;</span>, <span class="ident">href</span><span class="op">=</span><span class="ident">css</span>);
             }
-            @ <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>js</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>javascript</span> {
-                <span class='ident'>script</span>(<span class='ident'>async</span>, <span class='ident'>src</span><span class='op'>=</span><span class='ident'>js</span>) {}
+            @ <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">js</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">javascript</span> {
+                <span class="ident">script</span>(<span class="ident">async</span>, <span class="ident">src</span><span class="op">=</span><span class="ident">js</span>) {}
             }
-            @ <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>icon</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>icon</span> {
-                <span class='ident'>link</span>(<span class='ident'>rel</span><span class='op'>=</span><span class='string'>&quot;shortcut icon&quot;</span>, <span class='ident'>href</span><span class='op'>=</span><span class='ident'>icon</span>);
+            @ <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">icon</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">icon</span> {
+                <span class="ident">link</span>(<span class="ident">rel</span><span class="op">=</span><span class="string">&quot;shortcut icon&quot;</span>, <span class="ident">href</span><span class="op">=</span><span class="ident">icon</span>);
             }
         };
     }
@@ -233,7 +234,6 @@
         window.rootPath = "../../";
         window.currentCrate = "gazetta_render_ext";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

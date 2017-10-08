@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.1/src/helper.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.2/src/helper.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>helper.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -69,32 +70,32 @@
 <span id="25">25</span>
 <span id="26">26</span>
 <span id="27">27</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Helpers templates.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Helpers templates.</span>
 
-<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>c</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>:<span class='ident'>tt</span>) <span class='op'>=&gt;</span> {
-        <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>non_upper_case_globals</span>)]</span>
-        <span class='kw'>pub</span> <span class='kw'>const</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>: <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='macro-nonterminal'>render</span>::<span class='ident'>Raw</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='macro-nonterminal'>render</span>::<span class='ident'>Raw</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>value</span>);
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">c</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">tt</span>) <span class="op">=&gt;</span> {
+        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_upper_case_globals</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">render</span>::<span class="ident">Raw</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">render</span>::<span class="ident">Raw</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>);
     }
 }
 
-<span class='doccomment'>/// Helpers for inserting `DOCTYPE`s.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>doctype</span> {
-    <span class='doccomment'>/// The standard HTML5 doctype (this *is* the doctype you&#39;re looking for).</span>
-    <span class='macro'>c</span><span class='macro'>!</span>(<span class='ident'>HTML</span> <span class='string'>&quot;&lt;!DOCTYPE html&gt;&quot;</span>);
+<span class="doccomment">/// Helpers for inserting `DOCTYPE`s.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">doctype</span> {
+    <span class="doccomment">/// The standard HTML5 doctype (this *is* the doctype you&#39;re looking for).</span>
+    <span class="macro">c</span><span class="macro">!</span>(<span class="ident">HTML</span> <span class="string">&quot;&lt;!DOCTYPE html&gt;&quot;</span>);
 
-    <span class='doccomment'>/// HTML 4.01 doctypes</span>
-    <span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>non_snake_case</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>HTML4</span> {
-        <span class='doccomment'>/// The HTML 4.001 strict doctype.</span>
-        <span class='macro'>c</span><span class='macro'>!</span>(<span class='ident'>Strict</span> <span class='string'>&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01//EN\&quot; \&quot;http://www.w3.org/TR/html4/strict.dtd\&quot;&gt;&quot;</span>);
+    <span class="doccomment">/// HTML 4.01 doctypes</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">HTML4</span> {
+        <span class="doccomment">/// The HTML 4.001 strict doctype.</span>
+        <span class="macro">c</span><span class="macro">!</span>(<span class="ident">Strict</span> <span class="string">&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01//EN\&quot; \&quot;http://www.w3.org/TR/html4/strict.dtd\&quot;&gt;&quot;</span>);
 
-        <span class='doccomment'>/// The HTML 4.001 transitional doctype.</span>
-        <span class='macro'>c</span><span class='macro'>!</span>(<span class='ident'>Transitional</span> <span class='string'>&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot; \&quot;http://www.w3.org/TR/html4/loose.dtd\&quot;&gt;&quot;</span>);
+        <span class="doccomment">/// The HTML 4.001 transitional doctype.</span>
+        <span class="macro">c</span><span class="macro">!</span>(<span class="ident">Transitional</span> <span class="string">&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot; \&quot;http://www.w3.org/TR/html4/loose.dtd\&quot;&gt;&quot;</span>);
 
-        <span class='doccomment'>/// The HTML 4.001 frameset doctype.</span>
-        <span class='macro'>c</span><span class='macro'>!</span>(<span class='ident'>Frameset</span> <span class='string'>&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Frameset//EN\&quot; \&quot;http://www.w3.org/TR/html4/frameset.dtd\&quot;&gt;&quot;</span>);
+        <span class="doccomment">/// The HTML 4.001 frameset doctype.</span>
+        <span class="macro">c</span><span class="macro">!</span>(<span class="ident">Frameset</span> <span class="string">&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Frameset//EN\&quot; \&quot;http://www.w3.org/TR/html4/frameset.dtd\&quot;&gt;&quot;</span>);
     }
 }
 </pre>
@@ -155,7 +156,6 @@
         window.rootPath = "../../";
         window.currentCrate = "horrorshow";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

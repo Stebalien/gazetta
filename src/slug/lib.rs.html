@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/slug-0.1.2/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/slug-0.1.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -109,73 +110,73 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
-</pre><pre class='rust '>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>unidecode</span>;
+</pre><pre class="rust ">
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">unidecode</span>;
 
-<span class='kw'>use</span> <span class='ident'>unidecode</span>::<span class='ident'>unidecode_char</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
+<span class="kw">use</span> <span class="ident">unidecode</span>::<span class="ident">unidecode_char</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
 
-<span class='doccomment'>/// Convert any unicode string to an ascii &quot;slug&quot; (useful for file names/url components)</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// The returned &quot;slug&quot; will consist of a-z, 0-9, and &#39;-&#39;. Furthermore, a slug will</span>
-<span class='doccomment'>/// never contain more than one &#39;-&#39; in a row and will never start or end with &#39;-&#39;.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```rust</span>
-<span class='doccomment'>/// use self::slug::slugify;</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// assert_eq!(slugify(&quot;My Test String!!!1!1&quot;), &quot;my-test-string-1-1&quot;);</span>
-<span class='doccomment'>/// assert_eq!(slugify(&quot;test\nit   now!&quot;), &quot;test-it-now&quot;);</span>
-<span class='doccomment'>/// assert_eq!(slugify(&quot;  --test_-_cool&quot;), &quot;test-cool&quot;);</span>
-<span class='doccomment'>/// assert_eq!(slugify(&quot;Æúű--cool?&quot;), &quot;aeuu-cool&quot;);</span>
-<span class='doccomment'>/// assert_eq!(slugify(&quot;You &amp; Me&quot;), &quot;you-me&quot;);</span>
-<span class='doccomment'>/// assert_eq!(slugify(&quot;user@example.com&quot;), &quot;user-example-com&quot;);</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>slugify</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;&gt;</span>(<span class='ident'>s</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-    <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_ref</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>slug</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>s</span>.<span class='ident'>len</span>());
-    <span class='comment'>// Starts with true to avoid leading -</span>
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prev_is_dash</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+<span class="doccomment">/// Convert any unicode string to an ascii &quot;slug&quot; (useful for file names/url components)</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The returned &quot;slug&quot; will consist of a-z, 0-9, and &#39;-&#39;. Furthermore, a slug will</span>
+<span class="doccomment">/// never contain more than one &#39;-&#39; in a row and will never start or end with &#39;-&#39;.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// use self::slug::slugify;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// assert_eq!(slugify(&quot;My Test String!!!1!1&quot;), &quot;my-test-string-1-1&quot;);</span>
+<span class="doccomment">/// assert_eq!(slugify(&quot;test\nit   now!&quot;), &quot;test-it-now&quot;);</span>
+<span class="doccomment">/// assert_eq!(slugify(&quot;  --test_-_cool&quot;), &quot;test-cool&quot;);</span>
+<span class="doccomment">/// assert_eq!(slugify(&quot;Æúű--cool?&quot;), &quot;aeuu-cool&quot;);</span>
+<span class="doccomment">/// assert_eq!(slugify(&quot;You &amp; Me&quot;), &quot;you-me&quot;);</span>
+<span class="doccomment">/// assert_eq!(slugify(&quot;user@example.com&quot;), &quot;user-example-com&quot;);</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">slugify</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;&gt;</span>(<span class="ident">s</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+    <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_ref</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">slug</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">s</span>.<span class="ident">len</span>());
+    <span class="comment">// Starts with true to avoid leading -</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prev_is_dash</span> <span class="op">=</span> <span class="bool-val">true</span>;
     {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>push_char</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>char</span><span class='op'>|</span> {
-            <span class='kw'>match</span> <span class='ident'>x</span> {
-                <span class='string'>&#39;a&#39;</span>...<span class='string'>&#39;z&#39;</span> <span class='op'>|</span> <span class='string'>&#39;0&#39;</span>...<span class='string'>&#39;9&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='ident'>prev_is_dash</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-                    <span class='ident'>slug</span>.<span class='ident'>push</span>(<span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">push_char</span> <span class="op">=</span> <span class="op">|</span><span class="ident">x</span>: <span class="ident">char</span><span class="op">|</span> {
+            <span class="kw">match</span> <span class="ident">x</span> {
+                <span class="string">&#39;a&#39;</span>...<span class="string">&#39;z&#39;</span> <span class="op">|</span> <span class="string">&#39;0&#39;</span>...<span class="string">&#39;9&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">prev_is_dash</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                    <span class="ident">slug</span>.<span class="ident">push</span>(<span class="ident">x</span> <span class="kw">as</span> <span class="ident">u8</span>);
                 },
-                <span class='string'>&#39;A&#39;</span>...<span class='string'>&#39;Z&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='ident'>prev_is_dash</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-                    <span class='comment'>// Manual lowercasing as Rust to_lowercase() is unicode</span>
-                    <span class='comment'>// aware and therefore much slower</span>
-                    <span class='ident'>slug</span>.<span class='ident'>push</span>(((<span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>u8</span>) <span class='op'>-</span> (<span class='string'>&#39;A&#39;</span> <span class='kw'>as</span> <span class='ident'>u8</span>) <span class='op'>+</span> (<span class='string'>&#39;a&#39;</span> <span class='kw'>as</span> <span class='ident'>u8</span>)));
+                <span class="string">&#39;A&#39;</span>...<span class="string">&#39;Z&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">prev_is_dash</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                    <span class="comment">// Manual lowercasing as Rust to_lowercase() is unicode</span>
+                    <span class="comment">// aware and therefore much slower</span>
+                    <span class="ident">slug</span>.<span class="ident">push</span>(((<span class="ident">x</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">-</span> (<span class="string">&#39;A&#39;</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">+</span> (<span class="string">&#39;a&#39;</span> <span class="kw">as</span> <span class="ident">u8</span>)));
                 },
-                _ <span class='op'>=&gt;</span> {
-                    <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>prev_is_dash</span> {
-                        <span class='ident'>slug</span>.<span class='ident'>push</span>(<span class='string'>&#39;-&#39;</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
-                        <span class='ident'>prev_is_dash</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+                _ <span class="op">=&gt;</span> {
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">prev_is_dash</span> {
+                        <span class="ident">slug</span>.<span class="ident">push</span>(<span class="string">&#39;-&#39;</span> <span class="kw">as</span> <span class="ident">u8</span>);
+                        <span class="ident">prev_is_dash</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     }
                 }
             }
         };
 
-        <span class='kw'>for</span> <span class='ident'>c</span> <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>chars</span>() {
-            <span class='kw'>if</span> <span class='ident'>c</span>.<span class='ident'>is_ascii</span>() {
-                (<span class='ident'>push_char</span>)(<span class='ident'>c</span>);
-            } <span class='kw'>else</span> {
-                <span class='kw'>for</span> <span class='ident'>cx</span> <span class='kw'>in</span> <span class='ident'>unidecode_char</span>(<span class='ident'>c</span>).<span class='ident'>chars</span>() {
-                    (<span class='ident'>push_char</span>)(<span class='ident'>cx</span>);
+        <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">s</span>.<span class="ident">chars</span>() {
+            <span class="kw">if</span> <span class="ident">c</span>.<span class="ident">is_ascii</span>() {
+                (<span class="ident">push_char</span>)(<span class="ident">c</span>);
+            } <span class="kw">else</span> {
+                <span class="kw">for</span> <span class="ident">cx</span> <span class="kw">in</span> <span class="ident">unidecode_char</span>(<span class="ident">c</span>).<span class="ident">chars</span>() {
+                    (<span class="ident">push_char</span>)(<span class="ident">cx</span>);
                 }
             }
         }
     }
 
-    <span class='comment'>// It&#39;s not really unsafe in practice, we know we have ASCII</span>
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>string</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>String</span>::<span class='ident'>from_utf8_unchecked</span>(<span class='ident'>slug</span>) };
-    <span class='kw'>if</span> <span class='ident'>string</span>.<span class='ident'>ends_with</span>(<span class='string'>&#39;-&#39;</span>) {
-        <span class='ident'>string</span>.<span class='ident'>pop</span>();
+    <span class="comment">// It&#39;s not really unsafe in practice, we know we have ASCII</span>
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">string</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String</span>::<span class="ident">from_utf8_unchecked</span>(<span class="ident">slug</span>) };
+    <span class="kw">if</span> <span class="ident">string</span>.<span class="ident">ends_with</span>(<span class="string">&#39;-&#39;</span>) {
+        <span class="ident">string</span>.<span class="ident">pop</span>();
     }
-    <span class='comment'>// We likely reserved more space than needed.</span>
-    <span class='ident'>string</span>.<span class='ident'>shrink_to_fit</span>();
-    <span class='ident'>string</span>
+    <span class="comment">// We likely reserved more space than needed.</span>
+    <span class="ident">string</span>.<span class="ident">shrink_to_fit</span>();
+    <span class="ident">string</span>
 }
 </pre>
 </section>
@@ -235,7 +236,6 @@
         window.rootPath = "../../";
         window.currentCrate = "slug";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

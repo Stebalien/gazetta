@@ -9,6 +9,7 @@
 
     <title>gazetta_model_ext::EntryMeta - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='index.html'>gazetta_model_ext</a></p><script>window.sidebarCurrent = {name: 'EntryMeta', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct EntryMeta</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>gazetta_model_ext</a></p><script>window.sidebarCurrent = {name: 'EntryMeta', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,23 +43,30 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gazetta_model_ext</a>::<wbr><a class='struct' href=''>EntryMeta</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>gazetta_model_ext</a>::<wbr><a class="struct" href=''>EntryMeta</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/gazetta_model_ext/meta.rs.html#44-47' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct EntryMeta {
-    pub author: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../gazetta_model_ext/struct.Person.html' title='gazetta_model_ext::Person'>Person</a>&gt;,
-    pub about: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../gazetta_model_ext/struct.Person.html' title='gazetta_model_ext::Person'>Person</a>&gt;,
-}</pre><h2 class='fields'>Fields</h2><span id='structfield.author' class='structfield'>
-                           <span id='author.v' class='invisible'>
-                           <code>author: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../gazetta_model_ext/struct.Person.html' title='gazetta_model_ext::Person'>Person</a>&gt;</code>
-                           </span></span><span class='stab '></span><span id='structfield.about' class='structfield'>
-                           <span id='about.v' class='invisible'>
-                           <code>about: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../gazetta_model_ext/struct.Person.html' title='gazetta_model_ext::Person'>Person</a>&gt;</code>
-                           </span></span><span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../gazetta_core/model/meta/trait.Meta.html' title='gazetta_core::model::meta::Meta'>Meta</a> for <a class='struct' href='../gazetta_model_ext/struct.EntryMeta.html' title='gazetta_model_ext::EntryMeta'>EntryMeta</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_model_ext/meta.rs.html#49-56' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.from_yaml' class='method'><span id='from_yaml.v' class='invisible'><code>fn <a href='../gazetta_core/model/meta/trait.Meta.html#tymethod.from_yaml' class='fnname'>from_yaml</a>(meta: <a class='type' href='../yaml_rust/yaml/type.Hash.html' title='yaml_rust::yaml::Hash'>Hash</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../gazetta_model_ext/struct.EntryMeta.html' title='gazetta_model_ext::EntryMeta'>EntryMeta</a>, &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</code></span></h4>
+    pub author: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../gazetta_model_ext/struct.Person.html" title="struct gazetta_model_ext::Person">Person</a>&gt;,
+    pub about: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../gazetta_model_ext/struct.Person.html" title="struct gazetta_model_ext::Person">Person</a>&gt;,
+}</pre><h2 id='fields' class='fields small-section-header'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.author" class="structfield small-section-header">
+                           <a href="#structfield.author" class="anchor field"></a>
+                           <span id="author.v" class='invisible'>
+                           <code>author: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../gazetta_model_ext/struct.Person.html" title="struct gazetta_model_ext::Person">Person</a>&gt;</code>
+                           </span></span><span id="structfield.about" class="structfield small-section-header">
+                           <a href="#structfield.about" class="anchor field"></a>
+                           <span id="about.v" class='invisible'>
+                           <code>about: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../gazetta_model_ext/struct.Person.html" title="struct gazetta_model_ext::Person">Person</a>&gt;</code>
+                           </span></span>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Meta' class='impl'><span class='in-band'><code>impl <a class="trait" href="../gazetta_core/model/meta/trait.Meta.html" title="trait gazetta_core::model::meta::Meta">Meta</a> for <a class="struct" href="../gazetta_model_ext/struct.EntryMeta.html" title="struct gazetta_model_ext::EntryMeta">EntryMeta</a></code><a href='#impl-Meta' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_model_ext/meta.rs.html#49-56' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_yaml' class="method"><span id='from_yaml.v' class='invisible'><code>fn <a href='../gazetta_core/model/meta/trait.Meta.html#tymethod.from_yaml' class='fnname'>from_yaml</a>(meta: <a class="type" href="../yaml_rust/yaml/type.Hash.html" title="type yaml_rust::yaml::Hash">Hash</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../gazetta_model_ext/struct.EntryMeta.html" title="struct gazetta_model_ext::EntryMeta">EntryMeta</a>, &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/gazetta_model_ext/meta.rs.html#50-55' title='goto source code'>[src]</a></span></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -116,7 +124,6 @@
         window.rootPath = "../";
         window.currentCrate = "gazetta_model_ext";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

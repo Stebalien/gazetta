@@ -9,6 +9,7 @@
 
     <title>gazetta_core::model::Meta - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -28,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>model</a></p><script>window.sidebarCurrent = {name: 'Meta', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Trait Meta</p><div class="block items"><ul><li><a href="#required-methods">Required Methods</a></li><li><a href="#foreign-impls">Implementations on Foreign Types</a></li><li><a href="#implementors">Implementors</a></li></ul></div><p class='location'><a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>model</a></p><script>window.sidebarCurrent = {name: 'Meta', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -42,22 +43,31 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>model</a>::<wbr><a class='trait' href=''>Meta</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>model</a>::<wbr><a class="trait" href=''>Meta</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/gazetta_core/model/meta.rs.html#19-21' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Meta: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> {
-    fn <a href='#tymethod.from_yaml' class='fnname'>from_yaml</a>(yaml: <a class='type' href='../../gazetta_core/yaml/type.Hash.html' title='gazetta_core::yaml::Hash'>Hash</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;Self, &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;;
+<pre class='rust trait'>pub trait Meta: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
+    fn <a href='#tymethod.from_yaml' class='fnname'>from_yaml</a>(yaml: <a class="type" href="../../gazetta_core/yaml/type.Hash.html" title="type gazetta_core::yaml::Hash">Hash</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;;
 }</pre>
-            <h2 id='required-methods'>Required Methods</h2>
+            <h2 id='required-methods' class='small-section-header'>
+              Required Methods<a href='#required-methods' class='anchor'></a>
+            </h2>
             <div class='methods'>
-        <h3 id='tymethod.from_yaml' class='method stab '><span id='from_yaml.v' class='invisible'><code>fn <a href='#tymethod.from_yaml' class='fnname'>from_yaml</a>(yaml: <a class='type' href='../../gazetta_core/yaml/type.Hash.html' title='gazetta_core::yaml::Hash'>Hash</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;Self, &amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</code></span></h3></div>
-        <h2 id='implementors'>Implementors</h2>
+        <h3 id='tymethod.from_yaml' class='method'><span id='from_yaml.v' class='invisible'><code>fn <a href='#tymethod.from_yaml' class='fnname'>from_yaml</a>(yaml: <a class="type" href="../../gazetta_core/yaml/type.Hash.html" title="type gazetta_core::yaml::Hash">Hash</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;</code></span></h3></div>
+                <h2 id='foreign-impls' class='section-header'>
+                  Implementations on Foreign Types<a href='#foreign-impls' class='anchor'></a>
+                </h2>
+            <h3 id='impl-Meta' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a> for <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a></code><a href='#impl-Meta' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/meta.rs.html#29-33' title='goto source code'>[src]</a></span></h3>
+<span class='docblock autohide'><div class='impl-items'><h4 id='method.from_yaml' class="method"><span id='from_yaml.v-1' class='invisible'><code>fn <a href='#method.from_yaml' class='fnname'>from_yaml</a>(_: <a class="type" href="../../gazetta_core/yaml/type.Hash.html" title="type gazetta_core::yaml::Hash">Hash</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/meta.rs.html#30-32' title='goto source code'>[src]</a></span></h4>
+</div></span>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl Meta for <a class='type' href='../../gazetta_core/yaml/type.Hash.html' title='gazetta_core::yaml::Hash'>Hash</a></code></li>
-<li><code>impl Meta for <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></code></li>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/gazetta_core/model/meta.rs.html#23-27' title='goto source code'>[src]</a></div><code>impl Meta for <a class="type" href="../../gazetta_core/yaml/type.Hash.html" title="type gazetta_core::yaml::Hash">Hash</a></code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/gazetta_core/model/trait.Meta.js">
                  </script></section>
@@ -117,7 +127,6 @@
         window.rootPath = "../../";
         window.currentCrate = "gazetta_core";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.1/src/template.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/horrorshow-0.6.2/src/template.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>template.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -282,245 +283,245 @@
 <span id="238">238</span>
 <span id="239">239</span>
 <span id="240">240</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>render</span>::<span class='ident'>RenderOnce</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-<span class='kw'>use</span> <span class='ident'>error</span>::{<span class='self'>self</span>, <span class='ident'>Error</span>};
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">render</span>::<span class="ident">RenderOnce</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
+<span class="kw">use</span> <span class="ident">error</span>::{<span class="self">self</span>, <span class="ident">Error</span>};
 
-<span class='doccomment'>/// A template that can be rendered into something.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Don&#39;t let the single impl below fool you, these methods are available on all `Render*`&#39;s</span>
-<span class='doccomment'>/// (through impls on references and boxes).</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Template</span>: <span class='ident'>RenderOnce</span> <span class='op'>+</span> <span class='ident'>Sized</span> {
-    <span class='doccomment'>/// Render this into a new String.</span>
-    <span class='kw'>fn</span> <span class='ident'>into_string</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>string</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='self'>self</span>.<span class='ident'>size_hint</span>());
-        <span class='self'>self</span>.<span class='ident'>write_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>string</span>).<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> {
-            <span class='ident'>string</span>.<span class='ident'>shrink_to_fit</span>();
-            <span class='ident'>string</span>
+<span class="doccomment">/// A template that can be rendered into something.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Don&#39;t let the single impl below fool you, these methods are available on all `Render*`&#39;s</span>
+<span class="doccomment">/// (through impls on references and boxes).</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Template</span>: <span class="ident">RenderOnce</span> <span class="op">+</span> <span class="ident">Sized</span> {
+    <span class="doccomment">/// Render this into a new String.</span>
+    <span class="kw">fn</span> <span class="ident">into_string</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">string</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">with_capacity</span>(<span class="self">self</span>.<span class="ident">size_hint</span>());
+        <span class="self">self</span>.<span class="ident">write_to_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">string</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> {
+            <span class="ident">string</span>.<span class="ident">shrink_to_fit</span>();
+            <span class="ident">string</span>
         })
     }
 
-    <span class='doccomment'>/// Render this into an existing String.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note: You could also use render_into_fmt but this is noticeably faster.</span>
-    <span class='kw'>fn</span> <span class='ident'>write_to_string</span>(<span class='self'>self</span>, <span class='ident'>string</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>TemplateBuffer</span> {
-            <span class='ident'>writer</span>: <span class='ident'>InnerTemplateWriter</span>::<span class='ident'>Str</span>(<span class='ident'>string</span>),
-            <span class='ident'>error</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
+    <span class="doccomment">/// Render this into an existing String.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: You could also use render_into_fmt but this is noticeably faster.</span>
+    <span class="kw">fn</span> <span class="ident">write_to_string</span>(<span class="self">self</span>, <span class="ident">string</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">TemplateBuffer</span> {
+            <span class="ident">writer</span>: <span class="ident">InnerTemplateWriter</span>::<span class="ident">Str</span>(<span class="ident">string</span>),
+            <span class="ident">error</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         };
-        <span class='self'>self</span>.<span class='ident'>render_once</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>);
-        <span class='ident'>buffer</span>.<span class='ident'>into_result</span>()
+        <span class="self">self</span>.<span class="ident">render_once</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
+        <span class="ident">buffer</span>.<span class="ident">into_result</span>()
     }
 
-    <span class='doccomment'>/// Render this into something that implements fmt::Write.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// FnRenderer also implements Display but that&#39;s about twice as slow...</span>
-    <span class='kw'>fn</span> <span class='ident'>write_to_fmt</span>(<span class='self'>self</span>, <span class='ident'>writer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Write</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>TemplateBuffer</span> {
-            <span class='ident'>writer</span>: <span class='ident'>InnerTemplateWriter</span>::<span class='ident'>Fmt</span>(<span class='ident'>writer</span>),
-            <span class='ident'>error</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
+    <span class="doccomment">/// Render this into something that implements fmt::Write.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// FnRenderer also implements Display but that&#39;s about twice as slow...</span>
+    <span class="kw">fn</span> <span class="ident">write_to_fmt</span>(<span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Write</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">TemplateBuffer</span> {
+            <span class="ident">writer</span>: <span class="ident">InnerTemplateWriter</span>::<span class="ident">Fmt</span>(<span class="ident">writer</span>),
+            <span class="ident">error</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         };
-        <span class='self'>self</span>.<span class='ident'>render_once</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>);
-        <span class='ident'>buffer</span>.<span class='ident'>into_result</span>()
+        <span class="self">self</span>.<span class="ident">render_once</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
+        <span class="ident">buffer</span>.<span class="ident">into_result</span>()
     }
 
-    <span class='doccomment'>/// Render this into something that implements io::Write.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note: If you&#39;re writing directly to a file/socket etc., you should *seriously* consider</span>
-    <span class='doccomment'>/// wrapping your writer in a BufWriter. Otherwise, you&#39;ll end up making quite a few unnecessary</span>
-    <span class='doccomment'>/// system calls.</span>
-    <span class='kw'>fn</span> <span class='ident'>write_to_io</span>(<span class='self'>self</span>, <span class='ident'>writer</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>io</span>::<span class='ident'>Write</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> <span class='ident'>TemplateBuffer</span> {
-            <span class='ident'>writer</span>: <span class='ident'>InnerTemplateWriter</span>::<span class='ident'>Io</span>(<span class='ident'>writer</span>),
-            <span class='ident'>error</span>: <span class='ident'>Default</span>::<span class='ident'>default</span>(),
+    <span class="doccomment">/// Render this into something that implements io::Write.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: If you&#39;re writing directly to a file/socket etc., you should *seriously* consider</span>
+    <span class="doccomment">/// wrapping your writer in a BufWriter. Otherwise, you&#39;ll end up making quite a few unnecessary</span>
+    <span class="doccomment">/// system calls.</span>
+    <span class="kw">fn</span> <span class="ident">write_to_io</span>(<span class="self">self</span>, <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">io</span>::<span class="ident">Write</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">TemplateBuffer</span> {
+            <span class="ident">writer</span>: <span class="ident">InnerTemplateWriter</span>::<span class="ident">Io</span>(<span class="ident">writer</span>),
+            <span class="ident">error</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         };
-        <span class='self'>self</span>.<span class='ident'>render_once</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>);
-        <span class='ident'>buffer</span>.<span class='ident'>into_result</span>()
+        <span class="self">self</span>.<span class="ident">render_once</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>);
+        <span class="ident">buffer</span>.<span class="ident">into_result</span>()
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>RenderOnce</span> <span class='op'>+</span> <span class='ident'>Sized</span><span class='op'>&gt;</span> <span class='ident'>Template</span> <span class='kw'>for</span> <span class='ident'>T</span> {}
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">RenderOnce</span> <span class="op">+</span> <span class="ident">Sized</span><span class="op">&gt;</span> <span class="ident">Template</span> <span class="kw">for</span> <span class="ident">T</span> {}
 
 
-<span class='doccomment'>/// A template buffer. This is the type that gets passed to closures inside templates.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Example:</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>/// # #[macro_use] extern crate horrorshow;</span>
-<span class='doccomment'>/// # fn main() {</span>
-<span class='doccomment'>///     html! {</span>
-<span class='doccomment'>///         |tmpl /*: &amp;mut TemplateBuffer */| tmpl &lt;&lt; &quot;Some String&quot;;</span>
-<span class='doccomment'>///     };</span>
-<span class='doccomment'>/// # }</span>
-<span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TemplateBuffer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='ident'>writer</span>: <span class='ident'>InnerTemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>,
-    <span class='ident'>error</span>: <span class='ident'>Error</span>,
+<span class="doccomment">/// A template buffer. This is the type that gets passed to closures inside templates.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Example:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # #[macro_use] extern crate horrorshow;</span>
+<span class="doccomment">/// # fn main() {</span>
+<span class="doccomment">///     html! {</span>
+<span class="doccomment">///         |tmpl /*: &amp;mut TemplateBuffer */| tmpl &lt;&lt; &quot;Some String&quot;;</span>
+<span class="doccomment">///     };</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TemplateBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="ident">writer</span>: <span class="ident">InnerTemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">error</span>: <span class="ident">Error</span>,
 }
 
-<span class='kw'>enum</span> <span class='ident'>InnerTemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='ident'>Io</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>io</span>::<span class='ident'>Write</span>),
-    <span class='ident'>Fmt</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Write</span>),
-    <span class='ident'>Str</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>String</span>),
+<span class="kw">enum</span> <span class="ident">InnerTemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="ident">Io</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">io</span>::<span class="ident">Write</span>),
+    <span class="ident">Fmt</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Write</span>),
+    <span class="ident">Str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">String</span>),
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>TemplateBuffer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='attribute'>#[<span class='ident'>cold</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>record_error</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span>::<span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>e</span>: <span class='ident'>E</span>) {
-        <span class='self'>self</span>.<span class='ident'>error</span>.<span class='ident'>render</span>.<span class='ident'>push</span>(<span class='ident'>e</span>.<span class='ident'>into</span>());
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">TemplateBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">cold</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">record_error</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">e</span>: <span class="ident">E</span>) {
+        <span class="self">self</span>.<span class="ident">error</span>.<span class="ident">render</span>.<span class="ident">push</span>(<span class="ident">e</span>.<span class="ident">into</span>());
     }
 
-    <span class='doccomment'>/// Write a raw string to the template output.</span>
-    <span class='comment'>// NEVER REMOVE THIS INLINE!</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_raw</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) {
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>as_raw_writer</span>().<span class='ident'>write_str</span>(<span class='ident'>text</span>);
+    <span class="doccomment">/// Write a raw string to the template output.</span>
+    <span class="comment">// NEVER REMOVE THIS INLINE!</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_raw</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Write</span>;
+        <span class="kw">let</span> _ <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_raw_writer</span>().<span class="ident">write_str</span>(<span class="ident">text</span>);
     }
 
-    <span class='doccomment'>/// Escape and write the formatted arguments to the template output.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Example:</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// # #[macro_use] extern crate horrorshow;</span>
-    <span class='doccomment'>/// # use horrorshow::prelude::*;</span>
-    <span class='doccomment'>/// # fn main() {</span>
-    <span class='doccomment'>/// #     let result = html! {</span>
-    <span class='doccomment'>/// #         |tmpl| {</span>
-    <span class='doccomment'>/// write!(tmpl, &quot;{} + {}&quot;, 0, 1);</span>
-    <span class='doccomment'>/// #         }</span>
-    <span class='doccomment'>/// #     };</span>
-    <span class='doccomment'>/// #     assert_eq!(result.into_string().unwrap(), &quot;0 + 1&quot;);</span>
-    <span class='doccomment'>/// # }</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_fmt</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='ident'>fmt</span>::<span class='ident'>Arguments</span>) {
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>as_writer</span>().<span class='ident'>write_fmt</span>(<span class='ident'>args</span>);
+    <span class="doccomment">/// Escape and write the formatted arguments to the template output.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # #[macro_use] extern crate horrorshow;</span>
+    <span class="doccomment">/// # use horrorshow::prelude::*;</span>
+    <span class="doccomment">/// # fn main() {</span>
+    <span class="doccomment">/// #     let result = html! {</span>
+    <span class="doccomment">/// #         |tmpl| {</span>
+    <span class="doccomment">/// write!(tmpl, &quot;{} + {}&quot;, 0, 1);</span>
+    <span class="doccomment">/// #         }</span>
+    <span class="doccomment">/// #     };</span>
+    <span class="doccomment">/// #     assert_eq!(result.into_string().unwrap(), &quot;0 + 1&quot;);</span>
+    <span class="doccomment">/// # }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_fmt</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">args</span>: <span class="ident">fmt</span>::<span class="ident">Arguments</span>) {
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Write</span>;
+        <span class="kw">let</span> _ <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_writer</span>().<span class="ident">write_fmt</span>(<span class="ident">args</span>);
     }
 
-    <span class='doccomment'>/// Escape and write a string to the template output.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) {
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
-        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>as_writer</span>().<span class='ident'>write_str</span>(<span class='ident'>text</span>);
+    <span class="doccomment">/// Escape and write a string to the template output.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Write</span>;
+        <span class="kw">let</span> _ <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_writer</span>().<span class="ident">write_str</span>(<span class="ident">text</span>);
     }
 
-    <span class='doccomment'>/// Returns an escaping Write adapter.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_writer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>TemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
-        <span class='ident'>TemplateWriter</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// Returns an escaping Write adapter.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_writer</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">TemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+        <span class="ident">TemplateWriter</span>(<span class="self">self</span>)
     }
 
-    <span class='doccomment'>/// Returns a non-escaping Write adapter.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_raw_writer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RawTemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
-        <span class='ident'>RawTemplateWriter</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// Returns a non-escaping Write adapter.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_raw_writer</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RawTemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+        <span class="ident">RawTemplateWriter</span>(<span class="self">self</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>into_result</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='ident'>error</span>::<span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>error</span>) {
-            <span class='prelude-val'>Ok</span>(())
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Err</span>(<span class='self'>self</span>.<span class='ident'>error</span>)
+    <span class="kw">fn</span> <span class="ident">into_result</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">error</span>::<span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">error</span>) {
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">error</span>)
         }
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RawTemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span>;
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawTemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident">TemplateBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="kw">where</span> <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;b</span>;
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>fmt</span>::<span class='ident'>Write</span> <span class='kw'>for</span> <span class='ident'>RawTemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
-    <span class='comment'>// This is the fast-path.</span>
-    <span class='comment'>// Inlining this allows LLVM to optimize it significantly.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>fn</span> <span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>InnerTemplateWriter</span>::<span class='op'>*</span>;
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>error</span>::<span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>error</span>) {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Write</span> <span class="kw">for</span> <span class="ident">RawTemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+    <span class="comment">// This is the fast-path.</span>
+    <span class="comment">// Inlining this allows LLVM to optimize it significantly.</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">use</span> <span class="self">self</span>::<span class="ident">InnerTemplateWriter</span>::<span class="kw-2">*</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">error</span>::<span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">error</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>writer</span> {
-            <span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>) <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>error</span>.<span class='ident'>write</span> <span class='op'>=</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='ident'>text</span>.<span class='ident'>as_bytes</span>()).<span class='ident'>err</span>();
+        <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">writer</span> {
+            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">writer</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="number">0</span>.<span class="ident">error</span>.<span class="ident">write</span> <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">text</span>.<span class="ident">as_bytes</span>()).<span class="ident">err</span>();
             }
-            <span class='ident'>Fmt</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='ident'>writer</span>.<span class='ident'>write_str</span>(<span class='ident'>text</span>).<span class='ident'>is_err</span>() {
-                    <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>error</span>.<span class='ident'>write</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='string'>&quot;Format Error&quot;</span>));
+            <span class="ident">Fmt</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">writer</span>) <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="ident">text</span>).<span class="ident">is_err</span>() {
+                    <span class="self">self</span>.<span class="number">0</span>.<span class="ident">error</span>.<span class="ident">write</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;Format Error&quot;</span>));
                 }
             }
-            <span class='ident'>Str</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>writer</span>.<span class='ident'>write_str</span>(<span class='ident'>text</span>);
+            <span class="ident">Str</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">writer</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> _ <span class="op">=</span> <span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="ident">text</span>);
             }
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='kw-2'>mut</span> <span class='ident'>TemplateBuffer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>) <span class='kw'>where</span> <span class='lifetime'>&#39;a</span>: <span class='lifetime'>&#39;b</span>;
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident">TemplateBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="kw">where</span> <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;b</span>;
 
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>fmt</span>::<span class='ident'>Write</span> <span class='kw'>for</span> <span class='ident'>TemplateWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>write_str</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='comment'>// NOTE to future self: don&#39;t try to be fancy here. This optimizes well</span>
-        <span class='comment'>// and all you&#39;re fancy algorithms are actually slower.</span>
-        <span class='comment'>//</span>
-        <span class='comment'>// Also, don&#39;t try short-circuiting entirely. That is, don&#39;t check if we</span>
-        <span class='comment'>// need to escape and use write_raw otherwise. It&#39;s slower.</span>
-        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>InnerTemplateWriter</span>::<span class='op'>*</span>;
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>error</span>::<span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>error</span>) {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Write</span> <span class="kw">for</span> <span class="ident">TemplateWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="comment">// NOTE to future self: don&#39;t try to be fancy here. This optimizes well</span>
+        <span class="comment">// and all you&#39;re fancy algorithms are actually slower.</span>
+        <span class="comment">//</span>
+        <span class="comment">// Also, don&#39;t try short-circuiting entirely. That is, don&#39;t check if we</span>
+        <span class="comment">// need to escape and use write_raw otherwise. It&#39;s slower.</span>
+        <span class="kw">use</span> <span class="self">self</span>::<span class="ident">InnerTemplateWriter</span>::<span class="kw-2">*</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">error</span>::<span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">error</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
 
-        <span class='kw'>fn</span> <span class='ident'>should_escape</span>(<span class='ident'>b</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-            (<span class='ident'>b</span> <span class='op'>|</span> <span class='number'>0x4</span>) <span class='op'>==</span> <span class='string'>b&#39;&amp;&#39;</span> <span class='op'>||</span> (<span class='ident'>b</span> <span class='op'>|</span> <span class='number'>0x2</span>) <span class='op'>==</span> <span class='string'>b&#39;&gt;&#39;</span>
+        <span class="kw">fn</span> <span class="ident">should_escape</span>(<span class="ident">b</span>: <span class="ident">u8</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+            (<span class="ident">b</span> <span class="op">|</span> <span class="number">0x4</span>) <span class="op">==</span> <span class="string">b&#39;&amp;&#39;</span> <span class="op">||</span> (<span class="ident">b</span> <span class="op">|</span> <span class="number">0x2</span>) <span class="op">==</span> <span class="string">b&#39;&gt;&#39;</span>
         }
 
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>writer</span> {
-            <span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> <span class='ident'>b</span> <span class='kw'>in</span> <span class='ident'>text</span>.<span class='ident'>bytes</span>() {
-                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=</span> <span class='kw'>match</span> (<span class='ident'>should_escape</span>(<span class='ident'>b</span>), <span class='ident'>b</span>) {
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&amp;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='string'>b&quot;&amp;amp;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&quot;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='string'>b&quot;&amp;quot;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&lt;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='string'>b&quot;&amp;lt;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&gt;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='string'>b&quot;&amp;gt;&quot;</span>),
-                        _ <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_all</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>b</span>] <span class='kw'>as</span> <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>]),
+        <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">writer</span> {
+            <span class="ident">Io</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">writer</span>) <span class="op">=&gt;</span> {
+                <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">text</span>.<span class="ident">bytes</span>() {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="kw">match</span> (<span class="ident">should_escape</span>(<span class="ident">b</span>), <span class="ident">b</span>) {
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&amp;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;&amp;amp;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&quot;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;&amp;quot;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&lt;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;&amp;lt;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&gt;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;&amp;gt;&quot;</span>),
+                        _ <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="kw-2">&amp;</span>[<span class="ident">b</span>] <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]),
                     } {
-                        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>error</span>.<span class='ident'>write</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>e</span>);
-                        <span class='kw'>break</span>;
+                        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">error</span>.<span class="ident">write</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>);
+                        <span class="kw">break</span>;
                     }
                 }
             }
-            <span class='ident'>Fmt</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> <span class='ident'>c</span> <span class='kw'>in</span> <span class='ident'>text</span>.<span class='ident'>chars</span>() {
-                    <span class='kw'>if</span> (<span class='kw'>match</span> (<span class='ident'>should_escape</span>(<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>u8</span>), <span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>u8</span>) {
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&amp;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;&amp;amp;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&quot;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;&amp;quot;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&lt;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;&amp;lt;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&gt;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_str</span>(<span class='string'>&quot;&amp;gt;&quot;</span>),
-                        _ <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>write_char</span>(<span class='ident'>c</span>),
-                    }).<span class='ident'>is_err</span>() {
-                        <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>error</span>.<span class='ident'>write</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>ErrorKind</span>::<span class='ident'>Other</span>, <span class='string'>&quot;Format Error&quot;</span>));
-                        <span class='kw'>break</span>;
+            <span class="ident">Fmt</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">writer</span>) <span class="op">=&gt;</span> {
+                <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="ident">text</span>.<span class="ident">chars</span>() {
+                    <span class="kw">if</span> (<span class="kw">match</span> (<span class="ident">should_escape</span>(<span class="ident">c</span> <span class="kw">as</span> <span class="ident">u8</span>), <span class="ident">c</span> <span class="kw">as</span> <span class="ident">u8</span>) {
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&amp;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;&amp;amp;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&quot;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;&amp;quot;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&lt;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;&amp;lt;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&gt;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_str</span>(<span class="string">&quot;&amp;gt;&quot;</span>),
+                        _ <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">write_char</span>(<span class="ident">c</span>),
+                    }).<span class="ident">is_err</span>() {
+                        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">error</span>.<span class="ident">write</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;Format Error&quot;</span>));
+                        <span class="kw">break</span>;
                     }
                 }
             }
-            <span class='ident'>Str</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> <span class='ident'>b</span> <span class='kw'>in</span> <span class='ident'>text</span>.<span class='ident'>bytes</span>() {
-                    <span class='kw'>match</span> (<span class='ident'>should_escape</span>(<span class='ident'>b</span>), <span class='ident'>b</span>) {
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&amp;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;amp;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&quot;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;quot;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&lt;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;lt;&quot;</span>),
-                        (<span class='bool-val'>true</span>, <span class='string'>b&#39;&gt;&#39;</span>) <span class='op'>=&gt;</span> <span class='ident'>writer</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;gt;&quot;</span>),
-                        <span class='comment'>// NOTE: Do not add an unreachable case. It makes this slower.</span>
-                        _ <span class='op'>=&gt;</span> <span class='kw'>unsafe</span> { <span class='ident'>writer</span>.<span class='ident'>as_mut_vec</span>() }.<span class='ident'>push</span>(<span class='ident'>b</span>),
+            <span class="ident">Str</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">writer</span>) <span class="op">=&gt;</span> {
+                <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">text</span>.<span class="ident">bytes</span>() {
+                    <span class="kw">match</span> (<span class="ident">should_escape</span>(<span class="ident">b</span>), <span class="ident">b</span>) {
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&amp;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;amp;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&quot;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;quot;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&lt;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;lt;&quot;</span>),
+                        (<span class="bool-val">true</span>, <span class="string">b&#39;&gt;&#39;</span>) <span class="op">=&gt;</span> <span class="ident">writer</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;gt;&quot;</span>),
+                        <span class="comment">// NOTE: Do not add an unreachable case. It makes this slower.</span>
+                        _ <span class="op">=&gt;</span> <span class="kw">unsafe</span> { <span class="ident">writer</span>.<span class="ident">as_mut_vec</span>() }.<span class="ident">push</span>(<span class="ident">b</span>),
                     }
                 }
             }
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 }
 </pre>
@@ -581,7 +582,6 @@
         window.rootPath = "../../";
         window.currentCrate = "horrorshow";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

@@ -9,6 +9,7 @@
 
     <title>link.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -89,51 +90,51 @@
 <span id="45">45</span>
 <span id="46">46</span>
 <span id="47">47</span>
-</pre><pre class='rust '>
-<span class='comment'>//  Copyright (C) 2015 Steven Allen</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This file is part of gazetta.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
-<span class='comment'>//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
-<span class='comment'>//  License.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
-<span class='comment'>//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
-<span class='comment'>//  the GNU General Public License for more details.</span>
-<span class='comment'>//</span>
-<span class='comment'>//  You should have received a copy of the GNU General Public License along with this program.  If</span>
-<span class='comment'>//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-<span class='comment'>//</span>
-<span class='kw'>use</span> <span class='ident'>yaml</span>::<span class='op'>*</span>;
+</pre><pre class="rust ">
+<span class="comment">//  Copyright (C) 2015 Steven Allen</span>
+<span class="comment">//</span>
+<span class="comment">//  This file is part of gazetta.</span>
+<span class="comment">//</span>
+<span class="comment">//  This program is free software: you can redistribute it and/or modify it under the terms of the</span>
+<span class="comment">//  GNU General Public License as published by the Free Software Foundation version 3 of the</span>
+<span class="comment">//  License.</span>
+<span class="comment">//</span>
+<span class="comment">//  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class="comment">//  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See</span>
+<span class="comment">//  the GNU General Public License for more details.</span>
+<span class="comment">//</span>
+<span class="comment">//  You should have received a copy of the GNU General Public License along with this program.  If</span>
+<span class="comment">//  not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">//</span>
+<span class="kw">use</span> <span class="ident">yaml</span>::<span class="kw-2">*</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Link</span> {
-    <span class='kw'>pub</span> <span class='ident'>text</span>: <span class='ident'>String</span>,
-    <span class='kw'>pub</span> <span class='ident'>url</span>: <span class='ident'>String</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Link</span> {
+    <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">String</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Link</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_yaml</span>(<span class='ident'>yaml</span>: <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='ident'>yaml</span> {
-            <span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='ident'>link</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>if</span> <span class='ident'>link</span>.<span class='ident'>len</span>() <span class='op'>!=</span> <span class='number'>1</span> {
-                    <span class='prelude-val'>Err</span>(<span class='string'>&quot;links must have exactly one entry&quot;</span>.<span class='ident'>into</span>())
-                } <span class='kw'>else</span> {
-                    <span class='kw'>match</span> <span class='ident'>link</span>.<span class='ident'>into_iter</span>().<span class='ident'>next</span>().<span class='ident'>unwrap</span>() {
-                        (<span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>k</span>), <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>v</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Link</span> { <span class='ident'>text</span>: <span class='ident'>k</span>, <span class='ident'>url</span>: <span class='ident'>v</span> }),
-                        _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;links must be in the form `name: url`&quot;</span>),
+<span class="kw">impl</span> <span class="ident">Link</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_yaml</span>(<span class="ident">yaml</span>: <span class="ident">Yaml</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">yaml</span> {
+            <span class="ident">Yaml</span>::<span class="ident">Hash</span>(<span class="ident">link</span>) <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="ident">link</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="number">1</span> {
+                    <span class="prelude-val">Err</span>(<span class="string">&quot;links must have exactly one entry&quot;</span>.<span class="ident">into</span>())
+                } <span class="kw">else</span> {
+                    <span class="kw">match</span> <span class="ident">link</span>.<span class="ident">into_iter</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>() {
+                        (<span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">k</span>), <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Link</span> { <span class="ident">text</span>: <span class="ident">k</span>, <span class="ident">url</span>: <span class="ident">v</span> }),
+                        _ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;links must be in the form `name: url`&quot;</span>),
                     }
                 }
             }
-            _ <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;links must be in the form `name: url`&quot;</span>),
+            _ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="string">&quot;links must be in the form `name: url`&quot;</span>),
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>many_from_yaml</span>(<span class='ident'>links</span>: <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='kw'>match</span> <span class='ident'>links</span> {
-            <span class='ident'>Yaml</span>::<span class='ident'>Array</span>(<span class='ident'>links</span>) <span class='op'>=&gt;</span> <span class='ident'>links</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='ident'>Link</span>::<span class='ident'>from_yaml</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&lt;</span>_, _<span class='op'>&gt;&gt;</span>()<span class='question-mark'>?</span>,
-            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='string'>&quot;lists of links need to be arrays&quot;</span>),
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">many_from_yaml</span>(<span class="ident">links</span>: <span class="ident">Yaml</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">links</span> {
+            <span class="ident">Yaml</span>::<span class="ident">Array</span>(<span class="ident">links</span>) <span class="op">=&gt;</span> <span class="ident">links</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">Link</span>::<span class="ident">from_yaml</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>_, _<span class="op">&gt;&gt;</span>()<span class="question-mark">?</span>,
+            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;lists of links need to be arrays&quot;</span>),
         })
     }
 }
@@ -195,7 +196,6 @@
         window.rootPath = "../../";
         window.currentCrate = "gazetta_model_ext";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>

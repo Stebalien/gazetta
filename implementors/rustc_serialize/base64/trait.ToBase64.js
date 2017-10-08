@@ -1,6 +1,4 @@
 (function() {var implementors = {};
-implementors["gazetta_core"] = [];
-implementors["gazetta_model_ext"] = [];
 implementors["rustc_serialize"] = [];
 
             if (window.register_implementors) {

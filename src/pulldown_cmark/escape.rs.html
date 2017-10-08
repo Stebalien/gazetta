@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.8/src/escape.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.8/src/escape.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>escape.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -16,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -42,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -162,126 +163,126 @@
 <span id="118">118</span>
 <span id="119">119</span>
 <span id="120">120</span>
-</pre><pre class='rust '>
-<span class='comment'>// Copyright 2015 Google Inc. All rights reserved.</span>
-<span class='comment'>//</span>
-<span class='comment'>// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
-<span class='comment'>// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
-<span class='comment'>// in the Software without restriction, including without limitation the rights</span>
-<span class='comment'>// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
-<span class='comment'>// copies of the Software, and to permit persons to whom the Software is</span>
-<span class='comment'>// furnished to do so, subject to the following conditions:</span>
-<span class='comment'>//</span>
-<span class='comment'>// The above copyright notice and this permission notice shall be included in</span>
-<span class='comment'>// all copies or substantial portions of the Software.</span>
-<span class='comment'>//</span>
-<span class='comment'>// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
-<span class='comment'>// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
-<span class='comment'>// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
-<span class='comment'>// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
-<span class='comment'>// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
-<span class='comment'>// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
-<span class='comment'>// THE SOFTWARE.</span>
+</pre><pre class="rust ">
+<span class="comment">// Copyright 2015 Google Inc. All rights reserved.</span>
+<span class="comment">//</span>
+<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="comment">// in the Software without restriction, including without limitation the rights</span>
+<span class="comment">// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="comment">// copies of the Software, and to permit persons to whom the Software is</span>
+<span class="comment">// furnished to do so, subject to the following conditions:</span>
+<span class="comment">//</span>
+<span class="comment">// The above copyright notice and this permission notice shall be included in</span>
+<span class="comment">// all copies or substantial portions of the Software.</span>
+<span class="comment">//</span>
+<span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="comment">// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="comment">// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="comment">// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="comment">// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="comment">// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="comment">// THE SOFTWARE.</span>
 
-<span class='doccomment'>//! Utility functions for HTML escaping</span>
+<span class="doccomment">//! Utility functions for HTML escaping</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>from_utf8</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">from_utf8</span>;
 
-<span class='kw'>static</span> <span class='ident'>HREF_SAFE</span>: [<span class='ident'>u8</span>; <span class='number'>128</span>] <span class='op'>=</span> [
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>,
-        <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>1</span>,
-        <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>,
-        <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>1</span>,
-        <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>,
-        <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
+<span class="kw">static</span> <span class="ident">HREF_SAFE</span>: [<span class="ident">u8</span>; <span class="number">128</span>] <span class="op">=</span> [
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>,
+        <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>,
+        <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>,
+        <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>,
+        <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>,
+        <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
     ];
 
-<span class='kw'>static</span> <span class='ident'>HEX_CHARS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> [<span class='ident'>u8</span>] <span class='op'>=</span> <span class='string'>b&quot;0123456789ABCDEF&quot;</span>;
+<span class="kw">static</span> <span class="ident">HEX_CHARS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;0123456789ABCDEF&quot;</span>;
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>escape_href</span>(<span class='ident'>ob</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>mark</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>s</span>.<span class='ident'>len</span>() {
-        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>];
-        <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='number'>0x80</span> <span class='op'>||</span> <span class='ident'>HREF_SAFE</span>[<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>usize</span>] <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='comment'>// character needing escape</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">escape_href</span>(<span class="ident">ob</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mark</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">s</span>.<span class="ident">len</span>() {
+        <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span>];
+        <span class="kw">if</span> <span class="ident">c</span> <span class="op">&gt;=</span> <span class="number">0x80</span> <span class="op">||</span> <span class="ident">HREF_SAFE</span>[<span class="ident">c</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">==</span> <span class="number">0</span> {
+            <span class="comment">// character needing escape</span>
 
-            <span class='comment'>// write partial substring up to mark</span>
-            <span class='kw'>if</span> <span class='ident'>mark</span> <span class='op'>&lt;</span> <span class='ident'>i</span> {
-                <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='ident'>mark</span>..<span class='ident'>i</span>]);
+            <span class="comment">// write partial substring up to mark</span>
+            <span class="kw">if</span> <span class="ident">mark</span> <span class="op">&lt;</span> <span class="ident">i</span> {
+                <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">mark</span>..<span class="ident">i</span>]);
             }
-            <span class='kw'>match</span> <span class='ident'>c</span> {
-                <span class='string'>b&#39;&amp;&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;amp;&quot;</span>);
+            <span class="kw">match</span> <span class="ident">c</span> {
+                <span class="string">b&#39;&amp;&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;amp;&quot;</span>);
                 },
-                <span class='string'>b&#39;\&#39;&#39;</span> <span class='op'>=&gt;</span> {
-                    <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&amp;#x27;&quot;</span>);
+                <span class="string">b&#39;\&#39;&#39;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="string">&quot;&amp;#x27;&quot;</span>);
                 },
-                _ <span class='op'>=&gt;</span> {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buf</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>3</span>];
-                    <span class='ident'>buf</span>[<span class='number'>0</span>] <span class='op'>=</span> <span class='string'>b&#39;%&#39;</span>;
-                    <span class='ident'>buf</span>[<span class='number'>1</span>] <span class='op'>=</span> <span class='ident'>HEX_CHARS</span>[((<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>&gt;&gt;</span> <span class='number'>4</span>) <span class='kw-2'>&amp;</span> <span class='number'>0xF</span>];
-                    <span class='ident'>buf</span>[<span class='number'>2</span>] <span class='op'>=</span> <span class='ident'>HEX_CHARS</span>[(<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='kw-2'>&amp;</span> <span class='number'>0xF</span>];
-                    <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='ident'>from_utf8</span>(<span class='kw-2'>&amp;</span><span class='ident'>buf</span>).<span class='ident'>unwrap</span>());
+                _ <span class="op">=&gt;</span> {
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">3</span>];
+                    <span class="ident">buf</span>[<span class="number">0</span>] <span class="op">=</span> <span class="string">b&#39;%&#39;</span>;
+                    <span class="ident">buf</span>[<span class="number">1</span>] <span class="op">=</span> <span class="ident">HEX_CHARS</span>[((<span class="ident">c</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&gt;&gt;</span> <span class="number">4</span>) <span class="op">&amp;</span> <span class="number">0xF</span>];
+                    <span class="ident">buf</span>[<span class="number">2</span>] <span class="op">=</span> <span class="ident">HEX_CHARS</span>[(<span class="ident">c</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&amp;</span> <span class="number">0xF</span>];
+                    <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>).<span class="ident">unwrap</span>());
                 }
             }
-            <span class='ident'>mark</span> <span class='op'>=</span> <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>;  <span class='comment'>// all escaped characters are ASCII</span>
+            <span class="ident">mark</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>;  <span class="comment">// all escaped characters are ASCII</span>
         }
     }
-    <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='ident'>mark</span>..]);
+    <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">mark</span>..]);
 }
 
-<span class='kw'>static</span> <span class='ident'>HTML_ESCAPE_TABLE</span>: [<span class='ident'>u8</span>; <span class='number'>256</span>] <span class='op'>=</span> [
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>2</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>3</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>4</span>, <span class='number'>0</span>, <span class='number'>5</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
-        <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>,
+<span class="kw">static</span> <span class="ident">HTML_ESCAPE_TABLE</span>: [<span class="ident">u8</span>; <span class="number">256</span>] <span class="op">=</span> [
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
     ];
 
-<span class='kw'>static</span> <span class='ident'>HTML_ESCAPES</span>: [<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>; <span class='number'>6</span>] <span class='op'>=</span> [
-        <span class='string'>&quot;&quot;</span>,
-        <span class='string'>&quot;&amp;quot;&quot;</span>,
-        <span class='string'>&quot;&amp;amp;&quot;</span>,
-        <span class='string'>&quot;&amp;#47;&quot;</span>,
-        <span class='string'>&quot;&amp;lt;&quot;</span>,
-        <span class='string'>&quot;&amp;gt;&quot;</span>
+<span class="kw">static</span> <span class="ident">HTML_ESCAPES</span>: [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>; <span class="number">6</span>] <span class="op">=</span> [
+        <span class="string">&quot;&quot;</span>,
+        <span class="string">&quot;&amp;quot;&quot;</span>,
+        <span class="string">&quot;&amp;amp;&quot;</span>,
+        <span class="string">&quot;&amp;#47;&quot;</span>,
+        <span class="string">&quot;&amp;lt;&quot;</span>,
+        <span class="string">&quot;&amp;gt;&quot;</span>
     ];
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>escape_html</span>(<span class='ident'>ob</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>secure</span>: <span class='ident'>bool</span>) {
-    <span class='kw'>let</span> <span class='ident'>size</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>len</span>();
-    <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_bytes</span>();
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>mark</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
-    <span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>size</span> {
-        <span class='kw'>match</span> <span class='ident'>bytes</span>[<span class='ident'>i</span>..].<span class='ident'>iter</span>().<span class='ident'>position</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>HTML_ESCAPE_TABLE</span>[<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>usize</span>] <span class='op'>!=</span> <span class='number'>0</span>) {
-            <span class='prelude-val'>Some</span>(<span class='ident'>pos</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>i</span> <span class='op'>+=</span> <span class='ident'>pos</span>;
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">escape_html</span>(<span class="ident">ob</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">secure</span>: <span class="ident">bool</span>) {
+    <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>();
+    <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mark</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">size</span> {
+        <span class="kw">match</span> <span class="ident">bytes</span>[<span class="ident">i</span>..].<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="ident">HTML_ESCAPE_TABLE</span>[<span class="ident">c</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">!=</span> <span class="number">0</span>) {
+            <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=&gt;</span> {
+                <span class="ident">i</span> <span class="op">+=</span> <span class="ident">pos</span>;
             }
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">break</span>
         }
-        <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>bytes</span>[<span class='ident'>i</span>];
-        <span class='kw'>let</span> <span class='ident'>escape</span> <span class='op'>=</span> <span class='ident'>HTML_ESCAPE_TABLE</span>[<span class='ident'>c</span> <span class='kw'>as</span> <span class='ident'>usize</span>];
-        <span class='kw'>if</span> <span class='ident'>escape</span> <span class='op'>!=</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> (<span class='ident'>secure</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>!=</span> <span class='string'>b&#39;/&#39;</span>) {
-            <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='ident'>mark</span>..<span class='ident'>i</span>]);
-            <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='ident'>HTML_ESCAPES</span>[<span class='ident'>escape</span> <span class='kw'>as</span> <span class='ident'>usize</span>]);
-            <span class='ident'>mark</span> <span class='op'>=</span> <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>;  <span class='comment'>// all escaped characters are ASCII</span>
+        <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">bytes</span>[<span class="ident">i</span>];
+        <span class="kw">let</span> <span class="ident">escape</span> <span class="op">=</span> <span class="ident">HTML_ESCAPE_TABLE</span>[<span class="ident">c</span> <span class="kw">as</span> <span class="ident">usize</span>];
+        <span class="kw">if</span> <span class="ident">escape</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> (<span class="ident">secure</span> <span class="op">||</span> <span class="ident">c</span> <span class="op">!=</span> <span class="string">b&#39;/&#39;</span>) {
+            <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">mark</span>..<span class="ident">i</span>]);
+            <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="ident">HTML_ESCAPES</span>[<span class="ident">escape</span> <span class="kw">as</span> <span class="ident">usize</span>]);
+            <span class="ident">mark</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>;  <span class="comment">// all escaped characters are ASCII</span>
         }
-        <span class='ident'>i</span> <span class='op'>+=</span> <span class='number'>1</span>;
+        <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
-    <span class='ident'>ob</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='ident'>mark</span>..]);
+    <span class="ident">ob</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">mark</span>..]);
 }
 </pre>
 </section>
@@ -341,7 +342,6 @@
         window.rootPath = "../../";
         window.currentCrate = "pulldown_cmark";
     </script>
-    <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
     <script defer src="../../search-index.js"></script>
 </body>
