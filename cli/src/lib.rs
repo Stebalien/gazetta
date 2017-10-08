@@ -19,7 +19,7 @@ extern crate chrono;
 extern crate clap;
 extern crate slug;
 
-use std::{fs, io, process};
+use std::{fs, process};
 use std::process::Command;
 use std::io::Write;
 use std::env;
@@ -45,9 +45,7 @@ macro_rules! try_exit {
 
 macro_rules! bail {
     ($($toks:tt)*) => {{
-        let stderr = io::stderr();
-        let mut stderr = stderr.lock();
-        let _ = writeln!(stderr, $($toks)*);
+        eprintln!($($toks)*);
         process::exit(1)
     }}
 }
