@@ -86,10 +86,14 @@ pub struct Source<SourceMeta = (), EntryMeta = ()>
     /// By default, this list is populated by the files in is `assets/javascript/` in
     /// lexicographical order.
     pub javascript: Vec<PathBuf>,
-    /// The path website's icon.
+    /// The path to the website's icon.
     ///
     /// By default, this points to `assets/icon.png` (if it exists).
     pub icon: Option<PathBuf>,
+    /// The path to the `.well-known` directory.
+    ///
+    /// By default, this points to `.well-known`.
+    pub well_known: Option<PathBuf>,
     /// Additional metadata read from `gazetta.yaml`.
     pub meta: SourceMeta,
 }
@@ -155,8 +159,10 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         self.stylesheets.clear();
         self.javascript.clear();
         self.icon = None;
+        self.well_known = None;
         self.load_entries("")?;
         self.load_assets()?;
+        self.load_well_known()?;
         Ok(())
     }
 
@@ -216,6 +222,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             origin: origin,
             prefix: prefix,
             root: root.to_owned(),
+            well_known: None,
             entries: Vec::new(),
             static_entries: Vec::new(),
             stylesheets: Vec::new(),
@@ -223,6 +230,14 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             icon: None,
             meta: SourceMeta::from_yaml(config)?,
         })
+    }
+
+    fn load_well_known(&mut self) -> Result<(), AnnotatedError<SourceError>> {
+        let path = self.root.join(".well-known");
+        if try_annotate!(util::exists(&path), path) {
+            self.well_known = Some(path.clone());
+        }
+        Ok(())
     }
 
     fn load_assets(&mut self) -> Result<(), AnnotatedError<SourceError>> {
@@ -266,7 +281,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             };
 
             // Skip assets.
-            if dir == "" && file_name == "assets" {
+            if dir == "" && (file_name == "assets" || file_name == ".well-known") {
                 continue;
             }
 

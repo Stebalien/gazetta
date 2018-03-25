@@ -27,8 +27,8 @@ use std::collections::hash_map::DefaultHasher;
 use str_stack::StrStack;
 
 
-/// Compiles a set of files into a single asset by concatinating them.
-/// This function also hashes the files so they can be cached.
+/// Compiles a set of files into a single asset by concatinating them. This
+/// function also hashes the files so they can be cached.
 fn compile_asset<P>(paths: &[P],
                     target: &Path,
                     prefix: &str,
@@ -102,6 +102,11 @@ pub trait Gazetta: Sized {
         } else {
             None
         };
+
+        if let Some(ref src) = source.well_known {
+            let dst = output.join(".well-known");
+            try_annotate!(util::copy_recursive(src, &dst), src)
+        }
 
         let site = Site {
             title: &source.title,
