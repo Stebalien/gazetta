@@ -32,7 +32,7 @@ use gazetta_core::render::Gazetta;
 use gazetta_core::model::Source;
 use slug::slugify;
 
-use chrono::offset::local::Local as Date;
+use chrono::offset::Local as Date;
 
 macro_rules! try_exit {
     ($e:expr) => {

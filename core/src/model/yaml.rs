@@ -19,9 +19,7 @@ use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::path::Path;
-use std::collections::BTreeMap;
-
-use yaml_rust::YamlLoader;
+use yaml_rust::{YamlLoader, yaml};
 
 use error::SourceError;
 
@@ -40,11 +38,11 @@ lazy_static! {
     pub static ref DESCRIPTION: Yaml = Yaml::String("description".into());
 }
 
-pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
+pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(yaml::Hash, String), SourceError> {
     _load_front(path.as_ref())
 }
 
-fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceError> {
+fn _load_front(path: &Path) -> Result<(yaml::Hash, String), SourceError> {
     let mut buf = String::with_capacity(100);
     let mut file = BufReader::new(File::open(path)?);
     file.read_line(&mut buf)?;
@@ -70,7 +68,7 @@ fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceErro
             }
         }
     } else {
-        return Ok((BTreeMap::new(), String::new()));
+        return Ok((yaml::Hash::new(), String::new()));
     }
     // Parse yaml
     let mut docs = YamlLoader::load_from_str(&buf)?;
@@ -85,10 +83,10 @@ fn _load_front(path: &Path) -> Result<(BTreeMap<Yaml, Yaml>, String), SourceErro
     Ok((meta, buf))
 }
 
-pub fn load<P: AsRef<Path>>(path: P) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {
+pub fn load<P: AsRef<Path>>(path: P) -> Result<yaml::Hash, SourceError> {
     _load(path.as_ref())
 }
-fn _load(path: &Path) -> Result<BTreeMap<Yaml, Yaml>, SourceError> {
+fn _load(path: &Path) -> Result<yaml::Hash, SourceError> {
     let mut file = File::open(path)?;
     let mut buf = String::with_capacity(file.metadata().ok().map_or(100, |m| {
         let len = m.len();

@@ -17,7 +17,7 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use ::url::{Url, SchemeData};
+use ::url::Url;
 use std::fmt::Write as WriteFmt;
 
 use error::{AnnotatedError, SourceError};
@@ -171,43 +171,37 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         let mut config = yaml::load(&config_path)?;
         let (origin, prefix) = match config.remove(&yaml::BASE) {
             Some(Yaml::String(base)) => {
-                match Url::parse(&base)? {
-                    Url { scheme,
-                          scheme_data: SchemeData::Relative(scheme_data),
-                          fragment: None,
-                          query: None } => {
-                        let prefix = scheme_data.serialize_path();
-
-                        let mut origin = scheme;
-                        if !origin.is_empty() {
-                            origin.push(':')
-                        }
-                        origin.push_str("//");
-                        if !scheme_data.username.is_empty() {
-                            origin.push_str(&scheme_data.username);
-                            if let Some(ref pw) = scheme_data.password {
-                                origin.push(':');
-                                origin.push_str(pw);
-                            }
-                            origin.push('@');
-                        }
-                        write!(origin, "{}", scheme_data.host).unwrap();
-                        if let Some(port) = scheme_data.port {
-                            write!(origin, ":{}", port).unwrap();
-                        }
-
-                        (origin, prefix)
-                    }
-                    Url { scheme_data: SchemeData::NonRelative(..), .. } => {
-                        return Err("base url must use a relative scheme".into())
-                    }
-                    Url { fragment: Some(..), .. } => {
-                        return Err("base url must not specify a fragment".into())
-                    }
-                    Url { query: Some(..), .. } => {
-                        return Err("base url must not specify a query".into())
-                    }
+                let url = Url::parse(&base)?;
+                let host = url.host_str().ok_or("base url must have a host")?;
+                if url.fragment().is_some() {
+                    return Err("base url must not specify a fragment".into())
                 }
+                if url.query().is_some() {
+                    return Err("base url must not specify a query".into())
+                }
+
+                let prefix = url.path();
+                let username = url.username();
+
+                let mut origin = url.scheme().to_string();
+                if !origin.is_empty() {
+                    origin.push(':')
+                }
+                origin.push_str("//");
+                if !username.is_empty() {
+                    origin.push_str(&username);
+                    if let Some(ref pw) = url.password() {
+                        origin.push(':');
+                        origin.push_str(pw);
+                    }
+                    origin.push('@');
+                }
+                write!(origin, "{}", host).unwrap();
+                if let Some(port) = url.port() {
+                    write!(origin, ":{}", port).unwrap();
+                }
+
+                (origin, prefix.to_string())
             }
             Some(..) => return Err("the base url must be a string".into()),
             None => return Err("you must specify a base url".into()),

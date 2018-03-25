@@ -14,7 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-pub type Date = ::chrono::naive::date::NaiveDate;
+pub type Date = ::chrono::naive::NaiveDate;
 
 pub mod index;
 
