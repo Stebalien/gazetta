@@ -275,7 +275,7 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
             };
 
             // Skip assets.
-            if dir == "" && (file_name == "assets" || file_name == ".well-known") {
+            if dir == "" && file_name == "assets" {
                 continue;
             }
 
