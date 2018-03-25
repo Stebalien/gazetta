@@ -10,8 +10,12 @@
     <title>tables.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     <link rel="shortcut icon" href="https://unicode-rs.github.io/unicode-rs_sm.png">
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         <a href='../../unicode_width/index.html'><img src='https://unicode-rs.github.io/unicode-rs_sm.png' alt='logo' width='100'></a>
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -336,16 +348,16 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">bsearch_range_value_table</span>(<span class="ident">c</span>: <span class="ident">char</span>, <span class="ident">is_cjk</span>: <span class="ident">bool</span>, <span class="ident">r</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [(<span class="ident">char</span>, <span class="ident">char</span>, <span class="ident">u8</span>, <span class="ident">u8</span>)]) <span class="op">-&gt;</span> <span class="ident">u8</span> {
         <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>::{<span class="ident">Equal</span>, <span class="ident">Less</span>, <span class="ident">Greater</span>};
-        <span class="kw">match</span> <span class="ident">r</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">lo</span>, <span class="ident">hi</span>, _, _)<span class="op">|</span> {
+        <span class="kw">match</span> <span class="ident">r</span>.<span class="ident">binary_search_by</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">lo</span>, <span class="ident">hi</span>, <span class="kw">_</span>, <span class="kw">_</span>)<span class="op">|</span> {
             <span class="kw">if</span> <span class="ident">lo</span> <span class="op">&lt;=</span> <span class="ident">c</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span> <span class="op">&lt;=</span> <span class="ident">hi</span> { <span class="ident">Equal</span> }
             <span class="kw">else</span> <span class="kw">if</span> <span class="ident">hi</span> <span class="op">&lt;</span> <span class="ident">c</span> { <span class="ident">Less</span> }
             <span class="kw">else</span> { <span class="ident">Greater</span> }
         }) {
             <span class="prelude-val">Ok</span>(<span class="ident">idx</span>) <span class="op">=&gt;</span> {
-                <span class="kw">let</span> (_, _, <span class="ident">r_ncjk</span>, <span class="ident">r_cjk</span>) <span class="op">=</span> <span class="ident">r</span>[<span class="ident">idx</span>];
+                <span class="kw">let</span> (<span class="kw">_</span>, <span class="kw">_</span>, <span class="ident">r_ncjk</span>, <span class="ident">r_cjk</span>) <span class="op">=</span> <span class="ident">r</span>[<span class="ident">idx</span>];
                 <span class="kw">if</span> <span class="ident">is_cjk</span> { <span class="ident">r_cjk</span> } <span class="kw">else</span> { <span class="ident">r_ncjk</span> }
             }
-            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="number">1</span>
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="number">1</span>
         }
     }
 
@@ -356,7 +368,7 @@
             <span class="ident">cu</span> <span class="kw">if</span> <span class="ident">cu</span> <span class="op">&lt;</span> <span class="number">0x20</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,    <span class="comment">// control sequences have no width</span>
             <span class="ident">cu</span> <span class="kw">if</span> <span class="ident">cu</span> <span class="op">&lt;</span> <span class="number">0x7F</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="comment">// ASCII</span>
             <span class="ident">cu</span> <span class="kw">if</span> <span class="ident">cu</span> <span class="op">&lt;</span> <span class="number">0xA0</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,    <span class="comment">// more control sequences</span>
-            _ <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">bsearch_range_value_table</span>(<span class="ident">c</span>, <span class="ident">is_cjk</span>, <span class="ident">charwidth_table</span>) <span class="kw">as</span> <span class="ident">usize</span>)
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">bsearch_range_value_table</span>(<span class="ident">c</span>, <span class="ident">is_cjk</span>, <span class="ident">charwidth_table</span>) <span class="kw">as</span> <span class="ident">usize</span>)
         }
     }
 
@@ -592,18 +604,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

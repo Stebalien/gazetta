@@ -4,14 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.26.2/src/macros.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/clap-2.31.2/src/macros.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>macros.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -1073,6 +1085,55 @@
 <span id="1028">1028</span>
 <span id="1029">1029</span>
 <span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// A convenience macro for loading the YAML file at compile time (relative to the current file,</span>
 <span class="doccomment">/// like modules work). That YAML object can then be passed to this function.</span>
@@ -1085,7 +1146,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The following example shows how to load a properly formatted YAML file to build an instnace</span>
+<span class="doccomment">/// The following example shows how to load a properly formatted YAML file to build an instance</span>
 <span class="doccomment">/// of an `App` struct.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```ignore</span>
@@ -1142,7 +1203,7 @@
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>.<span class="ident">value_of</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>) {
             <span class="kw">match</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">val</span>),
-                <span class="prelude-val">Err</span>(_)  <span class="op">=&gt;</span>
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>)  <span class="op">=&gt;</span>
                     <span class="prelude-val">Err</span>(::<span class="ident">clap</span>::<span class="ident">Error</span>::<span class="ident">value_validation_auto</span>(
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;The argument &#39;{}&#39; isn&#39;t a valid value&quot;</span>, <span class="ident">v</span>))),
             }
@@ -1187,7 +1248,7 @@
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>.<span class="ident">value_of</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>) {
             <span class="kw">match</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=&gt;</span> <span class="ident">val</span>,
-                <span class="prelude-val">Err</span>(_)  <span class="op">=&gt;</span>
+                <span class="prelude-val">Err</span>(<span class="kw">_</span>)  <span class="op">=&gt;</span>
                     ::<span class="ident">clap</span>::<span class="ident">Error</span>::<span class="ident">value_validation_auto</span>(
                         <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;The argument &#39;{}&#39; isn&#39;t a valid value&quot;</span>, <span class="ident">v</span>)).<span class="ident">exit</span>(),
             }
@@ -1294,7 +1355,7 @@
     };
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">ident</span>.<span class="ident">values_of</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">expr</span>), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">vals</span>) <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>.<span class="ident">values_of</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>) {
-            <span class="ident">vals</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span>_<span class="op">|</span>{
+            <span class="ident">vals</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span>{
                 ::<span class="ident">clap</span>::<span class="ident">Error</span>::<span class="ident">value_validation_auto</span>(
                     <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;One or more arguments aren&#39;t valid values&quot;</span>)).<span class="ident">exit</span>()
             })).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;&gt;</span>()
@@ -1338,7 +1399,8 @@
 <span class="doccomment">/// retrieve a `Vec&lt;&amp;&#39;static str&gt;` of the variant names, as well as implementing [`FromStr`] and</span>
 <span class="doccomment">/// [`Display`] automatically.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **NOTE:** Case insensitivity is supported for ASCII characters only</span>
+<span class="doccomment">/// **NOTE:** Case insensitivity is supported for ASCII characters only. It&#39;s highly recommended to</span>
+<span class="doccomment">/// use [`Arg::case_insensitive(true)`] for args that will be used with these enums</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// **NOTE:** This macro automatically implements [`std::str::FromStr`] and [`std::fmt::Display`]</span>
 <span class="doccomment">///</span>
@@ -1346,12 +1408,12 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ```no_run</span>
+<span class="doccomment">/// ```rust</span>
 <span class="doccomment">/// # #[macro_use]</span>
 <span class="doccomment">/// # extern crate clap;</span>
 <span class="doccomment">/// # use clap::{App, Arg};</span>
 <span class="doccomment">/// arg_enum!{</span>
-<span class="doccomment">///     #[derive(Debug)]</span>
+<span class="doccomment">///     #[derive(PartialEq, Debug)]</span>
 <span class="doccomment">///     pub enum Foo {</span>
 <span class="doccomment">///         Bar,</span>
 <span class="doccomment">///         Baz,</span>
@@ -1362,17 +1424,22 @@
 <span class="doccomment">/// // and implements std::str::FromStr to use with the value_t! macros</span>
 <span class="doccomment">/// fn main() {</span>
 <span class="doccomment">///     let m = App::new(&quot;app&quot;)</span>
-<span class="doccomment">///                 .arg_from_usage(&quot;&lt;foo&gt; &#39;the foo&#39;&quot;)</span>
-<span class="doccomment">///                 .get_matches();</span>
+<span class="doccomment">///                 .arg(Arg::from_usage(&quot;&lt;foo&gt; &#39;the foo&#39;&quot;)</span>
+<span class="doccomment">///                     .possible_values(&amp;Foo::variants())</span>
+<span class="doccomment">///                     .case_insensitive(true))</span>
+<span class="doccomment">///                 .get_matches_from(vec![</span>
+<span class="doccomment">///                     &quot;app&quot;, &quot;baz&quot;</span>
+<span class="doccomment">///                 ]);</span>
 <span class="doccomment">///     let f = value_t!(m, &quot;foo&quot;, Foo).unwrap_or_else(|e| e.exit());</span>
 <span class="doccomment">///</span>
-<span class="doccomment">///     // Use f like any other Foo variant...</span>
+<span class="doccomment">///     assert_eq!(f, Foo::Baz);</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// [`FromStr`]: https://doc.rust-lang.org/std/str/trait.FromStr.html</span>
 <span class="doccomment">/// [`std::str::FromStr`]: https://doc.rust-lang.org/std/str/trait.FromStr.html</span>
 <span class="doccomment">/// [`Display`]: https://doc.rust-lang.org/std/fmt/trait.Display.html</span>
 <span class="doccomment">/// [`std::fmt::Display`]: https://doc.rust-lang.org/std/fmt/trait.Display.html</span>
+<span class="doccomment">/// [`Arg::case_insensitive(true)`]: ./struct.Arg.html#method.case_insensitive</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">arg_enum</span> {
     (@<span class="ident">as_item</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">item</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>)<span class="kw-2">*</span>);
@@ -1384,11 +1451,12 @@
             <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">String</span>;
 
             <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> ::<span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>,<span class="self">Self</span>::<span class="prelude-val">Err</span><span class="op">&gt;</span> {
+                <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
                 <span class="kw">use</span> ::<span class="ident">std</span>::<span class="ident">ascii</span>::<span class="ident">AsciiExt</span>;
                 <span class="kw">match</span> <span class="ident">s</span> {
                     $(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>) <span class="op">|</span>
-                    _ <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>)),<span class="op">+</span>,
-                    _ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>({
+                    <span class="kw">_</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>)),<span class="op">+</span>,
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>({
                         <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
                             $(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>),)<span class="op">+</span>
                         ];
@@ -1414,6 +1482,14 @@
             }
         });
     };
+    ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="op">+</span>]</span>)<span class="op">+</span> <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>,)<span class="op">+</span> } ) <span class="op">=&gt;</span> {
+        <span class="macro">arg_enum</span><span class="macro">!</span>(@<span class="ident">impls</span>
+            ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>),<span class="op">+</span>]</span>)<span class="op">+</span>
+            <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> {
+                $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>$(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>)<span class="kw-2">*</span>),<span class="op">+</span>
+            }) <span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>),<span class="op">+</span>)
+        );
+    };
     ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="op">+</span>]</span>)<span class="op">+</span> <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span> } ) <span class="op">=&gt;</span> {
         <span class="macro">arg_enum</span><span class="macro">!</span>(@<span class="ident">impls</span>
             ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>),<span class="op">+</span>]</span>)<span class="op">+</span>
@@ -1422,7 +1498,14 @@
             }) <span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>),<span class="op">+</span>)
         );
     };
-    ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="op">+</span>]</span>)<span class="op">+</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span>  } ) <span class="op">=&gt;</span> {
+    ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="op">+</span>]</span>)<span class="op">+</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>,)<span class="op">+</span> } ) <span class="op">=&gt;</span> {
+        <span class="macro">arg_enum</span><span class="macro">!</span>($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="op">+</span>]</span>)<span class="op">+</span>
+            <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> {
+                $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span>
+            }
+        );
+    };
+    ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="op">+</span>]</span>)<span class="op">+</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span> } ) <span class="op">=&gt;</span> {
         <span class="macro">arg_enum</span><span class="macro">!</span>(@<span class="ident">impls</span>
             ($(<span class="attribute">#[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>),<span class="op">+</span>]</span>)<span class="op">+</span>
             <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> {
@@ -1430,12 +1513,22 @@
             }) <span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>),<span class="op">+</span>)
         );
     };
+    (<span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>,)<span class="op">+</span> } ) <span class="op">=&gt;</span> {
+        <span class="macro">arg_enum</span><span class="macro">!</span>(<span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> {
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span>
+        });
+    };
     (<span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span> } ) <span class="op">=&gt;</span> {
         <span class="macro">arg_enum</span><span class="macro">!</span>(@<span class="ident">impls</span>
             (<span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> {
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>$(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>)<span class="kw-2">*</span>),<span class="op">+</span>
             }) <span class="op">-&gt;</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>),<span class="op">+</span>)
         );
+    };
+    (<span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>,)<span class="op">+</span> } ) <span class="op">=&gt;</span> {
+        <span class="macro">arg_enum</span><span class="macro">!</span>(<span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> {
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span>
+        });
     };
     (<span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">ident</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> $(<span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>)<span class="kw-2">*</span>),<span class="op">+</span> } ) <span class="op">=&gt;</span> {
         <span class="macro">arg_enum</span><span class="macro">!</span>(@<span class="ident">impls</span>
@@ -1461,7 +1554,7 @@
 <span class="doccomment">///             .get_matches();</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;no_cargo&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;no_cargo&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">crate_version</span> {
     () <span class="op">=&gt;</span> {
@@ -1490,7 +1583,7 @@
 <span class="doccomment">///             .get_matches();</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;no_cargo&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;no_cargo&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">crate_authors</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sep</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
@@ -1498,26 +1591,29 @@
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">ONCE_INIT</span>, <span class="ident">Once</span>};
 
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_copy_implementations</span>)]</span>
-        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-        <span class="kw">struct</span> <span class="ident">CARGO_AUTHORS</span> {<span class="ident">__private_field</span>: ()}
-        <span class="kw">static</span> <span class="ident">CARGO_AUTHORS</span>: <span class="ident">CARGO_AUTHORS</span> <span class="op">=</span> <span class="ident">CARGO_AUTHORS</span> {<span class="ident">__private_field</span>: ()};
+        <span class="kw">struct</span> <span class="ident">CargoAuthors</span> { <span class="ident">__private_field</span>: () };
 
-        <span class="kw">impl</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">CARGO_AUTHORS</span> {
-            <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">String</span>;
+        <span class="kw">impl</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">CargoAuthors</span> {
+            <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">str</span>;
 
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unsafe_code</span>)]</span>
-            <span class="kw">fn</span> <span class="ident">deref</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">String</span> {
-                <span class="kw">unsafe</span> {
-                    <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">LAZY</span>: (<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">String</span>, <span class="ident">Once</span>) <span class="op">=</span> (<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">String</span>, <span class="ident">ONCE_INIT</span>);
+            <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+                <span class="kw">static</span> <span class="ident">ONCE</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">ONCE_INIT</span>;
+                <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">VALUE</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">String</span> <span class="op">=</span> <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">String</span>;
 
-                    <span class="ident">LAZY</span>.<span class="number">1</span>.<span class="ident">call_once</span>(<span class="op">||</span> <span class="ident">LAZY</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_AUTHORS&quot;</span>).<span class="ident">replace</span>(<span class="string">&#39;:&#39;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sep</span>))));
-                    <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">LAZY</span>.<span class="number">0</span>
+                <span class="kw">unsafe</span> {
+                    <span class="ident">ONCE</span>.<span class="ident">call_once</span>(<span class="op">||</span> {
+                        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_AUTHORS&quot;</span>).<span class="ident">replace</span>(<span class="string">&#39;:&#39;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sep</span>);
+                        <span class="ident">VALUE</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">s</span>));
+                    });
+
+                    <span class="kw-2">&amp;</span>(<span class="kw-2">*</span><span class="ident">VALUE</span>)[..]
                 }
             }
         }
 
-        <span class="kw-2">&amp;</span><span class="ident">CARGO_AUTHORS</span>[..]
+        <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">CargoAuthors</span> { <span class="ident">__private_field</span>: () }
     }};
     () <span class="op">=&gt;</span> {
         <span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_AUTHORS&quot;</span>)
@@ -1538,7 +1634,7 @@
 <span class="doccomment">///             .get_matches();</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;no_cargo&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;no_cargo&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">crate_description</span> {
     () <span class="op">=&gt;</span> {
@@ -1559,7 +1655,7 @@
 <span class="doccomment">///             .get_matches();</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;no_cargo&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;no_cargo&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">crate_name</span> {
     () <span class="op">=&gt;</span> {
@@ -1590,7 +1686,7 @@
 <span class="doccomment">/// let m = app_from_crate!().get_matches();</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;no_cargo&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;no_cargo&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">app_from_crate</span> {
     () <span class="op">=&gt;</span> {
@@ -1648,10 +1744,10 @@
 <span class="doccomment">/// * Three dots (`...`) sets [`Arg::multiple(true)`]</span>
 <span class="doccomment">/// * Angled brackets after either a short or long will set [`Arg::value_name`] and</span>
 <span class="doccomment">/// `Arg::required(true)` such as `--config &lt;FILE&gt;` = `Arg::value_name(&quot;FILE&quot;)` and</span>
-<span class="doccomment">/// `Arg::required(true)</span>
+<span class="doccomment">/// `Arg::required(true)`</span>
 <span class="doccomment">/// * Square brackets after either a short or long will set [`Arg::value_name`] and</span>
 <span class="doccomment">/// `Arg::required(false)` such as `--config [FILE]` = `Arg::value_name(&quot;FILE&quot;)` and</span>
-<span class="doccomment">/// `Arg::required(false)</span>
+<span class="doccomment">/// `Arg::required(false)`</span>
 <span class="doccomment">/// * There are short hand syntaxes for Arg methods that accept booleans</span>
 <span class="doccomment">///   * A plus sign will set that method to `true` such as `+required` = `Arg::required(true)`</span>
 <span class="doccomment">///   * An exclamation will set that method to `false` such as `!required` = `Arg::required(false)`</span>
@@ -1812,7 +1908,7 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_settings</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span>:<span class="ident">ident</span>),<span class="op">+</span>) <span class="op">=&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">ident</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span>:<span class="ident">path</span>),<span class="op">+</span>) <span class="op">=&gt;</span> {
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>) {
             <span class="kw">match</span> <span class="ident">s</span> {
                 $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">insert</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">c</span>)),<span class="op">+</span>
@@ -1843,6 +1939,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;debug&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;debug&quot;</span>, <span class="ident">macro_use</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;debug&quot;</span>, <span class="ident">allow</span>(<span class="ident">unused_macros</span>))]</span>
 <span class="kw">mod</span> <span class="ident">debug_macros</span> {
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">debugln</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> (<span class="macro">println</span><span class="macro">!</span>(<span class="macro">concat</span><span class="macro">!</span>(<span class="string">&quot;DEBUG:clap:&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>)));
@@ -1886,22 +1983,22 @@
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">write_nspaces</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">num</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> ({
         <span class="macro">debugln</span><span class="macro">!</span>(<span class="string">&quot;write_spaces!: num={}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">num</span>);
-        <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">num</span> {
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="macro-nonterminal">$</span><span class="macro-nonterminal">num</span> {
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dst</span>.<span class="ident">write_all</span>(<span class="string">b&quot; &quot;</span>)<span class="question-mark">?</span>;
         }
     })
 }
 
 <span class="comment">// convenience macro for remove an item from a vec</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">vec_remove_all</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vec</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">to_rem</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
-        <span class="macro">debugln</span><span class="macro">!</span>(<span class="string">&quot;vec_remove_all! to_rem={:?}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">to_rem</span>);
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">0</span> .. <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vec</span>.<span class="ident">len</span>()).<span class="ident">rev</span>() {
-            <span class="kw">let</span> <span class="ident">should_remove</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">to_rem</span>.<span class="ident">any</span>(<span class="op">|</span><span class="ident">name</span><span class="op">|</span> <span class="ident">name</span> <span class="op">==</span> <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">vec</span>[<span class="ident">i</span>]);
-            <span class="kw">if</span> <span class="ident">should_remove</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vec</span>.<span class="ident">swap_remove</span>(<span class="ident">i</span>); }
-        }
-    };
-}
+<span class="comment">//macro_rules! vec_remove_all {</span>
+<span class="comment">//    ($vec:expr, $to_rem:expr) =&gt; {</span>
+<span class="comment">//        debugln!(&quot;vec_remove_all! to_rem={:?}&quot;, $to_rem);</span>
+<span class="comment">//        for i in (0 .. $vec.len()).rev() {</span>
+<span class="comment">//            let should_remove = $to_rem.any(|name| name == &amp;$vec[i]);</span>
+<span class="comment">//            if should_remove { $vec.swap_remove(i); }</span>
+<span class="comment">//        }</span>
+<span class="comment">//    };</span>
+<span class="comment">//}</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">find_from</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_self</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">matcher</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret</span> <span class="op">=</span> <span class="prelude-val">None</span>;
@@ -1932,36 +2029,49 @@
     }};
 }
 
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">find_name_from</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_self</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">matcher</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-        <span class="kw">for</span> <span class="ident">k</span> <span class="kw">in</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">matcher</span>.<span class="ident">arg_names</span>() {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">f</span>) <span class="op">=</span> <span class="macro">find_by_name</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_self</span>, <span class="ident">k</span>, <span class="ident">flags</span>, <span class="ident">iter</span>) {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span> <span class="ident">f</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>() {
-                    <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">contains</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>) {
-                        <span class="ident">ret</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">f</span>.<span class="ident">b</span>.<span class="ident">name</span>);
-                    }
-                }
-            }
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">o</span>) <span class="op">=</span> <span class="macro">find_by_name</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_self</span>, <span class="ident">k</span>, <span class="ident">opts</span>, <span class="ident">iter</span>) {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span> <span class="ident">o</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>() {
-                    <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>) {
-                        <span class="ident">ret</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">o</span>.<span class="ident">b</span>.<span class="ident">name</span>);
-                    }
-                }
-            }
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>) <span class="op">=</span> <span class="macro">find_by_name</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_self</span>, <span class="ident">k</span>, <span class="ident">positionals</span>, <span class="ident">values</span>) {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=</span> <span class="ident">pos</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>() {
-                    <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">contains</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg_name</span>) {
-                        <span class="ident">ret</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">pos</span>.<span class="ident">b</span>.<span class="ident">name</span>);
-                    }
-                }
-            }
-        }
-        <span class="ident">ret</span>
-    }};
-}
+<span class="comment">//macro_rules! find_name_from {</span>
+<span class="comment">//    ($_self:expr, $arg_name:expr, $from:ident, $matcher:expr) =&gt; {{</span>
+<span class="comment">//        let mut ret = None;</span>
+<span class="comment">//        for k in $matcher.arg_names() {</span>
+<span class="comment">//            if let Some(f) = find_by_name!($_self, k, flags, iter) {</span>
+<span class="comment">//                if let Some(ref v) = f.$from() {</span>
+<span class="comment">//                    if v.contains($arg_name) {</span>
+<span class="comment">//                        ret = Some(f.b.name);</span>
+<span class="comment">//                    }</span>
+<span class="comment">//                }</span>
+<span class="comment">//            }</span>
+<span class="comment">//            if let Some(o) = find_by_name!($_self, k, opts, iter) {</span>
+<span class="comment">//                if let Some(ref v) = o.$from() {</span>
+<span class="comment">//                    if v.contains(&amp;$arg_name) {</span>
+<span class="comment">//                        ret = Some(o.b.name);</span>
+<span class="comment">//                    }</span>
+<span class="comment">//                }</span>
+<span class="comment">//            }</span>
+<span class="comment">//            if let Some(pos) = find_by_name!($_self, k, positionals, values) {</span>
+<span class="comment">//                if let Some(ref v) = pos.$from() {</span>
+<span class="comment">//                    if v.contains($arg_name) {</span>
+<span class="comment">//                        ret = Some(pos.b.name);</span>
+<span class="comment">//                    }</span>
+<span class="comment">//                }</span>
+<span class="comment">//            }</span>
+<span class="comment">//        }</span>
+<span class="comment">//        ret</span>
+<span class="comment">//    }};</span>
+<span class="comment">//}</span>
 
+
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">find_any_by_name</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        {
+            <span class="kw">fn</span> <span class="ident">as_trait_obj</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">T</span>: <span class="ident">AnyArg</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;&gt;</span>(<span class="ident">x</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">AnyArg</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> { <span class="ident">x</span> }
+            <span class="macro">find_by_name</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">flags</span>, <span class="ident">iter</span>).<span class="ident">map</span>(<span class="ident">as_trait_obj</span>).<span class="ident">or</span>(
+                <span class="macro">find_by_name</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">opts</span>, <span class="ident">iter</span>).<span class="ident">map</span>(<span class="ident">as_trait_obj</span>).<span class="ident">or</span>(
+                    <span class="macro">find_by_name</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>, <span class="ident">positionals</span>, <span class="ident">values</span>).<span class="ident">map</span>(<span class="ident">as_trait_obj</span>)
+                )
+            )
+        }
+    }
+}
 <span class="comment">// Finds an arg by name</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">find_by_name</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">what</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">how</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
@@ -2001,7 +2111,7 @@
                     .<span class="ident">as_ref</span>()
                     .<span class="ident">unwrap</span>()
                     .<span class="ident">iter</span>()
-                    .<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">alias</span>, _)<span class="op">|</span> <span class="ident">alias</span> <span class="op">==</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">long</span>))
+                    .<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">alias</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">alias</span> <span class="op">==</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">long</span>))
             })
     }}
 }
@@ -2041,7 +2151,7 @@
                     .<span class="ident">as_ref</span>()
                     .<span class="ident">unwrap</span>()
                     .<span class="ident">iter</span>()
-                    .<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">n</span>, _)<span class="op">|</span> <span class="ident">n</span> <span class="op">==</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sc</span>))
+                    .<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">n</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">n</span> <span class="op">==</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sc</span>))
             })
     }};
 }
@@ -2100,7 +2210,7 @@
             .<span class="ident">chain</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">_self</span>.<span class="ident">subcommands</span>
                          .<span class="ident">iter</span>()
                          .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">p</span>.<span class="ident">meta</span>.<span class="ident">aliases</span>.<span class="ident">is_some</span>())
-                         .<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">p</span>.<span class="ident">meta</span>.<span class="ident">aliases</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">n</span>, _)<span class="op">|</span> <span class="ident">n</span>)))
+                         .<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">p</span>.<span class="ident">meta</span>.<span class="ident">aliases</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">n</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">n</span>)))
 
     }}
 }
@@ -2118,18 +2228,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

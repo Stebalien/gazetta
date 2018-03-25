@@ -4,14 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/time-0.1.38/src/display.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/time-0.1.39/src/display.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>display.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         <a href='../../time/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -396,7 +408,7 @@
         <span class="string">&#39;G&#39;</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">year</span>),
         <span class="string">&#39;g&#39;</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{:02}&quot;</span>, (<span class="ident">year</span> <span class="op">%</span> <span class="number">100</span> <span class="op">+</span> <span class="number">100</span>) <span class="op">%</span> <span class="number">100</span>),
         <span class="string">&#39;V&#39;</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{:02}&quot;</span>, <span class="ident">days</span> <span class="op">/</span> <span class="number">7</span> <span class="op">+</span> <span class="number">1</span>),
-        _ <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(())
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(())
     }
 }
 
@@ -410,7 +422,7 @@
             <span class="number">4</span> <span class="op">=&gt;</span> <span class="string">&quot;Thursday&quot;</span>,
             <span class="number">5</span> <span class="op">=&gt;</span> <span class="string">&quot;Friday&quot;</span>,
             <span class="number">6</span> <span class="op">=&gt;</span> <span class="string">&quot;Saturday&quot;</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }),
         <span class="string">&#39;a&#39;</span> <span class="op">=&gt;</span> <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">tm</span>.<span class="ident">tm_wday</span> {
             <span class="number">0</span> <span class="op">=&gt;</span> <span class="string">&quot;Sun&quot;</span>,
@@ -420,7 +432,7 @@
             <span class="number">4</span> <span class="op">=&gt;</span> <span class="string">&quot;Thu&quot;</span>,
             <span class="number">5</span> <span class="op">=&gt;</span> <span class="string">&quot;Fri&quot;</span>,
             <span class="number">6</span> <span class="op">=&gt;</span> <span class="string">&quot;Sat&quot;</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }),
         <span class="string">&#39;B&#39;</span> <span class="op">=&gt;</span> <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">tm</span>.<span class="ident">tm_mon</span> {
             <span class="number">0</span> <span class="op">=&gt;</span> <span class="string">&quot;January&quot;</span>,
@@ -435,7 +447,7 @@
             <span class="number">9</span> <span class="op">=&gt;</span> <span class="string">&quot;October&quot;</span>,
             <span class="number">10</span> <span class="op">=&gt;</span> <span class="string">&quot;November&quot;</span>,
             <span class="number">11</span> <span class="op">=&gt;</span> <span class="string">&quot;December&quot;</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }),
         <span class="string">&#39;b&#39;</span> <span class="op">|</span> <span class="string">&#39;h&#39;</span> <span class="op">=&gt;</span> <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="ident">tm</span>.<span class="ident">tm_mon</span> {
             <span class="number">0</span> <span class="op">=&gt;</span> <span class="string">&quot;Jan&quot;</span>,
@@ -450,7 +462,7 @@
             <span class="number">9</span> <span class="op">=&gt;</span> <span class="string">&quot;Oct&quot;</span>,
             <span class="number">10</span> <span class="op">=&gt;</span> <span class="string">&quot;Nov&quot;</span>,
             <span class="number">11</span> <span class="op">=&gt;</span> <span class="string">&quot;Dec&quot;</span>,
-            _  <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="kw">_</span>  <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }),
         <span class="string">&#39;C&#39;</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{:02}&quot;</span>, (<span class="ident">tm</span>.<span class="ident">tm_year</span> <span class="op">+</span> <span class="number">1900</span>) <span class="op">/</span> <span class="number">100</span>),
         <span class="string">&#39;c&#39;</span> <span class="op">=&gt;</span> {
@@ -557,7 +569,7 @@
         }
         <span class="string">&#39;+&#39;</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">tm</span>.<span class="ident">rfc3339</span>()),
         <span class="string">&#39;%&#39;</span> <span class="op">=&gt;</span> <span class="ident">fmt</span>.<span class="ident">write_str</span>(<span class="string">&quot;%&quot;</span>),
-        _   <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+        <span class="kw">_</span>   <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     }
 }
 
@@ -578,18 +590,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

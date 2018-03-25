@@ -10,8 +10,12 @@
     <title>url::percent_encoding - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Module percent_encoding</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#statics">Statics</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>url</a></p><script>window.sidebarCurrent = {name: 'percent_encoding', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module percent_encoding</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#statics">Statics</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>url</a></p><script>window.sidebarCurrent = {name: 'percent_encoding', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -56,6 +68,7 @@
                                   title='struct url::percent_encoding::EncodeSet'>EncodeSet</a></td>
                            <td class='docblock-short'>
                                 <p>Represents a set of characters / bytes that should be percent-encoded.</p>
+
                            </td>
                        </tr></table><h2 id='statics' class='section-header'><a href="#statics">Statics</a></h2>
 <table>
@@ -64,6 +77,7 @@
                                   title='static url::percent_encoding::DEFAULT_ENCODE_SET'>DEFAULT_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set is used for path components.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -71,6 +85,7 @@
                                   title='static url::percent_encoding::FORM_URLENCODED_ENCODE_SET'>FORM_URLENCODED_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set is used in <code>application/x-www-form-urlencoded</code> serialization.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -78,7 +93,8 @@
                                   title='static url::percent_encoding::HTTP_VALUE_ENCODE_SET'>HTTP_VALUE_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set is used for HTTP header values and is defined at
-<a href="https://tools.ietf.org/html/rfc5987#section-3.2">https://tools.ietf.org/html/rfc5987#section-3.2</a></p>
+https://tools.ietf.org/html/rfc5987#section-3.2</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -86,6 +102,7 @@
                                   title='static url::percent_encoding::PASSWORD_ENCODE_SET'>PASSWORD_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set should be used when setting the password field of a parsed URL.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -93,6 +110,7 @@
                                   title='static url::percent_encoding::QUERY_ENCODE_SET'>QUERY_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set is used in the URL parser for query strings.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -100,6 +118,7 @@
                                   title='static url::percent_encoding::SIMPLE_ENCODE_SET'>SIMPLE_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set is used for fragment identifier and non-relative scheme data.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -107,6 +126,7 @@
                                   title='static url::percent_encoding::USERINFO_ENCODE_SET'>USERINFO_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set is used in the URL parser for usernames and passwords.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -114,6 +134,7 @@
                                   title='static url::percent_encoding::USERNAME_ENCODE_SET'>USERNAME_ENCODE_SET</a></td>
                            <td class='docblock-short'>
                                 <p>This encode set should be used when setting the username field of a parsed URL.</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -129,6 +150,7 @@
                                   title='fn url::percent_encoding::lossy_utf8_percent_decode'>lossy_utf8_percent_decode</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-decode the given bytes, and decode the result as UTF-8.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -136,6 +158,7 @@
                                   title='fn url::percent_encoding::percent_decode'>percent_decode</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-decode the given bytes.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -143,6 +166,7 @@
                                   title='fn url::percent_encoding::percent_decode_to'>percent_decode_to</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-decode the given bytes, and push the result to <code>output</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -150,6 +174,7 @@
                                   title='fn url::percent_encoding::percent_encode'>percent_encode</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-encode the given bytes.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -157,6 +182,7 @@
                                   title='fn url::percent_encoding::percent_encode_to'>percent_encode_to</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-encode the given bytes, and push the result to <code>output</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -164,6 +190,7 @@
                                   title='fn url::percent_encoding::utf8_percent_encode'>utf8_percent_encode</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-encode the UTF-8 encoding of the given string.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -171,6 +198,7 @@
                                   title='fn url::percent_encoding::utf8_percent_encode_to'>utf8_percent_encode_to</a></td>
                            <td class='docblock-short'>
                                 <p>Percent-encode the UTF-8 encoding of the given string, and push the result to <code>output</code>.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -185,18 +213,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

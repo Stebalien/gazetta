@@ -10,8 +10,12 @@
     <title>parser.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -998,13 +1010,13 @@
             <span class="ident">Event</span>::<span class="ident">Scalar</span>(..) <span class="op">=&gt;</span> {
                 <span class="prelude-val">Ok</span>(())
             },
-            <span class="ident">Event</span>::<span class="ident">SequenceStart</span>(_) <span class="op">=&gt;</span> {
+            <span class="ident">Event</span>::<span class="ident">SequenceStart</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">load_sequence</span>(<span class="ident">first_ev</span>, <span class="ident">recv</span>)
             },
-            <span class="ident">Event</span>::<span class="ident">MappingStart</span>(_) <span class="op">=&gt;</span> {
+            <span class="ident">Event</span>::<span class="ident">MappingStart</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">load_mapping</span>(<span class="ident">first_ev</span>, <span class="ident">recv</span>)
             },
-            _ <span class="op">=&gt;</span> { <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;UNREACHABLE EVENT: {:?}&quot;</span>, <span class="ident">first_ev</span>);
+            <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;UNREACHABLE EVENT: {:?}&quot;</span>, <span class="ident">first_ev</span>);
                 <span class="macro">unreachable</span><span class="macro">!</span>(); }
         }
     }
@@ -1083,12 +1095,12 @@
         <span class="kw">let</span> <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
 
         <span class="kw">match</span> <span class="ident">tok</span>.<span class="number">1</span> {
-            <span class="ident">TokenType</span>::<span class="ident">StreamStartToken</span>(_) <span class="op">=&gt;</span> {
+            <span class="ident">TokenType</span>::<span class="ident">StreamStartToken</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">ImplicitDocumentStart</span>;
                 <span class="self">self</span>.<span class="ident">skip</span>();
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">StreamStart</span>)
             },
-            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>,
                     <span class="string">&quot;did not find expected &lt;stream-start&gt;&quot;</span>)),
         }
     }
@@ -1102,7 +1114,7 @@
                         <span class="self">self</span>.<span class="ident">skip</span>();
                         <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
                     },
-                    _ <span class="op">=&gt;</span> <span class="kw">break</span>
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>
                 }
             }
         }
@@ -1119,13 +1131,13 @@
                     <span class="comment">// explicit document</span>
                     <span class="self">self</span>.<span class="ident">_explict_document_start</span>()
                 },
-            _ <span class="kw">if</span> <span class="ident">implicit</span> <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">implicit</span> <span class="op">=&gt;</span> {
                 <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">parser_process_directives</span>());
                 <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">DocumentEnd</span>);
                 <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">BlockNode</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">DocumentStart</span>)
             },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="comment">// explicit document</span>
                 <span class="self">self</span>.<span class="ident">_explict_document_start</span>()
             }
@@ -1136,7 +1148,7 @@
         <span class="kw">loop</span> {
             <span class="kw">let</span> <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
             <span class="kw">match</span> <span class="ident">tok</span>.<span class="number">1</span> {
-                <span class="ident">TokenType</span>::<span class="ident">VersionDirectiveToken</span>(_, _) <span class="op">=&gt;</span> {
+                <span class="ident">TokenType</span>::<span class="ident">VersionDirectiveToken</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> {
                     <span class="comment">// XXX parsing with warning according to spec</span>
                     <span class="comment">//if major != 1 || minor &gt; 2 {</span>
                     <span class="comment">//    return Err(ScanError::new(tok.0,</span>
@@ -1146,7 +1158,7 @@
                 <span class="ident">TokenType</span>::<span class="ident">TagDirectiveToken</span>(..) <span class="op">=&gt;</span> {
                     <span class="comment">// TODO add tag directive</span>
                 },
-                _ <span class="op">=&gt;</span> <span class="kw">break</span>
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>
             }
             <span class="self">self</span>.<span class="ident">skip</span>();
         }
@@ -1178,7 +1190,7 @@
                     <span class="comment">// empty scalar</span>
                     <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
                 },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">true</span>, <span class="bool-val">false</span>)
             }
         }
@@ -1194,7 +1206,7 @@
                 <span class="self">self</span>.<span class="ident">skip</span>();
                 <span class="ident">_implicit</span> <span class="op">=</span> <span class="bool-val">false</span>;
             }
-            _ <span class="op">=&gt;</span> {}
+            <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
 
         <span class="comment">// TODO tag handling</span>
@@ -1202,7 +1214,7 @@
         <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">DocumentEnd</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">register_anchor</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>, _: <span class="kw-2">&amp;</span><span class="ident">Marker</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">ScanError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">register_anchor</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">String</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Marker</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">ScanError</span><span class="op">&gt;</span> {
         <span class="comment">// anchors can be overrided/reused</span>
         <span class="comment">// if self.anchors.contains_key(name) {</span>
         <span class="comment">//     return Err(ScanError::new(*mark,</span>
@@ -1231,7 +1243,7 @@
                 <span class="ident">anchor_id</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">register_anchor</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>, <span class="kw-2">&amp;</span><span class="ident">tok</span>.<span class="number">0</span>));
                 <span class="self">self</span>.<span class="ident">skip</span>();
                 <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
-                <span class="kw">if</span> <span class="kw">let</span> <span class="ident">TokenType</span>::<span class="ident">TagToken</span>(_, _) <span class="op">=</span> <span class="ident">tok</span>.<span class="number">1</span> {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="ident">TokenType</span>::<span class="ident">TagToken</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">tok</span>.<span class="number">1</span> {
                     <span class="ident">tag</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">tok</span>.<span class="number">1</span>);
                     <span class="self">self</span>.<span class="ident">skip</span>();
                     <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
@@ -1247,7 +1259,7 @@
                     <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
                 }
             },
-            _ <span class="op">=&gt;</span> {}
+            <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
         <span class="kw">match</span> <span class="ident">tok</span>.<span class="number">1</span> {
             <span class="ident">TokenType</span>::<span class="ident">BlockEntryToken</span> <span class="kw">if</span> <span class="ident">indentless_sequence</span> <span class="op">=&gt;</span> {
@@ -1276,18 +1288,18 @@
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">MappingStart</span>(<span class="ident">anchor_id</span>))
             },
             <span class="comment">// ex 7.2, an empty scalar can follow a secondary tag</span>
-            _ <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">is_some</span>() <span class="op">||</span> <span class="ident">anchor_id</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">is_some</span>() <span class="op">||</span> <span class="ident">anchor_id</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">pop_state</span>();
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar_with_anchor</span>(<span class="ident">anchor_id</span>, <span class="ident">tag</span>.<span class="ident">unwrap</span>()))
             },
-            _ <span class="op">=&gt;</span> { <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>, <span class="string">&quot;while parsing a node, did not find expected node content&quot;</span>)) }
+            <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>, <span class="string">&quot;while parsing a node, did not find expected node content&quot;</span>)) }
         }
     }
 
     <span class="kw">fn</span> <span class="ident">block_mapping_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">first</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">ParseResult</span> {
         <span class="comment">// skip BlockMappingStartToken</span>
         <span class="kw">if</span> <span class="ident">first</span> {
-            <span class="kw">let</span> _ <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
             <span class="comment">//self.marks.push(tok.0);</span>
             <span class="self">self</span>.<span class="ident">skip</span>();
         }
@@ -1305,7 +1317,7 @@
                             <span class="comment">// empty scalar</span>
                             <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
                         }
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">BlockMappingValue</span>);
                         <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">true</span>, <span class="bool-val">true</span>)
                     }
@@ -1321,7 +1333,7 @@
                 <span class="self">self</span>.<span class="ident">skip</span>();
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">MappingEnd</span>)
             },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>, <span class="string">&quot;while parsing a block mapping, did not find expected key&quot;</span>))
             }
         }
@@ -1340,13 +1352,13 @@
                                 <span class="comment">// empty scalar</span>
                                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
                             }
-                        _ <span class="op">=&gt;</span> {
+                        <span class="kw">_</span> <span class="op">=&gt;</span> {
                             <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">BlockMappingKey</span>);
                             <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">true</span>, <span class="bool-val">true</span>)
                         }
                     }
                 },
-                _ <span class="op">=&gt;</span> {
+                <span class="kw">_</span> <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">BlockMappingKey</span>;
                     <span class="comment">// empty scalar</span>
                     <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
@@ -1356,7 +1368,7 @@
 
     <span class="kw">fn</span> <span class="ident">flow_mapping_key</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">first</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">ParseResult</span> {
         <span class="kw">if</span> <span class="ident">first</span> {
-            <span class="kw">let</span> _ <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
             <span class="self">self</span>.<span class="ident">skip</span>();
         }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
@@ -1382,7 +1394,7 @@
                         <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">FlowMappingValue</span>;
                         <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>());
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">FlowMappingValue</span>);
                         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">false</span>, <span class="bool-val">false</span>);
                     }
@@ -1415,7 +1427,7 @@
             <span class="kw">match</span> <span class="ident">tok</span>.<span class="number">1</span> {
                 <span class="ident">TokenType</span>::<span class="ident">FlowEntryToken</span>
                     <span class="op">|</span> <span class="ident">TokenType</span>::<span class="ident">FlowMappingEndToken</span> <span class="op">=&gt;</span> { },
-                _ <span class="op">=&gt;</span> {
+                <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">FlowMappingKey</span>);
                         <span class="kw">return</span> <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">false</span>, <span class="bool-val">false</span>);
                 }
@@ -1429,7 +1441,7 @@
     <span class="kw">fn</span> <span class="ident">flow_sequence_entry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">first</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">ParseResult</span> {
         <span class="comment">// skip FlowMappingStartToken</span>
         <span class="kw">if</span> <span class="ident">first</span> {
-            <span class="kw">let</span> _ <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
             <span class="comment">//self.marks.push(tok.0);</span>
             <span class="self">self</span>.<span class="ident">skip</span>();
         }
@@ -1444,11 +1456,11 @@
                 <span class="self">self</span>.<span class="ident">skip</span>();
                 <span class="ident">tok</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
             },
-            _ <span class="kw">if</span> <span class="op">!</span><span class="ident">first</span> <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">first</span> <span class="op">=&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>,
                         <span class="string">&quot;while parsing a flow sequence, expectd &#39;,&#39; or &#39;]&#39;&quot;</span>));
             }
-            _ <span class="op">=&gt;</span> { <span class="comment">/* next */</span> }
+            <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="comment">/* next */</span> }
         }
         <span class="kw">match</span> <span class="ident">tok</span>.<span class="number">1</span> {
             <span class="ident">TokenType</span>::<span class="ident">FlowSequenceEndToken</span> <span class="op">=&gt;</span> {
@@ -1461,7 +1473,7 @@
                 <span class="self">self</span>.<span class="ident">skip</span>();
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">MappingStart</span>(<span class="number">0</span>))
             }
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">FlowSequenceEntry</span>);
                 <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">false</span>, <span class="bool-val">false</span>)
             }
@@ -1485,7 +1497,7 @@
                 <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">IndentlessSequenceEntry</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
             },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">IndentlessSequenceEntry</span>);
                 <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">true</span>, <span class="bool-val">false</span>)
             }
@@ -1495,7 +1507,7 @@
     <span class="kw">fn</span> <span class="ident">block_sequence_entry</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">first</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">ParseResult</span> {
         <span class="comment">// BLOCK-SEQUENCE-START</span>
         <span class="kw">if</span> <span class="ident">first</span> {
-            <span class="kw">let</span> _ <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">peek</span>());
             <span class="comment">//self.marks.push(tok.0);</span>
             <span class="self">self</span>.<span class="ident">skip</span>();
         }
@@ -1515,13 +1527,13 @@
                         <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">BlockSequenceEntry</span>;
                         <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
                     },
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">BlockSequenceEntry</span>);
                         <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">true</span>, <span class="bool-val">false</span>)
                     }
                 }
             },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">tok</span>.<span class="number">0</span>,
                         <span class="string">&quot;while parsing a block collection, did not find expected &#39;-&#39; indicator&quot;</span>))
             }
@@ -1539,7 +1551,7 @@
                     <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">FlowSequenceEntryMappingValue</span>;
                     <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
             },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">FlowSequenceEntryMappingValue</span>);
                 <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">false</span>, <span class="bool-val">false</span>)
             }
@@ -1560,13 +1572,13 @@
                                 <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">FlowSequenceEntryMappingEnd</span>;
                                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
                         },
-                        _ <span class="op">=&gt;</span> {
+                        <span class="kw">_</span> <span class="op">=&gt;</span> {
                             <span class="self">self</span>.<span class="ident">push_state</span>(<span class="ident">State</span>::<span class="ident">FlowSequenceEntryMappingEnd</span>);
                             <span class="self">self</span>.<span class="ident">parse_node</span>(<span class="bool-val">false</span>, <span class="bool-val">false</span>)
                         }
                     }
             },
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">FlowSequenceEntryMappingEnd</span>;
                 <span class="prelude-val">Ok</span>(<span class="ident">Event</span>::<span class="ident">empty_scalar</span>())
             }
@@ -1592,18 +1604,22 @@
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

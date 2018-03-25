@@ -10,8 +10,12 @@
     <title>gazetta_core::model::Source - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct Source</p><div class="block items"><ul><li><a href="#fields">Fields</a></li><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>model</a></p><script>window.sidebarCurrent = {name: 'Source', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct Source</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.title">title</a><a href="#structfield.root">root</a><a href="#structfield.origin">origin</a><a href="#structfield.prefix">prefix</a><a href="#structfield.entries">entries</a><a href="#structfield.static_entries">static_entries</a><a href="#structfield.stylesheets">stylesheets</a><a href="#structfield.javascript">javascript</a><a href="#structfield.icon">icon</a><a href="#structfield.well_known">well_known</a><a href="#structfield.meta">meta</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.build_index">build_index</a><a href="#method.new">new</a><a href="#method.reload">reload</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Clone">Clone</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='../index.html'>gazetta_core</a>::<wbr><a href='index.html'>model</a></p><script>window.sidebarCurrent = {name: 'Source', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -48,8 +60,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#39-95' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Source&lt;SourceMeta&nbsp;=&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>, EntryMeta&nbsp;=&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,&nbsp;</span> {
+               </span><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#39-99' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Source&lt;SourceMeta&nbsp;=&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, EntryMeta&nbsp;=&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,&nbsp;</span> {
     pub title: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     pub root: <a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>,
     pub origin: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
@@ -59,64 +71,64 @@
     pub stylesheets: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;,
     pub javascript: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;,
     pub icon: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;,
+    pub well_known: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;,
     pub meta: SourceMeta,
 }</pre><div class='docblock'><p>The Source object reads and interprets a source directory.</p>
-
 <p>The fields are intentionally public. Feel free to manually generate or modify this structure.</p>
 </div><h2 id='fields' class='fields small-section-header'>
                        Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.title" class="structfield small-section-header">
                            <a href="#structfield.title" class="anchor field"></a>
                            <span id="title.v" class='invisible'>
                            <code>title: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code>
-                           </span></span><div class='docblock'><p>The website&#39;s title.</p>
-
+                           </span></span><div class='docblock'><p>The website's title.</p>
 <p>By default, this field is read from <code>gazetta.yaml</code>.</p>
 </div><span id="structfield.root" class="structfield small-section-header">
                            <a href="#structfield.root" class="anchor field"></a>
                            <span id="root.v" class='invisible'>
                            <code>root: <a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a></code>
                            </span></span><div class='docblock'><p>The source root directory.</p>
-
 <p>This is specified on construction.</p>
 </div><span id="structfield.origin" class="structfield small-section-header">
                            <a href="#structfield.origin" class="anchor field"></a>
                            <span id="origin.v" class='invisible'>
                            <code>origin: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code>
-                           </span></span><div class='docblock'><p>The website origin (<a href="http://mydomain.com:1234">http://mydomain.com:1234</a>)</p>
-
+                           </span></span><div class='docblock'><p>The website origin (http://mydomain.com:1234)</p>
 <p>By default, this field is derived from the value of <code>base</code> in <code>gazetta.yaml</code>.</p>
 </div><span id="structfield.prefix" class="structfield small-section-header">
                            <a href="#structfield.prefix" class="anchor field"></a>
                            <span id="prefix.v" class='invisible'>
                            <code>prefix: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code>
                            </span></span><div class='docblock'><p>The directory under the origin at which this site will be hosted (e.g. &quot;/&quot;).</p>
-
 <p>By default, this field is derived from the value of <code>base</code> in <code>gazetta.yaml</code>.</p>
 </div><span id="structfield.entries" class="structfield small-section-header">
                            <a href="#structfield.entries" class="anchor field"></a>
                            <span id="entries.v" class='invisible'>
                            <code>entries: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../gazetta_core/model/struct.Entry.html" title="struct gazetta_core::model::Entry">Entry</a>&lt;EntryMeta&gt;&gt;</code>
                            </span></span><div class='docblock'><p>The website content to be rendered.</p>
-
 <p>By default, this list is populated with Entries generated from files with the basename
 index under the root directory excluding:</p>
-
 <ol>
-<li><p>Files <em>under</em> directories named &quot;static&quot;.</p></li>
-<li><p>Files under <code>assets/</code>.</p></li>
+<li>
+<p>Files <em>under</em> directories named &quot;static&quot;.</p>
+</li>
+<li>
+<p>Files under <code>assets/</code>.</p>
+</li>
 </ol>
 </div><span id="structfield.static_entries" class="structfield small-section-header">
                            <a href="#structfield.static_entries" class="anchor field"></a>
                            <span id="static_entries.v" class='invisible'>
                            <code>static_entries: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../gazetta_core/model/struct.StaticEntry.html" title="struct gazetta_core::model::StaticEntry">StaticEntry</a>&gt;</code>
                            </span></span><div class='docblock'><p>The website content to be deployed as-is (no rendering).</p>
-
 <p>By default, this list is populated with directories under the root directory named &quot;static&quot;
 excluding:</p>
-
 <ol>
-<li><p>Directories <em>under</em> directories named &quot;static&quot;.</p></li>
-<li><p>Directories under <code>assets/</code>.</p></li>
+<li>
+<p>Directories <em>under</em> directories named &quot;static&quot;.</p>
+</li>
+<li>
+<p>Directories under <code>assets/</code>.</p>
+</li>
 </ol>
 </div><span id="structfield.stylesheets" class="structfield small-section-header">
                            <a href="#structfield.stylesheets" class="anchor field"></a>
@@ -124,7 +136,6 @@ excluding:</p>
                            <code>stylesheets: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;</code>
                            </span></span><div class='docblock'><p>The website stylesheets. When rendered, these will be concatinated into a single
 stylesheet.</p>
-
 <p>By default, this list is populated by the files in is <code>assets/stylesheets/</code> in
 lexicographical order.</p>
 </div><span id="structfield.javascript" class="structfield small-section-header">
@@ -133,16 +144,20 @@ lexicographical order.</p>
                            <code>javascript: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;</code>
                            </span></span><div class='docblock'><p>The website javascript. When rendered, these will be concatenated into a single
 javascript file.</p>
-
 <p>By default, this list is populated by the files in is <code>assets/javascript/</code> in
 lexicographical order.</p>
 </div><span id="structfield.icon" class="structfield small-section-header">
                            <a href="#structfield.icon" class="anchor field"></a>
                            <span id="icon.v" class='invisible'>
                            <code>icon: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;</code>
-                           </span></span><div class='docblock'><p>The path website&#39;s icon.</p>
-
+                           </span></span><div class='docblock'><p>The path to the website's icon.</p>
 <p>By default, this points to <code>assets/icon.png</code> (if it exists).</p>
+</div><span id="structfield.well_known" class="structfield small-section-header">
+                           <a href="#structfield.well_known" class="anchor field"></a>
+                           <span id="well_known.v" class='invisible'>
+                           <code>well_known: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>&gt;</code>
+                           </span></span><div class='docblock'><p>The path to the <code>.well-known</code> directory.</p>
+<p>By default, this points to <code>.well-known</code>.</p>
 </div><span id="structfield.meta" class="structfield small-section-header">
                            <a href="#structfield.meta" class="anchor field"></a>
                            <span id="meta.v" class='invisible'>
@@ -152,31 +167,37 @@ lexicographical order.</p>
                     <h2 id='methods' class='small-section-header'>
                       Methods<a href='#methods' class='anchor'></a>
                     </h2>
-                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;SourceMeta, EntryMeta&gt; <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,&nbsp;</span></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#97-309' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.build_index' class="method"><span id='build_index.v' class='invisible'><code>pub fn <a href='#method.build_index' class='fnname'>build_index</a>(&amp;self, entry: &amp;<a class="struct" href="../../gazetta_core/model/struct.Entry.html" title="struct gazetta_core::model::Entry">Entry</a>&lt;EntryMeta&gt;) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;<a class="struct" href="../../gazetta_core/model/struct.Entry.html" title="struct gazetta_core::model::Entry">Entry</a>&lt;EntryMeta&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#105-133' title='goto source code'>[src]</a></span></h4>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;SourceMeta, EntryMeta&gt; <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,&nbsp;</span></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#101-324' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.build_index' class="method"><div class="important-traits"><div class='tooltip'>ⓘ<span class='tooltiptext'>Important traits for <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</span></div><div class="content hidden"><h3 class="important">Important traits for <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</h3><code class="content"><span class="where fmt-newline">impl <a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Write.html" title="trait std::io::Write">Write</a> for <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</span></code></div></div><span id='build_index.v' class='invisible'><code>pub fn <a href='#method.build_index' class='fnname'>build_index</a>(&amp;self, entry: &amp;<a class="struct" href="../../gazetta_core/model/struct.Entry.html" title="struct gazetta_core::model::Entry">Entry</a>&lt;EntryMeta&gt;) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;<a class="struct" href="../../gazetta_core/model/struct.Entry.html" title="struct gazetta_core::model::Entry">Entry</a>&lt;EntryMeta&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#109-137' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Build an index for an entry.</p>
-
 <p>This index includes all entries that &quot;cc&quot; this entry and all entries specified in this
-entry&#39;s index pattern.</p>
-</div><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>&lt;P:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.Path.html" title="struct std::path::Path">Path</a>&gt;&gt;(root: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="../../gazetta_core/error/struct.AnnotatedError.html" title="struct gazetta_core::error::AnnotatedError">AnnotatedError</a>&lt;<a class="enum" href="../../gazetta_core/error/enum.SourceError.html" title="enum gazetta_core::error::SourceError">SourceError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#136-138' title='goto source code'>[src]</a></span></h4>
+entry's index pattern.</p>
+</div><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>&lt;P:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/path/struct.Path.html" title="struct std::path::Path">Path</a>&gt;&gt;(root: P) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, <a class="struct" href="../../gazetta_core/error/struct.AnnotatedError.html" title="struct gazetta_core::error::AnnotatedError">AnnotatedError</a>&lt;<a class="enum" href="../../gazetta_core/error/enum.SourceError.html" title="enum gazetta_core::error::SourceError">SourceError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#140-142' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Parse a source directory to create a new source.</p>
-</div><h4 id='method.reload' class="method"><span id='reload.v' class='invisible'><code>pub fn <a href='#method.reload' class='fnname'>reload</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>, <a class="struct" href="../../gazetta_core/error/struct.AnnotatedError.html" title="struct gazetta_core::error::AnnotatedError">AnnotatedError</a>&lt;<a class="enum" href="../../gazetta_core/error/enum.SourceError.html" title="enum gazetta_core::error::SourceError">SourceError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#152-161' title='goto source code'>[src]</a></span></h4>
+</div><h4 id='method.reload' class="method"><span id='reload.v' class='invisible'><code>pub fn <a href='#method.reload' class='fnname'>reload</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, <a class="struct" href="../../gazetta_core/error/struct.AnnotatedError.html" title="struct gazetta_core::error::AnnotatedError">AnnotatedError</a>&lt;<a class="enum" href="../../gazetta_core/error/enum.SourceError.html" title="enum gazetta_core::error::SourceError">SourceError</a>&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#156-167' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Reload from the source directory.</p>
-
 <p>Call this after changing source files.</p>
 </div></div>
             <h2 id='implementations' class='small-section-header'>
               Trait Implementations<a href='#implementations' class='anchor'></a>
             </h2>
+            <div id='implementations-list'>
         <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl&lt;SourceMeta:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>, EntryMeta:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,&nbsp;</span></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#38' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#38' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
 </div></div><h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl&lt;SourceMeta:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>, EntryMeta:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="../../gazetta_core/model/trait.Meta.html" title="trait gazetta_core::model::Meta">Meta</a>,&nbsp;</span></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#38' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/gazetta_core/model/source.rs.html#38' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
-</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#117-119' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div></section>
+</div></div></div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><code>impl&lt;SourceMeta, EntryMeta&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code><a href='#impl-Send' class='anchor'></a></span><span class='out-of-band'></span></h3>
+<div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><code>impl&lt;SourceMeta, EntryMeta&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="../../gazetta_core/model/struct.Source.html" title="struct gazetta_core::model::Source">Source</a>&lt;SourceMeta, EntryMeta&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;EntryMeta: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;SourceMeta: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code><a href='#impl-Sync' class='anchor'></a></span><span class='out-of-band'></span></h3>
+<div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -189,18 +210,22 @@ entry&#39;s index pattern.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

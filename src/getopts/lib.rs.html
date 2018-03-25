@@ -4,14 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/getopts-0.2.15/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/getopts-0.2.17/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         <a href='../../getopts/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='logo' width='100'></a>
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -2028,6 +2040,30 @@
 <span id="1983">1983</span>
 <span id="1984">1984</span>
 <span id="1985">1985</span>
+<span id="1986">1986</span>
+<span id="1987">1987</span>
+<span id="1988">1988</span>
+<span id="1989">1989</span>
+<span id="1990">1990</span>
+<span id="1991">1991</span>
+<span id="1992">1992</span>
+<span id="1993">1993</span>
+<span id="1994">1994</span>
+<span id="1995">1995</span>
+<span id="1996">1996</span>
+<span id="1997">1997</span>
+<span id="1998">1998</span>
+<span id="1999">1999</span>
+<span id="2000">2000</span>
+<span id="2001">2001</span>
+<span id="2002">2002</span>
+<span id="2003">2003</span>
+<span id="2004">2004</span>
+<span id="2005">2005</span>
+<span id="2006">2006</span>
+<span id="2007">2007</span>
+<span id="2008">2008</span>
+<span id="2009">2009</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2012-2014 The Rust Project Developers. See the COPYRIGHT</span>
 <span class="comment">// file at the top-level directory of this distribution and at</span>
@@ -2338,36 +2374,27 @@
         <span class="kw">where</span> <span class="ident">C</span>::<span class="ident">Item</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">OsStr</span><span class="op">&gt;</span>
     {
         <span class="kw">let</span> <span class="ident">opts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Opt</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">grps</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">long_to_short</span>()).<span class="ident">collect</span>();
-        <span class="kw">let</span> <span class="ident">n_opts</span> <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">len</span>();
 
-        <span class="kw">fn</span> <span class="ident">f</span>(<span class="ident">_x</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Optval</span><span class="op">&gt;</span> { <span class="kw">return</span> <span class="ident">Vec</span>::<span class="ident">new</span>(); }
-
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vals</span> <span class="op">=</span> (<span class="number">0</span> .. <span class="ident">n_opts</span>).<span class="ident">map</span>(<span class="ident">f</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;&gt;</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vals</span> <span class="op">=</span> (<span class="number">0</span> .. <span class="ident">opts</span>.<span class="ident">len</span>()).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Vec</span>::<span class="ident">new</span>()).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Optval</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">free</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">args</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> {
             <span class="ident">i</span>.<span class="ident">as_ref</span>().<span class="ident">to_str</span>().<span class="ident">ok_or_else</span>(<span class="op">||</span> {
                 <span class="ident">Fail</span>::<span class="ident">UnrecognizedOption</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">i</span>.<span class="ident">as_ref</span>()))
             }).<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_owned</span>())
-        }).<span class="ident">collect</span>::<span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;</span>, _<span class="op">&gt;&gt;</span>());
-        <span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">len</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">l</span> {
-            <span class="kw">let</span> <span class="ident">cur</span> <span class="op">=</span> <span class="ident">args</span>[<span class="ident">i</span>].<span class="ident">clone</span>();
-            <span class="kw">let</span> <span class="ident">curlen</span> <span class="op">=</span> <span class="ident">cur</span>.<span class="ident">len</span>();
+        }).<span class="ident">collect</span>::<span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">result</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>,<span class="kw">_</span><span class="op">&gt;&gt;</span>()<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">into_iter</span>().<span class="ident">peekable</span>();
+        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">cur</span>) <span class="op">=</span> <span class="ident">args</span>.<span class="ident">next</span>() {
             <span class="kw">if</span> <span class="op">!</span><span class="ident">is_arg</span>(<span class="kw-2">&amp;</span><span class="ident">cur</span>) {
+                <span class="ident">free</span>.<span class="ident">push</span>(<span class="ident">cur</span>);
                 <span class="kw">match</span> <span class="self">self</span>.<span class="ident">parsing_style</span> {
-                    <span class="ident">ParsingStyle</span>::<span class="ident">FloatingFrees</span> <span class="op">=&gt;</span> <span class="ident">free</span>.<span class="ident">push</span>(<span class="ident">cur</span>),
+                    <span class="ident">ParsingStyle</span>::<span class="ident">FloatingFrees</span> <span class="op">=&gt;</span> {},
                     <span class="ident">ParsingStyle</span>::<span class="ident">StopAtFirstFree</span> <span class="op">=&gt;</span> {
-                        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">l</span> {
-                            <span class="ident">free</span>.<span class="ident">push</span>(<span class="ident">args</span>[<span class="ident">i</span>].<span class="ident">clone</span>());
-                            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
-                        }
+                        <span class="ident">free</span>.<span class="ident">extend</span>(<span class="ident">args</span>);
                         <span class="kw">break</span>;
                     }
                 }
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">cur</span> <span class="op">==</span> <span class="string">&quot;--&quot;</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>;
-                <span class="kw">while</span> <span class="ident">j</span> <span class="op">&lt;</span> <span class="ident">l</span> { <span class="ident">free</span>.<span class="ident">push</span>(<span class="ident">args</span>[<span class="ident">j</span>].<span class="ident">clone</span>()); <span class="ident">j</span> <span class="op">+=</span> <span class="number">1</span>; }
+                <span class="ident">free</span>.<span class="ident">extend</span>(<span class="ident">args</span>);
                 <span class="kw">break</span>;
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">names</span>;
@@ -2375,18 +2402,15 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">was_long</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 <span class="kw">if</span> <span class="ident">cur</span>.<span class="ident">as_bytes</span>()[<span class="number">1</span>] <span class="op">==</span> <span class="string">b&#39;-&#39;</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">long_only</span> {
                     <span class="kw">let</span> <span class="ident">tail</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">cur</span>.<span class="ident">as_bytes</span>()[<span class="number">1</span>] <span class="op">==</span> <span class="string">b&#39;-&#39;</span> {
-                        <span class="kw-2">&amp;</span><span class="ident">cur</span>[<span class="number">2</span>..<span class="ident">curlen</span>]
+                        <span class="kw-2">&amp;</span><span class="ident">cur</span>[<span class="number">2</span>..]
                     } <span class="kw">else</span> {
                         <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">long_only</span>);
-                        <span class="kw-2">&amp;</span><span class="ident">cur</span>[<span class="number">1</span>..<span class="ident">curlen</span>]
+                        <span class="kw-2">&amp;</span><span class="ident">cur</span>[<span class="number">1</span>..]
                     };
-                    <span class="kw">let</span> <span class="ident">tail_eq</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">tail</span>.<span class="ident">splitn</span>(<span class="number">2</span>, <span class="string">&#39;=&#39;</span>).<span class="ident">collect</span>();
-                    <span class="kw">if</span> <span class="ident">tail_eq</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="number">1</span> {
-                        <span class="ident">names</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">tail</span>));
-                    } <span class="kw">else</span> {
-                        <span class="ident">names</span> <span class="op">=</span>
-                            <span class="macro">vec</span><span class="macro">!</span>(<span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">tail_eq</span>[<span class="number">0</span>]));
-                        <span class="ident">i_arg</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">tail_eq</span>[<span class="number">1</span>].<span class="ident">to_string</span>());
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parts</span> <span class="op">=</span> <span class="ident">tail</span>.<span class="ident">splitn</span>(<span class="number">2</span>, <span class="string">&#39;=&#39;</span>);
+                    <span class="ident">names</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">parts</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>())];
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">rest</span>) <span class="op">=</span> <span class="ident">parts</span>.<span class="ident">next</span>() {
+                        <span class="ident">i_arg</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">rest</span>.<span class="ident">to_string</span>());
                     }
                 } <span class="kw">else</span> {
                     <span class="ident">was_long</span> <span class="op">=</span> <span class="bool-val">false</span>;
@@ -2401,7 +2425,7 @@
                            interpreted correctly
                         */</span>
 
-                        <span class="kw">let</span> <span class="ident">opt_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="ident">opts</span>, <span class="ident">opt</span>.<span class="ident">clone</span>()) {
+                        <span class="kw">let</span> <span class="ident">opt_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="ident">opts</span>, <span class="kw-2">&amp;</span><span class="ident">opt</span>) {
                           <span class="prelude-val">Some</span>(<span class="ident">id</span>) <span class="op">=&gt;</span> <span class="ident">id</span>,
                           <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UnrecognizedOption</span>(<span class="ident">opt</span>.<span class="ident">to_string</span>()))
                         };
@@ -2415,8 +2439,8 @@
 
                         <span class="kw">if</span> <span class="ident">arg_follows</span> {
                             <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">j</span> <span class="op">+</span> <span class="ident">ch</span>.<span class="ident">len_utf8</span>();
-                            <span class="kw">if</span> <span class="ident">next</span> <span class="op">&lt;</span> <span class="ident">curlen</span> {
-                                <span class="ident">i_arg</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cur</span>[<span class="ident">next</span>..<span class="ident">curlen</span>].<span class="ident">to_string</span>());
+                            <span class="kw">if</span> <span class="ident">next</span> <span class="op">&lt;</span> <span class="ident">cur</span>.<span class="ident">len</span>() {
+                                <span class="ident">i_arg</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cur</span>[<span class="ident">next</span>..].<span class="ident">to_string</span>());
                                 <span class="kw">break</span>;
                             }
                         }
@@ -2425,7 +2449,7 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">name_pos</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="kw">for</span> <span class="ident">nm</span> <span class="kw">in</span> <span class="ident">names</span>.<span class="ident">iter</span>() {
                     <span class="ident">name_pos</span> <span class="op">+=</span> <span class="number">1</span>;
-                    <span class="kw">let</span> <span class="ident">optid</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="ident">opts</span>, (<span class="kw-2">*</span><span class="ident">nm</span>).<span class="ident">clone</span>()) {
+                    <span class="kw">let</span> <span class="ident">optid</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="ident">opts</span>, <span class="kw-2">&amp;</span><span class="ident">nm</span>) {
                       <span class="prelude-val">Some</span>(<span class="ident">id</span>) <span class="op">=&gt;</span> <span class="ident">id</span>,
                       <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">UnrecognizedOption</span>(<span class="ident">nm</span>.<span class="ident">to_string</span>()))
                     };
@@ -2443,41 +2467,34 @@
                         <span class="comment">// then users could only write a &quot;Maybe&quot; long</span>
                         <span class="comment">// option at the end of the arguments when</span>
                         <span class="comment">// FloatingFrees is in use.</span>
-                        <span class="kw">if</span> <span class="op">!</span><span class="ident">i_arg</span>.<span class="ident">is_none</span>() {
-                            <span class="ident">vals</span>[<span class="ident">optid</span>]
-                                .<span class="ident">push</span>(<span class="ident">Val</span>((<span class="ident">i_arg</span>.<span class="ident">clone</span>())
-                                .<span class="ident">unwrap</span>()));
-                        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">was_long</span> <span class="op">||</span> <span class="ident">name_pos</span> <span class="op">&lt;</span> <span class="ident">names</span>.<span class="ident">len</span>() <span class="op">||</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">l</span> <span class="op">||</span>
-                                <span class="ident">is_arg</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>]) {
+                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i_arg</span>) <span class="op">=</span> <span class="ident">i_arg</span>.<span class="ident">take</span>() {
+                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">i_arg</span>));
+                        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">was_long</span> <span class="op">||</span> <span class="ident">name_pos</span> <span class="op">&lt;</span> <span class="ident">names</span>.<span class="ident">len</span>() <span class="op">||</span> <span class="ident">args</span>.<span class="ident">peek</span>().<span class="ident">map_or</span>(<span class="bool-val">true</span>, <span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">is_arg</span>(<span class="kw-2">&amp;</span><span class="ident">n</span>)) {
                             <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Given</span>);
                         } <span class="kw">else</span> {
-                            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
-                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">args</span>[<span class="ident">i</span>].<span class="ident">clone</span>()));
+                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">args</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>()));
                         }
                       }
                       <span class="ident">Yes</span> <span class="op">=&gt;</span> {
-                        <span class="kw">if</span> <span class="op">!</span><span class="ident">i_arg</span>.<span class="ident">is_none</span>() {
-                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">i_arg</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>()));
-                        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">l</span> {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="ident">nm</span>.<span class="ident">to_string</span>()));
+                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i_arg</span>) <span class="op">=</span> <span class="ident">i_arg</span>.<span class="ident">take</span>() {
+                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">i_arg</span>));
+                        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">n</span>) <span class="op">=</span> <span class="ident">args</span>.<span class="ident">next</span>() {
+                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">n</span>));
                         } <span class="kw">else</span> {
-                            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
-                            <span class="ident">vals</span>[<span class="ident">optid</span>].<span class="ident">push</span>(<span class="ident">Val</span>(<span class="ident">args</span>[<span class="ident">i</span>].<span class="ident">clone</span>()));
+                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="ident">nm</span>.<span class="ident">to_string</span>()));
                         }
                       }
                     }
                 }
             }
-            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
         }
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">n_opts</span> {
-            <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="ident">vals</span>[<span class="ident">i</span>].<span class="ident">len</span>();
-            <span class="kw">let</span> <span class="ident">occ</span> <span class="op">=</span> <span class="ident">opts</span>[<span class="ident">i</span>].<span class="ident">occur</span>;
-            <span class="kw">if</span> <span class="ident">occ</span> <span class="op">==</span> <span class="ident">Req</span> <span class="op">&amp;&amp;</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">OptionMissing</span>(<span class="ident">opts</span>[<span class="ident">i</span>].<span class="ident">name</span>.<span class="ident">to_string</span>()));
+        <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">vals</span>.<span class="ident">len</span>(), <span class="ident">opts</span>.<span class="ident">len</span>());
+        <span class="kw">for</span> (<span class="ident">vals</span>, <span class="ident">opt</span>) <span class="kw">in</span> <span class="ident">vals</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">opts</span>.<span class="ident">iter</span>()) {
+            <span class="kw">if</span> <span class="ident">opt</span>.<span class="ident">occur</span> <span class="op">==</span> <span class="ident">Req</span> <span class="op">&amp;&amp;</span> <span class="ident">vals</span>.<span class="ident">is_empty</span>() {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">OptionMissing</span>(<span class="ident">opt</span>.<span class="ident">name</span>.<span class="ident">to_string</span>()));
             }
-            <span class="kw">if</span> <span class="ident">occ</span> <span class="op">!=</span> <span class="ident">Multi</span> <span class="op">&amp;&amp;</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="number">1</span> {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(<span class="ident">opts</span>[<span class="ident">i</span>].<span class="ident">name</span>.<span class="ident">to_string</span>()));
+            <span class="kw">if</span> <span class="ident">opt</span>.<span class="ident">occur</span> <span class="op">!=</span> <span class="ident">Multi</span> <span class="op">&amp;&amp;</span> <span class="ident">vals</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">1</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(<span class="ident">opt</span>.<span class="ident">name</span>.<span class="ident">to_string</span>()));
             }
         }
         <span class="prelude-val">Ok</span>(<span class="ident">Matches</span> {
@@ -2497,15 +2514,28 @@
         <span class="ident">line</span>
     }
 
-    <span class="doccomment">/// Derive a usage message from a set of options.</span>
+
+    <span class="doccomment">/// Derive a formatted message from a set of options.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">brief</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="self">self</span>.<span class="ident">usage_with_format</span>(<span class="op">|</span><span class="ident">opts</span><span class="op">|</span>
+            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n\nOptions:\n{}\n&quot;</span>, <span class="ident">brief</span>, <span class="ident">opts</span>.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>().<span class="ident">join</span>(<span class="string">&quot;\n&quot;</span>)))
+    }
+
+    <span class="doccomment">/// Derive a custom formatted message from a set of options. The formatted options provided to</span>
+    <span class="doccomment">/// a closure as an iterator.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">usage_with_format</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">String</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">formatter</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="ident">formatter</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">usage_items</span>())
+    }
+
+    <span class="doccomment">/// Derive usage items from a set of options.</span>
+    <span class="kw">fn</span> <span class="ident">usage_items</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">desc_sep</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;\n{}&quot;</span>, <span class="ident">repeat</span>(<span class="string">&quot; &quot;</span>).<span class="ident">take</span>(<span class="number">24</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>());
 
         <span class="kw">let</span> <span class="ident">any_short</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">grps</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">optref</span><span class="op">|</span> {
             <span class="ident">optref</span>.<span class="ident">short_name</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span>
         });
 
-        <span class="kw">let</span> <span class="ident">rows</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">grps</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">optref</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">rows</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">grps</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">optref</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">OptGroup</span>{<span class="ident">short_name</span>,
                          <span class="ident">long_name</span>,
                          <span class="ident">hint</span>,
@@ -2533,13 +2563,13 @@
                         <span class="ident">row</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>);
                     }
                 }
-                _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;the short name should only be 1 ascii char long&quot;</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;the short name should only be 1 ascii char long&quot;</span>),
             }
 
             <span class="comment">// long option</span>
             <span class="kw">match</span> <span class="ident">long_name</span>.<span class="ident">len</span>() {
                 <span class="number">0</span> <span class="op">=&gt;</span> {}
-                _ <span class="op">=&gt;</span> {
+                <span class="kw">_</span> <span class="op">=&gt;</span> {
                     <span class="kw">if</span> <span class="self">self</span>.<span class="ident">long_only</span> {
                         <span class="ident">row</span>.<span class="ident">push</span>(<span class="string">&#39;-&#39;</span>);
                     } <span class="kw">else</span> {
@@ -2565,7 +2595,7 @@
             <span class="comment">// here we just need to indent the start of the description</span>
             <span class="kw">let</span> <span class="ident">rowlen</span> <span class="op">=</span> <span class="ident">row</span>.<span class="ident">chars</span>().<span class="ident">count</span>();
             <span class="kw">if</span> <span class="ident">rowlen</span> <span class="op">&lt;</span> <span class="number">24</span> {
-                <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="number">24</span> <span class="op">-</span> <span class="ident">rowlen</span> {
+                <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="number">24</span> <span class="op">-</span> <span class="ident">rowlen</span> {
                     <span class="ident">row</span>.<span class="ident">push</span>(<span class="string">&#39; &#39;</span>);
                 }
             } <span class="kw">else</span> {
@@ -2596,8 +2626,7 @@
             <span class="ident">row</span>
         });
 
-        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}\n\nOptions:\n{}\n&quot;</span>, <span class="ident">brief</span>,
-                <span class="ident">rows</span>.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>().<span class="ident">join</span>(<span class="string">&quot;\n&quot;</span>))
+       <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">rows</span>)
     }
 }
 
@@ -2725,11 +2754,11 @@
 <span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Fail</span> {
     <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">ArgumentMissing</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;missing argument&quot;</span>,
-            <span class="ident">UnrecognizedOption</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;unrecognized option&quot;</span>,
-            <span class="ident">OptionMissing</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;missing option&quot;</span>,
-            <span class="ident">OptionDuplicated</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;duplicated option&quot;</span>,
-            <span class="ident">UnexpectedArgument</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;unexpected argument&quot;</span>,
+            <span class="ident">ArgumentMissing</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;missing argument&quot;</span>,
+            <span class="ident">UnrecognizedOption</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;unrecognized option&quot;</span>,
+            <span class="ident">OptionMissing</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;missing option&quot;</span>,
+            <span class="ident">OptionDuplicated</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;duplicated option&quot;</span>,
+            <span class="ident">UnexpectedArgument</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;unexpected argument&quot;</span>,
         }
     }
 }
@@ -2768,8 +2797,8 @@
 
         <span class="kw">match</span> (<span class="ident">short_name</span>.<span class="ident">len</span>(), <span class="ident">long_name</span>.<span class="ident">len</span>()) {
             (<span class="number">0</span>,<span class="number">0</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;this long-format option was given no name&quot;</span>),
-            (<span class="number">0</span>,_) <span class="op">=&gt;</span> <span class="ident">Opt</span> {
-                <span class="ident">name</span>: <span class="ident">Long</span>((<span class="ident">long_name</span>)),
+            (<span class="number">0</span>,<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Opt</span> {
+                <span class="ident">name</span>: <span class="ident">Long</span>(<span class="ident">long_name</span>),
                 <span class="ident">hasarg</span>: <span class="ident">hasarg</span>,
                 <span class="ident">occur</span>: <span class="ident">occur</span>,
                 <span class="ident">aliases</span>: <span class="ident">Vec</span>::<span class="ident">new</span>()
@@ -2780,8 +2809,8 @@
                 <span class="ident">occur</span>: <span class="ident">occur</span>,
                 <span class="ident">aliases</span>: <span class="ident">Vec</span>::<span class="ident">new</span>()
             },
-            (<span class="number">1</span>,_) <span class="op">=&gt;</span> <span class="ident">Opt</span> {
-                <span class="ident">name</span>: <span class="ident">Long</span>((<span class="ident">long_name</span>)),
+            (<span class="number">1</span>,<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Opt</span> {
+                <span class="ident">name</span>: <span class="ident">Long</span>(<span class="ident">long_name</span>),
                 <span class="ident">hasarg</span>: <span class="ident">hasarg</span>,
                 <span class="ident">occur</span>: <span class="ident">occur</span>,
                 <span class="ident">aliases</span>: <span class="macro">vec</span><span class="macro">!</span>(
@@ -2793,14 +2822,14 @@
                     }
                 )
             },
-            (_,_) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;something is wrong with the long-form opt&quot;</span>)
+            (<span class="kw">_</span>,<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;something is wrong with the long-form opt&quot;</span>)
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Matches</span> {
     <span class="kw">fn</span> <span class="ident">opt_vals</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">nm</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Optval</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">opts</span>, <span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">nm</span>)) {
+        <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">opts</span>, <span class="kw-2">&amp;</span><span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">nm</span>)) {
             <span class="prelude-val">Some</span>(<span class="ident">id</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">vals</span>[<span class="ident">id</span>].<span class="ident">clone</span>(),
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;No option &#39;{}&#39; defined&quot;</span>, <span class="ident">nm</span>)
         }
@@ -2811,7 +2840,7 @@
     }
     <span class="doccomment">/// Returns true if an option was defined</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_defined</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">nm</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">opts</span>, <span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">nm</span>)).<span class="ident">is_some</span>()
+        <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">opts</span>, <span class="kw-2">&amp;</span><span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="ident">nm</span>)).<span class="ident">is_some</span>()
     }
 
     <span class="doccomment">/// Returns true if an option was matched.</span>
@@ -2827,9 +2856,9 @@
     <span class="doccomment">/// Returns true if any of several options were matched.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opts_present</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">names</span>: <span class="kw-2">&amp;</span>[<span class="ident">String</span>]) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="ident">names</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">nm</span><span class="op">|</span> {
-            <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">opts</span>, <span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">nm</span>)) {
+            <span class="kw">match</span> <span class="ident">find_opt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">opts</span>, <span class="kw-2">&amp;</span><span class="ident">Name</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">nm</span>)) {
                 <span class="prelude-val">Some</span>(<span class="ident">id</span>) <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">vals</span>[<span class="ident">id</span>].<span class="ident">is_empty</span>() <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-                _ <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
             }
         })
     }
@@ -2839,7 +2868,7 @@
         <span class="ident">names</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">nm</span><span class="op">|</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">opt_val</span>(<span class="kw-2">&amp;</span><span class="ident">nm</span>) {
                 <span class="prelude-val">Some</span>(<span class="ident">Val</span>(<span class="ident">s</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>),
-                _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
             }
         }).<span class="ident">next</span>()
     }
@@ -2852,7 +2881,7 @@
         <span class="self">self</span>.<span class="ident">opt_vals</span>(<span class="ident">nm</span>).<span class="ident">into_iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> {
             <span class="kw">match</span> <span class="ident">v</span> {
                 <span class="ident">Val</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>),
-                _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
             }
         }).<span class="ident">collect</span>()
     }
@@ -2861,7 +2890,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">nm</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">opt_val</span>(<span class="ident">nm</span>) {
             <span class="prelude-val">Some</span>(<span class="ident">Val</span>(<span class="ident">s</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>),
-            _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 
@@ -2874,7 +2903,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">opt_default</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">nm</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">def</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">opt_val</span>(<span class="ident">nm</span>) {
             <span class="prelude-val">Some</span>(<span class="ident">Val</span>(<span class="ident">s</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>),
-            <span class="prelude-val">Some</span>(_) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">def</span>.<span class="ident">to_string</span>()),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">def</span>.<span class="ident">to_string</span>()),
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -2885,16 +2914,16 @@
     <span class="ident">arg</span>.<span class="ident">as_bytes</span>().<span class="ident">get</span>(<span class="number">0</span>) <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&#39;-&#39;</span>) <span class="op">&amp;&amp;</span> <span class="ident">arg</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">1</span>
 }
 
-<span class="kw">fn</span> <span class="ident">find_opt</span>(<span class="ident">opts</span>: <span class="kw-2">&amp;</span>[<span class="ident">Opt</span>], <span class="ident">nm</span>: <span class="ident">Name</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">find_opt</span>(<span class="ident">opts</span>: <span class="kw-2">&amp;</span>[<span class="ident">Opt</span>], <span class="ident">nm</span>: <span class="kw-2">&amp;</span><span class="ident">Name</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
     <span class="comment">// Search main options.</span>
-    <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">opt</span><span class="op">|</span> <span class="ident">opt</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">nm</span>);
+    <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">opts</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">opt</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">opt</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">nm</span>);
     <span class="kw">if</span> <span class="ident">pos</span>.<span class="ident">is_some</span>() {
         <span class="kw">return</span> <span class="ident">pos</span>
     }
 
     <span class="comment">// Search in aliases.</span>
     <span class="kw">for</span> <span class="ident">candidate</span> <span class="kw">in</span> <span class="ident">opts</span>.<span class="ident">iter</span>() {
-        <span class="kw">if</span> <span class="ident">candidate</span>.<span class="ident">aliases</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">opt</span><span class="op">|</span> <span class="ident">opt</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">nm</span>).<span class="ident">is_some</span>() {
+        <span class="kw">if</span> <span class="ident">candidate</span>.<span class="ident">aliases</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">opt</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">opt</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">nm</span>).<span class="ident">is_some</span>() {
             <span class="kw">return</span> <span class="ident">opts</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">opt</span><span class="op">|</span> <span class="ident">opt</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">candidate</span>.<span class="ident">name</span>);
         }
     }
@@ -3006,13 +3035,13 @@
         <span class="ident">lim</span> <span class="op">=</span> <span class="ident">fake_i</span>;
     }
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">machine</span> <span class="op">=</span> <span class="op">|</span><span class="ident">cont</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bool</span>, (<span class="ident">i</span>, <span class="ident">c</span>): (<span class="ident">usize</span>, <span class="ident">char</span>)<span class="op">|</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">machine</span> <span class="op">=</span> <span class="op">|</span><span class="ident">cont</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bool</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">SplitWithinState</span>, (<span class="ident">i</span>, <span class="ident">c</span>): (<span class="ident">usize</span>, <span class="ident">char</span>)<span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">whitespace</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">c</span>.<span class="ident">is_whitespace</span>() { <span class="ident">Ws</span> }       <span class="kw">else</span> { <span class="ident">Cr</span> };
         <span class="kw">let</span> <span class="ident">limit</span>      <span class="op">=</span> <span class="kw">if</span> (<span class="ident">i</span> <span class="op">-</span> <span class="ident">slice_start</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">&lt;=</span> <span class="ident">lim</span>  { <span class="ident">UnderLim</span> } <span class="kw">else</span> { <span class="ident">OverLim</span> };
 
-        <span class="ident">state</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">state</span>, <span class="ident">whitespace</span>, <span class="ident">limit</span>) {
-            (<span class="ident">A</span>, <span class="ident">Ws</span>, _)        <span class="op">=&gt;</span> { <span class="ident">A</span> }
-            (<span class="ident">A</span>, <span class="ident">Cr</span>, _)        <span class="op">=&gt;</span> { <span class="ident">slice_start</span> <span class="op">=</span> <span class="ident">i</span>; <span class="ident">last_start</span> <span class="op">=</span> <span class="ident">i</span>; <span class="ident">B</span> }
+        <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="kw">match</span> (<span class="kw-2">*</span><span class="ident">state</span>, <span class="ident">whitespace</span>, <span class="ident">limit</span>) {
+            (<span class="ident">A</span>, <span class="ident">Ws</span>, <span class="kw">_</span>)        <span class="op">=&gt;</span> { <span class="ident">A</span> }
+            (<span class="ident">A</span>, <span class="ident">Cr</span>, <span class="kw">_</span>)        <span class="op">=&gt;</span> { <span class="ident">slice_start</span> <span class="op">=</span> <span class="ident">i</span>; <span class="ident">last_start</span> <span class="op">=</span> <span class="ident">i</span>; <span class="ident">B</span> }
 
             (<span class="ident">B</span>, <span class="ident">Cr</span>, <span class="ident">UnderLim</span>) <span class="op">=&gt;</span> { <span class="ident">B</span> }
             (<span class="ident">B</span>, <span class="ident">Cr</span>, <span class="ident">OverLim</span>)  <span class="kw">if</span> (<span class="ident">i</span> <span class="op">-</span> <span class="ident">last_start</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">&gt;</span> <span class="ident">lim</span> <span class="op">=&gt;</span> {
@@ -3058,11 +3087,11 @@
         <span class="kw-2">*</span><span class="ident">cont</span>
     };
 
-    <span class="ident">ss</span>.<span class="ident">char_indices</span>().<span class="ident">all</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">machine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cont</span>, <span class="ident">x</span>));
+    <span class="ident">ss</span>.<span class="ident">char_indices</span>().<span class="ident">all</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">machine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cont</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>, <span class="ident">x</span>));
 
     <span class="comment">// Let the automaton &#39;run out&#39; by supplying trailing whitespace</span>
     <span class="kw">while</span> <span class="ident">cont</span> <span class="op">&amp;&amp;</span> <span class="kw">match</span> <span class="ident">state</span> { <span class="ident">B</span> <span class="op">|</span> <span class="ident">C</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>, <span class="ident">A</span> <span class="op">=&gt;</span> <span class="bool-val">false</span> } {
-        <span class="ident">machine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cont</span>, (<span class="ident">fake_i</span>, <span class="string">&#39; &#39;</span>));
+        <span class="ident">machine</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cont</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>, (<span class="ident">fake_i</span>, <span class="string">&#39; &#39;</span>));
         <span class="ident">fake_i</span> <span class="op">+=</span> <span class="number">1</span>;
     }
     <span class="kw">return</span> <span class="ident">cont</span>;
@@ -3105,7 +3134,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;test_reqopt failed (long arg)&quot;</span>); }
+          <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;test_reqopt failed (long arg)&quot;</span>); }
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;20&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
@@ -3115,7 +3144,7 @@
             <span class="macro">assert</span><span class="macro">!</span>((<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>)));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;test_reqopt failed (short arg)&quot;</span>); }
+          <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;test_reqopt failed (short arg)&quot;</span>); }
         }
     }
 
@@ -3125,8 +3154,8 @@
         <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
                       .<span class="ident">reqopt</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>)
                       .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">OptionMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">OptionMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3136,13 +3165,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opts</span> <span class="op">=</span> <span class="ident">Options</span>::<span class="ident">new</span>();
         <span class="ident">opts</span>.<span class="ident">reqopt</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>);
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">long_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3152,8 +3181,8 @@
         <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
                       .<span class="ident">reqopt</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>)
                       .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3170,7 +3199,7 @@
             <span class="macro">assert</span><span class="macro">!</span>((<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>)));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;20&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
@@ -3180,7 +3209,7 @@
             <span class="macro">assert</span><span class="macro">!</span>((<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>)));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3194,7 +3223,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3204,13 +3233,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opts</span> <span class="op">=</span> <span class="ident">Options</span>::<span class="ident">new</span>();
         <span class="ident">opts</span>.<span class="ident">optopt</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>);
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">long_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3220,8 +3249,8 @@
         <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
                       .<span class="ident">optopt</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>)
                       .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3236,7 +3265,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
@@ -3244,7 +3273,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3258,7 +3287,38 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_opt_end</span>() {
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;--&quot;</span>.<span class="ident">to_owned</span>(), <span class="string">&quot;-t&quot;</span>.<span class="ident">to_owned</span>()];
+        <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
+                      .<span class="ident">optflag</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>)
+                      .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
+          <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">0</span>], <span class="string">&quot;-t&quot;</span>);
+          }
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+        }
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_opt_only_end</span>() {
+        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;--&quot;</span>.<span class="ident">to_owned</span>()];
+        <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
+                      .<span class="ident">optflag</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>)
+                      .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
+          <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
+            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>.<span class="ident">len</span>(), <span class="number">0</span>);
+          }
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3268,8 +3328,8 @@
         <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
                       .<span class="ident">optflag</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>)
                       .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">UnexpectedArgument</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">UnexpectedArgument</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3279,8 +3339,8 @@
         <span class="kw">match</span> <span class="ident">Options</span>::<span class="ident">new</span>()
                       .<span class="ident">optflag</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>)
                       .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">OptionDuplicated</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3295,7 +3355,7 @@
 
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3309,7 +3369,7 @@
           <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;v&quot;</span>), <span class="number">1</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3322,7 +3382,7 @@
           <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;v&quot;</span>), <span class="number">2</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3335,7 +3395,7 @@
           <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;v&quot;</span>), <span class="number">2</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3348,7 +3408,7 @@
           <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;verbose&quot;</span>), <span class="number">1</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3361,7 +3421,7 @@
           <span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">m</span>) <span class="op">=&gt;</span> {
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;verbose&quot;</span>), <span class="number">2</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3376,7 +3436,7 @@
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;verbose&quot;</span>), <span class="number">4</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_count</span>(<span class="string">&quot;v&quot;</span>), <span class="number">4</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3391,7 +3451,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
@@ -3399,7 +3459,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;x&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
@@ -3407,7 +3467,7 @@
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;x&quot;</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;test&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;x&quot;</span>);
             }
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">long_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;--test=x&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">long_args</span>) {
@@ -3415,7 +3475,7 @@
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;x&quot;</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;test&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;x&quot;</span>);
             }
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">long_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;--test&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;x&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">long_args</span>) {
@@ -3423,7 +3483,7 @@
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>), <span class="prelude-val">None</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;test&quot;</span>), <span class="prelude-val">None</span>);
             }
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">no_args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>();
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">no_args</span>) {
@@ -3431,7 +3491,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3448,7 +3508,7 @@
             <span class="macro">assert</span><span class="macro">!</span>((<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>)));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;20&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
@@ -3458,7 +3518,7 @@
             <span class="macro">assert</span><span class="macro">!</span>((<span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>)));
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">opt_str</span>(<span class="string">&quot;t&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;20&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3472,7 +3532,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;test&quot;</span>));
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;t&quot;</span>));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3482,13 +3542,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opts</span> <span class="op">=</span> <span class="ident">Options</span>::<span class="ident">new</span>();
         <span class="ident">opts</span>.<span class="ident">optmulti</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>);
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">long_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-t&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">ArgumentMissing</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3507,7 +3567,7 @@
               <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pair</span>[<span class="number">0</span>] <span class="op">==</span> <span class="string">&quot;20&quot;</span>);
               <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pair</span>[<span class="number">1</span>] <span class="op">==</span> <span class="string">&quot;30&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3519,7 +3579,7 @@
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>.<span class="ident">len</span>(), <span class="number">1</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">0</span>], <span class="string">&quot;-&quot;</span>);
             }
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3529,13 +3589,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">opts</span> <span class="op">=</span> <span class="ident">Options</span>::<span class="ident">new</span>();
         <span class="ident">opts</span>.<span class="ident">optmulti</span>(<span class="string">&quot;t&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;testing&quot;</span>, <span class="string">&quot;TEST&quot;</span>);
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">long_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">UnrecognizedOption</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">UnrecognizedOption</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
         <span class="kw">let</span> <span class="ident">short_args</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-u&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">short_args</span>) {
-          <span class="prelude-val">Err</span>(<span class="ident">UnrecognizedOption</span>(_)) <span class="op">=&gt;</span> {},
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="ident">UnrecognizedOption</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {},
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3583,7 +3643,7 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pair</span>[<span class="number">1</span>] <span class="op">==</span> <span class="string">&quot;-60 70&quot;</span>);
             <span class="macro">assert</span><span class="macro">!</span>((<span class="op">!</span><span class="ident">m</span>.<span class="ident">opt_present</span>(<span class="string">&quot;notpresent&quot;</span>)));
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3608,7 +3668,7 @@
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">1</span>], <span class="string">&quot;-c&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">2</span>], <span class="string">&quot;d&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3633,7 +3693,7 @@
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">1</span>], <span class="string">&quot;-c&quot;</span>);
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>.<span class="ident">free</span>[<span class="number">2</span>], <span class="string">&quot;d&quot;</span>);
           }
-          _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         }
     }
 
@@ -3647,7 +3707,7 @@
         <span class="kw">let</span> <span class="ident">args_single</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>(<span class="string">&quot;-e&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;foo&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">let</span> <span class="ident">matches_single</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args_single</span>) {
           <span class="prelude-val">Ok</span>(<span class="ident">m</span>) <span class="op">=&gt;</span> <span class="ident">m</span>,
-          <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         };
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">matches_single</span>.<span class="ident">opts_present</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;e&quot;</span>.<span class="ident">to_string</span>()]));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">matches_single</span>.<span class="ident">opts_present</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;encrypt&quot;</span>.<span class="ident">to_string</span>(), <span class="string">&quot;e&quot;</span>.<span class="ident">to_string</span>()]));
@@ -3666,7 +3726,7 @@
                              <span class="string">&quot;foo&quot;</span>.<span class="ident">to_string</span>());
         <span class="kw">let</span> <span class="ident">matches_both</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw">match</span> <span class="ident">opts</span>.<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args_both</span>) {
           <span class="prelude-val">Ok</span>(<span class="ident">m</span>) <span class="op">=&gt;</span> <span class="ident">m</span>,
-          <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         };
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">matches_both</span>.<span class="ident">opts_present</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;e&quot;</span>.<span class="ident">to_string</span>()]));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">matches_both</span>.<span class="ident">opts_present</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;encrypt&quot;</span>.<span class="ident">to_string</span>()]));
@@ -3692,7 +3752,7 @@
                                      .<span class="ident">optmulti</span>(<span class="string">&quot;M&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;something&quot;</span>, <span class="string">&quot;MMMM&quot;</span>)
                                      .<span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>) {
           <span class="prelude-val">Ok</span>(<span class="ident">m</span>) <span class="op">=&gt;</span> <span class="ident">m</span>,
-          <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
+          <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>()
         };
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">matches</span>.<span class="ident">opts_present</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;L&quot;</span>.<span class="ident">to_string</span>()]));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">matches</span>.<span class="ident">opts_str</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;L&quot;</span>.<span class="ident">to_string</span>()]).<span class="ident">unwrap</span>(), <span class="string">&quot;foo&quot;</span>);
@@ -4028,18 +4088,22 @@ Options:
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

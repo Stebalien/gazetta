@@ -10,8 +10,12 @@
     <title>unidecode - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Crate unidecode</p><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'unidecode', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate unidecode</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'unidecode', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,7 +61,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/unidecode/lib.rs.html#1-73' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>The <code>rust-unidecode</code> library is a Rust port of Sean M. Burke&#39;s famous
+<div class='docblock'><p>The <code>rust-unidecode</code> library is a Rust port of Sean M. Burke's famous
 <a href="http://search.cpan.org/%7Esburke/Text-Unidecode-1.23/lib/Text/Unidecode.pm"><code>Text::Unidecode</code></a>
 module for Perl. It transliterates Unicode strings such as &quot;Æneid&quot; into pure
 ASCII ones such as &quot;AEneid.&quot; For a detailed explanation on the rationale
@@ -57,13 +69,11 @@ behind using such a library, you can refer to both the documentation of the
 original module and
 <a href="http://interglacial.com/%7Esburke/tpj/as_html/tpj22.html">this article</a>
 written by Burke in 2001.</p>
-
 <p>The data set used to translate the Unicode was ported directly from the
 <code>Text::Unidecode</code> module using a Perl script, so <code>rust-unidecode</code> should
 produce identical output.</p>
-
-<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2>
-<div class='information'><div class='tooltip ignore'>⚠<span class='tooltiptext'>Be careful when using this code, it's not being tested!</span></div></div><pre class="rust rust-example-rendered ignore">
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">unidecode</span>;
 <span class="kw">use</span> <span class="ident">unidecode</span>::<span class="ident">unidecode</span>;
 
@@ -80,6 +90,7 @@ produce identical output.</p>
                            <td class='docblock-short'>
                                 <p>This function takes any Unicode string and returns an ASCII transliteration
 of that string.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -88,6 +99,7 @@ of that string.</p>
                            <td class='docblock-short'>
                                 <p>This function takes a single Unicode character and returns an ASCII
 transliteration.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -102,18 +114,22 @@ transliteration.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

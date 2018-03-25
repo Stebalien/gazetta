@@ -10,8 +10,12 @@
     <title>yaml.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -497,17 +509,17 @@
                     <span class="comment">// empty document</span>
                     <span class="number">0</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">docs</span>.<span class="ident">push</span>(<span class="ident">Yaml</span>::<span class="ident">BadValue</span>),
                     <span class="number">1</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">docs</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">doc_stack</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>()),
-                    _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>()
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>()
                 }
             },
-            <span class="ident">Event</span>::<span class="ident">SequenceStart</span>(_) <span class="op">=&gt;</span> {
+            <span class="ident">Event</span>::<span class="ident">SequenceStart</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">doc_stack</span>.<span class="ident">push</span>(<span class="ident">Yaml</span>::<span class="ident">Array</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()));
             },
             <span class="ident">Event</span>::<span class="ident">SequenceEnd</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">doc_stack</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
                 <span class="self">self</span>.<span class="ident">insert_new_node</span>(<span class="ident">node</span>);
             },
-            <span class="ident">Event</span>::<span class="ident">MappingStart</span>(_) <span class="op">=&gt;</span> {
+            <span class="ident">Event</span>::<span class="ident">MappingStart</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">doc_stack</span>.<span class="ident">push</span>(<span class="ident">Yaml</span>::<span class="ident">Hash</span>(<span class="ident">Hash</span>::<span class="ident">new</span>()));
                 <span class="self">self</span>.<span class="ident">key_stack</span>.<span class="ident">push</span>(<span class="ident">Yaml</span>::<span class="ident">BadValue</span>);
             },
@@ -516,7 +528,7 @@
                 <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">doc_stack</span>.<span class="ident">pop</span>().<span class="ident">unwrap</span>();
                 <span class="self">self</span>.<span class="ident">insert_new_node</span>(<span class="ident">node</span>);
             },
-            <span class="ident">Event</span>::<span class="ident">Scalar</span>(<span class="kw-2">ref</span> <span class="ident">v</span>, <span class="ident">style</span>, _, <span class="kw-2">ref</span> <span class="ident">tag</span>) <span class="op">=&gt;</span> {
+            <span class="ident">Event</span>::<span class="ident">Scalar</span>(<span class="kw-2">ref</span> <span class="ident">v</span>, <span class="ident">style</span>, <span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">tag</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">style</span> <span class="op">!=</span> <span class="ident">TScalarStyle</span>::<span class="ident">Plain</span> {
                     <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>.<span class="ident">clone</span>())
                 } <span class="kw">else</span> {
@@ -528,36 +540,36 @@
                                     <span class="string">&quot;bool&quot;</span> <span class="op">=&gt;</span> {
                                         <span class="comment">// &quot;true&quot; or &quot;false&quot;</span>
                                         <span class="kw">match</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>() {
-                                            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
+                                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
                                             <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Boolean</span>(<span class="ident">v</span>)
                                         }
                                     },
                                     <span class="string">&quot;int&quot;</span> <span class="op">=&gt;</span> {
                                         <span class="kw">match</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>() {
-                                            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
+                                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
                                             <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Integer</span>(<span class="ident">v</span>)
                                         }
                                     },
                                     <span class="string">&quot;float&quot;</span> <span class="op">=&gt;</span> {
                                         <span class="kw">match</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>() {
-                                            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
-                                            <span class="prelude-val">Ok</span>(_) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Real</span>(<span class="ident">v</span>.<span class="ident">clone</span>())
+                                            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
+                                            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Real</span>(<span class="ident">v</span>.<span class="ident">clone</span>())
                                         }
                                     },
                                     <span class="string">&quot;null&quot;</span> <span class="op">=&gt;</span> {
                                         <span class="kw">match</span> <span class="ident">v</span>.<span class="ident">as_ref</span>() {
                                             <span class="string">&quot;~&quot;</span> <span class="op">|</span> <span class="string">&quot;null&quot;</span> <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Null</span>,
-                                            _ <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
+                                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">BadValue</span>,
                                         }
                                     }
-                                    _  <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>.<span class="ident">clone</span>()),
+                                    <span class="kw">_</span>  <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>.<span class="ident">clone</span>()),
                                 }
                             } <span class="kw">else</span> {
                                 <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>.<span class="ident">clone</span>())
                             }
                         },
                         <span class="comment">// Datatype is not specified, or unrecognized</span>
-                        _ <span class="op">=&gt;</span> { <span class="ident">Yaml</span>::<span class="ident">from_str</span>(<span class="ident">v</span>.<span class="ident">as_ref</span>()) }
+                        <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="ident">Yaml</span>::<span class="ident">from_str</span>(<span class="ident">v</span>.<span class="ident">as_ref</span>()) }
                     }
                 };
 
@@ -567,7 +579,7 @@
                 <span class="comment">// XXX(chenyh): how to handle alias?</span>
                 <span class="self">self</span>.<span class="ident">insert_new_node</span>(<span class="ident">Yaml</span>::<span class="ident">Alias</span>(<span class="ident">id</span>));
             }
-            _ <span class="op">=&gt;</span> { <span class="comment">/* ignore */</span> }
+            <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="comment">/* ignore */</span> }
         }
         <span class="comment">// println!(&quot;DOC {:?}&quot;, self.doc_stack);</span>
     }
@@ -591,7 +603,7 @@
                         <span class="ident">h</span>.<span class="ident">insert</span>(<span class="ident">newkey</span>, <span class="ident">node</span>);
                     }
                 },
-                _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
             }
         } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">doc_stack</span>.<span class="ident">push</span>(<span class="ident">node</span>);
@@ -615,7 +627,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
         <span class="ident">Yaml</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">yt</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
-        _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>
     }
 }
     );
@@ -626,7 +638,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
         <span class="ident">Yaml</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">yt</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
-        _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>
     }
 }
     );
@@ -643,14 +655,14 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">Yaml</span>::<span class="ident">Null</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>
         }
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_badvalue</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">Yaml</span>::<span class="ident">BadValue</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>
         }
     }
 
@@ -659,7 +671,7 @@
             <span class="ident">Yaml</span>::<span class="ident">Real</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=&gt;</span> {
                 <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>().<span class="ident">ok</span>()
             },
-            _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>
         }
     }
 
@@ -668,10 +680,10 @@
             <span class="string">&quot;~&quot;</span> <span class="op">|</span> <span class="string">&quot;null&quot;</span> <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Null</span>,
             <span class="string">&quot;true&quot;</span> <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Boolean</span>(<span class="bool-val">true</span>),
             <span class="string">&quot;false&quot;</span> <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Boolean</span>(<span class="bool-val">false</span>),
-            _ <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">is_ok</span>() <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Integer</span>(<span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()),
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">is_ok</span>() <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Integer</span>(<span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()),
             <span class="comment">// try parsing as f64</span>
-            _ <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>().<span class="ident">is_ok</span>() <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Real</span>(<span class="ident">v</span>.<span class="ident">to_string</span>()),
-            _ <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>.<span class="ident">to_string</span>())
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">v</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span>().<span class="ident">is_ok</span>() <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">Real</span>(<span class="ident">v</span>.<span class="ident">to_string</span>()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">v</span>.<span class="ident">to_string</span>())
         }
     }
 }
@@ -822,18 +834,22 @@ a7: 你好
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

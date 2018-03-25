@@ -10,8 +10,12 @@
     <title>scanner.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -28,10 +32,18 @@
     
 
     <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
         
         
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -2220,7 +2232,7 @@
     <span class="kw">match</span> <span class="ident">c</span> {
         <span class="string">&#39;0&#39;</span>...<span class="string">&#39;9&#39;</span> <span class="op">|</span> <span class="string">&#39;a&#39;</span>...<span class="string">&#39;z&#39;</span> <span class="op">|</span> <span class="string">&#39;A&#39;</span>...<span class="string">&#39;Z&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
         <span class="string">&#39;_&#39;</span> <span class="op">|</span> <span class="string">&#39;-&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-        _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>
     }
 }
 <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -2235,7 +2247,7 @@
         <span class="string">&#39;0&#39;</span>...<span class="string">&#39;9&#39;</span> <span class="op">=&gt;</span> (<span class="ident">c</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">-</span> (<span class="string">&#39;0&#39;</span> <span class="kw">as</span> <span class="ident">u32</span>),
         <span class="string">&#39;a&#39;</span>...<span class="string">&#39;f&#39;</span> <span class="op">=&gt;</span> (<span class="ident">c</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">-</span> (<span class="string">&#39;a&#39;</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">+</span> <span class="number">10</span>,
         <span class="string">&#39;A&#39;</span>...<span class="string">&#39;F&#39;</span> <span class="op">=&gt;</span> (<span class="ident">c</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">-</span> (<span class="string">&#39;A&#39;</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">+</span> <span class="number">10</span>,
-        _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>()
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>()
     }
 }
 
@@ -2275,7 +2287,7 @@
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="ident">count</span> {
             <span class="kw">return</span>;
         }
-        <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..(<span class="ident">count</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>()) {
+        <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="ident">count</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">len</span>()) {
             <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">push_back</span>(<span class="self">self</span>.<span class="ident">rdr</span>.<span class="ident">next</span>().<span class="ident">unwrap_or</span>(<span class="string">&#39;\0&#39;</span>));
         }
     }
@@ -2425,7 +2437,7 @@
             <span class="string">&#39;:&#39;</span> <span class="op">|</span> <span class="string">&#39;?&#39;</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">is_blankz</span>(<span class="ident">nc</span>) <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">flow_level</span> <span class="op">==</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">fetch_plain_scalar</span>(),
             <span class="string">&#39;%&#39;</span> <span class="op">|</span> <span class="string">&#39;@&#39;</span> <span class="op">|</span> <span class="string">&#39;`&#39;</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">mark</span>,
                     <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;unexpected character: `{}&#39;&quot;</span>, <span class="ident">c</span>))),
-            _ <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">fetch_plain_scalar</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">fetch_plain_scalar</span>(),
         }
     }
 
@@ -2443,7 +2455,7 @@
 
         <span class="kw">match</span> <span class="ident">t</span>.<span class="number">1</span> {
             <span class="ident">TokenType</span>::<span class="ident">StreamEndToken</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">stream_end_produced</span> <span class="op">=</span> <span class="bool-val">true</span>,
-            _ <span class="op">=&gt;</span> {}
+            <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">t</span>))
     }
@@ -2500,7 +2512,7 @@
                     }
                 },
                 <span class="string">&#39;#&#39;</span> <span class="op">=&gt;</span> <span class="kw">while</span> <span class="op">!</span><span class="ident">is_breakz</span>(<span class="self">self</span>.<span class="ident">ch</span>()) { <span class="self">self</span>.<span class="ident">skip</span>(); <span class="self">self</span>.<span class="ident">lookahead</span>(<span class="number">1</span>); },
-                _ <span class="op">=&gt;</span> <span class="kw">break</span>
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>
             }
         }
     }
@@ -2555,7 +2567,7 @@
                 <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">scan_tag_directive_value</span>(<span class="kw-2">&amp;</span><span class="ident">start_mark</span>))
             },
             <span class="comment">// XXX This should be a warning instead of an error</span>
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="comment">// skip current line</span>
                 <span class="self">self</span>.<span class="ident">lookahead</span>(<span class="number">1</span>);
                 <span class="kw">while</span> <span class="op">!</span><span class="ident">is_breakz</span>(<span class="self">self</span>.<span class="ident">ch</span>()) {
@@ -2812,7 +2824,7 @@
             <span class="string">&#39;=&#39;</span> <span class="op">|</span> <span class="string">&#39;+&#39;</span> <span class="op">|</span> <span class="string">&#39;$&#39;</span> <span class="op">|</span> <span class="string">&#39;,&#39;</span> <span class="op">|</span> <span class="string">&#39;.&#39;</span> <span class="op">|</span> <span class="string">&#39;!&#39;</span> <span class="op">|</span> <span class="string">&#39;~&#39;</span> <span class="op">|</span> <span class="string">&#39;*&#39;</span> <span class="op">|</span> <span class="string">&#39;\&#39;&#39;</span> <span class="op">|</span> <span class="string">&#39;(&#39;</span> <span class="op">|</span> <span class="string">&#39;)&#39;</span> <span class="op">|</span> <span class="string">&#39;[&#39;</span> <span class="op">|</span> <span class="string">&#39;]&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
             <span class="string">&#39;%&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
             <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_alpha</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-            _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>
         } {
             <span class="comment">// Check if it is a URI-escape sequence.</span>
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ch</span>() <span class="op">==</span> <span class="string">&#39;%&#39;</span> {
@@ -2851,11 +2863,11 @@
             <span class="kw">let</span> <span class="ident">octet</span> <span class="op">=</span> (<span class="ident">as_hex</span>(<span class="self">self</span>.<span class="ident">buffer</span>[<span class="number">1</span>]) <span class="op">&lt;&lt;</span> <span class="number">4</span>) <span class="op">+</span> <span class="ident">as_hex</span>(<span class="self">self</span>.<span class="ident">buffer</span>[<span class="number">2</span>]);
             <span class="kw">if</span> <span class="ident">width</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="ident">width</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">octet</span> {
-                    _ <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0x80</span> <span class="op">==</span> <span class="number">0x00</span> <span class="op">=&gt;</span> <span class="number">1</span>,
-                    _ <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0xE0</span> <span class="op">==</span> <span class="number">0xC0</span> <span class="op">=&gt;</span> <span class="number">2</span>,
-                    _ <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0xF0</span> <span class="op">==</span> <span class="number">0xE0</span> <span class="op">=&gt;</span> <span class="number">3</span>,
-                    _ <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0xF8</span> <span class="op">==</span> <span class="number">0xF0</span> <span class="op">=&gt;</span> <span class="number">4</span>,
-                    _ <span class="op">=&gt;</span> {
+                    <span class="kw">_</span> <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0x80</span> <span class="op">==</span> <span class="number">0x00</span> <span class="op">=&gt;</span> <span class="number">1</span>,
+                    <span class="kw">_</span> <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0xE0</span> <span class="op">==</span> <span class="number">0xC0</span> <span class="op">=&gt;</span> <span class="number">2</span>,
+                    <span class="kw">_</span> <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0xF0</span> <span class="op">==</span> <span class="number">0xE0</span> <span class="op">=&gt;</span> <span class="number">3</span>,
+                    <span class="kw">_</span> <span class="kw">if</span> <span class="ident">octet</span> <span class="op">&amp;</span> <span class="number">0xF8</span> <span class="op">==</span> <span class="number">0xF0</span> <span class="op">=&gt;</span> <span class="number">4</span>,
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="kw-2">*</span><span class="ident">mark</span>,
                             <span class="string">&quot;while parsing a tag, found an incorrect leading UTF-8 octet&quot;</span>));
                     }
@@ -2914,7 +2926,7 @@
             <span class="op">||</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">ch</span>() {
                 <span class="ident">c</span> <span class="kw">if</span> <span class="ident">is_blankz</span>(<span class="ident">c</span>) <span class="op">=&gt;</span> <span class="bool-val">false</span>,
                 <span class="string">&#39;?&#39;</span> <span class="op">|</span> <span class="string">&#39;:&#39;</span> <span class="op">|</span> <span class="string">&#39;,&#39;</span> <span class="op">|</span> <span class="string">&#39;]&#39;</span> <span class="op">|</span> <span class="string">&#39;}&#39;</span> <span class="op">|</span> <span class="string">&#39;%&#39;</span> <span class="op">|</span> <span class="string">&#39;@&#39;</span> <span class="op">|</span> <span class="string">&#39;`&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-                _ <span class="op">=&gt;</span> <span class="bool-val">true</span>
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>
             } {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">start_mark</span>, <span class="string">&quot;while scanning an anchor or alias, did not find expected alphabetic or numeric character&quot;</span>));
         }
@@ -3299,7 +3311,7 @@
                             <span class="string">&#39;x&#39;</span> <span class="op">=&gt;</span> <span class="ident">code_length</span> <span class="op">=</span> <span class="number">2</span>,
                             <span class="string">&#39;u&#39;</span> <span class="op">=&gt;</span> <span class="ident">code_length</span> <span class="op">=</span> <span class="number">4</span>,
                             <span class="string">&#39;U&#39;</span> <span class="op">=&gt;</span> <span class="ident">code_length</span> <span class="op">=</span> <span class="number">8</span>,
-                            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">start_mark</span>,
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ScanError</span>::<span class="ident">new</span>(<span class="ident">start_mark</span>,
                                     <span class="string">&quot;while parsing a quoted scalar, found unknown escape character&quot;</span>))
                         }
                         <span class="self">self</span>.<span class="ident">skip</span>();
@@ -3325,7 +3337,7 @@
                             };
                             <span class="ident">string</span>.<span class="ident">push</span>(<span class="ident">ch</span>);
 
-                            <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">code_length</span> {
+                            <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">code_length</span> {
                                 <span class="self">self</span>.<span class="ident">skip</span>();
                             }
                         }
@@ -3337,7 +3349,7 @@
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">ch</span>() {
                 <span class="string">&#39;\&#39;&#39;</span> <span class="kw">if</span> <span class="ident">single</span> <span class="op">=&gt;</span> { <span class="kw">break</span>; },
                 <span class="string">&#39;&quot;&#39;</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">single</span> <span class="op">=&gt;</span> { <span class="kw">break</span>; },
-                _ <span class="op">=&gt;</span> {}
+                <span class="kw">_</span> <span class="op">=&gt;</span> {}
             }
             <span class="self">self</span>.<span class="ident">lookahead</span>(<span class="number">1</span>);
 
@@ -3442,7 +3454,7 @@
                 <span class="kw">match</span> <span class="self">self</span>.<span class="ident">ch</span>() {
                     <span class="string">&#39;:&#39;</span> <span class="kw">if</span> <span class="ident">is_blankz</span>(<span class="self">self</span>.<span class="ident">buffer</span>[<span class="number">1</span>]) <span class="op">=&gt;</span> <span class="kw">break</span>,
                     <span class="string">&#39;,&#39;</span> <span class="op">|</span> <span class="string">&#39;:&#39;</span> <span class="op">|</span> <span class="string">&#39;?&#39;</span> <span class="op">|</span> <span class="string">&#39;[&#39;</span> <span class="op">|</span> <span class="string">&#39;]&#39;</span> <span class="op">|</span><span class="string">&#39;{&#39;</span> <span class="op">|</span><span class="string">&#39;}&#39;</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">flow_level</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
-                    _ <span class="op">=&gt;</span> {}
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {}
                 }
 
                 <span class="kw">if</span> <span class="ident">leading_blanks</span> <span class="op">||</span> <span class="op">!</span><span class="ident">whitespaces</span>.<span class="ident">is_empty</span>() {
@@ -3647,7 +3659,7 @@
         <span class="kw">let</span> <span class="ident">tok</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">p</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
         <span class="kw">match</span> <span class="ident">tok</span>.<span class="number">1</span> {
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tk</span> <span class="op">=&gt;</span> {},
-            _ <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unexpected token: {:?}&quot;</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unexpected token: {:?}&quot;</span>,
                     <span class="ident">tok</span>) }
         }
     }}
@@ -3661,7 +3673,7 @@
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">style</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tk</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>);
             },
-            _ <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unexpected token: {:?}&quot;</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> { <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unexpected token: {:?}&quot;</span>,
                     <span class="ident">tok</span>) }
         }
     }}
@@ -3687,7 +3699,7 @@
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">&quot;a scalar&quot;</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">Scanner</span>::<span class="ident">new</span>(<span class="ident">s</span>.<span class="ident">chars</span>());
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamStartToken</span>(..));
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamEndToken</span>);
         <span class="macro">end</span><span class="macro">!</span>(<span class="ident">p</span>);
     }
@@ -3702,7 +3714,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">Scanner</span>::<span class="ident">new</span>(<span class="ident">s</span>.<span class="ident">chars</span>());
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamStartToken</span>(..));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">DocumentStartToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">DocumentEndToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamEndToken</span>);
         <span class="macro">end</span><span class="macro">!</span>(<span class="ident">p</span>);
@@ -3720,11 +3732,11 @@
 &quot;</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">Scanner</span>::<span class="ident">new</span>(<span class="ident">s</span>.<span class="ident">chars</span>());
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamStartToken</span>(..));
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">DocumentStartToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">DocumentStartToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">SingleQuoted</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamEndToken</span>);
         <span class="macro">end</span><span class="macro">!</span>(<span class="ident">p</span>);
     }
@@ -3737,9 +3749,9 @@
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowSequenceStartToken</span>);
         <span class="macro">next_scalar</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="string">&quot;item 1&quot;</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowEntryToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowEntryToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowSequenceEndToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamEndToken</span>);
         <span class="macro">end</span><span class="macro">!</span>(<span class="ident">p</span>);
@@ -3758,14 +3770,14 @@
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamStartToken</span>(..));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowMappingStartToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowEntryToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
         <span class="macro">next_scalar</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="string">&quot;a complex key&quot;</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="ident">TScalarStyle</span>::<span class="ident">Plain</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowEntryToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">FlowMappingEndToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamEndToken</span>);
@@ -3833,34 +3845,34 @@ a sequence:
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamStartToken</span>(..));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockMappingStartToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>); <span class="comment">// libyaml comment seems to be wrong</span>
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockMappingStartToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockEndToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">KeyToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ValueToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockSequenceStartToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockEntryToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockEntryToken</span>);
-        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(_, _));
+        <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">ScalarToken</span>(<span class="kw">_</span>, <span class="kw">_</span>));
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockEndToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">BlockEndToken</span>);
         <span class="macro">next</span><span class="macro">!</span>(<span class="ident">p</span>, <span class="ident">StreamEndToken</span>);
@@ -4040,18 +4052,22 @@ key:
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>&larrb;</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>&rarrb;</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
