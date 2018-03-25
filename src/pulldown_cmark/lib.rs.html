@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.0.8/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/pulldown-cmark-0.1.2/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -92,6 +92,11 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2015 Google Inc. All rights reserved.</span>
 <span class="comment">//</span>
@@ -115,6 +120,11 @@
 
 <span class="doccomment">//! Pull parser for commonmark.</span>
 
+<span class="comment">// When compiled for the rustc compiler itself we want to make sure that this is</span>
+<span class="comment">// an unstable crate.</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">rustbuild</span>, <span class="ident">feature</span>(<span class="ident">staged_api</span>, <span class="ident">rustc_private</span>))]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">rustbuild</span>, <span class="ident">unstable</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc_private&quot;</span>, <span class="ident">issue</span> <span class="op">=</span> <span class="string">&quot;27812&quot;</span>))]</span>
+
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">html</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
@@ -129,7 +139,7 @@
 <span class="kw">mod</span> <span class="ident">utils</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">passes</span>::<span class="ident">Parser</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">parse</span>::{<span class="ident">Event</span>, <span class="ident">Tag</span>, <span class="ident">Options</span>, <span class="ident">OPTION_ENABLE_TABLES</span>, <span class="ident">OPTION_ENABLE_FOOTNOTES</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">parse</span>::{<span class="ident">Alignment</span>, <span class="ident">Event</span>, <span class="ident">Tag</span>, <span class="ident">Options</span>, <span class="ident">OPTION_ENABLE_TABLES</span>, <span class="ident">OPTION_ENABLE_FOOTNOTES</span>};
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.2.25/src/format/parse.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.0/src/format/parse.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>parse.rs.html -- source</title>
@@ -775,9 +775,21 @@
 <span id="718">718</span>
 <span id="719">719</span>
 <span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
 </pre><pre class="rust ">
-<span class="comment">// This is a part of rust-chrono.</span>
-<span class="comment">// Copyright (c) 2015, Kang Seonghoon.</span>
+<span class="comment">// This is a part of Chrono.</span>
 <span class="comment">// Portions copyright (c) 2015, John Nagle.</span>
 <span class="comment">// See README.md and LICENSE.txt for details.</span>
 
@@ -864,7 +876,7 @@
     <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">trim_left</span>();
 
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>((<span class="ident">s_</span>, <span class="ident">weekday</span>)) <span class="op">=</span> <span class="ident">scan</span>::<span class="ident">short_weekday</span>(<span class="ident">s</span>) {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">s_</span>.<span class="ident">starts_with</span>(<span class="string">&quot;,&quot;</span>) { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">INVALID</span>); }
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">s_</span>.<span class="ident">starts_with</span>(<span class="string">&#39;,&#39;</span>) { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">INVALID</span>); }
         <span class="ident">s</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">s_</span>[<span class="number">1</span>..];
         <span class="macro">try</span><span class="macro">!</span>(<span class="ident">parsed</span>.<span class="ident">set_weekday</span>(<span class="ident">weekday</span>));
     }
@@ -955,7 +967,7 @@
     <span class="macro">try</span><span class="macro">!</span>(<span class="ident">parsed</span>.<span class="ident">set_minute</span>(<span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">number</span>(<span class="ident">s</span>, <span class="number">2</span>, <span class="number">2</span>))));
     <span class="ident">s</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">char</span>(<span class="ident">s</span>, <span class="string">b&#39;:&#39;</span>));
     <span class="macro">try</span><span class="macro">!</span>(<span class="ident">parsed</span>.<span class="ident">set_second</span>(<span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">number</span>(<span class="ident">s</span>, <span class="number">2</span>, <span class="number">2</span>))));
-    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;.&quot;</span>) {
+    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;.&#39;</span>) {
         <span class="kw">let</span> <span class="ident">nanosecond</span> <span class="op">=</span> <span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">nanosecond</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..]));
         <span class="macro">try</span><span class="macro">!</span>(<span class="ident">parsed</span>.<span class="ident">set_nanosecond</span>(<span class="ident">nanosecond</span>));
     }
@@ -997,7 +1009,13 @@
                 <span class="ident">s</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">prefix</span>.<span class="ident">len</span>()..];
             }
 
-            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
+            <span class="ident">Item</span>::<span class="ident">OwnedLiteral</span>(<span class="kw-2">ref</span> <span class="ident">prefix</span>) <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">prefix</span>.<span class="ident">len</span>() { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TOO_SHORT</span>); }
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="kw-2">&amp;</span><span class="ident">prefix</span>[..]) { <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">INVALID</span>); }
+                <span class="ident">s</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">prefix</span>.<span class="ident">len</span>()..];
+            }
+
+            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">Item</span>::<span class="ident">OwnedSpace</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                 <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">trim_left</span>();
             }
 
@@ -1026,14 +1044,17 @@
                     <span class="ident">Second</span>         <span class="op">=&gt;</span> (<span class="number">2</span>, <span class="bool-val">false</span>, <span class="ident">Parsed</span>::<span class="ident">set_second</span>),
                     <span class="ident">Nanosecond</span>     <span class="op">=&gt;</span> (<span class="number">9</span>, <span class="bool-val">false</span>, <span class="ident">Parsed</span>::<span class="ident">set_nanosecond</span>),
                     <span class="ident">Timestamp</span>      <span class="op">=&gt;</span> (<span class="ident">usize</span>::<span class="ident">MAX</span>, <span class="bool-val">false</span>, <span class="ident">Parsed</span>::<span class="ident">set_timestamp</span>),
+
+                    <span class="comment">// for the future expansion</span>
+                    <span class="ident">Internal</span>(<span class="kw-2">ref</span> <span class="ident">int</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">int</span>.<span class="ident">_dummy</span> {},
                 };
 
                 <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">trim_left</span>();
                 <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">signed</span> {
-                    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;-&quot;</span>) {
+                    <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;-&#39;</span>) {
                         <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">number</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..], <span class="number">1</span>, <span class="ident">usize</span>::<span class="ident">MAX</span>));
                         <span class="macro">try</span><span class="macro">!</span>(<span class="number">0i64</span>.<span class="ident">checked_sub</span>(<span class="ident">v</span>).<span class="ident">ok_or</span>(<span class="ident">OUT_OF_RANGE</span>))
-                    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;+&quot;</span>) {
+                    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;+&#39;</span>) {
                         <span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">number</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..], <span class="number">1</span>, <span class="ident">usize</span>::<span class="ident">MAX</span>))
                     } <span class="kw">else</span> {
                         <span class="comment">// if there is no explicit sign, we respect the original `width`</span>
@@ -1081,7 +1102,7 @@
                     }
 
                     <span class="ident">Nanosecond</span> <span class="op">|</span> <span class="ident">Nanosecond3</span> <span class="op">|</span> <span class="ident">Nanosecond6</span> <span class="op">|</span> <span class="ident">Nanosecond9</span><span class="op">=&gt;</span> {
-                        <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&quot;.&quot;</span>) {
+                        <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">starts_with</span>(<span class="string">&#39;.&#39;</span>) {
                             <span class="kw">let</span> <span class="ident">nano</span> <span class="op">=</span> <span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">scan</span>::<span class="ident">nanosecond</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>..]));
                             <span class="macro">try</span><span class="macro">!</span>(<span class="ident">parsed</span>.<span class="ident">set_nanosecond</span>(<span class="ident">nano</span>));
                         }
@@ -1103,6 +1124,9 @@
 
                     <span class="ident">RFC2822</span> <span class="op">=&gt;</span> <span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">parse_rfc2822</span>(<span class="ident">parsed</span>, <span class="ident">s</span>)),
                     <span class="ident">RFC3339</span> <span class="op">=&gt;</span> <span class="macro">try_consume</span><span class="macro">!</span>(<span class="ident">parse_rfc3339</span>(<span class="ident">parsed</span>, <span class="ident">s</span>)),
+
+                    <span class="comment">// for the future expansion</span>
+                    <span class="ident">Internal</span>(<span class="kw-2">ref</span> <span class="ident">int</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">int</span>.<span class="ident">_dummy</span> {},
                 }
             }
 
@@ -1137,9 +1161,11 @@
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">items</span>:<span class="ident">expr</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">err</span>:<span class="ident">tt</span>) <span class="op">=&gt;</span> (
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">parse_all</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>, <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">items</span>), <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">err</span>))
         );
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">items</span>:<span class="ident">expr</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">expr</span>),<span class="kw-2">*</span>) <span class="op">=&gt;</span> (
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">parse_all</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>, <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">items</span>), <span class="prelude-val">Ok</span>(<span class="ident">Parsed</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>: <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>),)<span class="op">*</span> ..<span class="ident">Parsed</span>::<span class="ident">new</span>() }))
-        );
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">items</span>:<span class="ident">expr</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>:<span class="ident">expr</span>),<span class="kw-2">*</span>) <span class="op">=&gt;</span> (<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_mut</span>)]</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">Parsed</span>::<span class="ident">new</span>();
+            $(<span class="ident">expected</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">v</span>);)<span class="op">*</span>
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">parse_all</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>, <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">items</span>), <span class="prelude-val">Ok</span>(<span class="ident">expected</span>))
+        });
     }
 
     <span class="comment">// empty string</span>
@@ -1368,8 +1394,8 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_rfc2822</span>() {
-    <span class="kw">use</span> <span class="ident">datetime</span>::<span class="ident">DateTime</span>;
-    <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">fixed</span>::<span class="ident">FixedOffset</span>;
+    <span class="kw">use</span> <span class="ident">DateTime</span>;
+    <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">FixedOffset</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NOT_ENOUGH</span>;
 
@@ -1420,40 +1446,40 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">parse_rfc850</span>() {
-    <span class="kw">use</span> ::{<span class="ident">UTC</span>, <span class="ident">TimeZone</span>};
+    <span class="kw">use</span> ::{<span class="ident">Utc</span>, <span class="ident">TimeZone</span>};
 
     <span class="kw">static</span> <span class="ident">RFC850_FMT</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span>  <span class="string">&quot;%A, %d-%b-%y %T GMT&quot;</span>;
 
     <span class="kw">let</span> <span class="ident">dt_str</span> <span class="op">=</span> <span class="string">&quot;Sunday, 06-Nov-94 08:49:37 GMT&quot;</span>;
-    <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">6</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>);
+    <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">6</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>);
 
     <span class="comment">// Check that the format is what we expect</span>
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">dt</span>.<span class="ident">format</span>(<span class="ident">RFC850_FMT</span>).<span class="ident">to_string</span>(), <span class="ident">dt_str</span>);
 
     <span class="comment">// Check that it parses correctly</span>
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Ok</span>(<span class="ident">dt</span>), <span class="ident">UTC</span>.<span class="ident">datetime_from_str</span>(<span class="string">&quot;Sunday, 06-Nov-94 08:49:37 GMT&quot;</span>, <span class="ident">RFC850_FMT</span>));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Ok</span>(<span class="ident">dt</span>), <span class="ident">Utc</span>.<span class="ident">datetime_from_str</span>(<span class="string">&quot;Sunday, 06-Nov-94 08:49:37 GMT&quot;</span>, <span class="ident">RFC850_FMT</span>));
 
     <span class="comment">// Check that the rest of the weekdays parse correctly (this test originally failed because</span>
     <span class="comment">// Sunday parsed incorrectly).</span>
     <span class="kw">let</span> <span class="ident">testdates</span> <span class="op">=</span> [
-        (<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">7</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>),  <span class="string">&quot;Monday, 07-Nov-94 08:49:37 GMT&quot;</span>),
-        (<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">8</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>),  <span class="string">&quot;Tuesday, 08-Nov-94 08:49:37 GMT&quot;</span>),
-        (<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">9</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>),  <span class="string">&quot;Wednesday, 09-Nov-94 08:49:37 GMT&quot;</span>),
-        (<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">10</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>), <span class="string">&quot;Thursday, 10-Nov-94 08:49:37 GMT&quot;</span>),
-        (<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">11</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>), <span class="string">&quot;Friday, 11-Nov-94 08:49:37 GMT&quot;</span>),
-        (<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">12</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>), <span class="string">&quot;Saturday, 12-Nov-94 08:49:37 GMT&quot;</span>),
+        (<span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">7</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>),  <span class="string">&quot;Monday, 07-Nov-94 08:49:37 GMT&quot;</span>),
+        (<span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">8</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>),  <span class="string">&quot;Tuesday, 08-Nov-94 08:49:37 GMT&quot;</span>),
+        (<span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">9</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>),  <span class="string">&quot;Wednesday, 09-Nov-94 08:49:37 GMT&quot;</span>),
+        (<span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">10</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>), <span class="string">&quot;Thursday, 10-Nov-94 08:49:37 GMT&quot;</span>),
+        (<span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">11</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>), <span class="string">&quot;Friday, 11-Nov-94 08:49:37 GMT&quot;</span>),
+        (<span class="ident">Utc</span>.<span class="ident">ymd</span>(<span class="number">1994</span>, <span class="number">11</span>, <span class="number">12</span>).<span class="ident">and_hms</span>(<span class="number">8</span>, <span class="number">49</span>, <span class="number">37</span>), <span class="string">&quot;Saturday, 12-Nov-94 08:49:37 GMT&quot;</span>),
     ];
 
     <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">testdates</span> {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Ok</span>(<span class="ident">val</span>.<span class="number">0</span>), <span class="ident">UTC</span>.<span class="ident">datetime_from_str</span>(<span class="ident">val</span>.<span class="number">1</span>, <span class="ident">RFC850_FMT</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Ok</span>(<span class="ident">val</span>.<span class="number">0</span>), <span class="ident">Utc</span>.<span class="ident">datetime_from_str</span>(<span class="ident">val</span>.<span class="number">1</span>, <span class="ident">RFC850_FMT</span>));
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_rfc3339</span>() {
-    <span class="kw">use</span> <span class="ident">datetime</span>::<span class="ident">DateTime</span>;
-    <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">fixed</span>::<span class="ident">FixedOffset</span>;
+    <span class="kw">use</span> <span class="ident">DateTime</span>;
+    <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">FixedOffset</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="comment">// Test data - (input, Ok(expected result after parse and format) or Err(error code))</span>

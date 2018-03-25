@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.2.2/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.4.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -168,6 +168,11 @@
 <span id="111">111</span>
 <span id="112">112</span>
 <span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2015, Yuheng Chen. See the LICENSE file at the top-level</span>
 <span class="comment">// directory of this distribution.</span>
@@ -206,6 +211,11 @@
 <span class="doccomment">//! emitter.dump(doc).unwrap(); // dump the YAML object to a String</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```</span>
+
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>, <span class="ident">warn</span>(<span class="ident">cyclomatic_complexity</span>))]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>, <span class="ident">allow</span>(<span class="ident">match_same_arms</span>))]</span>
+
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">linked_hash_map</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">yaml</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">scanner</span>;
@@ -260,7 +270,7 @@
             <span class="ident">emitter</span>.<span class="ident">dump</span>(<span class="ident">doc</span>).<span class="ident">unwrap</span>();
         }
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">writer</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">writer</span>.<span class="ident">is_empty</span>());
     }
 
     <span class="kw">fn</span> <span class="ident">try_fail</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Yaml</span><span class="op">&gt;</span>, <span class="ident">ScanError</span><span class="op">&gt;</span> {

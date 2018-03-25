@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["push_html",""]]});
+initSidebarItems({"fn":[["push_html","Iterate over an `Iterator` of `Event`s, generate HTML for each `Event`, and push it to a `String`."]]});

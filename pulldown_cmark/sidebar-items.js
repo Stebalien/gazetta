@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["OPTION_ENABLE_FOOTNOTES",""],["OPTION_ENABLE_TABLES",""]],"enum":[["Event",""],["Tag",""]],"mod":[["html","HTML renderer that takes an iterator of events as input."]],"struct":[["Options",""],["Parser",""]]});
+initSidebarItems({"constant":[["OPTION_ENABLE_FOOTNOTES",""],["OPTION_ENABLE_TABLES",""]],"enum":[["Alignment",""],["Event",""],["Tag",""]],"mod":[["html","HTML renderer that takes an iterator of events as input."]],"struct":[["Options",""],["Parser",""]]});

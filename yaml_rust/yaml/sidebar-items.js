@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Yaml","An YAML node is store as this `Yaml` enumeration, it provides an easy way to access your YAML document."]],"struct":[["YamlLoader",""]],"type":[["Array",""],["Hash",""]]});
+initSidebarItems({"enum":[["Yaml","A YAML node is stored as this `Yaml` enumeration, which provides an easy way to access your YAML document."]],"struct":[["YamlIter",""],["YamlLoader",""]],"type":[["Array",""],["Hash",""]]});

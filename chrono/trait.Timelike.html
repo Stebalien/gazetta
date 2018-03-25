@@ -60,7 +60,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/chrono/lib.rs.html#649-705' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/chrono/lib.rs.html#828-884' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Timelike: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
     fn <a href='#tymethod.hour' class='fnname'>hour</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>;
 <div class='item-spacer'></div>    fn <a href='#tymethod.minute' class='fnname'>minute</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>;
@@ -84,7 +84,7 @@
 </div><h3 id='tymethod.second' class='method'><span id='second.v' class='invisible'><code>fn <a href='#tymethod.second' class='fnname'>second</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></h3><div class='docblock'><p>Returns the second number from 0 to 59.</p>
 </div><h3 id='tymethod.nanosecond' class='method'><span id='nanosecond.v' class='invisible'><code>fn <a href='#tymethod.nanosecond' class='fnname'>nanosecond</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></h3><div class='docblock'><p>Returns the number of nanoseconds since the whole non-leap second.
 The range from 1,000,000,000 to 1,999,999,999 represents
-the <a href="./naive/time/index.html#leap-second-handling">leap second</a>.</p>
+the <a href="./naive/struct.NaiveTime.html#leap-second-handling">leap second</a>.</p>
 </div><h3 id='tymethod.with_hour' class='method'><span id='with_hour.v' class='invisible'><code>fn <a href='#tymethod.with_hour' class='fnname'>with_hour</a>(&amp;self, hour: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;</code></span></h3><div class='docblock'><p>Makes a new value with the hour number changed.</p>
 <p>Returns <code>None</code> when the resulting value would be invalid.</p>
 </div><h3 id='tymethod.with_minute' class='method'><span id='with_minute.v' class='invisible'><code>fn <a href='#tymethod.with_minute' class='fnname'>with_minute</a>(&amp;self, min: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;</code></span></h3><div class='docblock'><p>Makes a new value with the minute number changed.</p>
@@ -110,9 +110,9 @@ which is false for AM and true for PM.</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../src/chrono/naive/time.rs.html#452-651' title='goto source code'>[src]</a></div><code>impl Timelike for <a class="struct" href="../chrono/naive/time/struct.NaiveTime.html" title="struct chrono::naive::time::NaiveTime">NaiveTime</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/chrono/naive/datetime.rs.html#517-683' title='goto source code'>[src]</a></div><code>impl Timelike for <a class="struct" href="../chrono/naive/datetime/struct.NaiveDateTime.html" title="struct chrono::naive::datetime::NaiveDateTime">NaiveDateTime</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/chrono/datetime.rs.html#266-291' title='goto source code'>[src]</a></div><code>impl&lt;Tz:&nbsp;<a class="trait" href="../chrono/offset/trait.TimeZone.html" title="trait chrono::offset::TimeZone">TimeZone</a>&gt; Timelike for <a class="struct" href="../chrono/datetime/struct.DateTime.html" title="struct chrono::datetime::DateTime">DateTime</a>&lt;Tz&gt;</code></li>
+    <li><div class='out-of-band'><a class='srclink' href='../src/chrono/naive/time.rs.html#778-977' title='goto source code'>[src]</a></div><code>impl Timelike for <a class="struct" href="../chrono/naive/struct.NaiveTime.html" title="struct chrono::naive::NaiveTime">NaiveTime</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/chrono/naive/datetime.rs.html#952-1118' title='goto source code'>[src]</a></div><code>impl Timelike for <a class="struct" href="../chrono/naive/struct.NaiveDateTime.html" title="struct chrono::naive::NaiveDateTime">NaiveDateTime</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/chrono/datetime.rs.html#300-325' title='goto source code'>[src]</a></div><code>impl&lt;Tz:&nbsp;<a class="trait" href="../chrono/offset/trait.TimeZone.html" title="trait chrono::offset::TimeZone">TimeZone</a>&gt; Timelike for <a class="struct" href="../chrono/struct.DateTime.html" title="struct chrono::DateTime">DateTime</a>&lt;Tz&gt;</code></li>
 </ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../implementors/chrono/trait.Timelike.js">
                  </script></section>

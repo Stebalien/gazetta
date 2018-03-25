@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.2.25/src/format/strftime.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/steb/.local/share/cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.0/src/format/strftime.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>strftime.rs.html -- source</title>
@@ -497,10 +497,8 @@
 <span id="440">440</span>
 <span id="441">441</span>
 <span id="442">442</span>
-<span id="443">443</span>
 </pre><pre class="rust ">
-<span class="comment">// This is a part of rust-chrono.</span>
-<span class="comment">// Copyright (c) 2015, Kang Seonghoon.</span>
+<span class="comment">// This is a part of Chrono.</span>
 <span class="comment">// See README.md and LICENSE.txt for details.</span>
 
 <span class="doccomment">/*!
@@ -675,7 +673,7 @@ Notes:
     <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
         <span class="comment">// we have some reconstructed items to return</span>
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">recons</span>.<span class="ident">is_empty</span>() {
-            <span class="kw">let</span> <span class="ident">item</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">recons</span>[<span class="number">0</span>];
+            <span class="kw">let</span> <span class="ident">item</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">recons</span>[<span class="number">0</span>].<span class="ident">clone</span>();
             <span class="self">self</span>.<span class="ident">recons</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">recons</span>[<span class="number">1</span>..];
             <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">item</span>);
         }
@@ -794,8 +792,8 @@ Notes:
                 <span class="comment">// adjust `item` if we have any padding modifier</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">new_pad</span>) <span class="op">=</span> <span class="ident">pad_override</span> {
                     <span class="kw">match</span> <span class="ident">item</span> {
-                        <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">kind</span>, <span class="ident">_pad</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">recons</span>.<span class="ident">is_empty</span>() <span class="op">=&gt;</span>
-                            <span class="prelude-val">Some</span>(<span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">kind</span>, <span class="ident">new_pad</span>)),
+                        <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="kw-2">ref</span> <span class="ident">kind</span>, <span class="ident">_pad</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">recons</span>.<span class="ident">is_empty</span>() <span class="op">=&gt;</span>
+                            <span class="prelude-val">Some</span>(<span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">kind</span>.<span class="ident">clone</span>(), <span class="ident">new_pad</span>)),
                         <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Item</span>::<span class="ident">Error</span>), <span class="comment">// no reconstructed or non-numeric item allowed</span>
                     }
                 } <span class="kw">else</span> {

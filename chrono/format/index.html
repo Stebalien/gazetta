@@ -60,20 +60,21 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/chrono/format/mod.rs.html#5-480' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Formatting utilities for date and time.</p>
+               </span><a class='srclink' href='../../src/chrono/format/mod.rs.html#4-607' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Formatting (and parsing) utilities for date and time.</p>
+<p>This module provides the common types and routines to implement,
+for example, <a href="../struct.DateTime.html#method.format"><code>DateTime::format</code></a> or
+<a href="../struct.DateTime.html#method.parse_from_str"><code>DateTime::parse_from_str</code></a> methods.
+For most cases you should use these high-level interfaces.</p>
+<p>Internally the formatting and parsing shares the same abstract <strong>formatting items</strong>,
+which are just an <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code>Iterator</code></a> of
+the <a href="./enum.Item.html"><code>Item</code></a> type.
+They are generated from more readable <strong>format strings</strong>;
+currently Chrono supports <a href="./strftime/index.html">one built-in syntax closely resembling
+C's <code>strftime</code> format</a>.</p>
 </div><h2 id='reexports' class='section-header'><a href="#reexports">Re-exports</a></h2>
-<table><tr><td><code>pub use self::strftime::<a class="struct" href="../../chrono/format/strftime/struct.StrftimeItems.html" title="struct chrono::format::strftime::StrftimeItems">StrftimeItems</a>;</code></td></tr><tr><td><code>pub use self::parsed::<a class="struct" href="../../chrono/format/parsed/struct.Parsed.html" title="struct chrono::format::parsed::Parsed">Parsed</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table><tr><td><code>pub use self::strftime::<a class="struct" href="../../chrono/format/strftime/struct.StrftimeItems.html" title="struct chrono::format::strftime::StrftimeItems">StrftimeItems</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
-                       <tr class=' module-item'>
-                           <td><a class="mod" href="parsed/index.html"
-                                  title='mod chrono::format::parsed'>parsed</a></td>
-                           <td class='docblock-short'>
-                                <p>A collection of parsed date and time items.
-They can be constructed incrementally while being checked for consistency.</p>
-
-                           </td>
-                       </tr>
                        <tr class=' module-item'>
                            <td><a class="mod" href="strftime/index.html"
                                   title='mod chrono::format::strftime'>strftime</a></td>
@@ -93,10 +94,34 @@ This is normally constructed via <code>format</code> methods of each date and ti
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.InternalFixed.html"
+                                  title='struct chrono::format::InternalFixed'>InternalFixed</a></td>
+                           <td class='docblock-short'>
+                                <p>An opaque type representing fixed-format item types for internal uses only.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.InternalNumeric.html"
+                                  title='struct chrono::format::InternalNumeric'>InternalNumeric</a></td>
+                           <td class='docblock-short'>
+                                <p>An opaque type representing numeric item types for internal uses only.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.ParseError.html"
                                   title='struct chrono::format::ParseError'>ParseError</a></td>
                            <td class='docblock-short'>
                                 <p>An error from the <code>parse</code> function.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Parsed.html"
+                                  title='struct chrono::format::Parsed'>Parsed</a></td>
+                           <td class='docblock-short'>
+                                <p>Parsed parts of date and time. There are two classes of methods:</p>
 
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
