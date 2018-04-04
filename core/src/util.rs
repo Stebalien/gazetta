@@ -117,10 +117,7 @@ where
         }
     }
     pub fn with_hasher(inner: W, hash: H) -> Self {
-        StreamHasher {
-            hash: hash,
-            inner: inner,
-        }
+        StreamHasher { hash, inner }
     }
     pub fn finish(&self) -> u64 {
         self.hash.finish()

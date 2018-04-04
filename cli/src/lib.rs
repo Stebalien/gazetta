@@ -183,7 +183,7 @@ fn _run(render_paths: &RenderPaths) -> ! {
                     env::var_os("EDITOR")
                         .as_ref()
                         .map(|p| &**p)
-                        .unwrap_or("vim".as_ref()),
+                        .unwrap_or_else(|| "vim".as_ref()),
                 ).arg("index.md")
                     .current_dir(path)
                     .status()

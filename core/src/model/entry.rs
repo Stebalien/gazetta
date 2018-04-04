@@ -14,7 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use error::SourceError;
 use glob;
@@ -70,9 +70,15 @@ impl<EntryMeta> Entry<EntryMeta>
 where
     EntryMeta: Meta,
 {
-    pub fn from_file(full_path: PathBuf, name: &str) -> Result<Self, SourceError> {
-        // Helpers
+    pub fn from_file<P>(full_path: P, name: &str) -> Result<Self, SourceError>
+    where
+        P: AsRef<Path>,
+    {
+        Entry::_from_file(full_path.as_ref(), name)
+    }
 
+    fn _from_file(full_path: &Path, name: &str) -> Result<Self, SourceError> {
+        // Helpers
         const U32_MAX_AS_I64: i64 = ::std::u32::MAX as i64;
 
         fn dir_to_glob(mut dir: String) -> Result<glob::Pattern, SourceError> {
@@ -126,7 +132,7 @@ where
                             max: None,
                             compact: false,
                             sort: index::Sort::default(),
-                            directories: vec![name_to_glob(&name)],
+                            directories: vec![name_to_glob(name)],
                         })
                     } else {
                         None

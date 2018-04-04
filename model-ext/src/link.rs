@@ -26,7 +26,7 @@ impl Link {
         match yaml {
             Yaml::Hash(link) => {
                 if link.len() != 1 {
-                    Err("links must have exactly one entry".into())
+                    Err("links must have exactly one entry")
                 } else {
                     match link.into_iter().next().unwrap() {
                         (Yaml::String(k), Yaml::String(v)) => Ok(Link { text: k, url: v }),

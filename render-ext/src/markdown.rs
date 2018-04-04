@@ -34,10 +34,7 @@ impl<'a> Markdown<'a> {
     ///
     /// Note: `base` will only affect markdown links and images, not inline html ones.
     pub fn new(data: &'a str, base: &'a str) -> Markdown<'a> {
-        Markdown {
-            data: data,
-            base: base,
-        }
+        Markdown { data, base }
     }
 }
 
@@ -62,7 +59,7 @@ impl<'a> Render for Markdown<'a> {
             footnotes: HashMap::new(),
             iter: Parser::new_ext(self.data, OPTION_ENABLE_TABLES | OPTION_ENABLE_FOOTNOTES),
             base: self.base,
-        };
+        }
     }
 }
 
@@ -100,13 +97,13 @@ impl<'a, I> RenderMarkdown<'a, I> {
 }
 
 impl<'a, I: Iterator<Item = Event<'a>>> RenderOnce for RenderMarkdown<'a, I> {
-    fn render_once(mut self, mut tmpl: &mut TemplateBuffer) {
+    fn render_once(mut self, tmpl: &mut TemplateBuffer) {
         self.render_mut(tmpl)
     }
 }
 
 impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
-    fn render_mut(&mut self, mut tmpl: &mut TemplateBuffer) {
+    fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         use pulldown_cmark::Event::*;
         use pulldown_cmark::Tag;
 

@@ -193,8 +193,8 @@ where
                 }
                 origin.push_str("//");
                 if !username.is_empty() {
-                    origin.push_str(&username);
-                    if let Some(ref pw) = url.password() {
+                    origin.push_str(username);
+                    if let Some(pw) = url.password() {
                         origin.push(':');
                         origin.push_str(pw);
                     }

@@ -126,10 +126,7 @@ where
     E: Error,
 {
     pub fn new(location: PathBuf, error: E) -> AnnotatedError<E> {
-        AnnotatedError {
-            location: location,
-            error: error,
-        }
+        AnnotatedError { location, error }
     }
 }
 

@@ -123,7 +123,7 @@ pub trait Gazetta: Sized {
         for static_entry in &source.static_entries {
             let dst = output.join(&static_entry.name);
             if let Some(parent) = dst.parent() {
-                try_annotate!(fs::create_dir_all(parent), parent.clone());
+                try_annotate!(fs::create_dir_all(parent), parent);
             }
             try_annotate!(
                 self.render_static(&site, &static_entry.source, &dst),
@@ -163,7 +163,7 @@ pub trait Gazetta: Sized {
                                     index: Some(Index {
                                         compact: index.compact,
                                         paginate: Some(Paginate {
-                                            pages: &[&page.href],
+                                            pages: &[page.href],
                                             current: 0,
                                         }),
                                         entries: &[],
@@ -205,7 +205,7 @@ pub trait Gazetta: Sized {
                                             }),
                                             entries: children_range,
                                         }),
-                                        href: &href,
+                                        href: href,
                                         ..page
                                     }, tmpl);
                                 }.write_to_io(&mut BufWriter::new(index_file)),
