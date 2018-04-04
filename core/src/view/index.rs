@@ -16,7 +16,7 @@
 
 use std::fmt;
 
-use ::render::Gazetta;
+use render::Gazetta;
 
 use super::Page;
 
@@ -31,9 +31,10 @@ pub struct Paginate<'a> {
 
 /// Page index information
 pub struct Index<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     pub compact: bool,
     /// Pages to be indexed.
@@ -45,16 +46,18 @@ pub struct Index<'a, G>
 // Implement these manually. Derive requires that G: Trait.
 
 impl<'a, G> Copy for Index<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
 }
 
 impl<'a, G> Clone for Index<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
     fn clone(&self) -> Self {
         *self
@@ -63,9 +66,10 @@ impl<'a, G> Clone for Index<'a, G>
 
 // Manually implement because rust isn't correctly adding the Debug constraint when deriving.
 impl<'a, G> fmt::Debug for Index<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: fmt::Debug + 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: fmt::Debug + 'a,
+    G::SiteMeta: 'a,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("Index")

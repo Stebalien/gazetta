@@ -14,27 +14,28 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::io::{self, BufWriter};
 use std::fs::{self, File};
+use std::io::{self, BufWriter};
 use std::path::Path;
 
+use error::{AnnotatedError, RenderError};
 use horrorshow::prelude::*;
-use util::{self, StreamHasher};
-use model::{Source, Meta};
-use view::{Site, Page, Index, Paginate};
-use error::{RenderError, AnnotatedError};
+use model::{Meta, Source};
 use std::collections::hash_map::DefaultHasher;
 use str_stack::StrStack;
-
+use util::{self, StreamHasher};
+use view::{Index, Page, Paginate, Site};
 
 /// Compiles a set of files into a single asset by concatinating them. This
 /// function also hashes the files so they can be cached.
-fn compile_asset<P>(paths: &[P],
-                    target: &Path,
-                    prefix: &str,
-                    ext: &str)
-                    -> Result<String, AnnotatedError<io::Error>>
-    where P: AsRef<Path>
+fn compile_asset<P>(
+    paths: &[P],
+    target: &Path,
+    prefix: &str,
+    ext: &str,
+) -> Result<String, AnnotatedError<io::Error>>
+where
+    P: AsRef<Path>,
 {
     let mut tmp_path = target.join("assets");
     tmp_path.push(prefix);
@@ -74,10 +75,11 @@ pub trait Gazetta: Sized {
     ///
     /// Note: You *can* override this but you **really** shouldn't. This function contains pretty
     /// much all of the provided render logic.
-    fn render<P: AsRef<Path>>(&self,
-                              source: &Source<Self::SiteMeta, Self::PageMeta>,
-                              output: P)
-                              -> Result<(), AnnotatedError<RenderError>> {
+    fn render<P: AsRef<Path>>(
+        &self,
+        source: &Source<Self::SiteMeta, Self::PageMeta>,
+        output: P,
+    ) -> Result<(), AnnotatedError<RenderError>> {
         let output = output.as_ref();
 
         {
@@ -123,8 +125,10 @@ pub trait Gazetta: Sized {
             if let Some(parent) = dst.parent() {
                 try_annotate!(fs::create_dir_all(parent), parent.clone());
             }
-            try_annotate!(self.render_static(&site, &static_entry.source, &dst),
-                          static_entry.source.clone());
+            try_annotate!(
+                self.render_static(&site, &static_entry.source, &dst),
+                static_entry.source.clone()
+            );
         }
 
         for entry in &source.entries {
@@ -134,8 +138,8 @@ pub trait Gazetta: Sized {
             let page = Page::for_entry(entry);
 
             if let Some(ref index) = entry.index {
-
-                let children: Vec<_> = source.build_index(entry)
+                let children: Vec<_> = source
+                    .build_index(entry)
                     .into_iter()
                     .map(Page::for_entry)
                     .collect();
@@ -143,36 +147,37 @@ pub trait Gazetta: Sized {
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
-                    let num_pages = (children.len() / paginate) +
-                                    if children.len() % paginate == 0 { 0 } else { 1 };
+                    let num_pages = (children.len() / paginate)
+                        + if children.len() % paginate == 0 { 0 } else { 1 };
 
                     if num_pages == 0 {
                         let mut index_file_path = dest_dir;
                         index_file_path.push("index.html");
 
-                        let index_file = try_annotate!(File::create(&index_file_path),
-                                                       index_file_path);
+                        let index_file =
+                            try_annotate!(File::create(&index_file_path), index_file_path);
 
-                        try_annotate!(html! {
-                            |tmpl| self.render_page(&site, &Page {
-                                index: Some(Index {
-                                    compact: index.compact,
-                                    paginate: Some(Paginate {
-                                        pages: &[&page.href],
-                                        current: 0,
+                        try_annotate!(
+                            html! {
+                                |tmpl| self.render_page(&site, &Page {
+                                    index: Some(Index {
+                                        compact: index.compact,
+                                        paginate: Some(Paginate {
+                                            pages: &[&page.href],
+                                            current: 0,
+                                        }),
+                                        entries: &[],
                                     }),
-                                    entries: &[],
-                                }),
-                                ..page
-                            }, tmpl);
-                        }
-                                          .write_to_io(&mut BufWriter::new(index_file)),
-                                      index_file_path);
-
+                                    ..page
+                                }, tmpl);
+                            }.write_to_io(&mut BufWriter::new(index_file)),
+                            index_file_path
+                        );
                     } else {
-                        let mut page_stack = StrStack::with_capacity((num_pages - 1) *
-                                                                     (entry.name.len() + 10),
-                                                                     num_pages);
+                        let mut page_stack = StrStack::with_capacity(
+                            (num_pages - 1) * (entry.name.len() + 10),
+                            num_pages,
+                        );
                         for page_num in 1..num_pages {
                             let _ = write!(page_stack, "{}/index/{}", &entry.name, page_num);
                         }
@@ -180,31 +185,32 @@ pub trait Gazetta: Sized {
                         pages.push(&*entry.name);
                         pages.extend(&page_stack);
 
-                        for (page_num, (children_range, href)) in children.chunks(paginate)
-                            .zip(&pages)
-                            .enumerate() {
+                        for (page_num, (children_range, href)) in
+                            children.chunks(paginate).zip(&pages).enumerate()
+                        {
                             let mut index_file_path = output.join(&href);
                             try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
                             index_file_path.push("index.html");
 
-                            let index_file = try_annotate!(File::create(&index_file_path),
-                                                           index_file_path);
-                            try_annotate!(html! {
-                                |tmpl| self.render_page(&site, &Page {
-                                    index: Some(Index {
-                                        compact: index.compact,
-                                        paginate: Some(Paginate {
-                                            pages: &pages,
-                                            current: page_num,
+                            let index_file =
+                                try_annotate!(File::create(&index_file_path), index_file_path);
+                            try_annotate!(
+                                html! {
+                                    |tmpl| self.render_page(&site, &Page {
+                                        index: Some(Index {
+                                            compact: index.compact,
+                                            paginate: Some(Paginate {
+                                                pages: &pages,
+                                                current: page_num,
+                                            }),
+                                            entries: children_range,
                                         }),
-                                        entries: children_range,
-                                    }),
-                                    href: &href,
-                                    ..page
-                                }, tmpl);
-                            }
-                                              .write_to_io(&mut BufWriter::new(index_file)),
-                                          index_file_path);
+                                        href: &href,
+                                        ..page
+                                    }, tmpl);
+                                }.write_to_io(&mut BufWriter::new(index_file)),
+                                index_file_path
+                            );
                         }
                     }
                 } else {
@@ -213,18 +219,19 @@ pub trait Gazetta: Sized {
 
                     let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
 
-                    try_annotate!(html! {
-                        |tmpl| self.render_page(&site, &Page {
-                            index:  Some(Index {
-                                compact: index.compact,
-                                paginate: None,
-                                entries: &children[..],
-                            }),
-                            ..page
-                        }, tmpl);
-                    }
-                                      .write_to_io(&mut BufWriter::new(index_file)),
-                                  index_file_path);
+                    try_annotate!(
+                        html! {
+                            |tmpl| self.render_page(&site, &Page {
+                                index:  Some(Index {
+                                    compact: index.compact,
+                                    paginate: None,
+                                    entries: &children[..],
+                                }),
+                                ..page
+                            }, tmpl);
+                        }.write_to_io(&mut BufWriter::new(index_file)),
+                        index_file_path
+                    );
                 }
             } else {
                 let mut index_file_path = dest_dir;
@@ -232,11 +239,12 @@ pub trait Gazetta: Sized {
 
                 let index_file = try_annotate!(File::create(&index_file_path), index_file_path);
 
-                try_annotate!(html! {
-                    |tmpl| self.render_page(&site, &page, tmpl);
-                }
-                                  .write_to_io(&mut BufWriter::new(index_file)),
-                              index_file_path);
+                try_annotate!(
+                    html! {
+                        |tmpl| self.render_page(&site, &page, tmpl);
+                    }.write_to_io(&mut BufWriter::new(index_file)),
+                    index_file_path
+                );
             }
         }
         Ok(())

@@ -28,19 +28,18 @@ impl<V, E> BubbleResult for Result<V, E> {
 }
 
 impl<I> BubbleResult for Option<I>
-    where I: BubbleResult
+where
+    I: BubbleResult,
 {
     type Value = Option<I::Value>;
     type Error = I::Error;
 
     fn bubble_result(self) -> Result<Self::Value, Self::Error> {
         match self {
-            Some(v) => {
-                match v.bubble_result() {
-                    Ok(v) => Ok(Some(v)),
-                    Err(e) => Err(e),
-                }
-            }
+            Some(v) => match v.bubble_result() {
+                Ok(v) => Ok(Some(v)),
+                Err(e) => Err(e),
+            },
             None => Ok(None),
         }
     }

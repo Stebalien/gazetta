@@ -14,9 +14,9 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::path::{Path, PathBuf};
 use std::fs::{self, File};
 use std::io;
+use std::path::{Path, PathBuf};
 
 use std::hash::Hasher;
 
@@ -45,7 +45,10 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
         let from = src.join(&file_name);
         let to = dest.join(&file_name);
         if exists(&to)? {
-            return Err(io::Error::new(io::ErrorKind::AlreadyExists, "target path already exists"));
+            return Err(io::Error::new(
+                io::ErrorKind::AlreadyExists,
+                "target path already exists",
+            ));
         }
 
         if dir_entry.file_type()?.is_dir() {
@@ -61,12 +64,10 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
 pub fn exists(path: &Path) -> io::Result<bool> {
     match fs::metadata(&path) {
         Ok(_) => Ok(true),
-        Err(e) => {
-            match e.kind() {
-                io::ErrorKind::NotFound => Ok(false),
-                _ => Err(e),
-            }
-        }
+        Err(e) => match e.kind() {
+            io::ErrorKind::NotFound => Ok(false),
+            _ => Err(e),
+        },
     }
 }
 
@@ -102,11 +103,13 @@ pub struct StreamHasher<W, H> {
     inner: W,
 }
 impl<W, H> StreamHasher<W, H>
-    where H: Hasher,
-          W: io::Write
+where
+    H: Hasher,
+    W: io::Write,
 {
     pub fn new(inner: W) -> Self
-        where H: Default
+    where
+        H: Default,
     {
         StreamHasher {
             hash: H::default(),
@@ -124,8 +127,9 @@ impl<W, H> StreamHasher<W, H>
     }
 }
 impl<W, H> io::Write for StreamHasher<W, H>
-    where W: io::Write,
-          H: Hasher
+where
+    W: io::Write,
+    H: Hasher,
 {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
         let size = self.inner.write(buf)?;
@@ -139,9 +143,10 @@ impl<W, H> io::Write for StreamHasher<W, H>
 
 /// Concatinate source paths into an output file.
 pub fn concat<W, I>(paths: I, output: &mut W) -> Result<u64, AnnotatedError<io::Error>>
-    where W: io::Write,
-          I: IntoIterator,
-          I::Item: AsRef<Path>
+where
+    W: io::Write,
+    I: IntoIterator,
+    I::Item: AsRef<Path>,
 {
     let mut bytes = 0;
     for p in paths {

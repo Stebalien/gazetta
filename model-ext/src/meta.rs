@@ -14,8 +14,8 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use gazetta_core::yaml::Hash;
 use gazetta_core::model::Meta;
+use gazetta_core::yaml::Hash;
 use link::Link;
 use person::Person;
 use util::BubbleResult;

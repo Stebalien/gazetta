@@ -14,14 +14,14 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::io;
-use std::fmt;
-use std::path::PathBuf;
+use horrorshow;
 use std::borrow::Cow;
-use ::horrorshow;
+use std::fmt;
+use std::io;
+use std::path::PathBuf;
 
-use ::glob::PatternError;
-use ::yaml::ScanError;
+use glob::PatternError;
+use yaml::ScanError;
 
 use std::error::Error;
 
@@ -30,12 +30,14 @@ macro_rules! try_annotate {
         match $e {
             Ok(v) => v,
             Err(e) => {
-                return Err($crate::error::AnnotatedError::new(($l).to_owned(), From::from(e)))
+                return Err($crate::error::AnnotatedError::new(
+                    ($l).to_owned(),
+                    From::from(e),
+                ))
             }
         }
-    }
+    };
 }
-
 
 #[derive(Debug)]
 pub enum SourceError {
@@ -76,7 +78,8 @@ impl fmt::Display for SourceError {
 
 #[derive(Debug, Clone)]
 pub struct AnnotatedError<E>
-    where E: Error
+where
+    E: Error,
 {
     pub location: PathBuf,
     pub error: E,
@@ -93,7 +96,8 @@ impl From<AnnotatedError<io::Error>> for AnnotatedError<RenderError> {
 }
 
 impl<E> Error for AnnotatedError<E>
-    where E: Error
+where
+    E: Error,
 {
     fn description(&self) -> &str {
         self.error.description()
@@ -104,18 +108,22 @@ impl<E> Error for AnnotatedError<E>
 }
 
 impl<E> fmt::Display for AnnotatedError<E>
-    where E: Error
+where
+    E: Error,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f,
-               "when processing {}: {}",
-               self.location.display(),
-               self.error)
+        write!(
+            f,
+            "when processing {}: {}",
+            self.location.display(),
+            self.error
+        )
     }
 }
 
 impl<E> AnnotatedError<E>
-    where E: Error
+where
+    E: Error,
 {
     pub fn new(location: PathBuf, error: E) -> AnnotatedError<E> {
         AnnotatedError {

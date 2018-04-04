@@ -14,10 +14,10 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::collections::HashMap;
-use std::borrow::Cow;
-use pulldown_cmark::{Parser, Event, OPTION_ENABLE_TABLES, OPTION_ENABLE_FOOTNOTES};
 use horrorshow::prelude::*;
+use pulldown_cmark::{Event, Parser, OPTION_ENABLE_FOOTNOTES, OPTION_ENABLE_TABLES};
+use std::borrow::Cow;
+use std::collections::HashMap;
 
 /// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -58,8 +58,7 @@ impl<'a> RenderMut for Markdown<'a> {
 impl<'a> Render for Markdown<'a> {
     #[inline]
     fn render(&self, tmpl: &mut TemplateBuffer) {
-        tmpl <<
-        RenderMarkdown {
+        tmpl << RenderMarkdown {
             footnotes: HashMap::new(),
             iter: Parser::new_ext(self.data, OPTION_ENABLE_TABLES | OPTION_ENABLE_FOOTNOTES),
             base: self.base,
@@ -119,12 +118,14 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     // Because rust doesn't reborrow? (WTF?)
                     let s: &mut Self = &mut *self;
                     match tag {
-                        Tag::FootnoteDefinition(name) => tmpl << html! {
-                            div(class="footnote", id=format_args!("footnote-{}", name)) {
-                                sup(class="footnote-label") : s.footnote(name);
-                                : s;
+                        Tag::FootnoteDefinition(name) => {
+                            tmpl << html! {
+                                div(class="footnote", id=format_args!("footnote-{}", name)) {
+                                    sup(class="footnote-label") : s.footnote(name);
+                                    : s;
+                                }
                             }
-                        },
+                        }
                         Tag::Paragraph => tmpl << html! { p : s },
                         Tag::Rule => {
                             // Eat the end tag.
@@ -155,37 +156,49 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             6 => tmpl << html! { h6 : s },
                             _ => panic!(),
                         },
-                        Tag::Link(dest, title) => tmpl << html! {
-                            // TODO: Escape href?
-                            a(href = &*s.make_relative(dest),
-                              title? = if !title.is_empty() { Some(&*title) } else { None }) : s
-                        },
-                        Tag::Image(dest, title) => tmpl << html! {
-                            img(src = &*s.make_relative(dest),
-                                title? = if !title.is_empty() { Some(&*title) } else { None },
-                                alt = FnRenderer::new(|tmpl| {
-                                    let mut nest = 0;
-                                    while let Some(event) = s.iter.next() {
-                                        let tmpl = &mut *tmpl;
-                                        match event {
-                                            Start(_) => nest += 1,
-                                            End(_) if nest == 0 => break,
-                                            End(_) => nest -= 1,
-                                            Text(txt) => tmpl << &*txt,
-                                            SoftBreak | HardBreak => tmpl << " ",
-                                            FootnoteReference(_) | InlineHtml(_) | Html(_) => (),
+                        Tag::Link(dest, title) => {
+                            tmpl << html! {
+                                // TODO: Escape href?
+                                a(href = &*s.make_relative(dest),
+                                  title? = if !title.is_empty() { Some(&*title) } else { None }) : s
+                            }
+                        }
+                        Tag::Image(dest, title) => {
+                            tmpl << html! {
+                                img(src = &*s.make_relative(dest),
+                                    title? = if !title.is_empty() { Some(&*title) } else { None },
+                                    alt = FnRenderer::new(|tmpl| {
+                                        let mut nest = 0;
+                                        while let Some(event) = s.iter.next() {
+                                            let tmpl = &mut *tmpl;
+                                            match event {
+                                                Start(_) => nest += 1,
+                                                End(_) if nest == 0 => break,
+                                                End(_) => nest -= 1,
+                                                Text(txt) => tmpl << &*txt,
+                                                SoftBreak | HardBreak => tmpl << " ",
+                                                FootnoteReference(_)
+                                                    | InlineHtml(_)
+                                                    | Html(_) => (),
+                                            }
                                         }
-                                    }
-                                }))
-                        },
+                                    }))
+                            }
+                        }
                         Tag::CodeBlock(info) => {
                             // TODO Highlight code.
                             let lang = &*info.split(' ').next().unwrap();
                             // Why? Because the format_args and lifetimes...
                             match format_args!("language-{}", lang) {
-                                f => tmpl << html! {
-                                    pre {
-                                        code(class? = if !lang.is_empty() {Some(f)} else {None}) : s
+                                f => {
+                                    tmpl << html! {
+                                        pre {
+                                            code(class? = if !lang.is_empty() {
+                                                Some(f)
+                                            } else {
+                                                None
+                                            }) : s
+                                        }
                                     }
                                 }
                             }
@@ -193,11 +206,13 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 }
                 End(_) => break,
-                FootnoteReference(name) => tmpl << html! {
-                    sup(class="footnote-reference") {
-                        a(href=format_args!("{}/#footnote-{}", self.base, name)) : self.footnote(name);
+                FootnoteReference(name) => {
+                    tmpl << html! {
+                        sup(class="footnote-reference") {
+                            a(href=format_args!("{}/#footnote-{}", self.base, name)) : self.footnote(name);
+                        }
                     }
-                },
+                }
                 Text(text) => tmpl << &*text,
                 Html(html) | InlineHtml(html) => tmpl << Raw(html),
                 SoftBreak => tmpl << "\n",

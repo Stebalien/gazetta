@@ -18,12 +18,12 @@
 extern crate lazy_static;
 extern crate gazetta_core;
 
-mod util;
-mod person;
 mod link;
 mod meta;
+mod person;
+mod util;
 mod yaml;
 
-pub use meta::{SourceMeta, EntryMeta};
-pub use person::{Person, Key};
 pub use link::Link;
+pub use meta::{EntryMeta, SourceMeta};
+pub use person::{Key, Person};

@@ -17,14 +17,14 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use ::url::Url;
 use std::fmt::Write as WriteFmt;
+use url::Url;
 
+use super::Meta;
+use super::yaml::{self, Yaml};
+use super::{Entry, StaticEntry};
 use error::{AnnotatedError, SourceError};
 use util;
-use super::{Entry, StaticEntry};
-use super::yaml::{self, Yaml};
-use super::Meta;
 
 static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     case_sensitive: true,
@@ -37,8 +37,9 @@ static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
 /// The fields are intentionally public. Feel free to manually generate or modify this structure.
 #[derive(Debug, Clone)]
 pub struct Source<SourceMeta = (), EntryMeta = ()>
-    where SourceMeta: Meta,
-          EntryMeta: Meta
+where
+    SourceMeta: Meta,
+    EntryMeta: Meta,
 {
     /// The website's title.
     ///
@@ -99,26 +100,29 @@ pub struct Source<SourceMeta = (), EntryMeta = ()>
 }
 
 impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
-    where SourceMeta: Meta,
-          EntryMeta: Meta
+where
+    SourceMeta: Meta,
+    EntryMeta: Meta,
 {
     /// Build an index for an entry.
     ///
     /// This index includes all entries that "cc" this entry and all entries specified in this
     /// entry's index pattern.
     pub fn build_index(&self, entry: &Entry<EntryMeta>) -> Vec<&Entry<EntryMeta>> {
-        use ::model::index::SortDirection::*;
-        use ::model::index::SortField::*;
+        use model::index::SortDirection::*;
+        use model::index::SortField::*;
 
         if let Some(ref index) = entry.index {
             let mut child_entries: Vec<_> = self.entries
                 .iter()
                 .filter(|child| {
-                    child.cc.contains(&entry.name) ||
-                    index.directories.iter().any(|d| d.matches_with(&child.name, &MATCH_OPTIONS))
+                    child.cc.contains(&entry.name)
+                        || index
+                            .directories
+                            .iter()
+                            .any(|d| d.matches_with(&child.name, &MATCH_OPTIONS))
                 })
                 .collect();
-
 
             match (index.sort.direction, index.sort.field) {
                 (Ascending, Title) => child_entries.sort_by(|e1, e2| e1.title.cmp(&e2.title)),
@@ -174,10 +178,10 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                 let url = Url::parse(&base)?;
                 let host = url.host_str().ok_or("base url must have a host")?;
                 if url.fragment().is_some() {
-                    return Err("base url must not specify a fragment".into())
+                    return Err("base url must not specify a fragment".into());
                 }
                 if url.query().is_some() {
-                    return Err("base url must not specify a query".into())
+                    return Err("base url must not specify a query".into());
                 }
 
                 let prefix = url.path();
@@ -260,7 +264,11 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
         for dir_entry in try_annotate!(fs::read_dir(&base_dir), base_dir) {
             let dir_entry = try_annotate!(dir_entry, base_dir);
             let file_name = match dir_entry.file_name().into_string() {
-                Ok(s) => if s.starts_with('.') { continue } else { s },
+                Ok(s) => if s.starts_with('.') {
+                    continue;
+                } else {
+                    s
+                },
                 Err(s) => {
                     // Can't possibly be a file we care about but, if it isn't hidden, we want to
                     // return an error and bail.
@@ -268,8 +276,10 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                     if s.to_string_lossy().starts_with('.') {
                         continue;
                     } else {
-                        return Err(AnnotatedError::new(dir_entry.path(),
-                                                       "file names must be valid utf8".into()));
+                        return Err(AnnotatedError::new(
+                            dir_entry.path(),
+                            "file names must be valid utf8".into(),
+                        ));
                     }
                 }
             };
@@ -283,8 +293,8 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 
             if file_type.is_file() {
                 if Path::new(&file_name).file_stem().unwrap() == "index" {
-                    let entry = try_annotate!(Entry::from_file(dir_entry.path(), dir),
-                                              dir_entry.path());
+                    let entry =
+                        try_annotate!(Entry::from_file(dir_entry.path(), dir), dir_entry.path());
                     self.entries.push(entry);
                 }
             } else if file_type.is_dir() {
@@ -294,17 +304,17 @@ impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
                     format!("{}/{}", dir, &file_name)
                 };
                 match &file_name[..] {
-                    "static" => {
-                        self.static_entries.push(StaticEntry {
-                            name: name,
-                            source: dir_entry.path(),
-                        })
-                    }
+                    "static" => self.static_entries.push(StaticEntry {
+                        name: name,
+                        source: dir_entry.path(),
+                    }),
                     "index" => {
-                        return Err(AnnotatedError::new(dir_entry.path(),
-                                                       "paths ending in index are reserved for \
-                                                        indices"
-                                                           .into()))
+                        return Err(AnnotatedError::new(
+                            dir_entry.path(),
+                            "paths ending in index are reserved for \
+                             indices"
+                                .into(),
+                        ))
                     }
                     _ => self.load_entries(&name)?,
                 }

@@ -14,7 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use ::glob;
+use glob;
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum SortField {

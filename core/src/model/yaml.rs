@@ -14,12 +14,12 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::usize;
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 use std::path::Path;
-use yaml_rust::{YamlLoader, yaml};
+use std::usize;
+use yaml_rust::{yaml, YamlLoader};
 
 use error::SourceError;
 

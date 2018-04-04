@@ -15,9 +15,9 @@
 //
 
 mod index;
-mod site;
 mod page;
+mod site;
 
-pub use self::index::{Paginate, Index};
+pub use self::index::{Index, Paginate};
+pub use self::page::{Content, Page};
 pub use self::site::Site;
-pub use self::page::{Page, Content};

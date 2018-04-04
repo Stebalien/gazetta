@@ -14,21 +14,22 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::ops::Deref;
 use std::fmt;
+use std::ops::Deref;
 
-use ::render::Gazetta;
-use ::model::Date;
+use model::Date;
+use render::Gazetta;
 
-use ::model::Entry;
+use model::Entry;
 
 use super::Index;
 
 /// Represents an indevidual page to be rendered.
 pub struct Page<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
     /// The page's title.
     pub title: &'a str,
@@ -61,9 +62,10 @@ pub struct Page<'a, G>
 }
 
 impl<'a, G> Page<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
     /// Creates a page for an entry. This does *not* fill in the index.
     pub fn for_entry(entry: &'a Entry<G::PageMeta>) -> Self {
@@ -91,16 +93,18 @@ pub struct Content<'a> {
 // Implement these manually. Derive requires that G: Trait.
 
 impl<'a, G> Copy for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
 }
 
 impl<'a, G> Clone for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
     fn clone(&self) -> Self {
         *self
@@ -108,9 +112,10 @@ impl<'a, G> Clone for Page<'a, G>
 }
 
 impl<'a, G> fmt::Debug for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: fmt::Debug + 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: fmt::Debug + 'a,
+    G::SiteMeta: 'a,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("Page")
@@ -125,9 +130,10 @@ impl<'a, G> fmt::Debug for Page<'a, G>
 }
 
 impl<'a, G> Deref for Page<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
     type Target = G::PageMeta;
     fn deref(&self) -> &Self::Target {

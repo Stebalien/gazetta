@@ -28,9 +28,9 @@
 
 extern crate chrono;
 extern crate glob;
-extern crate yaml_rust;
 extern crate str_stack;
 extern crate url;
+extern crate yaml_rust;
 
 #[macro_use]
 extern crate horrorshow;
@@ -40,11 +40,11 @@ extern crate lazy_static;
 
 #[macro_use]
 pub mod error;
-pub mod render;
 pub mod model;
+pub mod render;
 pub mod util;
-pub mod yaml;
 pub mod view;
+pub mod yaml;
 
 pub mod prelude {
     pub use chrono::Datelike;

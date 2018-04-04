@@ -18,11 +18,11 @@ pub type Date = ::chrono::naive::NaiveDate;
 
 pub mod index;
 
-mod meta;
 mod entry;
+mod meta;
 mod source;
 mod yaml;
 
-pub use self::source::Source;
 pub use self::entry::{Entry, StaticEntry};
 pub use self::meta::Meta;
+pub use self::source::Source;

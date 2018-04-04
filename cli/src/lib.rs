@@ -14,22 +14,22 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-extern crate gazetta_core;
 extern crate chrono;
 extern crate clap;
+extern crate gazetta_core;
 extern crate slug;
 
-use std::{fs, process};
-use std::process::Command;
-use std::io::Write;
-use std::env;
-use std::path::{Path, PathBuf};
-use std::fs::File;
 use std::borrow::Cow;
+use std::env;
+use std::fs::File;
+use std::io::Write;
+use std::path::{Path, PathBuf};
+use std::process::Command;
+use std::{fs, process};
 
-use clap::{Arg, App, SubCommand};
-use gazetta_core::render::Gazetta;
+use clap::{App, Arg, SubCommand};
 use gazetta_core::model::Source;
+use gazetta_core::render::Gazetta;
 use slug::slugify;
 
 use chrono::offset::Local as Date;
@@ -40,7 +40,7 @@ macro_rules! try_exit {
             Ok(v) => v,
             Err(e) => bail!("{}", e),
         }
-    }
+    };
 }
 
 macro_rules! bail {
@@ -77,43 +77,60 @@ pub fn gen_completions<P: AsRef<Path>>(name: &str, directory: P) {
 fn build_argparser(name: &str) -> App {
     App::new(name)
         .version(env!("CARGO_PKG_VERSION"))
-        .arg(Arg::with_name("SOURCE")
-            .short("s")
-            .long("source")
-            .takes_value(true)
-            .help("Specify the source directory (defaults to the current directory)"))
-        .subcommand(SubCommand::with_name("render")
-            .about("Render the website")
-            .arg(Arg::with_name("FORCE")
-                .short("f")
-                .long("force")
-                .help("Overwrite any existing DEST."))
-            .arg(Arg::with_name("DEST")
-                .required(true)
-                .index(1)
-                .help("Destination directory")))
-        .subcommand(SubCommand::with_name("new")
-            .about("Create a new page")
-            .arg(Arg::with_name("EDIT")
-                .short("e")
-                .long("edit")
-                .help("Edit new page in your $EDITOR"))
-            .arg(Arg::with_name("WHERE")
-                .required(true)
-                .index(1)
-                .help("Directory in which to create the page"))
-            .arg(Arg::with_name("TITLE")
-                .required(true)
-                .index(2)
-                .help("The page title")))
-
+        .arg(
+            Arg::with_name("SOURCE")
+                .short("s")
+                .long("source")
+                .takes_value(true)
+                .help("Specify the source directory (defaults to the current directory)"),
+        )
+        .subcommand(
+            SubCommand::with_name("render")
+                .about("Render the website")
+                .arg(
+                    Arg::with_name("FORCE")
+                        .short("f")
+                        .long("force")
+                        .help("Overwrite any existing DEST."),
+                )
+                .arg(
+                    Arg::with_name("DEST")
+                        .required(true)
+                        .index(1)
+                        .help("Destination directory"),
+                ),
+        )
+        .subcommand(
+            SubCommand::with_name("new")
+                .about("Create a new page")
+                .arg(
+                    Arg::with_name("EDIT")
+                        .short("e")
+                        .long("edit")
+                        .help("Edit new page in your $EDITOR"),
+                )
+                .arg(
+                    Arg::with_name("WHERE")
+                        .required(true)
+                        .index(1)
+                        .help("Directory in which to create the page"),
+                )
+                .arg(
+                    Arg::with_name("TITLE")
+                        .required(true)
+                        .index(2)
+                        .help("The page title"),
+                ),
+        )
 }
 
 fn _run(render_paths: &RenderPaths) -> ! {
     let name = env::args().next().unwrap();
     let matches = build_argparser(&name).get_matches();
-    let source_path: Cow<Path> =
-        matches.value_of("SOURCE").map(|v| Cow::Borrowed(v.as_ref())).unwrap_or_else(|| {
+    let source_path: Cow<Path> = matches
+        .value_of("SOURCE")
+        .map(|v| Cow::Borrowed(v.as_ref()))
+        .unwrap_or_else(|| {
             let mut path = PathBuf::new();
             path.push(".");
             while path.exists() {
@@ -162,19 +179,19 @@ fn _run(render_paths: &RenderPaths) -> ! {
             println!("Created page: {}", path.display());
             if matches.is_present("EDIT") {
                 path.pop();
-                match Command::new(env::var_os("EDITOR")
+                match Command::new(
+                    env::var_os("EDITOR")
                         .as_ref()
                         .map(|p| &**p)
-                        .unwrap_or("vim".as_ref()))
-                    .arg("index.md")
+                        .unwrap_or("vim".as_ref()),
+                ).arg("index.md")
                     .current_dir(path)
-                    .status() {
-                    Ok(status) => {
-                        match status.code() {
-                            Some(code) => process::exit(code),
-                            None => bail!("Editor was killed."),
-                        }
-                    }
+                    .status()
+                {
+                    Ok(status) => match status.code() {
+                        Some(code) => process::exit(code),
+                        None => bail!("Editor was killed."),
+                    },
                     Err(e) => bail!("Failed to spawn editor: {}", e),
                 }
             }

@@ -13,20 +13,22 @@
 //  You should have received a copy of the GNU General Public License along with this program.  If
 //  not, see <http://www.gnu.org/licenses/>.
 //
-use horrorshow::prelude::*;
 use gazetta_core::render::Gazetta;
 use gazetta_core::view::Page;
+use horrorshow::prelude::*;
 
 /// Renders a page's content
 pub struct Content<'a, G>(pub &'a Page<'a, G>)
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a;
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a;
 
 impl<'a, G> RenderOnce for Content<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     fn render_once(self, tmpl: &mut TemplateBuffer) {
         self.render(tmpl);
@@ -34,9 +36,10 @@ impl<'a, G> RenderOnce for Content<'a, G>
 }
 
 impl<'a, G> RenderMut for Content<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         self.render(tmpl);
@@ -44,9 +47,10 @@ impl<'a, G> RenderMut for Content<'a, G>
 }
 
 impl<'a, G> Render for Content<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         match self.0.content.format {

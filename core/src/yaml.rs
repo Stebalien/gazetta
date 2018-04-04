@@ -14,5 +14,5 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-pub use yaml_rust::{Yaml, ScanError};
-pub use yaml_rust::yaml::{Hash, Array};
+pub use yaml_rust::yaml::{Array, Hash};
+pub use yaml_rust::{ScanError, Yaml};

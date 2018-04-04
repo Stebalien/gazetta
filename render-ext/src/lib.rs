@@ -13,18 +13,18 @@
 //  You should have received a copy of the GNU General Public License along with this program.  If
 //  not, see <http://www.gnu.org/licenses/>.
 //
-extern crate pulldown_cmark;
 extern crate gazetta_core;
+extern crate pulldown_cmark;
 
 #[macro_use]
 extern crate horrorshow;
 
-mod markdown;
 mod assets;
-mod date;
 mod content;
+mod date;
+mod markdown;
 
-pub use markdown::Markdown;
 pub use assets::Assets;
-pub use date::Date;
 pub use content::Content;
+pub use date::Date;
+pub use markdown::Markdown;

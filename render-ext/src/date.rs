@@ -13,9 +13,9 @@
 //  You should have received a copy of the GNU General Public License along with this program.  If
 //  not, see <http://www.gnu.org/licenses/>.
 //
-use horrorshow::prelude::*;
-use gazetta_core::prelude::*;
 use gazetta_core::model::Date as DateModel;
+use gazetta_core::prelude::*;
+use horrorshow::prelude::*;
 
 pub struct Date<'a>(pub &'a DateModel);
 
@@ -33,8 +33,7 @@ impl<'a> RenderMut for Date<'a> {
 
 impl<'a> Render for Date<'a> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
-        tmpl <<
-        html! {
+        tmpl << html! {
             time(datetime=format_args!("{:04}-{:02}-{:02}",
                                        self.0.year(),
                                        self.0.month(),

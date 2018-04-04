@@ -13,20 +13,22 @@
 //  You should have received a copy of the GNU General Public License along with this program.  If
 //  not, see <http://www.gnu.org/licenses/>.
 //
-use horrorshow::prelude::*;
-use gazetta_core::view::Site;
 use gazetta_core::render::Gazetta;
+use gazetta_core::view::Site;
+use horrorshow::prelude::*;
 
 /// Renders common head tags for a site and page.
 pub struct Assets<'a, G>(pub &'a Site<'a, G>)
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a;
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a;
 
 impl<'a, G> RenderOnce for Assets<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     fn render_once(self, tmpl: &mut TemplateBuffer) {
         self.render(tmpl)
@@ -34,9 +36,10 @@ impl<'a, G> RenderOnce for Assets<'a, G>
 }
 
 impl<'a, G> RenderMut for Assets<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         self.render(tmpl)
@@ -44,13 +47,13 @@ impl<'a, G> RenderMut for Assets<'a, G>
 }
 
 impl<'a, G> Render for Assets<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a,
-          G::PageMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
+    G::PageMeta: 'a,
 {
     fn render(&self, tmpl: &mut TemplateBuffer) {
-        tmpl <<
-        html! {
+        tmpl << html! {
             base(href=self.0.prefix);
             @ if let Some(css) = self.0.stylesheets {
                 link(rel="stylesheet", href=css);

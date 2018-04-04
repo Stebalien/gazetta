@@ -14,10 +14,10 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::ops::Deref;
 use std::fmt;
+use std::ops::Deref;
 
-use ::render::Gazetta;
+use render::Gazetta;
 
 /// A "website"
 ///
@@ -36,8 +36,9 @@ use ::render::Gazetta;
 /// }
 /// ```
 pub struct Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
 {
     /// The website's title
     pub title: &'a str,
@@ -57,8 +58,9 @@ pub struct Site<'a, G>
 }
 
 impl<'a, G> Deref for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::SiteMeta: 'a,
 {
     type Target = G::SiteMeta;
     fn deref(&self) -> &Self::Target {
@@ -67,16 +69,18 @@ impl<'a, G> Deref for Site<'a, G>
 }
 
 impl<'a, G> Copy for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
 }
 
 impl<'a, G> Clone for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
 {
     fn clone(&self) -> Self {
         *self
@@ -86,9 +90,10 @@ impl<'a, G> Clone for Site<'a, G>
 // Manually implement because rust isn't correctly adding the Debug constraint
 // when deriving.
 impl<'a, G> fmt::Debug for Site<'a, G>
-    where G: Gazetta + 'a,
-          G::PageMeta: 'a,
-          G::SiteMeta: fmt::Debug + 'a
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: fmt::Debug + 'a,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("Page")

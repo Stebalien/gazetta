@@ -17,10 +17,10 @@
 //! This is the API documentation for gazetta. If you just want to use gazetta, see the
 //! [homepage](http://stebalien.com/projects/gazetta).
 
-extern crate gazetta_core;
 extern crate gazetta_cli;
-extern crate gazetta_render_ext;
+extern crate gazetta_core;
 extern crate gazetta_model_ext;
+extern crate gazetta_render_ext;
 
 pub mod view {
     pub use gazetta_core::view::*;
@@ -51,10 +51,10 @@ pub mod cli {
 }
 
 #[doc(no_inline)]
+pub use error::{AnnotatedError, RenderError, SourceError};
+#[doc(no_inline)]
+pub use model::{EntryMeta, Meta, Source, SourceMeta};
+#[doc(no_inline)]
 pub use render::Gazetta;
 #[doc(no_inline)]
 pub use view::{Page, Site};
-#[doc(no_inline)]
-pub use model::{Source, Meta, SourceMeta, EntryMeta};
-#[doc(no_inline)]
-pub use error::{AnnotatedError, SourceError, RenderError};

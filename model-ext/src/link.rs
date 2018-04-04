@@ -40,7 +40,10 @@ impl Link {
 
     pub fn many_from_yaml(links: Yaml) -> Result<Vec<Self>, &'static str> {
         Ok(match links {
-            Yaml::Array(links) => links.into_iter().map(Link::from_yaml).collect::<Result<_, _>>()?,
+            Yaml::Array(links) => links
+                .into_iter()
+                .map(Link::from_yaml)
+                .collect::<Result<_, _>>()?,
             _ => return Err("lists of links need to be arrays"),
         })
     }
