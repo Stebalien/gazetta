@@ -29,11 +29,13 @@ pub struct SourceMeta {
 impl Meta for SourceMeta {
     fn from_yaml(mut meta: Hash) -> Result<SourceMeta, &'static str> {
         Ok(SourceMeta {
-            nav: meta.remove(&NAV)
+            nav: meta
+                .remove(&NAV)
                 .map(Link::many_from_yaml)
                 .bubble_result()?
                 .unwrap_or_else(Vec::new),
-            author: meta.remove(&AUTHOR)
+            author: meta
+                .remove(&AUTHOR)
                 .map(Person::from_yaml)
                 .bubble_result()?
                 .ok_or("websites must have authors")?,
@@ -49,7 +51,10 @@ pub struct EntryMeta {
 impl Meta for EntryMeta {
     fn from_yaml(mut meta: Hash) -> Result<EntryMeta, &'static str> {
         Ok(EntryMeta {
-            author: meta.remove(&AUTHOR).map(Person::from_yaml).bubble_result()?,
+            author: meta
+                .remove(&AUTHOR)
+                .map(Person::from_yaml)
+                .bubble_result()?,
             about: meta.remove(&ABOUT).map(Person::from_yaml).bubble_result()?,
         })
     }

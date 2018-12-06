@@ -33,7 +33,7 @@ macro_rules! try_annotate {
                 return Err($crate::error::AnnotatedError::new(
                     ($l).to_owned(),
                     From::from(e),
-                ))
+                ));
             }
         }
     };

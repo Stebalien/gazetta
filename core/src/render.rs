@@ -170,7 +170,8 @@ pub trait Gazetta: Sized {
                                     }),
                                     ..page
                                 }, tmpl);
-                            }.write_to_io(&mut BufWriter::new(index_file)),
+                            }
+                            .write_to_io(&mut BufWriter::new(index_file)),
                             index_file_path
                         );
                     } else {
@@ -208,7 +209,8 @@ pub trait Gazetta: Sized {
                                         href: href,
                                         ..page
                                     }, tmpl);
-                                }.write_to_io(&mut BufWriter::new(index_file)),
+                                }
+                                .write_to_io(&mut BufWriter::new(index_file)),
                                 index_file_path
                             );
                         }
@@ -229,7 +231,8 @@ pub trait Gazetta: Sized {
                                 }),
                                 ..page
                             }, tmpl);
-                        }.write_to_io(&mut BufWriter::new(index_file)),
+                        }
+                        .write_to_io(&mut BufWriter::new(index_file)),
                         index_file_path
                     );
                 }
@@ -242,7 +245,8 @@ pub trait Gazetta: Sized {
                 try_annotate!(
                     html! {
                         |tmpl| self.render_page(&site, &page, tmpl);
-                    }.write_to_io(&mut BufWriter::new(index_file)),
+                    }
+                    .write_to_io(&mut BufWriter::new(index_file)),
                     index_file_path
                 );
             }

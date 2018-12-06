@@ -217,7 +217,8 @@ where
             },
             cc: match meta.remove(&yaml::CC) {
                 Some(Yaml::String(cc)) => vec![cc],
-                Some(Yaml::Array(cc)) => cc.into_iter()
+                Some(Yaml::Array(cc)) => cc
+                    .into_iter()
                     .map(|v| match v {
                         Yaml::String(ci) => Ok(ci),
                         _ => Err(SourceError::from("invlaid cc value")),

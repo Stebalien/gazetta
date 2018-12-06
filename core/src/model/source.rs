@@ -20,8 +20,8 @@ use std::path::{Path, PathBuf};
 use std::fmt::Write as WriteFmt;
 use url::Url;
 
-use super::Meta;
 use super::yaml::{self, Yaml};
+use super::Meta;
 use super::{Entry, StaticEntry};
 use error::{AnnotatedError, SourceError};
 use util;
@@ -113,7 +113,8 @@ where
         use model::index::SortField::*;
 
         if let Some(ref index) = entry.index {
-            let mut child_entries: Vec<_> = self.entries
+            let mut child_entries: Vec<_> = self
+                .entries
                 .iter()
                 .filter(|child| {
                     child.cc.contains(&entry.name)
@@ -264,11 +265,13 @@ where
         for dir_entry in try_annotate!(fs::read_dir(&base_dir), base_dir) {
             let dir_entry = try_annotate!(dir_entry, base_dir);
             let file_name = match dir_entry.file_name().into_string() {
-                Ok(s) => if s.starts_with('.') {
-                    continue;
-                } else {
-                    s
-                },
+                Ok(s) => {
+                    if s.starts_with('.') {
+                        continue;
+                    } else {
+                        s
+                    }
+                }
                 Err(s) => {
                     // Can't possibly be a file we care about but, if it isn't hidden, we want to
                     // return an error and bail.
@@ -314,7 +317,7 @@ where
                             "paths ending in index are reserved for \
                              indices"
                                 .into(),
-                        ))
+                        ));
                     }
                     _ => self.load_entries(&name)?,
                 }
