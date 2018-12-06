@@ -51,10 +51,10 @@ pub mod cli {
 }
 
 #[doc(no_inline)]
-pub use error::{AnnotatedError, RenderError, SourceError};
+pub use crate::error::{AnnotatedError, RenderError, SourceError};
 #[doc(no_inline)]
-pub use model::{EntryMeta, Meta, Source, SourceMeta};
+pub use crate::model::{EntryMeta, Meta, Source, SourceMeta};
 #[doc(no_inline)]
-pub use render::Gazetta;
+pub use crate::render::Gazetta;
 #[doc(no_inline)]
-pub use view::{Page, Site};
+pub use crate::view::{Page, Site};

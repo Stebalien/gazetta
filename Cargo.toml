@@ -12,6 +12,7 @@ homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
 keywords = ["staticsite", "website", "blog"]
 license = "GPL-3.0"
+edition = "2018"
 
 [dependencies.gazetta-core]
 path = "core"
