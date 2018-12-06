@@ -15,4 +15,4 @@ version = "0.2.1"
 
 [dependencies]
 horrorshow = "0.6"
-pulldown-cmark = "0.1.2"
+pulldown-cmark = "0.2.0"
