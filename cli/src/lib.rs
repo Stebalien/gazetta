@@ -21,6 +21,7 @@ extern crate slug;
 
 use std::borrow::Cow;
 use std::env;
+use std::error::Error;
 use std::fs::File;
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -34,37 +35,25 @@ use slug::slugify;
 
 use chrono::offset::Local as Date;
 
-macro_rules! try_exit {
-    ($e:expr) => {
-        match $e {
-            Ok(v) => v,
-            Err(e) => bail!("{}", e),
-        }
-    };
-}
-
-macro_rules! bail {
-    ($($toks:tt)*) => {{
-        eprintln!($($toks)*);
-        process::exit(1)
-    }}
-}
-
 // Internal trait to use dynamic dispatch instead of monomorphizing run.
 trait RenderPaths {
-    fn render_paths(&self, source_path: &Path, dest_path: &Path);
+    fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<Error>>;
 }
 
 impl<G: Gazetta> RenderPaths for G {
-    fn render_paths(&self, source_path: &Path, dest_path: &Path) {
-        let source = try_exit!(Source::new(&source_path));
-        try_exit!(self.render(&source, &dest_path));
+    fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<Error>> {
+        let source = Source::new(&source_path)?;
+        self.render(&source, &dest_path)?;
+        Ok(())
     }
 }
 
 /// Run the CLI.
 pub fn run<G: Gazetta>(gazetta: G) -> ! {
-    _run(&gazetta)
+    process::exit(_run(&gazetta).unwrap_or_else(|e| {
+        eprintln!("{}", e);
+        1
+    }))
 }
 
 pub fn gen_completions<P: AsRef<Path>>(name: &str, directory: P) {
@@ -124,13 +113,13 @@ fn build_argparser(name: &str) -> App {
         )
 }
 
-fn _run(render_paths: &RenderPaths) -> ! {
+fn _run(render_paths: &RenderPaths) -> Result<i32, Box<Error>> {
     let name = env::args().next().unwrap();
     let matches = build_argparser(&name).get_matches();
     let source_path: Cow<Path> = matches
         .value_of("SOURCE")
         .map(|v| Cow::Borrowed(v.as_ref()))
-        .unwrap_or_else(|| {
+        .or_else(|| {
             let mut path = PathBuf::new();
             path.push(".");
             while path.exists() {
@@ -138,44 +127,45 @@ fn _run(render_paths: &RenderPaths) -> ! {
                 let is_root = path.exists();
                 path.pop();
                 if is_root {
-                    return Cow::Owned(path);
+                    return Some(Cow::Owned(path));
                 }
                 path.push("..");
             }
-            bail!("Could not find a gazetta config in this directory or any parent directories.");
-        });
+            None
+        })
+        .ok_or("Could not find a gazetta config in this directory or any parent directories.")?;
 
     match matches.subcommand() {
         ("render", Some(matches)) => {
             let dest_path: &Path = matches.value_of("DEST").unwrap().as_ref();
             if fs::metadata(&dest_path).is_ok() {
                 if matches.is_present("FORCE") {
-                    match fs::remove_dir_all(dest_path) {
-                        Ok(_) => (),
-                        Err(e) => bail!("Failed to remove '{}': {}", dest_path.display(), e),
-                    }
+                    fs::remove_dir_all(dest_path).map_err(|e| {
+                        format!("Failed to remove '{}': {}", dest_path.display(), e)
+                    })?;
                 } else {
-                    bail!("Target '{}' exists.", dest_path.display());
+                    return Err(format!("Target '{}' exists.", dest_path.display()).into());
                 }
             }
-            render_paths.render_paths(&source_path, dest_path);
+            render_paths.render_paths(&source_path, dest_path)?;
+            Ok(0)
         }
         ("new", Some(matches)) => {
             let mut path: PathBuf = matches.value_of("WHERE").unwrap().into();
             let title = matches.value_of("TITLE").unwrap();
             path.push(slugify(&title));
-            if fs::metadata(&path).is_ok() {
-                bail!("Directory '{}' exists.", path.display());
+            if path.exists() {
+                return Err(format!("Directory '{}' exists.", path.display()).into());
             }
-            if let Err(e) = fs::create_dir(&path) {
-                bail!("Failed to create directory '{}': {}", path.display(), e);
-            }
+            fs::create_dir(&path)
+                .map_err(|e| format!("Failed to create directory '{}': {}", path.display(), e))?;
+
             path.push("index.md");
-            let mut file = try_exit!(File::create(&path));
-            try_exit!(writeln!(file, "---"));
-            try_exit!(writeln!(file, "title: {}", &title));
-            try_exit!(writeln!(file, "date: {}", Date::today().format("%Y-%m-%d")));
-            try_exit!(writeln!(file, "---"));
+            let mut file = File::create(&path)?;
+            writeln!(file, "---")?;
+            writeln!(file, "title: {}", &title)?;
+            writeln!(file, "date: {}", Date::today().format("%Y-%m-%d"))?;
+            writeln!(file, "---")?;
             println!("Created page: {}", path.display());
             if matches.is_present("EDIT") {
                 path.pop();
@@ -184,21 +174,21 @@ fn _run(render_paths: &RenderPaths) -> ! {
                         .as_ref()
                         .map(|p| &**p)
                         .unwrap_or_else(|| "vim".as_ref()),
-                ).arg("index.md")
-                    .current_dir(path)
-                    .status()
+                )
+                .arg("index.md")
+                .current_dir(path)
+                .status()
                 {
                     Ok(status) => match status.code() {
-                        Some(code) => process::exit(code),
-                        None => bail!("Editor was killed."),
+                        Some(code) => Ok(code),
+                        None => Err("Editor was killed.".into()),
                     },
-                    Err(e) => bail!("Failed to spawn editor: {}", e),
+                    Err(e) => Err(format!("Failed to spawn editor: {}", e).into()),
                 }
+            } else {
+                Ok(0)
             }
         }
-        _ => {
-            bail!("{}", matches.usage());
-        }
+        _ => return Err(matches.usage().into()),
     }
-    process::exit(0)
 }
