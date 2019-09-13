@@ -19,11 +19,13 @@ use std::io::prelude::*;
 use std::io::{self, BufReader};
 use std::path::Path;
 use std::usize;
+
+use lazy_static::lazy_static;
 use yaml_rust::{yaml, YamlLoader};
 
-use error::SourceError;
+use crate::error::SourceError;
 
-pub use yaml::*;
+pub use crate::yaml::*;
 
 lazy_static! {
     pub static ref TITLE: Yaml = Yaml::String("title".into());
@@ -46,12 +48,12 @@ fn _load_front(path: &Path) -> Result<(yaml::Hash, String), SourceError> {
     let mut buf = String::with_capacity(100);
     let mut file = BufReader::new(File::open(path)?);
     file.read_line(&mut buf)?;
-    if buf.trim_right() == "---" {
+    if buf.trim_end() == "---" {
         // Parse yaml header.
         loop {
             match file.read_line(&mut buf) {
                 Ok(len) => {
-                    match buf[buf.len() - len..].trim_right() {
+                    match buf[buf.len() - len..].trim_end() {
                         "..." => break,
                         "---" => {
                             let end = buf.len() - len;

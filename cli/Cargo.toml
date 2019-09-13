@@ -1,6 +1,6 @@
 [package]
 name = "gazetta-cli"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 description = "A static site generator framework. Shared CLI code."
 documentation = "https://stebalien.github.io/gazetta/gazetta_cli/"
@@ -8,14 +8,15 @@ homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
 keywords = ["staticsite", "website", "blog"]
 license = "GPL-3.0"
+edition = "2018"
 
 [dependencies.gazetta-core]
 path = "../core"
-version = "0.2.1"
+version = "0.3.0"
 
 [dependencies]
 slug = "0.1"
 lazy_static = "1.0"
 chrono = "0.4"
 clap = "^2.9"
-horrorshow = "0.6"
+horrorshow = "0.7"

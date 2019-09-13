@@ -54,7 +54,9 @@ where
 {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         match self.0.content.format {
-            "mkd" | "md" | "markdown" => tmpl << ::Markdown::new(self.0.content.data, self.0.href),
+            "mkd" | "md" | "markdown" => {
+                tmpl << crate::Markdown::new(self.0.content.data, self.0.href)
+            }
             "html" => tmpl << Raw(self.0.content.data),
             "" | "text" | "txt" => tmpl << self.0.content.data,
             format => tmpl.record_error(format!("unknown format '{}'", format)),

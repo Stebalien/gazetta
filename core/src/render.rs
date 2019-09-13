@@ -18,13 +18,15 @@ use std::fs::{self, File};
 use std::io::{self, BufWriter};
 use std::path::Path;
 
-use error::{AnnotatedError, RenderError};
+use horrorshow::html;
 use horrorshow::prelude::*;
-use model::{Meta, Source};
 use std::collections::hash_map::DefaultHasher;
 use str_stack::StrStack;
-use util::{self, StreamHasher};
-use view::{Index, Page, Paginate, Site};
+
+use crate::error::{AnnotatedError, RenderError};
+use crate::model::{Meta, Source};
+use crate::util::{self, StreamHasher};
+use crate::view::{Index, Page, Paginate, Site};
 
 /// Compiles a set of files into a single asset by concatinating them. This
 /// function also hashes the files so they can be cached.

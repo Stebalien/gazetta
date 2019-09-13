@@ -16,10 +16,11 @@
 
 use gazetta_core::model::Meta;
 use gazetta_core::yaml::Hash;
-use link::Link;
-use person::Person;
-use util::BubbleResult;
-use yaml::*;
+
+use crate::link::Link;
+use crate::person::Person;
+use crate::util::BubbleResult;
+use crate::yaml::*;
 
 pub struct SourceMeta {
     pub nav: Vec<Link>,

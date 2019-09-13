@@ -14,11 +14,6 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-extern crate chrono;
-extern crate clap;
-extern crate gazetta_core;
-extern crate slug;
-
 use std::borrow::Cow;
 use std::env;
 use std::error::Error;
@@ -37,11 +32,11 @@ use chrono::offset::Local as Date;
 
 // Internal trait to use dynamic dispatch instead of monomorphizing run.
 trait RenderPaths {
-    fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<Error>>;
+    fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<dyn Error>>;
 }
 
 impl<G: Gazetta> RenderPaths for G {
-    fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<Error>> {
+    fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<dyn Error>> {
         let source = Source::new(&source_path)?;
         self.render(&source, &dest_path)?;
         Ok(())
@@ -113,7 +108,7 @@ fn build_argparser(name: &str) -> App {
         )
 }
 
-fn _run(render_paths: &RenderPaths) -> Result<i32, Box<Error>> {
+fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
     let name = env::args().next().unwrap();
     let matches = build_argparser(&name).get_matches();
     let source_path: Cow<Path> = matches
@@ -189,6 +184,6 @@ fn _run(render_paths: &RenderPaths) -> Result<i32, Box<Error>> {
                 Ok(0)
             }
         }
-        _ => return Err(matches.usage().into()),
+        _ => Err(matches.usage().into()),
     }
 }

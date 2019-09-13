@@ -15,6 +15,7 @@
 //
 use gazetta_core::model::Date as DateModel;
 use gazetta_core::prelude::*;
+use horrorshow::html;
 use horrorshow::prelude::*;
 
 pub struct Date<'a>(pub &'a DateModel);

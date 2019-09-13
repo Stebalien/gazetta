@@ -14,9 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-#[macro_use]
-extern crate lazy_static;
-extern crate gazetta_core;
+#![allow(clippy::redundant_field_names)]
 
 mod link;
 mod meta;
@@ -24,6 +22,6 @@ mod person;
 mod util;
 mod yaml;
 
-pub use link::Link;
-pub use meta::{EntryMeta, SourceMeta};
-pub use person::{Key, Person};
+pub use crate::link::Link;
+pub use crate::meta::{EntryMeta, SourceMeta};
+pub use crate::person::{Key, Person};

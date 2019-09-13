@@ -14,14 +14,15 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use horrorshow;
 use std::borrow::Cow;
 use std::fmt;
 use std::io;
 use std::path::PathBuf;
 
 use glob::PatternError;
-use yaml::ScanError;
+use horrorshow;
+
+use crate::yaml::ScanError;
 
 use std::error::Error;
 
@@ -55,7 +56,7 @@ impl Error for SourceError {
             Config(..) => "config error",
         }
     }
-    fn cause(&self) -> Option<&Error> {
+    fn cause(&self) -> Option<&dyn Error> {
         use self::SourceError::*;
         match *self {
             Read(ref e) => Some(e),
@@ -102,7 +103,7 @@ where
     fn description(&self) -> &str {
         self.error.description()
     }
-    fn cause(&self) -> Option<&Error> {
+    fn cause(&self) -> Option<&dyn Error> {
         Some(&self.error)
     }
 }

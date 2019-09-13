@@ -14,10 +14,12 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use horrorshow::prelude::*;
-use pulldown_cmark::{Event, Options, Parser};
-use std::borrow::Cow;
 use std::collections::HashMap;
+use std::convert::TryFrom;
+
+use horrorshow::html;
+use horrorshow::prelude::*;
+use pulldown_cmark::{CowStr, Event, InlineStr, Options, Parser};
 
 /// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -68,30 +70,34 @@ impl<'a> Render for Markdown<'a> {
 
 struct RenderMarkdown<'a, I> {
     iter: I,
-    footnotes: HashMap<Cow<'a, str>, u32>,
+    footnotes: HashMap<CowStr<'a>, u32>,
     base: &'a str,
 }
 
 impl<'a, I> RenderMarkdown<'a, I> {
-    fn footnote(&mut self, name: Cow<'a, str>) -> u32 {
+    fn footnote(&mut self, name: CowStr<'a>) -> u32 {
         let next_idx = (self.footnotes.len() as u32) + 1;
         *self.footnotes.entry(name).or_insert(next_idx)
     }
 
-    fn make_relative<'b>(&self, dest: Cow<'b, str>) -> Cow<'b, str> {
+    fn make_relative<'b>(&self, dest: CowStr<'b>) -> CowStr<'b> {
         if dest.starts_with("./") {
             if self.base.is_empty() {
                 match dest {
-                    Cow::Borrowed(v) => Cow::Borrowed(&v[2..]),
-                    Cow::Owned(mut v) => {
-                        // There has to be a better way...
-                        v.remove(0);
-                        v.remove(0);
-                        Cow::Owned(v)
+                    CowStr::Borrowed(v) => CowStr::Borrowed(&v[2..]),
+                    CowStr::Boxed(v) => InlineStr::try_from(&v[2..])
+                        .map(CowStr::Inlined)
+                        .unwrap_or_else(|_| {
+                            let mut s: String = v.into();
+                            s.replace_range(0..2, "");
+                            CowStr::Boxed(s.into_boxed_str())
+                        }),
+                    CowStr::Inlined(inlined) => {
+                        CowStr::Inlined(InlineStr::try_from(&inlined[2..]).unwrap())
                     }
                 }
             } else {
-                Cow::Owned(format!("{}/{}", self.base, &dest[2..]))
+                CowStr::Boxed(format!("{}/{}", self.base, &dest[2..]).into())
             }
         } else {
             dest
@@ -127,14 +133,6 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             }
                         }
                         Tag::Paragraph => tmpl << html! { p : s },
-                        Tag::Rule => {
-                            // Eat the end tag.
-                            match s.iter.next() {
-                                Some(End(Tag::Rule)) => (),
-                                _ => panic!("stuff inside horizontal rule tag?"),
-                            }
-                            tmpl << html! { hr; }
-                        }
                         Tag::BlockQuote => tmpl << html! { blockquote : s },
                         Tag::Table(_) => tmpl << html! { table : s },
                         Tag::TableHead => tmpl << html! { thead { tr : s } },
@@ -145,9 +143,9 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                         Tag::List(None) => tmpl << html! { ul : s },
                         Tag::Item => tmpl << html! { li : s },
                         Tag::Emphasis => tmpl << html! { em: s },
+                        Tag::Strikethrough => tmpl << html! { s: s },
                         Tag::Strong => tmpl << html! { strong: s },
-                        Tag::Code => tmpl << html! { code: s },
-                        Tag::Header(level) => match level {
+                        Tag::Heading(level) => match level {
                             1 => tmpl << html! { h1 : s },
                             2 => tmpl << html! { h2 : s },
                             3 => tmpl << html! { h3 : s },
@@ -156,14 +154,14 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             6 => tmpl << html! { h6 : s },
                             _ => panic!(),
                         },
-                        Tag::Link(dest, title) => {
+                        Tag::Link(_, dest, title) => {
                             tmpl << html! {
                                 // TODO: Escape href?
                                 a(href = &*s.make_relative(dest),
                                   title? = if !title.is_empty() { Some(&*title) } else { None }) : s
                             }
                         }
-                        Tag::Image(dest, title) => {
+                        Tag::Image(_, dest, title) => {
                             tmpl << html! {
                                 img(src = &*s.make_relative(dest),
                                     title? = if !title.is_empty() { Some(&*title) } else { None },
@@ -172,13 +170,16 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                         while let Some(event) = s.iter.next() {
                                             let tmpl = &mut *tmpl;
                                             match event {
-                                                Start(_) => nest += 1,
-                                                End(_) if nest == 0 => break,
-                                                End(_) => nest -= 1,
-                                                Text(txt) => tmpl << &*txt,
-                                                SoftBreak | HardBreak => tmpl << " ",
-                                                FootnoteReference(_)
-                                                    | InlineHtml(_)
+                                                | Start(_) => nest += 1,
+                                                | End(_) if nest == 0 => break,
+                                                | End(_) => nest -= 1,
+                                                | Text(txt) => tmpl << &*txt,
+                                                | SoftBreak
+                                                    | HardBreak => tmpl << " ",
+                                                | Rule =>  (),
+                                                | Code(_)
+                                                    | TaskListMarker(_)
+                                                    | FootnoteReference(_)
                                                     | Html(_) => (),
                                             }
                                         }
@@ -206,6 +207,13 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 }
                 End(_) => break,
+                Code(s) => tmpl << html! { code: s.as_ref() },
+                Rule => tmpl << html! { hr; },
+                TaskListMarker(checked) => {
+                    tmpl << html! {
+                        input(type="checkbox", checked?=checked, disabled?=true);
+                    }
+                }
                 FootnoteReference(name) => {
                     tmpl << html! {
                         sup(class="footnote-reference") {
@@ -214,7 +222,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 }
                 Text(text) => tmpl << &*text,
-                Html(html) | InlineHtml(html) => tmpl << Raw(html),
+                Html(html) => tmpl << Raw(html),
                 SoftBreak => tmpl << "\n",
                 HardBreak => tmpl << html! { br },
             };

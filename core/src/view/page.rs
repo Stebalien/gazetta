@@ -17,10 +17,9 @@
 use std::fmt;
 use std::ops::Deref;
 
-use model::Date;
-use render::Gazetta;
-
-use model::Entry;
+use crate::model::Date;
+use crate::model::Entry;
+use crate::render::Gazetta;
 
 use super::Index;
 

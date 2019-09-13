@@ -15,12 +15,11 @@
 //
 
 use std::fs::{self, File};
+use std::hash::Hasher;
 use std::io;
 use std::path::{Path, PathBuf};
 
-use std::hash::Hasher;
-
-use error::AnnotatedError;
+use crate::error::AnnotatedError;
 
 /// Recursivly copy a directory.
 ///

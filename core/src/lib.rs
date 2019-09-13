@@ -26,18 +26,6 @@
 //! [project]: http://stebalien.com/projects/gazetta
 //! [gazetta]: http://github.com/Stebalien/gazetta
 
-extern crate chrono;
-extern crate glob;
-extern crate str_stack;
-extern crate url;
-extern crate yaml_rust;
-
-#[macro_use]
-extern crate horrorshow;
-
-#[macro_use]
-extern crate lazy_static;
-
 #[macro_use]
 pub mod error;
 pub mod model;
@@ -48,5 +36,6 @@ pub mod yaml;
 
 pub mod prelude {
     pub use chrono::Datelike;
-    pub use render::Gazetta;
+
+    pub use crate::render::Gazetta;
 }

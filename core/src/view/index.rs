@@ -16,7 +16,7 @@
 
 use std::fmt;
 
-use render::Gazetta;
+use crate::render::Gazetta;
 
 use super::Page;
 

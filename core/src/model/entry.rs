@@ -16,8 +16,9 @@
 
 use std::path::{Path, PathBuf};
 
-use error::SourceError;
 use glob;
+
+use crate::error::SourceError;
 
 use super::index::{self, Index};
 use super::yaml::{self, Yaml};
@@ -160,12 +161,12 @@ where
                 }),
                 Some(Yaml::Hash(mut index)) => Some(Index {
                     paginate: match index.remove(&yaml::PAGINATE) {
-                        Some(Yaml::Integer(i @ 1...U32_MAX_AS_I64)) => Some(i as u32),
+                        Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
                         Some(Yaml::Boolean(false)) | None => None,
                         Some(..) => return Err("invalid pagination setting".into()),
                     },
                     max: match index.remove(&yaml::MAX) {
-                        Some(Yaml::Integer(i @ 1...U32_MAX_AS_I64)) => Some(i as u32),
+                        Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
                         Some(Yaml::Boolean(false)) | None => None,
                         Some(..) => return Err("invalid max setting".into()),
                     },

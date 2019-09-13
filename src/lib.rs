@@ -17,10 +17,7 @@
 //! This is the API documentation for gazetta. If you just want to use gazetta, see the
 //! [homepage](http://stebalien.com/projects/gazetta).
 
-extern crate gazetta_cli;
-extern crate gazetta_core;
-extern crate gazetta_model_ext;
-extern crate gazetta_render_ext;
+#![allow(clippy::redundant_field_names)]
 
 pub mod view {
     pub use gazetta_core::view::*;

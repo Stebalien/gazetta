@@ -17,7 +17,7 @@
 use std::fmt;
 use std::ops::Deref;
 
-use render::Gazetta;
+use crate::render::Gazetta;
 
 /// A "website"
 ///

@@ -14,10 +14,11 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use link::Link;
 use std::fmt;
-use util::BubbleResult;
-use yaml::*;
+
+use crate::link::Link;
+use crate::util::BubbleResult;
+use crate::yaml::*;
 
 #[derive(Debug, Clone)]
 pub struct Person {

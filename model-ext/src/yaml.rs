@@ -14,6 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 pub use gazetta_core::yaml::Yaml;
+use lazy_static::lazy_static;
 
 lazy_static! {
     pub static ref NAV: Yaml = Yaml::String(String::from("nav"));

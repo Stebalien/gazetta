@@ -14,7 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use yaml;
+use crate::yaml;
 
 pub trait Meta: Sized {
     fn from_yaml(yaml: yaml::Hash) -> Result<Self, &'static str>;

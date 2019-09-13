@@ -20,13 +20,14 @@ use std::path::{Path, PathBuf};
 use std::fmt::Write as WriteFmt;
 use url::Url;
 
+use crate::error::{AnnotatedError, SourceError};
+use crate::util;
+
 use super::yaml::{self, Yaml};
 use super::Meta;
 use super::{Entry, StaticEntry};
-use error::{AnnotatedError, SourceError};
-use util;
 
-static MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
+const MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
     case_sensitive: true,
     require_literal_separator: true,
     require_literal_leading_dot: false,
@@ -109,8 +110,8 @@ where
     /// This index includes all entries that "cc" this entry and all entries specified in this
     /// entry's index pattern.
     pub fn build_index(&self, entry: &Entry<EntryMeta>) -> Vec<&Entry<EntryMeta>> {
-        use model::index::SortDirection::*;
-        use model::index::SortField::*;
+        use crate::model::index::SortDirection::*;
+        use crate::model::index::SortField::*;
 
         if let Some(ref index) = entry.index {
             let mut child_entries: Vec<_> = self
@@ -121,7 +122,7 @@ where
                         || index
                             .directories
                             .iter()
-                            .any(|d| d.matches_with(&child.name, &MATCH_OPTIONS))
+                            .any(|d| d.matches_with(&child.name, MATCH_OPTIONS))
                 })
                 .collect();
 

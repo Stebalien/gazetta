@@ -15,6 +15,7 @@
 //
 use gazetta_core::render::Gazetta;
 use gazetta_core::view::Site;
+use horrorshow::html;
 use horrorshow::prelude::*;
 
 /// Renders common head tags for a site and page.
