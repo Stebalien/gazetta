@@ -96,7 +96,7 @@ where
     G::SiteMeta: fmt::Debug + 'a,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Page")
+        f.debug_struct("Site")
             .field("title", &self.title)
             .field("stylesheets", &self.stylesheets)
             .field("javascript", &self.javascript)
