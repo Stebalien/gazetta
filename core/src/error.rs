@@ -56,7 +56,7 @@ impl Error for SourceError {
             Config(..) => "config error",
         }
     }
-    fn cause(&self) -> Option<&dyn Error> {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
         use self::SourceError::*;
         match *self {
             Read(ref e) => Some(e),
@@ -80,7 +80,7 @@ impl fmt::Display for SourceError {
 #[derive(Debug, Clone)]
 pub struct AnnotatedError<E>
 where
-    E: Error,
+    E: Error + 'static,
 {
     pub location: PathBuf,
     pub error: E,
@@ -98,12 +98,13 @@ impl From<AnnotatedError<io::Error>> for AnnotatedError<RenderError> {
 
 impl<E> Error for AnnotatedError<E>
 where
-    E: Error,
+    E: Error + 'static,
 {
     fn description(&self) -> &str {
+        #[allow(deprecated)]
         self.error.description()
     }
-    fn cause(&self) -> Option<&dyn Error> {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
         Some(&self.error)
     }
 }
