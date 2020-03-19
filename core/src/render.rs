@@ -26,7 +26,7 @@ use str_stack::StrStack;
 use crate::error::{AnnotatedError, RenderError};
 use crate::model::{Meta, Source};
 use crate::util::{self, StreamHasher};
-use crate::view::{Index, Page, Paginate, Site};
+use crate::view::{Context, Index, Page, Paginate, Site};
 
 /// Compiles a set of files into a single asset by concatinating them. This
 /// function also hashes the files so they can be cached.
@@ -61,7 +61,7 @@ pub trait Gazetta: Sized {
     type PageMeta: Meta;
 
     /// The page rendering function.
-    fn render_page(&self, site: &Site<Self>, page: &Page<Self>, tmpl: &mut TemplateBuffer);
+    fn render_page(&self, site: &Context<Self>, tmpl: &mut TemplateBuffer);
 
     /// Render static content.
     ///
@@ -161,16 +161,19 @@ pub trait Gazetta: Sized {
 
                         try_annotate!(
                             html! {
-                                |tmpl| self.render_page(&site, &Page {
-                                    index: Some(Index {
-                                        compact: index.compact,
-                                        paginate: Some(Paginate {
-                                            pages: &[page.href],
-                                            current: 0,
+                                |tmpl| self.render_page(&Context{
+                                    site: &site,
+                                    page: &Page {
+                                        index: Some(Index {
+                                            compact: index.compact,
+                                            paginate: Some(Paginate {
+                                                pages: &[page.href],
+                                                current: 0,
+                                            }),
+                                            entries: &[],
                                         }),
-                                        entries: &[],
-                                    }),
-                                    ..page
+                                        ..page
+                                    },
                                 }, tmpl);
                             }
                             .write_to_io(&mut BufWriter::new(index_file)),
@@ -199,7 +202,9 @@ pub trait Gazetta: Sized {
                                 try_annotate!(File::create(&index_file_path), index_file_path);
                             try_annotate!(
                                 html! {
-                                    |tmpl| self.render_page(&site, &Page {
+                                    |tmpl| self.render_page(&Context{
+                                        site: &site,
+                                        page: &Page {
                                         index: Some(Index {
                                             compact: index.compact,
                                             paginate: Some(Paginate {
@@ -210,6 +215,7 @@ pub trait Gazetta: Sized {
                                         }),
                                         href: href,
                                         ..page
+                                        },
                                     }, tmpl);
                                 }
                                 .write_to_io(&mut BufWriter::new(index_file)),
@@ -225,13 +231,16 @@ pub trait Gazetta: Sized {
 
                     try_annotate!(
                         html! {
-                            |tmpl| self.render_page(&site, &Page {
+                            |tmpl| self.render_page(&Context {
+                                site: &site,
+                                page: &Page {
                                 index:  Some(Index {
                                     compact: index.compact,
                                     paginate: None,
                                     entries: &children[..],
                                 }),
                                 ..page
+                                },
                             }, tmpl);
                         }
                         .write_to_io(&mut BufWriter::new(index_file)),
@@ -246,7 +255,10 @@ pub trait Gazetta: Sized {
 
                 try_annotate!(
                     html! {
-                        |tmpl| self.render_page(&site, &page, tmpl);
+                        |tmpl| self.render_page(&Context{
+                            site: &site,
+                            page: &page,
+                        }, tmpl);
                     }
                     .write_to_io(&mut BufWriter::new(index_file)),
                     index_file_path
