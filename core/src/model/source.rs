@@ -177,8 +177,10 @@ where
         let mut config = yaml::load(config_path)?;
         let (origin, prefix) = match config.remove(&yaml::BASE) {
             Some(Yaml::String(base)) => {
-                let url = Url::parse(&base)?;
-                let host = url.host_str().ok_or("base url must have a host")?;
+                let mut url = Url::parse(&base)?;
+                if url.cannot_be_a_base() {
+                    return Err("url cannot be a base".into());
+                }
                 if url.fragment().is_some() {
                     return Err("base url must not specify a fragment".into());
                 }
@@ -186,28 +188,12 @@ where
                     return Err("base url must not specify a query".into());
                 }
 
-                let prefix = url.path();
-                let username = url.username();
+                let prefix = url.path().to_string();
 
-                let mut origin = url.scheme().to_string();
-                if !origin.is_empty() {
-                    origin.push(':')
-                }
-                origin.push_str("//");
-                if !username.is_empty() {
-                    origin.push_str(username);
-                    if let Some(pw) = url.password() {
-                        origin.push(':');
-                        origin.push_str(pw);
-                    }
-                    origin.push('@');
-                }
-                write!(origin, "{}", host).unwrap();
-                if let Some(port) = url.port() {
-                    write!(origin, ":{}", port).unwrap();
-                }
+                url.set_path("");
+                let origin = url.to_string();
 
-                (origin, prefix.to_string())
+                (origin, prefix)
             }
             Some(..) => return Err("the base url must be a string".into()),
             None => return Err("you must specify a base url".into()),
