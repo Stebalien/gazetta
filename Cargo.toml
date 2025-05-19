@@ -1,33 +1,37 @@
-[package]
-name = "gazetta"
-version = "0.3.0"
-authors = ["Steven Allen <steven@stebalien.com>"]
-description = """
-A static site generator framework.
+[workspace]
 
-If you want to use or extend gazetta, see the gazetta-bin crate.
-"""
-documentation = "https://docs.rs/gazetta"
+[workspace.package]
+version = "0.4.0"
+authors = ["Steven Allen <steven@stebalien.com>"]
 homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
 keywords = ["staticsite", "website", "blog"]
 license = "GPL-3.0"
 edition = "2018"
 
-[dependencies.gazetta-core]
-path = "core"
-version = "0.3.0"
+[workspace.dependencies]
+gazetta-core = { path = "core", version = "=0.4.0" }
+gazetta-cli = { path = "cli", version = "=0.4.0" }
+gazetta-render-ext = { path = "render-ext", version = "=0.4.0" }
+gazetta-model-ext = { path = "model-ext", version = "=0.4.0" }
 
-[dependencies.gazetta-render-ext]
-path = "render-ext"
-version = "0.3.0"
+[package]
+name = "gazetta"
+description = """
+A static site generator framework.
 
-[dependencies.gazetta-model-ext]
-path = "model-ext"
-version = "0.3.0"
+If you want to use or extend gazetta, see the gazetta-bin crate.
+"""
+version.workspace = true
+authors.workspace = true
+keywords.workspace = true
+license.workspace = true
+edition.workspace = true
+repository.workspace = true
+homepage.workspace = true
 
-[dependencies.gazetta-cli]
-path = "cli"
-version = "0.3.0"
-
-[workspace]
+[dependencies]
+gazetta-core.workspace = true
+gazetta-cli.workspace = true
+gazetta-render-ext.workspace = true
+gazetta-model-ext.workspace = true
