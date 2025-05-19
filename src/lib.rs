@@ -54,4 +54,4 @@ pub use crate::model::{EntryMeta, Meta, Source, SourceMeta};
 #[doc(no_inline)]
 pub use crate::render::Gazetta;
 #[doc(no_inline)]
-pub use crate::view::{Page, Site};
+pub use crate::view::{Context, Page, Site};

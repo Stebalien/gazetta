@@ -57,6 +57,7 @@ where
             "mkd" | "md" | "markdown" => {
                 tmpl << crate::Markdown::new(self.0.content.data, self.0.href)
             }
+            // TODO: error if heading-level is non-zero.
             "html" => tmpl << Raw(self.0.content.data),
             "" | "text" | "txt" => tmpl << self.0.content.data,
             format => tmpl.record_error(format!("unknown format '{}'", format)),

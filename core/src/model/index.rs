@@ -16,15 +16,17 @@
 
 use glob;
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Default)]
 pub enum SortField {
     Date,
+    #[default]
     Title,
 }
 
-#[derive(Clone, Debug, Copy, Eq, PartialEq)]
+#[derive(Clone, Debug, Copy, Eq, PartialEq, Default)]
 pub enum SortDirection {
     Ascending,
+    #[default]
     Descending,
 }
 
@@ -32,18 +34,6 @@ pub enum SortDirection {
 pub struct Sort {
     pub field: SortField,
     pub direction: SortDirection,
-}
-
-impl Default for SortField {
-    fn default() -> SortField {
-        SortField::Title
-    }
-}
-
-impl Default for SortDirection {
-    fn default() -> SortDirection {
-        SortDirection::Descending
-    }
 }
 
 #[derive(Debug, Clone)]

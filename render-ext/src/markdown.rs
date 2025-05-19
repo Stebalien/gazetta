@@ -19,6 +19,9 @@ use std::convert::TryFrom;
 
 use horrorshow::html;
 use horrorshow::prelude::*;
+use horrorshow::Concat;
+use horrorshow::Join;
+use pulldown_cmark::HeadingLevel;
 use pulldown_cmark::{CowStr, Event, InlineStr, Options, Parser};
 
 /// Markdown renderer
@@ -114,7 +117,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderOnce for RenderMarkdown<'a, I> {
 impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         use pulldown_cmark::Event::*;
-        use pulldown_cmark::Tag;
+        use pulldown_cmark::{CodeBlockKind, Tag};
 
         while let Some(event) = self.iter.next() {
             // manually reborrow
@@ -133,7 +136,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             }
                         }
                         Tag::Paragraph => tmpl << html! { p : s },
-                        Tag::BlockQuote => tmpl << html! { blockquote : s },
+                        Tag::BlockQuote(_) => tmpl << html! { blockquote : s },
                         Tag::Table(_) => tmpl << html! { table : s },
                         Tag::TableHead => tmpl << html! { thead { tr : s } },
                         Tag::TableRow => tmpl << html! { tr : s },
@@ -145,29 +148,58 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                         Tag::Emphasis => tmpl << html! { em: s },
                         Tag::Strikethrough => tmpl << html! { s: s },
                         Tag::Strong => tmpl << html! { strong: s },
-                        Tag::Heading(level) => match level {
-                            1 => tmpl << html! { h1 : s },
-                            2 => tmpl << html! { h2 : s },
-                            3 => tmpl << html! { h3 : s },
-                            4 => tmpl << html! { h4 : s },
-                            5 => tmpl << html! { h5 : s },
-                            6 => tmpl << html! { h6 : s },
-                            _ => panic!(),
+                        Tag::Heading {
+                            level,
+                            id,
+                            classes,
+                            attrs: _, // TODO
+                        } => match level {
+                            HeadingLevel::H1 => {
+                                tmpl << html! { h1 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                            }
+                            HeadingLevel::H2 => {
+                                tmpl << html! { h2 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                            }
+                            HeadingLevel::H3 => {
+                                tmpl << html! { h3 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                            }
+                            HeadingLevel::H4 => {
+                                tmpl << html! { h4 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                            }
+                            HeadingLevel::H5 => {
+                                tmpl << html! { h5 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                            }
+                            HeadingLevel::H6 => {
+                                tmpl << html! { h6 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                            }
                         },
-                        Tag::Link(_, dest, title) => {
+                        Tag::Link {
+                            link_type: _,
+                            dest_url,
+                            title,
+                            id,
+                            ..
+                        } => {
                             tmpl << html! {
                                 // TODO: Escape href?
-                                a(href = &*s.make_relative(dest),
-                                  title? = if !title.is_empty() { Some(&*title) } else { None }) : s
+                                a(href = &*s.make_relative(dest_url),
+                                  title? = if !title.is_empty() { Some(&*title) } else { None },
+                                  id = &*id) : s
                             }
                         }
-                        Tag::Image(_, dest, title) => {
+                        Tag::Image {
+                            link_type: _,
+                            dest_url,
+                            title,
+                            id,
+                        } => {
                             tmpl << html! {
-                                img(src = &*s.make_relative(dest),
+                                img(src = &*s.make_relative(dest_url),
                                     title? = if !title.is_empty() { Some(&*title) } else { None },
+                                    id = &*id,
                                     alt = FnRenderer::new(|tmpl| {
                                         let mut nest = 0;
-                                        while let Some(event) = s.iter.next() {
+                                        for event in s.iter.by_ref() {
                                             let tmpl = &mut *tmpl;
                                             match event {
                                                 | Start(_) => nest += 1,
@@ -175,35 +207,47 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                                 | End(_) => nest -= 1,
                                                 | Text(txt) => tmpl << &*txt,
                                                 | SoftBreak
-                                                    | HardBreak => tmpl << " ",
+                                                | HardBreak => tmpl << " ",
                                                 | Rule =>  (),
+                                                // Ignored
                                                 | Code(_)
-                                                    | TaskListMarker(_)
-                                                    | FootnoteReference(_)
-                                                    | Html(_) => (),
+                                                | TaskListMarker(_)
+                                                | FootnoteReference(_)
+                                                | Html(_)
+                                                | InlineHtml(_)
+                                                | InlineMath(_) | DisplayMath(_) => (),
                                             }
                                         }
                                     }))
                             }
                         }
-                        Tag::CodeBlock(info) => {
-                            // TODO Highlight code.
-                            let lang = &*info.split(' ').next().unwrap();
-                            // Why? Because the format_args and lifetimes...
-                            match format_args!("language-{}", lang) {
-                                f => {
-                                    tmpl << html! {
-                                        pre {
-                                            code(class? = if !lang.is_empty() {
-                                                Some(f)
-                                            } else {
-                                                None
-                                            }) : s
-                                        }
-                                    }
+                        Tag::CodeBlock(ref kind) => {
+                            // TODO Highlight code without js.
+
+                            let tmp; // lifetimes.
+                            let class = match kind {
+                                CodeBlockKind::Fenced(info) => {
+                                    tmp = ["lang-", info.split(' ').next().unwrap()];
+                                    Some(Concat(&tmp))
                                 }
-                            }
+                                CodeBlockKind::Indented => None,
+                            };
+
+                            tmpl << html! {
+                                pre {
+                                    code(class? = class) : s
+                                }
+                            };
                         }
+
+                        Tag::DefinitionList => tmpl << html! { dl : s },
+                        Tag::DefinitionListTitle => tmpl << html! { dt : s },
+                        Tag::DefinitionListDefinition => tmpl << html! { dd : s },
+
+                        Tag::HtmlBlock => tmpl << html! { : s },
+                        Tag::Superscript => tmpl << html! { sup : s },
+                        Tag::Subscript => tmpl << html! { sub : s },
+                        Tag::MetadataBlock(_) => todo!(),
                     }
                 }
                 End(_) => break,
@@ -222,9 +266,10 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                     }
                 }
                 Text(text) => tmpl << &*text,
-                Html(html) => tmpl << Raw(html),
+                InlineHtml(html) | Html(html) => tmpl << Raw(html),
                 SoftBreak => tmpl << "\n",
                 HardBreak => tmpl << html! { br },
+                InlineMath(_) | DisplayMath(_) => todo!(),
             };
         }
     }

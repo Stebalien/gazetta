@@ -174,7 +174,7 @@ where
 
     #[inline(always)]
     fn from_config(root: &Path, config_path: &Path) -> Result<Self, SourceError> {
-        let mut config = yaml::load(&config_path)?;
+        let mut config = yaml::load(config_path)?;
         let (origin, prefix) = match config.remove(&yaml::BASE) {
             Some(Yaml::String(base)) => {
                 let url = Url::parse(&base)?;
@@ -219,8 +219,8 @@ where
                 Some(..) => return Err("title must be a string".into()),
                 None => return Err("must specify title".into()),
             },
-            origin: origin,
-            prefix: prefix,
+            origin,
+            prefix,
             root: root.to_owned(),
             well_known: None,
             entries: Vec::new(),
@@ -261,7 +261,7 @@ where
     }
 
     fn load_entries(&mut self, dir: &str) -> Result<(), AnnotatedError<SourceError>> {
-        let base_dir = self.root.join(&dir);
+        let base_dir = self.root.join(dir);
 
         for dir_entry in try_annotate!(fs::read_dir(&base_dir), base_dir) {
             let dir_entry = try_annotate!(dir_entry, base_dir);
@@ -289,7 +289,7 @@ where
             };
 
             // Skip assets.
-            if dir == "" && file_name == "assets" {
+            if dir.is_empty() && file_name == "assets" {
                 continue;
             }
 
@@ -307,9 +307,9 @@ where
                 } else {
                     format!("{}/{}", dir, &file_name)
                 };
-                match &file_name[..] {
+                match &*file_name {
                     "static" => self.static_entries.push(StaticEntry {
-                        name: name,
+                        name,
                         source: dir_entry.path(),
                     }),
                     "index" => {

@@ -14,18 +14,18 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 use gazetta_core::render::Gazetta;
-use gazetta_core::view::Site;
-use horrorshow::html;
+use gazetta_core::view::Context;
 use horrorshow::prelude::*;
+use horrorshow::{html, Concat};
 
 /// Renders common head tags for a site and page.
-pub struct Assets<'a, G>(pub &'a Site<'a, G>)
+pub struct Head<'a, G>(pub &'a Context<'a, G>)
 where
     G: Gazetta + 'a,
     G::SiteMeta: 'a,
     G::PageMeta: 'a;
 
-impl<'a, G> RenderOnce for Assets<'a, G>
+impl<'a, G> RenderOnce for Head<'a, G>
 where
     G: Gazetta + 'a,
     G::SiteMeta: 'a,
@@ -36,7 +36,7 @@ where
     }
 }
 
-impl<'a, G> RenderMut for Assets<'a, G>
+impl<'a, G> RenderMut for Head<'a, G>
 where
     G: Gazetta + 'a,
     G::SiteMeta: 'a,
@@ -47,7 +47,7 @@ where
     }
 }
 
-impl<'a, G> Render for Assets<'a, G>
+impl<'a, G> Render for Head<'a, G>
 where
     G: Gazetta + 'a,
     G::SiteMeta: 'a,
@@ -55,14 +55,19 @@ where
 {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         tmpl << html! {
-            base(href=self.0.prefix);
-            @ if let Some(css) = self.0.stylesheets {
+            meta(charset="utf-8");
+            base(href=Concat(
+                self.0.page.href
+                    .split('/')
+                    .filter(|s| !s.is_empty())
+                    .map(|_| "../")));
+            @ if let Some(css) = self.0.site.stylesheets {
                 link(rel="stylesheet", href=css);
             }
-            @ if let Some(js) = self.0.javascript {
+            @ if let Some(js) = self.0.site.javascript {
                 script(async, src=js) {}
             }
-            @ if let Some(icon) = self.0.icon {
+            @ if let Some(icon) = self.0.site.icon {
                 link(rel="shortcut icon", href=icon);
             }
         };

@@ -14,12 +14,12 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-mod assets;
 mod content;
 mod date;
+mod head;
 mod markdown;
 
-pub use crate::assets::Assets;
 pub use crate::content::Content;
 pub use crate::date::Date;
+pub use crate::head::Head;
 pub use crate::markdown::Markdown;

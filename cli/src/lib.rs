@@ -14,7 +14,6 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::borrow::Cow;
 use std::env;
 use std::error::Error;
 use std::fs::File;
@@ -23,7 +22,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::{fs, process};
 
-use clap::{App, Arg, SubCommand};
+use clap::{Parser, Subcommand};
 use gazetta_core::model::Source;
 use gazetta_core::render::Gazetta;
 use slug::slugify;
@@ -37,8 +36,8 @@ trait RenderPaths {
 
 impl<G: Gazetta> RenderPaths for G {
     fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<dyn Error>> {
-        let source = Source::new(&source_path)?;
-        self.render(&source, &dest_path)?;
+        let source = Source::new(source_path)?;
+        self.render(&source, dest_path)?;
         Ok(())
     }
 }
@@ -51,69 +50,40 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
     }))
 }
 
-pub fn gen_completions<P: AsRef<Path>>(name: &str, directory: P) {
-    let directory = directory.as_ref();
-    let mut app = build_argparser(name);
-    app.gen_completions(name, clap::Shell::Bash, directory);
+#[derive(Parser)]
+#[command(version, about, long_about = None)]
+pub struct Cli {
+    /// Specify the source directory (defaults to the current directory)
+    #[arg(short, long, value_name = "DIRECTORY")]
+    source: Option<PathBuf>,
+    #[command(subcommand)]
+    commands: Commands,
 }
 
-/// Build the argument parser.
-fn build_argparser(name: &str) -> App {
-    App::new(name)
-        .version(env!("CARGO_PKG_VERSION"))
-        .arg(
-            Arg::with_name("SOURCE")
-                .short("s")
-                .long("source")
-                .takes_value(true)
-                .help("Specify the source directory (defaults to the current directory)"),
-        )
-        .subcommand(
-            SubCommand::with_name("render")
-                .about("Render the website")
-                .arg(
-                    Arg::with_name("FORCE")
-                        .short("f")
-                        .long("force")
-                        .help("Overwrite any existing DEST."),
-                )
-                .arg(
-                    Arg::with_name("DEST")
-                        .required(true)
-                        .index(1)
-                        .help("Destination directory"),
-                ),
-        )
-        .subcommand(
-            SubCommand::with_name("new")
-                .about("Create a new page")
-                .arg(
-                    Arg::with_name("EDIT")
-                        .short("e")
-                        .long("edit")
-                        .help("Edit new page in your $EDITOR"),
-                )
-                .arg(
-                    Arg::with_name("WHERE")
-                        .required(true)
-                        .index(1)
-                        .help("Directory in which to create the page"),
-                )
-                .arg(
-                    Arg::with_name("TITLE")
-                        .required(true)
-                        .index(2)
-                        .help("The page title"),
-                ),
-        )
+#[derive(Subcommand)]
+enum Commands {
+    Render {
+        /// Overwrite any existing
+        #[arg(short, long)]
+        force: bool,
+        /// The output directory
+        destination: PathBuf,
+    },
+    New {
+        /// Edit the new page in your $EDITOR
+        #[arg(short, long)]
+        edit: bool,
+        /// Directory in which to create the page
+        directory: PathBuf,
+        /// The page title.
+        title: String,
+    },
 }
 
 fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
-    let name = env::args().next().unwrap();
-    let matches = build_argparser(&name).get_matches();
-    let source_path: Cow<Path> = matches
-        .value_of("SOURCE")
-        .map(|v| Cow::Borrowed(v.as_ref()))
+    let cli = Cli::parse();
+    let source_path = cli
+        .source
         .or_else(|| {
             let mut path = PathBuf::new();
             path.push(".");
@@ -122,7 +92,7 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
                 let is_root = path.exists();
                 path.pop();
                 if is_root {
-                    return Some(Cow::Owned(path));
+                    return Some(path);
                 }
                 path.push("..");
             }
@@ -130,24 +100,26 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
         })
         .ok_or("Could not find a gazetta config in this directory or any parent directories.")?;
 
-    match matches.subcommand() {
-        ("render", Some(matches)) => {
-            let dest_path: &Path = matches.value_of("DEST").unwrap().as_ref();
-            if fs::metadata(&dest_path).is_ok() {
-                if matches.is_present("FORCE") {
-                    fs::remove_dir_all(dest_path).map_err(|e| {
-                        format!("Failed to remove '{}': {}", dest_path.display(), e)
+    match cli.commands {
+        Commands::Render { force, destination } => {
+            if fs::metadata(&destination).is_ok() {
+                if force {
+                    fs::remove_dir_all(&destination).map_err(|e| {
+                        format!("Failed to remove '{}': {}", destination.display(), e)
                     })?;
                 } else {
-                    return Err(format!("Target '{}' exists.", dest_path.display()).into());
+                    return Err(format!("Target '{}' exists.", destination.display()).into());
                 }
             }
-            render_paths.render_paths(&source_path, dest_path)?;
+            render_paths.render_paths(&source_path, &destination)?;
             Ok(0)
         }
-        ("new", Some(matches)) => {
-            let mut path: PathBuf = matches.value_of("WHERE").unwrap().into();
-            let title = matches.value_of("TITLE").unwrap();
+        Commands::New {
+            edit,
+            directory,
+            title,
+        } => {
+            let mut path = directory;
             path.push(slugify(&title));
             if path.exists() {
                 return Err(format!("Directory '{}' exists.", path.display()).into());
@@ -159,15 +131,14 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
             let mut file = File::create(&path)?;
             writeln!(file, "---")?;
             writeln!(file, "title: {}", &title)?;
-            writeln!(file, "date: {}", Date::today().format("%Y-%m-%d"))?;
+            writeln!(file, "date: {}", Date::now().format("%Y-%m-%d"))?;
             writeln!(file, "---")?;
             println!("Created page: {}", path.display());
-            if matches.is_present("EDIT") {
+            if edit {
                 path.pop();
                 match Command::new(
                     env::var_os("EDITOR")
-                        .as_ref()
-                        .map(|p| &**p)
+                        .as_deref()
                         .unwrap_or_else(|| "vim".as_ref()),
                 )
                 .arg("index.md")
@@ -184,6 +155,5 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
                 Ok(0)
             }
         }
-        _ => Err(matches.usage().into()),
     }
 }

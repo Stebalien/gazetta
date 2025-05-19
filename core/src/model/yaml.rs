@@ -18,7 +18,6 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
 use std::path::Path;
-use std::usize;
 
 use lazy_static::lazy_static;
 use yaml_rust::{yaml, YamlLoader};

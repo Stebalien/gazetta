@@ -194,7 +194,7 @@ pub trait Gazetta: Sized {
                         for (page_num, (children_range, href)) in
                             children.chunks(paginate).zip(&pages).enumerate()
                         {
-                            let mut index_file_path = output.join(&href);
+                            let mut index_file_path = output.join(href);
                             try_annotate!(fs::create_dir_all(&index_file_path), index_file_path);
                             index_file_path.push("index.html");
 
@@ -213,7 +213,7 @@ pub trait Gazetta: Sized {
                                             }),
                                             entries: children_range,
                                         }),
-                                        href: href,
+                                        href,
                                         ..page
                                         },
                                     }, tmpl);

@@ -25,7 +25,7 @@ use crate::error::AnnotatedError;
 ///
 /// Does not preserve permissions.
 pub fn copy_recursive(src: &Path, dest: &Path) -> io::Result<()> {
-    if fs::metadata(&src)?.is_dir() {
+    if fs::metadata(src)?.is_dir() {
         copy_dir(src, dest)
     } else {
         copy_file(src, dest)
@@ -33,7 +33,7 @@ pub fn copy_recursive(src: &Path, dest: &Path) -> io::Result<()> {
 }
 
 fn copy_file(src: &Path, dest: &Path) -> io::Result<()> {
-    io::copy(&mut File::open(&src)?, &mut File::create(&dest)?).map(|_| ())
+    io::copy(&mut File::open(src)?, &mut File::create(dest)?).map(|_| ())
 }
 
 fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
@@ -61,7 +61,7 @@ fn copy_dir(src: &Path, dest: &Path) -> io::Result<()> {
 
 /// Check if a file exists.
 pub fn exists(path: &Path) -> io::Result<bool> {
-    match fs::metadata(&path) {
+    match fs::metadata(path) {
         Ok(_) => Ok(true),
         Err(e) => match e.kind() {
             io::ErrorKind::NotFound => Ok(false),
@@ -112,7 +112,7 @@ where
     {
         StreamHasher {
             hash: H::default(),
-            inner: inner,
+            inner,
         }
     }
     pub fn with_hasher(inner: W, hash: H) -> Self {

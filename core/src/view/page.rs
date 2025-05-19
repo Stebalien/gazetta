@@ -71,7 +71,7 @@ where
         Page {
             title: &entry.title,
             date: entry.date.as_ref(),
-            description: entry.description.as_ref().map(|v| &**v),
+            description: entry.description.as_deref(),
             content: Content {
                 data: &entry.content,
                 format: &entry.format,

@@ -12,8 +12,8 @@ edition = "2018"
 
 [dependencies.gazetta-core]
 path = "../core"
-version = "0.3.0"
+version = "0.3.1"
 
 [dependencies]
-horrorshow = "0.7"
-pulldown-cmark = "0.6.0"
+horrorshow = "0.8"
+pulldown-cmark = "0.13.0"

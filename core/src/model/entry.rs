@@ -80,7 +80,7 @@ where
 
     fn _from_file(full_path: &Path, name: &str) -> Result<Self, SourceError> {
         // Helpers
-        const U32_MAX_AS_I64: i64 = ::std::u32::MAX as i64;
+        const U32_MAX_AS_I64: i64 = u32::MAX as i64;
 
         fn dir_to_glob(mut dir: String) -> Result<glob::Pattern, SourceError> {
             if !dir.ends_with('/') {
@@ -98,10 +98,10 @@ where
 
         // Load metadata
 
-        let (mut meta, content) = yaml::load_front(&full_path)?;
+        let (mut meta, content) = yaml::load_front(full_path)?;
 
         Ok(Entry {
-            content: content,
+            content,
             format: full_path
                 .extension()
                 .and_then(|e| e.to_str())
@@ -177,12 +177,12 @@ where
                     },
                     sort: match index.remove(&yaml::SORT) {
                         Some(Yaml::String(key)) => {
-                            let (dir, key) = if key.starts_with('+') {
-                                (index::SortDirection::Ascending, &key[1..])
-                            } else if key.starts_with('-') {
-                                (index::SortDirection::Descending, &key[1..])
+                            let (dir, key) = if let Some(key) = key.strip_prefix('+') {
+                                (index::SortDirection::Ascending, key)
+                            } else if let Some(key) = key.strip_prefix('-') {
+                                (index::SortDirection::Descending, key)
                             } else {
-                                (index::SortDirection::default(), &key[..])
+                                (index::SortDirection::default(), &*key)
                             };
                             index::Sort {
                                 direction: dir,

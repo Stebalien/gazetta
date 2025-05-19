@@ -15,4 +15,4 @@ path = "../core"
 version = "0.3.0"
 
 [dependencies]
-lazy_static = "1.0"
+lazy_static = "1.5"
