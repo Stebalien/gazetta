@@ -12,5 +12,5 @@ homepage.workspace = true
 
 [dependencies]
 horrorshow = "0.8"
-pulldown-cmark = "0.13.0"
+pulldown-cmark = { version = "0.13.0", default-features = false }
 gazetta-core.workspace = true
