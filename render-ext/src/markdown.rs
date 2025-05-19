@@ -64,7 +64,12 @@ impl<'a> Render for Markdown<'a> {
             footnotes: HashMap::new(),
             iter: Parser::new_ext(
                 self.data,
-                Options::ENABLE_TABLES | Options::ENABLE_FOOTNOTES,
+                Options::ENABLE_TABLES
+                    | Options::ENABLE_FOOTNOTES
+                    | Options::ENABLE_STRIKETHROUGH
+                    | Options::ENABLE_SMART_PUNCTUATION
+                    | Options::ENABLE_DEFINITION_LIST
+                    | Options::ENABLE_TASKLISTS,
             ),
             base: self.base,
         }
@@ -247,7 +252,9 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                         Tag::HtmlBlock => tmpl << html! { : s },
                         Tag::Superscript => tmpl << html! { sup : s },
                         Tag::Subscript => tmpl << html! { sub : s },
-                        Tag::MetadataBlock(_) => todo!(),
+                        Tag::MetadataBlock(_) => {
+                            panic!("metadata blocks should not have been enabled")
+                        }
                     }
                 }
                 End(_) => break,
@@ -269,7 +276,9 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                 InlineHtml(html) | Html(html) => tmpl << Raw(html),
                 SoftBreak => tmpl << "\n",
                 HardBreak => tmpl << html! { br },
-                InlineMath(_) | DisplayMath(_) => todo!(),
+                InlineMath(_) | DisplayMath(_) => {
+                    panic!("math blocks should not have been enabled")
+                }
             };
         }
     }
