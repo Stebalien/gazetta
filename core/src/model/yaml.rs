@@ -39,13 +39,9 @@ lazy_static! {
     pub static ref DESCRIPTION: Yaml = Yaml::String("description".into());
 }
 
-pub fn load_front<P: AsRef<Path>>(path: P) -> Result<(yaml::Hash, String), SourceError> {
-    _load_front(path.as_ref())
-}
-
-fn _load_front(path: &Path) -> Result<(yaml::Hash, String), SourceError> {
+pub fn load_front(file: impl io::Read) -> Result<(yaml::Hash, String), SourceError> {
     let mut buf = String::with_capacity(100);
-    let mut file = BufReader::new(File::open(path)?);
+    let mut file = BufReader::new(file);
     file.read_line(&mut buf)?;
     if buf.trim_end() == "---" {
         // Parse yaml header.

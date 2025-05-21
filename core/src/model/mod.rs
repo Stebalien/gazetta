@@ -14,7 +14,7 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-pub type Date = ::chrono::naive::NaiveDate;
+pub type DateTime = ::chrono::DateTime<Utc>;
 
 pub mod index;
 
@@ -22,6 +22,8 @@ mod entry;
 mod meta;
 mod source;
 mod yaml;
+
+use chrono::Utc;
 
 pub use self::entry::{Entry, StaticEntry};
 pub use self::meta::Meta;

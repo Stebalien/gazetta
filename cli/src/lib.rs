@@ -27,8 +27,6 @@ use gazetta_core::model::Source;
 use gazetta_core::render::Gazetta;
 use slug::slugify;
 
-use chrono::offset::Local as Date;
-
 // Internal trait to use dynamic dispatch instead of monomorphizing run.
 trait RenderPaths {
     fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<dyn Error>>;
@@ -131,7 +129,7 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
             let mut file = File::create(&path)?;
             writeln!(file, "---")?;
             writeln!(file, "title: {}", &title)?;
-            writeln!(file, "date: {}", Date::now().format("%Y-%m-%d"))?;
+            writeln!(file, "date: {}", ::chrono::Local::now().to_rfc3339())?;
             writeln!(file, "---")?;
             println!("Created page: {}", path.display());
             if edit {

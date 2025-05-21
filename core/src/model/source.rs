@@ -17,7 +17,6 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use std::fmt::Write as WriteFmt;
 use url::Url;
 
 use crate::error::{AnnotatedError, SourceError};

@@ -14,15 +14,17 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
+use std::fs::File;
 use std::path::{Path, PathBuf};
 
+use chrono::FixedOffset;
 use glob;
 
 use crate::error::SourceError;
 
 use super::index::{self, Index};
 use super::yaml::{self, Yaml};
-use super::{Date, Meta};
+use super::{DateTime, Meta};
 
 /// An entry in the website.
 ///
@@ -43,10 +45,15 @@ where
     /// If present, this will be included in compact indices.
     pub description: Option<String>,
 
-    /// The entry's date.
+    /// The date & time at which the entry was created.
     ///
-    /// This is separate from the general metadata for sorting. Many entries will have dates.
-    pub date: Option<Date>,
+    /// This is separate from the general metadata for sorting.
+    pub date: Option<DateTime>,
+
+    /// The entry's last modification time.
+    ///
+    /// All entries have this and it's derived from the file's metadata.
+    pub updated: DateTime,
 
     /// The entries index options (if specified).
     pub index: Option<Index>,
@@ -98,7 +105,9 @@ where
 
         // Load metadata
 
-        let (mut meta, content) = yaml::load_front(full_path)?;
+        let entry_file = File::open(full_path)?;
+        let modified_date = entry_file.metadata()?.modified()?;
+        let (mut meta, content) = yaml::load_front(&entry_file)?;
 
         Ok(Entry {
             content,
@@ -118,13 +127,20 @@ where
                 Some(..) => return Err("invalid description type".into()),
             },
             date: match meta.remove(&yaml::DATE) {
-                Some(Yaml::String(date)) => match Date::parse_from_str(&date, "%Y-%m-%d") {
-                    Ok(date) => Some(date),
-                    Err(_) => return Err("invalid date format".into()),
-                },
+                Some(Yaml::String(date)) => Some(if date.contains([' ', 't', 'T']) {
+                    chrono::DateTime::<FixedOffset>::parse_from_rfc3339(&date)
+                        .map_err(|e| format!("invalid date: {e}"))?
+                        .to_utc()
+                } else {
+                    let date = chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d")
+                        .map_err(|e| format!("invalid date: {e}"))?;
+                    let datetime = chrono::NaiveDateTime::new(date, chrono::NaiveTime::default());
+                    chrono::DateTime::from_naive_utc_and_offset(datetime, chrono::Utc)
+                }),
                 Some(..) => return Err("date must be a string".into()),
                 None => None,
             },
+            updated: modified_date.into(),
             index: match meta.remove(&yaml::INDEX) {
                 Some(Yaml::Boolean(b)) => {
                     if b {

@@ -17,7 +17,7 @@
 use std::fmt;
 use std::ops::Deref;
 
-use crate::model::Date;
+use crate::model::DateTime;
 use crate::model::Entry;
 use crate::render::Gazetta;
 
@@ -36,8 +36,12 @@ where
     /// An optional description of the page.
     pub description: Option<&'a str>,
 
-    /// The page's date.
-    pub date: Option<&'a Date>,
+    /// The date the page was created (specified in the metadata).
+    pub date: Option<&'a DateTime>,
+
+    /// The date the page was last modified (derived from the file metadata and used for
+    /// syndication).
+    pub updated: &'a DateTime,
 
     /// The page's location.
     pub href: &'a str,
@@ -71,6 +75,7 @@ where
         Page {
             title: &entry.title,
             date: entry.date.as_ref(),
+            updated: &entry.updated,
             description: entry.description.as_deref(),
             content: Content {
                 data: &entry.content,
