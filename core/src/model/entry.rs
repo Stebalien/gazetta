@@ -122,138 +122,150 @@ where
         let entry_file = File::open(full_path)?;
         let (mut meta, content) = yaml::load_front(&entry_file)?;
 
-        Ok(Entry {
-            content,
-            format: full_path
-                .extension()
-                .and_then(|e| e.to_str())
-                .unwrap_or("")
-                .to_owned(),
-            title: match meta.remove(&yaml::TITLE) {
-                Some(Yaml::String(title)) => title,
-                Some(..) => return Err("titles must be strings".into()),
-                None => return Err("entries must have titles".into()),
-            },
-            description: match meta.remove(&yaml::DESCRIPTION) {
-                Some(Yaml::String(desc)) => Some(desc),
-                None => None,
-                Some(..) => return Err("invalid description type".into()),
-            },
-            date: match meta.remove(&yaml::UPDATED) {
-                Some(Yaml::String(date)) => Some(parse_datetime(&date)?),
-                Some(..) => return Err("date must be a string".into()),
-                None => None,
-            },
-            updated: match meta.remove(&yaml::UPDATED) {
-                Some(Yaml::String(date)) => parse_datetime(&date)?,
-                Some(..) => return Err("date must be a string".into()),
+        let format = full_path
+            .extension()
+            .and_then(|e| e.to_str())
+            .unwrap_or("")
+            .to_owned();
+        let title = match meta.remove(&yaml::TITLE) {
+            Some(Yaml::String(title)) => title,
+            Some(..) => return Err("titles must be strings".into()),
+            None => return Err("entries must have titles".into()),
+        };
+        let description = match meta.remove(&yaml::DESCRIPTION) {
+            Some(Yaml::String(desc)) => Some(desc),
+            None => None,
+            Some(..) => return Err("invalid description type".into()),
+        };
+        let date = match meta.remove(&yaml::UPDATED) {
+            Some(Yaml::String(date)) => Some(parse_datetime(&date)?),
+            Some(..) => return Err("date must be a string".into()),
+            None => None,
+        };
+        let updated = match meta.remove(&yaml::UPDATED) {
+            Some(Yaml::String(date)) => parse_datetime(&date)?,
+            Some(..) => return Err("date must be a string".into()),
+            None => match date {
+                Some(d) => d,
                 None => entry_file.metadata()?.modified()?.into(),
             },
-            index: match meta.remove(&yaml::INDEX) {
-                Some(Yaml::Boolean(b)) => {
-                    if b {
-                        Some(Index {
-                            paginate: None,
-                            max: None,
-                            compact: false,
-                            sort: index::Sort::default(),
-                            directories: vec![name_to_glob(name)],
-                        })
-                    } else {
-                        None
-                    }
+        };
+        let index = match meta.remove(&yaml::INDEX) {
+            Some(Yaml::Boolean(b)) => {
+                if b {
+                    Some(Index {
+                        paginate: None,
+                        max: None,
+                        compact: false,
+                        sort: index::Sort::default(),
+                        directories: vec![name_to_glob(name)],
+                    })
+                } else {
+                    None
                 }
-                Some(Yaml::String(dir)) => Some(Index {
-                    paginate: None,
-                    max: None,
-                    compact: false,
-                    sort: index::Sort::default(),
-                    directories: vec![dir_to_glob(dir)?],
-                }),
-                Some(Yaml::Array(array)) => Some(Index {
-                    paginate: None,
-                    max: None,
-                    compact: false,
-                    sort: index::Sort::default(),
-                    directories: array
+            }
+            Some(Yaml::String(dir)) => Some(Index {
+                paginate: None,
+                max: None,
+                compact: false,
+                sort: index::Sort::default(),
+                directories: vec![dir_to_glob(dir)?],
+            }),
+            Some(Yaml::Array(array)) => Some(Index {
+                paginate: None,
+                max: None,
+                compact: false,
+                sort: index::Sort::default(),
+                directories: array
+                    .into_iter()
+                    .map(|i| match i {
+                        Yaml::String(dir) => dir_to_glob(dir),
+                        _ => Err(SourceError::from("index directories must be strings")),
+                    })
+                    .collect::<Result<_, _>>()?,
+            }),
+            Some(Yaml::Hash(mut index)) => Some(Index {
+                paginate: match index.remove(&yaml::PAGINATE) {
+                    Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
+                    Some(Yaml::Boolean(false)) | None => None,
+                    Some(..) => return Err("invalid pagination setting".into()),
+                },
+                max: match index.remove(&yaml::MAX) {
+                    Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
+                    Some(Yaml::Boolean(false)) | None => None,
+                    Some(..) => return Err("invalid max setting".into()),
+                },
+                compact: match index.remove(&yaml::COMPACT) {
+                    Some(Yaml::Boolean(b)) => b,
+                    None => false,
+                    Some(..) => return Err("invalid compact setting".into()),
+                },
+                sort: match index.remove(&yaml::SORT) {
+                    Some(Yaml::String(key)) => {
+                        let (explicit_dir, key) = if let Some(key) = key.strip_prefix('+') {
+                            (Some(index::SortDirection::Ascending), key)
+                        } else if let Some(key) = key.strip_prefix('-') {
+                            (Some(index::SortDirection::Descending), key)
+                        } else {
+                            (None, &*key)
+                        };
+                        let field = match key {
+                            "date" => index::SortField::Date,
+                            "title" => index::SortField::Title,
+                            "default" => index::SortField::default(),
+                            _ => return Err("invalid sort value".into()),
+                        };
+                        let direction = explicit_dir.unwrap_or_else(|| field.default_direction());
+                        index::Sort { direction, field }
+                    }
+                    Some(..) => return Err("invalid sort value".into()),
+                    None => index::Sort::default(),
+                },
+                directories: match index.remove(&yaml::SORT) {
+                    Some(Yaml::Array(array)) => array
                         .into_iter()
                         .map(|i| match i {
                             Yaml::String(dir) => dir_to_glob(dir),
-                            _ => Err(SourceError::from("index directories must be strings")),
+                            _ => Err(SourceError::from(
+                                "index directories must be \
+                                 strings",
+                            )),
                         })
                         .collect::<Result<_, _>>()?,
-                }),
-                Some(Yaml::Hash(mut index)) => Some(Index {
-                    paginate: match index.remove(&yaml::PAGINATE) {
-                        Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
-                        Some(Yaml::Boolean(false)) | None => None,
-                        Some(..) => return Err("invalid pagination setting".into()),
-                    },
-                    max: match index.remove(&yaml::MAX) {
-                        Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
-                        Some(Yaml::Boolean(false)) | None => None,
-                        Some(..) => return Err("invalid max setting".into()),
-                    },
-                    compact: match index.remove(&yaml::COMPACT) {
-                        Some(Yaml::Boolean(b)) => b,
-                        None => false,
-                        Some(..) => return Err("invalid compact setting".into()),
-                    },
-                    sort: match index.remove(&yaml::SORT) {
-                        Some(Yaml::String(key)) => {
-                            let (explicit_dir, key) = if let Some(key) = key.strip_prefix('+') {
-                                (Some(index::SortDirection::Ascending), key)
-                            } else if let Some(key) = key.strip_prefix('-') {
-                                (Some(index::SortDirection::Descending), key)
-                            } else {
-                                (None, &*key)
-                            };
-                            let field = match key {
-                                "date" => index::SortField::Date,
-                                "title" => index::SortField::Title,
-                                "default" => index::SortField::default(),
-                                _ => return Err("invalid sort value".into()),
-                            };
-                            let direction =
-                                explicit_dir.unwrap_or_else(|| field.default_direction());
-                            index::Sort { direction, field }
-                        }
-                        Some(..) => return Err("invalid sort value".into()),
-                        None => index::Sort::default(),
-                    },
-                    directories: match index.remove(&yaml::SORT) {
-                        Some(Yaml::Array(array)) => array
-                            .into_iter()
-                            .map(|i| match i {
-                                Yaml::String(dir) => dir_to_glob(dir),
-                                _ => Err(SourceError::from(
-                                    "index directories must be \
-                                     strings",
-                                )),
-                            })
-                            .collect::<Result<_, _>>()?,
-                        Some(Yaml::String(dir)) => vec![dir_to_glob(dir)?],
-                        Some(..) => return Err("invalid directory list in index".into()),
-                        None => vec![name_to_glob(name)],
-                    },
-                }),
-                Some(..) => return Err("invalid index value".into()),
-                None => None,
-            },
-            cc: match meta.remove(&yaml::CC) {
-                Some(Yaml::String(cc)) => vec![cc],
-                Some(Yaml::Array(cc)) => cc
-                    .into_iter()
-                    .map(|v| match v {
-                        Yaml::String(ci) => Ok(ci),
-                        _ => Err(SourceError::from("invlaid cc value")),
-                    })
-                    .collect::<Result<_, _>>()?,
-                Some(..) => return Err("invalid cc value".into()),
-                None => Vec::new(),
-            },
-            meta: EntryMeta::from_yaml(meta)?,
-            name: name.to_owned(),
+                    Some(Yaml::String(dir)) => vec![dir_to_glob(dir)?],
+                    Some(..) => return Err("invalid directory list in index".into()),
+                    None => vec![name_to_glob(name)],
+                },
+            }),
+            Some(..) => return Err("invalid index value".into()),
+            None => None,
+        };
+        let cc = match meta.remove(&yaml::CC) {
+            Some(Yaml::String(cc)) => vec![cc],
+            Some(Yaml::Array(cc)) => cc
+                .into_iter()
+                .map(|v| match v {
+                    Yaml::String(ci) => Ok(ci),
+                    _ => Err(SourceError::from("invlaid cc value")),
+                })
+                .collect::<Result<_, _>>()?,
+            Some(..) => return Err("invalid cc value".into()),
+            None => Vec::new(),
+        };
+        let meta = EntryMeta::from_yaml(meta)?;
+        let name = name.to_owned();
+
+        Ok(Entry {
+            title,
+            description,
+            date,
+            updated,
+            index,
+            cc,
+            meta,
+            name,
+            content,
+            format,
         })
     }
 }
