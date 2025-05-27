@@ -23,17 +23,37 @@ pub enum SortField {
     Title,
 }
 
-#[derive(Clone, Debug, Copy, Eq, PartialEq, Default)]
+impl SortField {
+    pub fn default_direction(&self) -> SortDirection {
+        use SortDirection::*;
+        use SortField::*;
+        match self {
+            Date => Descending,
+            Title => Ascending,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Copy, Eq, PartialEq)]
 pub enum SortDirection {
     Ascending,
-    #[default]
     Descending,
 }
 
-#[derive(Default, Clone, Debug, Copy, Eq, PartialEq)]
+#[derive(Clone, Debug, Copy, Eq, PartialEq)]
 pub struct Sort {
     pub field: SortField,
     pub direction: SortDirection,
+}
+
+impl Default for Sort {
+    fn default() -> Self {
+        let field = SortField::default();
+        Self {
+            field,
+            direction: field.default_direction(),
+        }
+    }
 }
 
 #[derive(Debug, Clone)]

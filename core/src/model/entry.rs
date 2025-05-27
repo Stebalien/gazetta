@@ -193,22 +193,22 @@ where
                     },
                     sort: match index.remove(&yaml::SORT) {
                         Some(Yaml::String(key)) => {
-                            let (dir, key) = if let Some(key) = key.strip_prefix('+') {
-                                (index::SortDirection::Ascending, key)
+                            let (explicit_dir, key) = if let Some(key) = key.strip_prefix('+') {
+                                (Some(index::SortDirection::Ascending), key)
                             } else if let Some(key) = key.strip_prefix('-') {
-                                (index::SortDirection::Descending, key)
+                                (Some(index::SortDirection::Descending), key)
                             } else {
-                                (index::SortDirection::default(), &*key)
+                                (None, &*key)
                             };
-                            index::Sort {
-                                direction: dir,
-                                field: match key {
-                                    "date" => index::SortField::Date,
-                                    "title" => index::SortField::Title,
-                                    "default" => index::SortField::default(),
-                                    _ => return Err("invalid sort value".into()),
-                                },
-                            }
+                            let field = match key {
+                                "date" => index::SortField::Date,
+                                "title" => index::SortField::Title,
+                                "default" => index::SortField::default(),
+                                _ => return Err("invalid sort value".into()),
+                            };
+                            let direction =
+                                explicit_dir.unwrap_or_else(|| field.default_direction());
+                            index::Sort { direction, field }
                         }
                         Some(..) => return Err("invalid sort value".into()),
                         None => index::Sort::default(),
