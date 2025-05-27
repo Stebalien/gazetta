@@ -17,7 +17,7 @@
 use std::env;
 use std::error::Error;
 use std::fs::File;
-use std::io::Write;
+use std::io::{BufRead, BufWriter, Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::{fs, process};
@@ -60,6 +60,7 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Render the gazetta site into the target directory.
     Render {
         /// Overwrite any existing
         #[arg(short, long)]
@@ -67,6 +68,7 @@ enum Commands {
         /// The output directory
         destination: PathBuf,
     },
+    /// Create a new post in the target directory.
     New {
         /// Edit the new page in your $EDITOR
         #[arg(short, long)]
@@ -76,6 +78,89 @@ enum Commands {
         /// The page title.
         title: String,
     },
+    /// Edit a the target post.
+    Edit {
+        /// The file (page) to edit.
+        file: PathBuf,
+    },
+}
+
+fn edit_file(path: &Path) -> Result<i32, Box<dyn Error>> {
+    let cwd = path
+        .parent()
+        .ok_or_else(|| format!("path is not a file: {}", path.display()))?;
+    let fname: &Path = path
+        .file_name()
+        .ok_or_else(|| format!("path is not a file: {}", path.display()))?
+        .as_ref();
+    match Command::new(
+        env::var_os("EDITOR")
+            .as_deref()
+            .unwrap_or_else(|| "vim".as_ref()),
+    )
+    .arg(fname)
+    .current_dir(cwd)
+    .status()
+    {
+        Ok(status) => match status.code() {
+            Some(code) => Ok(code),
+            None => Err("Editor was killed.".into()),
+        },
+        Err(e) => Err(format!("Failed to spawn editor: {}", e).into()),
+    }
+}
+
+fn modify_updated(path: &Path) -> Result<(), Box<dyn Error>> {
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .read(true)
+        .create(false)
+        .truncate(false)
+        .open(path)?;
+
+    // Read the file.
+    let mut contents = Vec::new();
+    file.read_to_end(&mut contents)?;
+
+    // Find the "updated: ..." metadata line.
+    let mut reader = std::io::Cursor::new(contents);
+    let mut line = String::new();
+
+    // If the file is empty, don't do anything.
+    if reader.read_line(&mut line)? == 0 {
+        return Ok(());
+    }
+    // If the file has no metadata, it isn't our problem.
+    if line.trim_end() != "---" {
+        return Ok(());
+    }
+    let range = loop {
+        line.clear();
+        let line_start = reader.position();
+        if reader.read_line(&mut line)? == 0 {
+            return Err("unexpected end of file metadata".into());
+        }
+        if line.trim_end() == "---" {
+            break line_start..line_start;
+        }
+        if line.starts_with("updated:") {
+            break line_start..reader.position();
+        }
+    };
+
+    // Replace it with the new date.
+    let contents = reader.into_inner();
+    let date = ::chrono::Local::now().to_rfc3339();
+
+    file.seek(SeekFrom::Start(0))?;
+    file.set_len(0)?;
+
+    let mut writer = BufWriter::new(file);
+    writer.write_all(&contents[..range.start as usize])?;
+    writeln!(writer, "updated: {date}")?;
+    writer.write_all(&contents[range.end as usize..])?;
+    writer.flush()?;
+    Ok(())
 }
 
 fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
@@ -124,37 +209,28 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
             }
             fs::create_dir(&path)
                 .map_err(|e| format!("Failed to create directory '{}': {}", path.display(), e))?;
-
-            let date = ::chrono::Local::now().to_rfc3339();
-
             path.push("index.md");
-            let mut file = File::create(&path)?;
+
+            let mut file = std::io::BufWriter::new(File::create(&path)?);
+            let date = ::chrono::Local::now().to_rfc3339();
             writeln!(file, "---")?;
             writeln!(file, "title: {}", &title)?;
             writeln!(file, "date: {}", date)?;
             writeln!(file, "updated: {}", date)?;
             writeln!(file, "---")?;
             println!("Created page: {}", path.display());
+            file.flush()?;
+            drop(file);
+
             if edit {
-                path.pop();
-                match Command::new(
-                    env::var_os("EDITOR")
-                        .as_deref()
-                        .unwrap_or_else(|| "vim".as_ref()),
-                )
-                .arg("index.md")
-                .current_dir(path)
-                .status()
-                {
-                    Ok(status) => match status.code() {
-                        Some(code) => Ok(code),
-                        None => Err("Editor was killed.".into()),
-                    },
-                    Err(e) => Err(format!("Failed to spawn editor: {}", e).into()),
-                }
+                edit_file(&path)
             } else {
                 Ok(0)
             }
         }
+        Commands::Edit { file } => match edit_file(&file)? {
+            0 => modify_updated(&file).map(|_| 0),
+            n => Ok(n),
+        },
     }
 }
