@@ -17,7 +17,6 @@
 use std::fmt;
 
 use crate::link::Link;
-use crate::util::BubbleResult;
 use crate::yaml::*;
 
 #[derive(Debug, Clone)]
@@ -100,12 +99,12 @@ impl Person {
                 also: person
                     .remove(&ALSO)
                     .map(Link::many_from_yaml)
-                    .bubble_result()?
+                    .transpose()?
                     .unwrap_or_else(Vec::new),
-                key: person.remove(&KEY).map(Key::from_yaml).bubble_result()?,
+                key: person.remove(&KEY).map(Key::from_yaml).transpose()?,
             },
             Yaml::String(name) => Person {
-                name: name,
+                name,
                 email: None,
                 key: None,
                 also: Vec::new(),

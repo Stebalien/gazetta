@@ -19,7 +19,6 @@
 mod link;
 mod meta;
 mod person;
-mod util;
 mod yaml;
 
 pub use crate::link::Link;
