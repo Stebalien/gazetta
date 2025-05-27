@@ -22,6 +22,7 @@ use std::path::PathBuf;
 use glob::PatternError;
 use horrorshow;
 
+use crate::model::index::SortError;
 use crate::yaml::ScanError;
 
 use std::error::Error;
@@ -165,6 +166,12 @@ impl From<&'static str> for SourceError {
 impl From<String> for SourceError {
     fn from(e: String) -> SourceError {
         SourceError::Config(Cow::Owned(e))
+    }
+}
+
+impl From<SortError> for SourceError {
+    fn from(value: SortError) -> Self {
+        value.to_string().into()
     }
 }
 

@@ -201,23 +201,7 @@ where
                     Some(..) => return Err("invalid compact setting".into()),
                 },
                 sort: match index.remove(&yaml::SORT) {
-                    Some(Yaml::String(key)) => {
-                        let (explicit_dir, key) = if let Some(key) = key.strip_prefix('+') {
-                            (Some(index::SortDirection::Ascending), key)
-                        } else if let Some(key) = key.strip_prefix('-') {
-                            (Some(index::SortDirection::Descending), key)
-                        } else {
-                            (None, &*key)
-                        };
-                        let field = match key {
-                            "date" => index::SortField::Date,
-                            "title" => index::SortField::Title,
-                            "default" => index::SortField::default(),
-                            _ => return Err("invalid sort value".into()),
-                        };
-                        let direction = explicit_dir.unwrap_or_else(|| field.default_direction());
-                        index::Sort { direction, field }
-                    }
+                    Some(Yaml::String(key)) => key.parse()?,
                     Some(..) => return Err("invalid sort value".into()),
                     None => index::Sort::default(),
                 },

@@ -15,11 +15,13 @@
 //
 
 use std::cmp::Ordering;
+use std::str::FromStr;
 
 use glob;
 use icu_collator::options::CollatorOptions;
 use icu_collator::preferences::CollationNumericOrdering;
 use icu_collator::{Collator, CollatorBorrowed, CollatorPreferences};
+use thiserror::Error;
 
 use super::{Entry, Meta};
 
@@ -37,6 +39,23 @@ pub enum SortField {
     Date,
     #[default]
     Title,
+}
+
+#[derive(Error, Debug, Clone)]
+#[error("invalid sort field: {0}")]
+pub struct SortError(String);
+
+impl FromStr for SortField {
+    type Err = SortError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "date" => Ok(Self::Date),
+            "title" => Ok(Self::Title),
+            "default" => Ok(Self::default()),
+            other => Err(SortError(other.into())),
+        }
+    }
 }
 
 impl SortField {
@@ -67,6 +86,23 @@ pub enum SortDirection {
 pub struct Sort {
     pub field: SortField,
     pub direction: SortDirection,
+}
+
+impl FromStr for Sort {
+    type Err = SortError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let (explicit_dir, key) = if let Some(key) = s.strip_prefix('+') {
+            (Some(SortDirection::Ascending), key)
+        } else if let Some(key) = s.strip_prefix('-') {
+            (Some(SortDirection::Descending), key)
+        } else {
+            (None, s)
+        };
+        let field: SortField = key.parse()?;
+        let direction = explicit_dir.unwrap_or_else(|| field.default_direction());
+        Ok(Self { direction, field })
+    }
 }
 
 impl Default for Sort {
