@@ -125,11 +125,14 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
             fs::create_dir(&path)
                 .map_err(|e| format!("Failed to create directory '{}': {}", path.display(), e))?;
 
+            let date = ::chrono::Local::now().to_rfc3339();
+
             path.push("index.md");
             let mut file = File::create(&path)?;
             writeln!(file, "---")?;
             writeln!(file, "title: {}", &title)?;
-            writeln!(file, "date: {}", ::chrono::Local::now().to_rfc3339())?;
+            writeln!(file, "date: {}", date)?;
+            writeln!(file, "updated: {}", date)?;
             writeln!(file, "---")?;
             println!("Created page: {}", path.display());
             if edit {

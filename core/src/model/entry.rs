@@ -52,7 +52,8 @@ where
 
     /// The entry's last modification time.
     ///
-    /// All entries have this and it's derived from the file's metadata.
+    /// All entries have this. Usually this should be specified in the entry's metadata, but it can
+    /// also be derived from the associated file's metadata.
     pub updated: DateTime,
 
     /// The entries index options (if specified).
@@ -72,6 +73,19 @@ where
 
     /// Content format
     pub format: String, // TODO: Use atoms (intern).
+}
+
+fn parse_datetime(date: &str) -> Result<DateTime, SourceError> {
+    Ok(if date.contains([' ', 't', 'T']) {
+        chrono::DateTime::<FixedOffset>::parse_from_rfc3339(date)
+            .map_err(|e| format!("invalid date: {e}"))?
+            .to_utc()
+    } else {
+        let date = chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d")
+            .map_err(|e| format!("invalid date: {e}"))?;
+        let datetime = chrono::NaiveDateTime::new(date, chrono::NaiveTime::default());
+        chrono::DateTime::from_naive_utc_and_offset(datetime, chrono::Utc)
+    })
 }
 
 impl<EntryMeta> Entry<EntryMeta>
@@ -106,7 +120,6 @@ where
         // Load metadata
 
         let entry_file = File::open(full_path)?;
-        let modified_date = entry_file.metadata()?.modified()?;
         let (mut meta, content) = yaml::load_front(&entry_file)?;
 
         Ok(Entry {
@@ -126,21 +139,16 @@ where
                 None => None,
                 Some(..) => return Err("invalid description type".into()),
             },
-            date: match meta.remove(&yaml::DATE) {
-                Some(Yaml::String(date)) => Some(if date.contains([' ', 't', 'T']) {
-                    chrono::DateTime::<FixedOffset>::parse_from_rfc3339(&date)
-                        .map_err(|e| format!("invalid date: {e}"))?
-                        .to_utc()
-                } else {
-                    let date = chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d")
-                        .map_err(|e| format!("invalid date: {e}"))?;
-                    let datetime = chrono::NaiveDateTime::new(date, chrono::NaiveTime::default());
-                    chrono::DateTime::from_naive_utc_and_offset(datetime, chrono::Utc)
-                }),
+            date: match meta.remove(&yaml::UPDATED) {
+                Some(Yaml::String(date)) => Some(parse_datetime(&date)?),
                 Some(..) => return Err("date must be a string".into()),
                 None => None,
             },
-            updated: modified_date.into(),
+            updated: match meta.remove(&yaml::UPDATED) {
+                Some(Yaml::String(date)) => parse_datetime(&date)?,
+                Some(..) => return Err("date must be a string".into()),
+                None => entry_file.metadata()?.modified()?.into(),
+            },
             index: match meta.remove(&yaml::INDEX) {
                 Some(Yaml::Boolean(b)) => {
                     if b {

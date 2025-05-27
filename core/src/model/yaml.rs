@@ -30,6 +30,7 @@ lazy_static! {
     pub static ref TITLE: Yaml = Yaml::String("title".into());
     pub static ref INDEX: Yaml = Yaml::String("index".into());
     pub static ref DATE: Yaml = Yaml::String("date".into());
+    pub static ref UPDATED: Yaml = Yaml::String("updated".into());
     pub static ref SORT: Yaml = Yaml::String("sort".into());
     pub static ref PAGINATE: Yaml = Yaml::String("paginate".into());
     pub static ref CC: Yaml = Yaml::String("cc".into());
