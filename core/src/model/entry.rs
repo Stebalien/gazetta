@@ -205,7 +205,7 @@ where
                     Some(..) => return Err("invalid sort value".into()),
                     None => index::Sort::default(),
                 },
-                directories: match index.remove(&yaml::SORT) {
+                directories: match index.remove(&yaml::DIRECTORIES) {
                     Some(Yaml::Array(array)) => array
                         .into_iter()
                         .map(|i| match i {
