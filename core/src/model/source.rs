@@ -110,7 +110,6 @@ where
     /// entry's index pattern.
     pub fn build_index(&self, entry: &Entry<EntryMeta>) -> Vec<&Entry<EntryMeta>> {
         use crate::model::index::SortDirection::*;
-        use crate::model::index::SortField::*;
 
         if let Some(ref index) = entry.index {
             let mut child_entries: Vec<_> = self
@@ -125,11 +124,9 @@ where
                 })
                 .collect();
 
-            match (index.sort.direction, index.sort.field) {
-                (Ascending, Title) => child_entries.sort_by(|e1, e2| e1.title.cmp(&e2.title)),
-                (Descending, Title) => child_entries.sort_by(|e1, e2| e2.title.cmp(&e1.title)),
-                (Ascending, Date) => child_entries.sort_by(|e1, e2| e1.date.cmp(&e2.date)),
-                (Descending, Date) => child_entries.sort_by(|e1, e2| e2.date.cmp(&e1.date)),
+            match index.sort.direction {
+                Ascending => child_entries.sort_by(|e1, e2| index.sort.field.compare(e1, e2)),
+                Descending => child_entries.sort_by(|e1, e2| index.sort.field.compare(e2, e1)),
             }
 
             if let Some(max) = index.max {
