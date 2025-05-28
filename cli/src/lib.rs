@@ -57,7 +57,7 @@ lazy_static::lazy_static! {
 
 /// A fast static site generator written in Rust.
 #[derive(Parser)]
-#[command(version, long_about = None, name = &**CLI_NAME)]
+#[command(long_about = None, name = &**CLI_NAME)]
 pub struct Cli {
     /// Specify the source directory (defaults to the current directory)
     #[arg(short, long, value_name = "DIRECTORY")]
