@@ -13,53 +13,33 @@
 //  You should have received a copy of the GNU General Public License along with this program.  If
 //  not, see <http://www.gnu.org/licenses/>.
 //
-use gazetta_core::render::Gazetta;
-use gazetta_core::view::Page;
 use horrorshow::prelude::*;
 
 /// Renders a page's content
-pub struct Content<'a, G>(pub &'a Page<'a, G>)
-where
-    G: Gazetta + 'a,
-    G::SiteMeta: 'a,
-    G::PageMeta: 'a;
+pub struct Content<'a> {
+    pub content: &'a gazetta_core::view::Content<'a>,
+    pub base: &'a str,
+}
 
-impl<'a, G> RenderOnce for Content<'a, G>
-where
-    G: Gazetta + 'a,
-    G::SiteMeta: 'a,
-    G::PageMeta: 'a,
-{
+impl RenderOnce for Content<'_> {
     fn render_once(self, tmpl: &mut TemplateBuffer) {
         self.render(tmpl);
     }
 }
 
-impl<'a, G> RenderMut for Content<'a, G>
-where
-    G: Gazetta + 'a,
-    G::SiteMeta: 'a,
-    G::PageMeta: 'a,
-{
+impl RenderMut for Content<'_> {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         self.render(tmpl);
     }
 }
 
-impl<'a, G> Render for Content<'a, G>
-where
-    G: Gazetta + 'a,
-    G::SiteMeta: 'a,
-    G::PageMeta: 'a,
-{
+impl Render for Content<'_> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
-        match self.0.content.format {
-            "mkd" | "md" | "markdown" => {
-                tmpl << crate::Markdown::new(self.0.content.data, self.0.href)
-            }
+        match self.content.format {
+            "mkd" | "md" | "markdown" => tmpl << crate::Markdown::new(self.content.data, self.base),
             // TODO: error if heading-level is non-zero.
-            "html" => tmpl << Raw(self.0.content.data),
-            "" | "text" | "txt" => tmpl << self.0.content.data,
+            "html" => tmpl << Raw(self.content.data),
+            "" | "text" | "txt" => tmpl << self.content.data,
             format => tmpl.record_error(format!("unknown format '{}'", format)),
         }
     }
