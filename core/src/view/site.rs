@@ -45,11 +45,11 @@ where
     /// The "canonical" origin for the website. (i.e. the
     /// `<protocol>://<domain>:<port>` part of the url)
     pub origin: &'a str,
-    /// The path prefix at wich we're serving this website.
+    /// The path prefix at which we're serving this website.
     pub prefix: &'a str,
-    /// The concatinated stylesheets.
+    /// The concatenated stylesheets.
     pub stylesheets: Option<&'a str>,
-    /// The concatinated javascript.
+    /// The concatenated javascript.
     pub javascript: Option<&'a str>,
     /// The icon.
     pub icon: Option<&'a str>,

@@ -61,7 +61,7 @@ pub trait Gazetta: Sized {
     type PageMeta: Meta;
 
     /// The page rendering function.
-    fn render_page(&self, site: &Context<Self>, tmpl: &mut TemplateBuffer);
+    fn render_page(&self, context: &Context<Self>, tmpl: &mut TemplateBuffer);
 
     /// Render static content.
     ///

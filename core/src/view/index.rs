@@ -73,6 +73,7 @@ where
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("Index")
+            .field("compact", &self.compact)
             .field("entries", &self.entries)
             .field("paginate", &self.paginate)
             .finish()
