@@ -73,6 +73,9 @@ where
             @ if let Some(feed) = self.0.page.index.and_then(|idx| idx.feed) {
                 link(rel="alternate", type="application/atom+xml", title=self.0.page.title, href=feed);
             }
+            @ if let Some(desc) = self.0.page.description {
+                meta(name="description", content = desc);
+            }
         };
     }
 }
