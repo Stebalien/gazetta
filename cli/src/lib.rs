@@ -49,7 +49,7 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
 }
 
 #[derive(Parser)]
-#[command(version, about, long_about = None)]
+#[command(version, about, long_about = None, name = std::env::args().next().unwrap_or_else(||"gazetta".into()))]
 pub struct Cli {
     /// Specify the source directory (defaults to the current directory)
     #[arg(short, long, value_name = "DIRECTORY")]
