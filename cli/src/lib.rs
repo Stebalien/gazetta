@@ -85,6 +85,10 @@ enum Commands {
     },
 }
 
+fn current_date() -> String {
+    ::chrono::Local::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
+}
+
 fn edit_file(path: &Path) -> Result<i32, Box<dyn Error>> {
     let cwd = path
         .parent()
@@ -150,7 +154,7 @@ fn modify_updated(path: &Path) -> Result<(), Box<dyn Error>> {
 
     // Replace it with the new date.
     let contents = reader.into_inner();
-    let date = ::chrono::Local::now().to_rfc3339();
+    let date = current_date();
 
     file.seek(SeekFrom::Start(0))?;
     file.set_len(0)?;
@@ -212,7 +216,8 @@ fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
             path.push("index.md");
 
             let mut file = std::io::BufWriter::new(File::create(&path)?);
-            let date = ::chrono::Local::now().to_rfc3339();
+            let date = current_date();
+
             writeln!(file, "---")?;
             writeln!(file, "title: {}", &title)?;
             writeln!(file, "date: {}", date)?;
