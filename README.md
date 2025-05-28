@@ -93,7 +93,7 @@ All index files *must* have a yaml header. This header must include a `title`
 and anything else required by your specify renderer. By default, the header may
 also include:
 
-* date: A date in the format `YYYY-MM-DD`.
+* date: A date in the format `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM+HH:MM` (RFC 3339).
 * index: This indicates that the current page is an index. If specified, all
   children will be appended to the page as sub pages. See indexing for more
   information.

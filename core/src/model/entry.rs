@@ -137,7 +137,7 @@ where
             None => None,
             Some(..) => return Err("invalid description type".into()),
         };
-        let date = match meta.remove(&yaml::UPDATED) {
+        let date = match meta.remove(&yaml::DATE) {
             Some(Yaml::String(date)) => Some(parse_datetime(&date)?),
             Some(..) => return Err("date must be a string".into()),
             None => None,
