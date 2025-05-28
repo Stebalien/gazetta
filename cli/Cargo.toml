@@ -15,5 +15,5 @@ gazetta-core.workspace = true
 slug = "0.1"
 lazy_static = "1.5"
 chrono = "0.4"
-clap = { version = "^4.5", features = ["derive", "string"] }
+clap = { version = "^4.5", features = ["derive"] }
 horrorshow = "0.8"

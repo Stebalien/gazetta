@@ -48,8 +48,16 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
     }))
 }
 
+lazy_static::lazy_static! {
+    static ref CLI_NAME: String = std::env::current_exe()
+        .ok()
+        .and_then(|p| p.file_name().map(|s| s.to_string_lossy().into_owned()))
+        .unwrap_or_else(|| "gazetta".into());
+}
+
+/// A fast static site generator written in Rust.
 #[derive(Parser)]
-#[command(version, about, long_about = None, name = std::env::args().next().unwrap_or_else(||"gazetta".into()))]
+#[command(version, long_about = None, name = &**CLI_NAME)]
 pub struct Cli {
     /// Specify the source directory (defaults to the current directory)
     #[arg(short, long, value_name = "DIRECTORY")]
