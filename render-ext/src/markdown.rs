@@ -209,7 +209,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             tmpl << html! {
                                 img(src = &*s.make_relative(dest_url),
                                     title? = if !title.is_empty() { Some(&*title) } else { None },
-                                    id = &*id,
+                                    id ?= if !id.is_empty() { Some(&*id) } else { None },
                                     alt = FnRenderer::new(|tmpl| {
                                         let mut nest = 0;
                                         for event in s.iter.by_ref() {
