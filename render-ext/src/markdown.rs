@@ -119,6 +119,14 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderOnce for RenderMarkdown<'a, I> {
     }
 }
 
+fn class_list<'a>(classes: &'a [CowStr<'a>]) -> Option<impl RenderOnce + 'a> {
+    if classes.is_empty() {
+        None
+    } else {
+        Some(Join(" ", classes.iter().map(AsRef::as_ref)))
+    }
+}
+
 impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         use pulldown_cmark::Event::*;
@@ -160,22 +168,22 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             attrs: _, // TODO
                         } => match level {
                             HeadingLevel::H1 => {
-                                tmpl << html! { h1 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                                tmpl << html! { h1 (id? = id.as_deref(), class ?= class_list(&classes)): s }
                             }
                             HeadingLevel::H2 => {
-                                tmpl << html! { h2 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                                tmpl << html! { h2 (id? = id.as_deref(), class ?= class_list(&classes)): s }
                             }
                             HeadingLevel::H3 => {
-                                tmpl << html! { h3 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                                tmpl << html! { h3 (id? = id.as_deref(), class ?= class_list(&classes)): s }
                             }
                             HeadingLevel::H4 => {
-                                tmpl << html! { h4 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                                tmpl << html! { h4 (id? = id.as_deref(), class ?= class_list(&classes)): s }
                             }
                             HeadingLevel::H5 => {
-                                tmpl << html! { h5 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                                tmpl << html! { h5 (id? = id.as_deref(), class ?= class_list(&classes)): s }
                             }
                             HeadingLevel::H6 => {
-                                tmpl << html! { h6 (id? = id.as_deref(), class = Join(" ", classes.iter().map(AsRef::as_ref))): s }
+                                tmpl << html! { h6 (id? = id.as_deref(), class ?= class_list(&classes)): s }
                             }
                         },
                         Tag::Link {
@@ -189,7 +197,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                 // TODO: Escape href?
                                 a(href = &*s.make_relative(dest_url),
                                   title? = if !title.is_empty() { Some(&*title) } else { None },
-                                  id = &*id) : s
+                                  id ?= if !id.is_empty() { Some(&*id) } else { None }) : s
                             }
                         }
                         Tag::Image {
