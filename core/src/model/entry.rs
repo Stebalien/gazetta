@@ -151,19 +151,13 @@ where
             },
         };
         let index = match meta.remove(&yaml::INDEX) {
-            Some(Yaml::Boolean(b)) => {
-                if b {
-                    Some(Index {
-                        paginate: None,
-                        max: None,
-                        compact: false,
-                        sort: index::Sort::default(),
-                        directories: vec![name_to_glob(name)],
-                    })
-                } else {
-                    None
-                }
-            }
+            Some(Yaml::Boolean(b)) => b.then(|| Index {
+                paginate: None,
+                max: None,
+                compact: false,
+                sort: index::Sort::default(),
+                directories: vec![name_to_glob(name)],
+            }),
             Some(Yaml::String(dir)) => Some(Index {
                 paginate: None,
                 max: None,
