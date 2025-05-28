@@ -187,7 +187,11 @@ where
                 let prefix = url.path().to_string();
 
                 url.set_path("");
-                let origin = url.to_string();
+                let mut origin = url.to_string();
+                // Trim a trailing /, if any.
+                if origin.ends_with("/") {
+                    origin.pop();
+                }
 
                 (origin, prefix)
             }
