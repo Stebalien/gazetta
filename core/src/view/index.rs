@@ -41,6 +41,9 @@ where
     pub entries: &'a [Page<'a, G>],
     /// Pagination information (if any).
     pub paginate: Option<Paginate<'a>>,
+
+    /// The feed URL, if any.
+    pub feed: Option<&'a str>,
 }
 
 // Implement these manually. Derive requires that G: Trait.
@@ -76,6 +79,7 @@ where
             .field("compact", &self.compact)
             .field("entries", &self.entries)
             .field("paginate", &self.paginate)
+            .field("feed", &self.feed)
             .finish()
     }
 }

@@ -21,6 +21,7 @@ use chrono::FixedOffset;
 use glob;
 
 use crate::error::SourceError;
+use crate::model::index::Syndicate;
 
 use super::index::{self, Index};
 use super::yaml::{self, Yaml};
@@ -157,6 +158,7 @@ where
                 compact: false,
                 sort: index::Sort::default(),
                 directories: vec![name_to_glob(name)],
+                syndicate: None,
             }),
             Some(Yaml::String(dir)) => Some(Index {
                 paginate: None,
@@ -164,6 +166,7 @@ where
                 compact: false,
                 sort: index::Sort::default(),
                 directories: vec![dir_to_glob(dir)?],
+                syndicate: None,
             }),
             Some(Yaml::Array(array)) => Some(Index {
                 paginate: None,
@@ -177,6 +180,7 @@ where
                         _ => Err(SourceError::from("index directories must be strings")),
                     })
                     .collect::<Result<_, _>>()?,
+                syndicate: None,
             }),
             Some(Yaml::Hash(mut index)) => Some(Index {
                 paginate: match index.remove(&yaml::PAGINATE) {
@@ -188,6 +192,14 @@ where
                     Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
                     Some(Yaml::Boolean(false)) | None => None,
                     Some(..) => return Err("invalid max setting".into()),
+                },
+                syndicate: match index.remove(&yaml::SYNDICATE) {
+                    Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(Syndicate {
+                        max: Some(i as u32),
+                    }),
+                    Some(Yaml::Boolean(true)) => Some(Syndicate { max: None }),
+                    Some(Yaml::Boolean(false)) | None => None,
+                    Some(..) => return Err("invalid pagination setting".into()),
                 },
                 compact: match index.remove(&yaml::COMPACT) {
                     Some(Yaml::Boolean(b)) => b,

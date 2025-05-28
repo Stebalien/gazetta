@@ -18,8 +18,8 @@ use std::fs::{self, File};
 use std::io::{self, BufWriter};
 use std::path::Path;
 
-use horrorshow::html;
 use horrorshow::prelude::*;
+use horrorshow::{html, xml};
 use std::collections::hash_map::DefaultHasher;
 use str_stack::StrStack;
 
@@ -69,6 +69,58 @@ pub trait Gazetta: Sized {
     #[allow(unused_variables)]
     fn render_static(&self, site: &Site<Self>, source: &Path, output: &Path) -> io::Result<()> {
         util::copy_recursive(source, output)
+    }
+
+    /// Render any additional feed "head" elements (usually author information, etc.). All the
+    /// necessary fields (title, id, updated, link, etc.) will already have been included.
+    #[allow(unused_variables)]
+    fn render_feed_head(&self, context: &Context<Self>, tmpl: &mut TemplateBuffer) {}
+
+    /// Render a page for syndication as a feed entry. By default, only the page summary
+    /// (description) is included in the feed but this method can be overridden to include
+    /// additional elements such as authorship information, the feed content, etc.
+    #[allow(unused_variables)]
+    fn render_feed_entry(&self, context: &Context<Self>, tmpl: &mut TemplateBuffer) {}
+
+    /// Render the feed for a page. In general, you'll want to override
+    /// [`Gazetta::render_feed_entry`] and [`Gazetta::render_feed_head`], not this method, unless
+    /// you want to override how the entire feed is rendered.
+    fn render_feed(&self, context: &Context<Self>, tmpl: &mut TemplateBuffer) {
+        let Some(index) = context.page.index else {
+            return;
+        };
+        let Some(feed_url) = index.feed else { return };
+        let base = format!("{}{}", context.site.origin, context.site.prefix);
+        tmpl << xml! {
+            feed(xmlns="http://www.w3.org/2005/Atom", xml:base=&base) {
+                id : format_args!("{}{}", &base, context.page.href);
+                title : &context.page.title;
+                link(href = &context.page.href);
+                link(rel = "self", href = feed_url);
+                updated : context.page.updated.to_rfc3339();
+
+                |tmpl| self.render_feed_head(context, tmpl);
+
+                @ for p in index.entries {
+                    entry {
+                        id : format!("{}{}", &base, p.href);
+                        title : &p.title;
+                        link(href = &p.href, rel="alternate");
+                        updated : p.updated.to_rfc3339();
+                        @ if let Some(date) = p.date {
+                            published : date.to_rfc3339();
+                        }
+                        @ if let Some(summary) = p.description {
+                            summary(type="text") : summary;
+                        }
+                        |tmpl| self.render_feed_entry(&Context{
+                            site: context.site,
+                            page: p,
+                        }, tmpl);
+                    }
+                }
+            }
+        }
     }
 
     /// Creates pages from a site defined by a source and renders them into output.
@@ -146,6 +198,40 @@ pub trait Gazetta: Sized {
                     .map(Page::for_entry)
                     .collect();
 
+                let feed_path = if let Some(syndicate) = &index.syndicate {
+                    let mut atom_file_path = dest_dir.clone();
+                    atom_file_path.push("atom.xml");
+                    let atom_file = try_annotate!(File::create(&atom_file_path), atom_file_path);
+                    let to_syndicate = syndicate
+                        .max
+                        .map(|m| &children[..m as usize])
+                        .unwrap_or(&children);
+
+                    let feed_path = format!("{}/atom.xml", page.href);
+                    try_annotate!(
+                        xml! {
+                            : Raw("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                            |tmpl| self.render_feed(&Context{
+                                site: &site,
+                                page: &Page {
+                                    index: Some(Index {
+                                        compact: index.compact,
+                                        paginate: None,
+                                        feed: Some(&feed_path),
+                                        entries: to_syndicate,
+                                    }),
+                                    ..page
+                                },
+                            }, tmpl);
+                        }
+                        .write_to_io(&mut BufWriter::new(atom_file)),
+                        atom_file_path
+                    );
+                    Some(feed_path)
+                } else {
+                    None
+                };
+
                 if let Some(paginate) = index.paginate {
                     // TODO: Assert that these casts are correct!
                     let paginate = paginate as usize;
@@ -170,6 +256,7 @@ pub trait Gazetta: Sized {
                                                 pages: &[page.href],
                                                 current: 0,
                                             }),
+                                            feed: feed_path.as_deref(),
                                             entries: &[],
                                         }),
                                         ..page
@@ -206,6 +293,7 @@ pub trait Gazetta: Sized {
                                         site: &site,
                                         page: &Page {
                                         index: Some(Index {
+                                            feed: feed_path.as_deref(),
                                             compact: index.compact,
                                             paginate: Some(Paginate {
                                                 pages: &pages,
@@ -235,6 +323,7 @@ pub trait Gazetta: Sized {
                                 site: &site,
                                 page: &Page {
                                 index:  Some(Index {
+                                    feed: feed_path.as_deref(),
                                     compact: index.compact,
                                     paginate: None,
                                     entries: &children[..],

@@ -119,7 +119,13 @@ impl Default for Sort {
 pub struct Index {
     pub sort: Sort,
     pub directories: Vec<glob::Pattern>,
+    pub syndicate: Option<Syndicate>,
     pub paginate: Option<u32>,
     pub max: Option<u32>,
     pub compact: bool,
+}
+
+#[derive(Debug, Clone)]
+pub struct Syndicate {
+    pub max: Option<u32>,
 }

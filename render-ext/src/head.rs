@@ -70,6 +70,9 @@ where
             @ if let Some(icon) = self.0.site.icon {
                 link(rel="shortcut icon", href=icon);
             }
+            @ if let Some(feed) = self.0.page.index.and_then(|idx| idx.feed) {
+                link(rel="alternate", type="application/atom+xml", title=self.0.page.title, href=feed);
+            }
         };
     }
 }

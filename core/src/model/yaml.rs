@@ -39,6 +39,7 @@ lazy_static! {
     pub static ref BASE: Yaml = Yaml::String("base".into());
     pub static ref COMPACT: Yaml = Yaml::String("compact".into());
     pub static ref DESCRIPTION: Yaml = Yaml::String("description".into());
+    pub static ref SYNDICATE: Yaml = Yaml::String("syndicate".into());
 }
 
 pub fn load_front(file: impl io::Read) -> Result<(yaml::Hash, String), SourceError> {
