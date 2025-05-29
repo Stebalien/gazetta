@@ -1,7 +1,7 @@
 [workspace]
 
 [workspace.package]
-version = "0.5.3"
+version = "0.5.4"
 authors = ["Steven Allen <steven@stebalien.com>"]
 homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
@@ -10,10 +10,10 @@ license = "GPL-3.0"
 edition = "2018"
 
 [workspace.dependencies]
-gazetta-core = { path = "core", version = "=0.5.3" }
-gazetta-cli = { path = "cli", version = "=0.5.3" }
-gazetta-render-ext = { path = "render-ext", version = "=0.5.3" }
-gazetta-model-ext = { path = "model-ext", version = "=0.5.3" }
+gazetta-core = { path = "core", version = "=0.5.4" }
+gazetta-cli = { path = "cli", version = "=0.5.4" }
+gazetta-render-ext = { path = "render-ext", version = "=0.5.4" }
+gazetta-model-ext = { path = "model-ext", version = "=0.5.4" }
 
 [package]
 name = "gazetta"
