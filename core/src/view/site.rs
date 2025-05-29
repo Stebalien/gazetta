@@ -14,8 +14,10 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
-use std::fmt;
+use std::fmt::{self, Display};
 use std::ops::Deref;
+
+use horrorshow::{Render, RenderMut, RenderOnce};
 
 use crate::render::Gazetta;
 
@@ -55,6 +57,18 @@ where
     pub icon: Option<&'a str>,
     /// Extra metadata specified in the Source.
     pub meta: &'a G::SiteMeta,
+}
+
+impl<'a, G> Site<'a, G>
+where
+    G: Gazetta,
+{
+    pub fn base(&self) -> Base<'a> {
+        Base {
+            origin: self.origin,
+            prefix: self.prefix,
+        }
+    }
 }
 
 impl<'a, G> Deref for Site<'a, G>
@@ -103,5 +117,44 @@ where
             .field("icon", &self.icon)
             .field("meta", &self.meta)
             .finish()
+    }
+}
+
+#[derive(Copy, Clone, Eq, PartialEq)]
+pub struct Base<'a> {
+    origin: &'a str,
+    prefix: &'a str,
+}
+
+impl<'a> Display for Base<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(self.origin)?;
+        f.write_str(self.prefix)?;
+        Ok(())
+    }
+}
+
+impl Render for Base<'_> {
+    fn render(&self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
+        tmpl.write_fmt(format_args!("{}", self))
+    }
+}
+
+impl RenderMut for Base<'_> {
+    fn render_mut(&mut self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
+        self.render(tmpl)
+    }
+}
+
+impl RenderOnce for Base<'_> {
+    fn render_once(self, tmpl: &mut horrorshow::TemplateBuffer<'_>)
+    where
+        Self: Sized,
+    {
+        self.render(tmpl)
+    }
+
+    fn size_hint(&self) -> usize {
+        self.origin.len() + self.prefix.len()
     }
 }

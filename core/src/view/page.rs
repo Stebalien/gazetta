@@ -43,7 +43,7 @@ where
     /// syndication).
     pub updated: &'a DateTime,
 
-    /// The page's location.
+    /// The page's location, relative to the site's base.
     pub href: &'a str,
 
     /// The index contained in this page, if any.

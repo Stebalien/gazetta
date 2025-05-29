@@ -90,10 +90,9 @@ pub trait Gazetta: Sized {
             return;
         };
         let Some(feed_url) = index.feed else { return };
-        let base = format!("{}{}", context.site.origin, context.site.prefix);
         tmpl << xml! {
-            feed(xmlns="http://www.w3.org/2005/Atom", xml:base=&base) {
-                id : format_args!("{}{}", &base, context.page.href);
+            feed(xmlns="http://www.w3.org/2005/Atom", xml:base=context.site.base()) {
+                id : context.canonical_url();
                 title : &context.page.title;
                 link(href = &context.page.href);
                 link(rel = "self", href = feed_url);
@@ -107,7 +106,7 @@ pub trait Gazetta: Sized {
 
                 @ for p in index.entries {
                     entry {
-                        id : format!("{}{}", &base, p.href);
+                        id : Context{site: context.site, page: p}.canonical_url();
                         title : &p.title;
                         link(href = &p.href, rel="alternate");
                         updated : p.updated.to_rfc3339();
