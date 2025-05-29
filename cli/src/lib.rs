@@ -23,7 +23,7 @@ use std::process::Command;
 use std::sync::LazyLock;
 use std::{fs, process};
 
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, FromArgMatches, Parser, Subcommand};
 use gazetta_core::model::Source;
 use gazetta_core::render::Gazetta;
 use slug::slugify;
@@ -41,9 +41,17 @@ impl<G: Gazetta> RenderPaths for G {
     }
 }
 
-/// Run the CLI.
+/// Run the CLI. Prefer [`run_with_version`] whenever possible.
 pub fn run<G: Gazetta>(gazetta: G) -> ! {
-    process::exit(_run(&gazetta).unwrap_or_else(|e| {
+    process::exit(_run(&gazetta, None).unwrap_or_else(|e| {
+        eprintln!("{}", e);
+        1
+    }))
+}
+
+/// Run the CLI, specifying the CLI version.
+pub fn run_with_version<G: Gazetta>(gazetta: G, version: &'static str) -> ! {
+    process::exit(_run(&gazetta, Some(version)).unwrap_or_else(|e| {
         eprintln!("{}", e);
         1
     }))
@@ -176,8 +184,16 @@ fn modify_updated(path: &Path) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn _run(render_paths: &dyn RenderPaths) -> Result<i32, Box<dyn Error>> {
-    let cli = Cli::parse();
+fn _run(
+    render_paths: &dyn RenderPaths,
+    version: Option<&'static str>,
+) -> Result<i32, Box<dyn Error>> {
+    let mut command = Cli::command();
+    if let Some(version) = version {
+        command = command.version(version);
+    }
+    let cli = Cli::from_arg_matches_mut(&mut command.get_matches())?;
+
     let source_path = cli
         .source
         .or_else(|| {
