@@ -17,7 +17,7 @@
 use std::fmt;
 
 use crate::link::Link;
-use crate::yaml::*;
+use crate::yaml::{self, Yaml};
 
 #[derive(Debug, Clone)]
 pub struct Person {
@@ -39,12 +39,12 @@ impl Key {
     pub fn from_yaml(key: Yaml) -> Result<Self, &'static str> {
         match key {
             Yaml::Hash(mut key) => Ok(Key {
-                url: match key.remove(&URL) {
+                url: match key.remove(&yaml::KEYS.url) {
                     Some(Yaml::String(url)) => url,
                     Some(..) => return Err("key url must be a string"),
                     None => return Err("key url missing"),
                 },
-                fingerprint: match key.remove(&FINGERPRINT) {
+                fingerprint: match key.remove(&yaml::KEYS.fingerprint) {
                     Some(Yaml::String(fprint)) => fprint,
                     Some(..) => return Err("key fingerprint must be a string"),
                     None => return Err("key fingerprint missing"),
@@ -69,22 +69,22 @@ impl Person {
     pub fn from_yaml(person: Yaml) -> Result<Self, &'static str> {
         Ok(match person {
             Yaml::Hash(mut person) => Person {
-                name: match person.remove(&NAME) {
+                name: match person.remove(&yaml::KEYS.name) {
                     Some(Yaml::String(name)) => name,
                     None => return Err("missing name"),
                     _ => return Err("name must be a string"),
                 },
-                photo: match person.remove(&PHOTO) {
+                photo: match person.remove(&yaml::KEYS.photo) {
                     Some(Yaml::String(photo)) => Some(photo),
                     None => None,
                     _ => return Err("if specified, photo must be a string"),
                 },
-                email: match person.remove(&EMAIL) {
+                email: match person.remove(&yaml::KEYS.email) {
                     Some(Yaml::String(email)) => Some(email),
                     None => None,
                     _ => return Err("if specified, email must be a string"),
                 },
-                nicknames: match person.remove(&NICKNAMES) {
+                nicknames: match person.remove(&yaml::KEYS.nicknames) {
                     Some(Yaml::String(nick)) => vec![nick],
                     Some(Yaml::Array(nicks)) => nicks
                         .into_iter()
@@ -97,11 +97,14 @@ impl Person {
                     None => vec![],
                 },
                 also: person
-                    .remove(&ALSO)
+                    .remove(&yaml::KEYS.also)
                     .map(Link::many_from_yaml)
                     .transpose()?
                     .unwrap_or_else(Vec::new),
-                key: person.remove(&KEY).map(Key::from_yaml).transpose()?,
+                key: person
+                    .remove(&yaml::KEYS.key)
+                    .map(Key::from_yaml)
+                    .transpose()?,
             },
             Yaml::String(name) => Person {
                 name,

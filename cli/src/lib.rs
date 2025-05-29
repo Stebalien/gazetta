@@ -20,6 +20,7 @@ use std::fs::File;
 use std::io::{BufRead, BufWriter, Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::LazyLock;
 use std::{fs, process};
 
 use clap::{Parser, Subcommand};
@@ -48,12 +49,12 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
     }))
 }
 
-lazy_static::lazy_static! {
-    static ref CLI_NAME: String = std::env::current_exe()
+static CLI_NAME: LazyLock<String> = LazyLock::new(|| {
+    std::env::current_exe()
         .ok()
         .and_then(|p| p.file_name().map(|s| s.to_string_lossy().into_owned()))
-        .unwrap_or_else(|| "gazetta".into());
-}
+        .unwrap_or_else(|| "gazetta".into())
+});
 
 /// A fast static site generator written in Rust.
 #[derive(Parser)]

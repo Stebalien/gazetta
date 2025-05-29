@@ -16,6 +16,7 @@
 
 use std::cmp::Ordering;
 use std::str::FromStr;
+use std::sync::LazyLock;
 
 use glob;
 use icu_collator::options::CollatorOptions;
@@ -25,14 +26,12 @@ use thiserror::Error;
 
 use super::{Entry, Meta};
 
-lazy_static::lazy_static! {
-    static ref COLLATOR: CollatorBorrowed<'static> = {
-        let mut prefs = CollatorPreferences::default();
-        prefs.numeric_ordering = Some(CollationNumericOrdering::True);
-        let options = CollatorOptions::default();
-        Collator::try_new(prefs, options).expect("failed to construct collator for sorting the index")
-    };
-}
+static COLLATOR: LazyLock<CollatorBorrowed<'static>> = LazyLock::new(|| {
+    let mut prefs = CollatorPreferences::default();
+    prefs.numeric_ordering = Some(CollationNumericOrdering::True);
+    let options = CollatorOptions::default();
+    Collator::try_new(prefs, options).expect("failed to construct collator for sorting the index")
+});
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Default)]
 pub enum SortField {

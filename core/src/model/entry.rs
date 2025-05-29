@@ -128,22 +128,22 @@ where
             .and_then(|e| e.to_str())
             .unwrap_or("")
             .to_owned();
-        let title = match meta.remove(&yaml::TITLE) {
+        let title = match meta.remove(&yaml::KEYS.title) {
             Some(Yaml::String(title)) => title,
             Some(..) => return Err("titles must be strings".into()),
             None => return Err("entries must have titles".into()),
         };
-        let description = match meta.remove(&yaml::DESCRIPTION) {
+        let description = match meta.remove(&yaml::KEYS.description) {
             Some(Yaml::String(desc)) => Some(desc),
             None => None,
             Some(..) => return Err("invalid description type".into()),
         };
-        let date = match meta.remove(&yaml::DATE) {
+        let date = match meta.remove(&yaml::KEYS.date) {
             Some(Yaml::String(date)) => Some(parse_datetime(&date)?),
             Some(..) => return Err("date must be a string".into()),
             None => None,
         };
-        let updated = match meta.remove(&yaml::UPDATED) {
+        let updated = match meta.remove(&yaml::KEYS.updated) {
             Some(Yaml::String(date)) => parse_datetime(&date)?,
             Some(..) => return Err("date must be a string".into()),
             None => match date {
@@ -151,7 +151,7 @@ where
                 None => entry_file.metadata()?.modified()?.into(),
             },
         };
-        let index = match meta.remove(&yaml::INDEX) {
+        let index = match meta.remove(&yaml::KEYS.index) {
             Some(Yaml::Boolean(b)) => b.then(|| Index {
                 paginate: None,
                 max: None,
@@ -183,17 +183,17 @@ where
                 syndicate: None,
             }),
             Some(Yaml::Hash(mut index)) => Some(Index {
-                paginate: match index.remove(&yaml::PAGINATE) {
+                paginate: match index.remove(&yaml::KEYS.paginate) {
                     Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
                     Some(Yaml::Boolean(false)) | None => None,
                     Some(..) => return Err("invalid pagination setting".into()),
                 },
-                max: match index.remove(&yaml::MAX) {
+                max: match index.remove(&yaml::KEYS.max) {
                     Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(i as u32),
                     Some(Yaml::Boolean(false)) | None => None,
                     Some(..) => return Err("invalid max setting".into()),
                 },
-                syndicate: match index.remove(&yaml::SYNDICATE) {
+                syndicate: match index.remove(&yaml::KEYS.syndicate) {
                     Some(Yaml::Integer(i @ 1..=U32_MAX_AS_I64)) => Some(Syndicate {
                         max: Some(i as u32),
                     }),
@@ -201,17 +201,17 @@ where
                     Some(Yaml::Boolean(false)) | None => None,
                     Some(..) => return Err("invalid pagination setting".into()),
                 },
-                compact: match index.remove(&yaml::COMPACT) {
+                compact: match index.remove(&yaml::KEYS.compact) {
                     Some(Yaml::Boolean(b)) => b,
                     None => false,
                     Some(..) => return Err("invalid compact setting".into()),
                 },
-                sort: match index.remove(&yaml::SORT) {
+                sort: match index.remove(&yaml::KEYS.sort) {
                     Some(Yaml::String(key)) => key.parse()?,
                     Some(..) => return Err("invalid sort value".into()),
                     None => index::Sort::default(),
                 },
-                directories: match index.remove(&yaml::DIRECTORIES) {
+                directories: match index.remove(&yaml::KEYS.directories) {
                     Some(Yaml::Array(array)) => array
                         .into_iter()
                         .map(|i| match i {
@@ -230,7 +230,7 @@ where
             Some(..) => return Err("invalid index value".into()),
             None => None,
         };
-        let cc = match meta.remove(&yaml::CC) {
+        let cc = match meta.remove(&yaml::KEYS.cc) {
             Some(Yaml::String(cc)) => vec![cc],
             Some(Yaml::Array(cc)) => cc
                 .into_iter()

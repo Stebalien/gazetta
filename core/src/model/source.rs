@@ -171,7 +171,7 @@ where
     #[inline(always)]
     fn from_config(root: &Path, config_path: &Path) -> Result<Self, SourceError> {
         let mut config = yaml::load(config_path)?;
-        let (origin, prefix) = match config.remove(&yaml::BASE) {
+        let (origin, prefix) = match config.remove(&yaml::KEYS.base) {
             Some(Yaml::String(base)) => {
                 let mut url = Url::parse(&base)?;
                 if url.cannot_be_a_base() {
@@ -200,7 +200,7 @@ where
         };
 
         Ok(Source {
-            title: match config.remove(&yaml::TITLE) {
+            title: match config.remove(&yaml::KEYS.title) {
                 Some(Yaml::String(title)) => title,
                 Some(..) => return Err("title must be a string".into()),
                 None => return Err("must specify title".into()),

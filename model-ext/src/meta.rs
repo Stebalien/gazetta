@@ -19,7 +19,7 @@ use gazetta_core::yaml::Hash;
 
 use crate::link::Link;
 use crate::person::Person;
-use crate::yaml::*;
+use crate::yaml;
 
 pub struct SourceMeta {
     pub nav: Vec<Link>,
@@ -30,12 +30,12 @@ impl Meta for SourceMeta {
     fn from_yaml(mut meta: Hash) -> Result<SourceMeta, &'static str> {
         Ok(SourceMeta {
             nav: meta
-                .remove(&NAV)
+                .remove(&yaml::KEYS.nav)
                 .map(Link::many_from_yaml)
                 .transpose()?
                 .unwrap_or_else(Vec::new),
             author: meta
-                .remove(&AUTHOR)
+                .remove(&yaml::KEYS.author)
                 .map(Person::from_yaml)
                 .transpose()?
                 .ok_or("websites must have authors")?,
@@ -51,8 +51,14 @@ pub struct EntryMeta {
 impl Meta for EntryMeta {
     fn from_yaml(mut meta: Hash) -> Result<EntryMeta, &'static str> {
         Ok(EntryMeta {
-            author: meta.remove(&AUTHOR).map(Person::from_yaml).transpose()?,
-            about: meta.remove(&ABOUT).map(Person::from_yaml).transpose()?,
+            author: meta
+                .remove(&yaml::KEYS.author)
+                .map(Person::from_yaml)
+                .transpose()?,
+            about: meta
+                .remove(&yaml::KEYS.about)
+                .map(Person::from_yaml)
+                .transpose()?,
         })
     }
 }

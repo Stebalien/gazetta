@@ -14,7 +14,6 @@ homepage.workspace = true
 chrono = "0.4"
 glob = "0.3"
 yaml-rust = "0.4"
-lazy_static = "1.5"
 horrorshow = "0.8.4"
 url = "2"
 str_stack = "0.1"

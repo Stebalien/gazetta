@@ -18,28 +18,44 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
 use std::path::Path;
+use std::sync::LazyLock;
 
-use lazy_static::lazy_static;
 use yaml_rust::{yaml, YamlLoader};
 
 use crate::error::SourceError;
 
 pub use crate::yaml::*;
 
-lazy_static! {
-    pub static ref TITLE: Yaml = Yaml::String("title".into());
-    pub static ref INDEX: Yaml = Yaml::String("index".into());
-    pub static ref DATE: Yaml = Yaml::String("date".into());
-    pub static ref UPDATED: Yaml = Yaml::String("updated".into());
-    pub static ref SORT: Yaml = Yaml::String("sort".into());
-    pub static ref DIRECTORIES: Yaml = Yaml::String("directories".into());
-    pub static ref PAGINATE: Yaml = Yaml::String("paginate".into());
-    pub static ref CC: Yaml = Yaml::String("cc".into());
-    pub static ref MAX: Yaml = Yaml::String("max".into());
-    pub static ref BASE: Yaml = Yaml::String("base".into());
-    pub static ref COMPACT: Yaml = Yaml::String("compact".into());
-    pub static ref DESCRIPTION: Yaml = Yaml::String("description".into());
-    pub static ref SYNDICATE: Yaml = Yaml::String("syndicate".into());
+pub static KEYS: LazyLock<YamlKeys> = LazyLock::new(|| YamlKeys {
+    title: Yaml::String("title".into()),
+    index: Yaml::String("index".into()),
+    date: Yaml::String("date".into()),
+    updated: Yaml::String("updated".into()),
+    sort: Yaml::String("sort".into()),
+    directories: Yaml::String("directories".into()),
+    paginate: Yaml::String("paginate".into()),
+    cc: Yaml::String("cc".into()),
+    max: Yaml::String("max".into()),
+    base: Yaml::String("base".into()),
+    compact: Yaml::String("compact".into()),
+    description: Yaml::String("description".into()),
+    syndicate: Yaml::String("syndicate".into()),
+});
+
+pub struct YamlKeys {
+    pub title: Yaml,
+    pub index: Yaml,
+    pub date: Yaml,
+    pub updated: Yaml,
+    pub sort: Yaml,
+    pub directories: Yaml,
+    pub paginate: Yaml,
+    pub cc: Yaml,
+    pub max: Yaml,
+    pub base: Yaml,
+    pub compact: Yaml,
+    pub description: Yaml,
+    pub syndicate: Yaml,
 }
 
 pub fn load_front(file: impl io::Read) -> Result<(yaml::Hash, String), SourceError> {

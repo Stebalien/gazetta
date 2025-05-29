@@ -14,18 +14,32 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 pub use gazetta_core::yaml::Yaml;
-use lazy_static::lazy_static;
+use std::sync::LazyLock;
 
-lazy_static! {
-    pub static ref NAV: Yaml = Yaml::String(String::from("nav"));
-    pub static ref NAME: Yaml = Yaml::String("name".into());
-    pub static ref ABOUT: Yaml = Yaml::String(String::from("about"));
-    pub static ref AUTHOR: Yaml = Yaml::String("author".into());
-    pub static ref EMAIL: Yaml = Yaml::String("email".into());
-    pub static ref KEY: Yaml = Yaml::String("key".into());
-    pub static ref URL: Yaml = Yaml::String("url".into());
-    pub static ref FINGERPRINT: Yaml = Yaml::String("fingerprint".into());
-    pub static ref NICKNAMES: Yaml = Yaml::String("nicknames".into());
-    pub static ref PHOTO: Yaml = Yaml::String("photo".into());
-    pub static ref ALSO: Yaml = Yaml::String("also".into());
+pub static KEYS: LazyLock<YamlKeys> = LazyLock::new(|| YamlKeys {
+    nav: Yaml::String("nav".into()),
+    name: Yaml::String("name".into()),
+    about: Yaml::String("about".into()),
+    author: Yaml::String("author".into()),
+    email: Yaml::String("email".into()),
+    key: Yaml::String("key".into()),
+    url: Yaml::String("url".into()),
+    fingerprint: Yaml::String("fingerprint".into()),
+    nicknames: Yaml::String("nicknames".into()),
+    photo: Yaml::String("photo".into()),
+    also: Yaml::String("also".into()),
+});
+
+pub struct YamlKeys {
+    pub nav: Yaml,
+    pub name: Yaml,
+    pub about: Yaml,
+    pub author: Yaml,
+    pub email: Yaml,
+    pub key: Yaml,
+    pub url: Yaml,
+    pub fingerprint: Yaml,
+    pub nicknames: Yaml,
+    pub photo: Yaml,
+    pub also: Yaml,
 }

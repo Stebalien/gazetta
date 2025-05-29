@@ -11,5 +11,4 @@ repository.workspace = true
 homepage.workspace = true
 
 [dependencies]
-lazy_static = "1.5"
 gazetta-core.workspace = true
