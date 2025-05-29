@@ -16,7 +16,7 @@
 use gazetta_core::render::Gazetta;
 use gazetta_core::view::Context;
 use horrorshow::prelude::*;
-use horrorshow::{html, Concat};
+use horrorshow::{Concat, html};
 
 /// Renders common head tags for a site and page.
 pub struct Head<'a, G>(pub &'a Context<'a, G>)

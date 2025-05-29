@@ -17,10 +17,10 @@
 use std::collections::HashMap;
 use std::convert::TryFrom;
 
-use horrorshow::html;
-use horrorshow::prelude::*;
 use horrorshow::Concat;
 use horrorshow::Join;
+use horrorshow::html;
+use horrorshow::prelude::*;
 use pulldown_cmark::HeadingLevel;
 use pulldown_cmark::{CowStr, Event, InlineStr, Options, Parser};
 

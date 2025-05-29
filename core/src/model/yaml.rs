@@ -20,7 +20,7 @@ use std::io::{self, BufReader};
 use std::path::Path;
 use std::sync::LazyLock;
 
-use yaml_rust::{yaml, YamlLoader};
+use yaml_rust::{YamlLoader, yaml};
 
 use crate::error::SourceError;
 

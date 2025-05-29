@@ -22,8 +22,8 @@ use url::Url;
 use crate::error::{AnnotatedError, SourceError};
 use crate::util;
 
-use super::yaml::{self, Yaml};
 use super::Meta;
+use super::yaml::{self, Yaml};
 use super::{Entry, StaticEntry};
 
 const MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {

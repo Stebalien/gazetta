@@ -7,7 +7,7 @@ homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
 keywords = ["staticsite", "website", "blog"]
 license = "GPL-3.0"
-edition = "2018"
+edition = "2024"
 
 [workspace.dependencies]
 gazetta-core = { path = "core", version = "=0.5.4" }

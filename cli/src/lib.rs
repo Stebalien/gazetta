@@ -252,11 +252,7 @@ fn _run(
             file.flush()?;
             drop(file);
 
-            if edit {
-                edit_file(&path)
-            } else {
-                Ok(0)
-            }
+            if edit { edit_file(&path) } else { Ok(0) }
         }
         Commands::Edit { file } => match edit_file(&file)? {
             0 => modify_updated(&file).map(|_| 0),
