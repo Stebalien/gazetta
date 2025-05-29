@@ -69,7 +69,8 @@ impl<'a> Render for Markdown<'a> {
                     | Options::ENABLE_STRIKETHROUGH
                     | Options::ENABLE_SMART_PUNCTUATION
                     | Options::ENABLE_DEFINITION_LIST
-                    | Options::ENABLE_TASKLISTS,
+                    | Options::ENABLE_TASKLISTS
+                    | Options::ENABLE_GFM,
             ),
             base: self.base,
         }
@@ -129,6 +130,7 @@ fn class_list<'a>(classes: &'a [CowStr<'a>]) -> Option<impl RenderOnce + 'a> {
 
 impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
+        use pulldown_cmark::BlockQuoteKind::*;
         use pulldown_cmark::Event::*;
         use pulldown_cmark::{CodeBlockKind, Tag};
 
@@ -149,7 +151,17 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             }
                         }
                         Tag::Paragraph => tmpl << html! { p : s },
-                        Tag::BlockQuote(_) => tmpl << html! { blockquote : s },
+                        Tag::BlockQuote(kind) => {
+                            tmpl << html! {
+                                blockquote(class ?= kind.map(|k| match k {
+                                    Note => "note",
+                                    Tip => "tip",
+                                    Important => "important",
+                                    Warning => "warning",
+                                    Caution => "caution",
+                                })) : s;
+                            }
+                        }
                         Tag::Table(_) => tmpl << html! { table : s },
                         Tag::TableHead => tmpl << html! { thead { tr : s } },
                         Tag::TableRow => tmpl << html! { tr : s },
