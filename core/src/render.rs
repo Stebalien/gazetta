@@ -99,6 +99,10 @@ pub trait Gazetta: Sized {
                 link(rel = "self", href = feed_url);
                 updated : context.page.updated.to_rfc3339();
 
+                @ if let Some(icon) = &context.site.icon {
+                    icon : icon;
+                }
+
                 |tmpl| self.render_feed_head(context, tmpl);
 
                 @ for p in index.entries {
