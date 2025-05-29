@@ -90,6 +90,7 @@ impl<'a, I> RenderMarkdown<'a, I> {
     }
 
     fn make_relative<'b>(&self, dest: CowStr<'b>) -> CowStr<'b> {
+        #[allow(clippy::manual_strip)]
         if dest.starts_with("./") {
             if self.base.is_empty() {
                 match dest {
