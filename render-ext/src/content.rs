@@ -19,6 +19,7 @@ use horrorshow::prelude::*;
 pub struct Content<'a> {
     pub content: &'a gazetta_core::view::Content<'a>,
     pub base: &'a str,
+    pub syntax_highlight: bool,
 }
 
 impl RenderOnce for Content<'_> {
@@ -36,7 +37,9 @@ impl RenderMut for Content<'_> {
 impl Render for Content<'_> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         match self.content.format {
-            "mkd" | "md" | "markdown" => tmpl << crate::Markdown::new(self.content.data, self.base),
+            "mkd" | "md" | "markdown" => {
+                tmpl << crate::Markdown::new(self.content.data, self.base, self.syntax_highlight)
+            }
             // TODO: error if heading-level is non-zero.
             "html" => tmpl << Raw(self.content.data),
             "" | "text" | "txt" => tmpl << self.content.data,

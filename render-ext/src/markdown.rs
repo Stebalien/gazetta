@@ -17,18 +17,21 @@
 use std::collections::HashMap;
 use std::convert::TryFrom;
 
-use horrorshow::Concat;
 use horrorshow::Join;
 use horrorshow::html;
 use horrorshow::prelude::*;
 use pulldown_cmark::HeadingLevel;
 use pulldown_cmark::{CowStr, Event, InlineStr, Options, Parser};
 
+#[cfg(feature = "syntax-highlighting")]
+use crate::highlight::SyntaxHighlight;
+
 /// Markdown renderer
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Markdown<'a> {
     data: &'a str,
     base: &'a str,
+    highlight: bool,
 }
 
 impl<'a> Markdown<'a> {
@@ -38,8 +41,12 @@ impl<'a> Markdown<'a> {
     /// prefix (for relative links and images).
     ///
     /// Note: `base` will only affect markdown links and images, not inline html ones.
-    pub fn new(data: &'a str, base: &'a str) -> Markdown<'a> {
-        Markdown { data, base }
+    pub fn new(data: &'a str, base: &'a str, highlight: bool) -> Markdown<'a> {
+        Markdown {
+            data,
+            base,
+            highlight,
+        }
     }
 }
 
@@ -73,6 +80,7 @@ impl<'a> Render for Markdown<'a> {
                     | Options::ENABLE_GFM,
             ),
             base: self.base,
+            syntax_highlight: self.highlight,
         }
     }
 }
@@ -81,6 +89,8 @@ struct RenderMarkdown<'a, I> {
     iter: I,
     footnotes: HashMap<CowStr<'a>, u32>,
     base: &'a str,
+    #[cfg_attr(not(feature = "syntax-highlighting"), allow(dead_code))]
+    syntax_highlight: bool,
 }
 
 impl<'a, I> RenderMarkdown<'a, I> {
@@ -129,11 +139,41 @@ fn class_list<'a>(classes: &'a [CowStr<'a>]) -> Option<impl RenderOnce + 'a> {
     }
 }
 
+#[inline(always)]
+fn inner_text<'a>(iter: &mut impl Iterator<Item = Event<'a>>, escape: bool) -> impl RenderOnce {
+    use pulldown_cmark::Event::*;
+    FnRenderer::new(move |tmpl| {
+        let mut nest = 0;
+        for event in iter {
+            match event {
+                Start(_) => nest += 1,
+                End(_) if nest == 0 => break,
+                End(_) => nest -= 1,
+                Text(txt) | Code(txt) => {
+                    if escape {
+                        tmpl.write_str(&txt)
+                    } else {
+                        tmpl.write_raw(&txt)
+                    }
+                }
+                SoftBreak | HardBreak => tmpl.write_raw(" "),
+                Rule => tmpl.write_raw("\n"),
+                // Ignored
+                TaskListMarker(_) | FootnoteReference(_) | Html(_) | InlineHtml(_)
+                | InlineMath(_) | DisplayMath(_) => (),
+            }
+        }
+    })
+}
+
 impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
     fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
         use pulldown_cmark::BlockQuoteKind::*;
         use pulldown_cmark::Event::*;
         use pulldown_cmark::{CodeBlockKind, Tag};
+
+        #[cfg(feature = "syntax-highlighting")]
+        let syntax_highlight = self.syntax_highlight;
 
         while let Some(event) = self.iter.next() {
             // manually reborrow
@@ -223,47 +263,35 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                                 img(src = &*s.make_relative(dest_url),
                                     title? = if !title.is_empty() { Some(&*title) } else { None },
                                     id ?= if !id.is_empty() { Some(&*id) } else { None },
-                                    alt = FnRenderer::new(|tmpl| {
-                                        let mut nest = 0;
-                                        for event in s.iter.by_ref() {
-                                            let tmpl = &mut *tmpl;
-                                            match event {
-                                                | Start(_) => nest += 1,
-                                                | End(_) if nest == 0 => break,
-                                                | End(_) => nest -= 1,
-                                                | Text(txt) => tmpl << &*txt,
-                                                | SoftBreak
-                                                | HardBreak => tmpl << " ",
-                                                | Rule =>  (),
-                                                // Ignored
-                                                | Code(_)
-                                                | TaskListMarker(_)
-                                                | FootnoteReference(_)
-                                                | Html(_)
-                                                | InlineHtml(_)
-                                                | InlineMath(_) | DisplayMath(_) => (),
-                                            }
-                                        }
-                                    }))
+                                    alt = inner_text(&mut s.iter, true))
                             }
                         }
                         Tag::CodeBlock(ref kind) => {
-                            // TODO Highlight code without js.
-
-                            let tmp; // lifetimes.
-                            let class = match kind {
+                            let lang = match kind {
                                 CodeBlockKind::Fenced(info) => {
-                                    tmp = ["lang-", info.split(' ').next().unwrap()];
-                                    Some(Concat(&tmp))
+                                    let lang = info.split(' ').next().unwrap();
+                                    (!lang.is_empty()).then_some(lang)
                                 }
                                 CodeBlockKind::Indented => None,
                             };
 
-                            tmpl << html! {
-                                pre {
-                                    code(class? = class) : s
+                            match lang {
+                                #[cfg(feature = "syntax-highlighting")]
+                                Some(lang) if syntax_highlight => {
+                                    tmpl << html! {
+                                        pre {
+                                            code(class = format_args!("lang-{lang}")) : SyntaxHighlight {
+                                                code: &inner_text(&mut s.iter, false).into_string().unwrap(),
+                                                lang,
+                                            }
+                                        }
+                                    }
                                 }
-                            };
+                                Some(lang) => {
+                                    tmpl << html! { pre { code(class = format_args!("lang-{lang}")) : s } }
+                                }
+                                None => tmpl << html! { pre { code : s } },
+                            }
                         }
 
                         Tag::DefinitionList => tmpl << html! { dl : s },

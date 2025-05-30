@@ -17,6 +17,8 @@
 mod content;
 mod date;
 mod head;
+#[cfg(feature = "syntax-highlighting")]
+mod highlight;
 mod markdown;
 
 pub use crate::content::Content;

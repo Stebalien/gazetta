@@ -1,4 +1,5 @@
 [workspace]
+members = ["core", "render-ext", "model-ext", "cli", "render-ext/css"]
 
 [workspace.package]
 version = "0.5.5"
@@ -10,9 +11,10 @@ license = "GPL-3.0"
 edition = "2024"
 
 [workspace.dependencies]
+inkjet = { version = "0.11.1", default-features = false }
 gazetta-core = { path = "core", version = "=0.5.5" }
 gazetta-cli = { path = "cli", version = "=0.5.5" }
-gazetta-render-ext = { path = "render-ext", version = "=0.5.5" }
+gazetta-render-ext = { path = "render-ext", version = "=0.5.5", default-features = false }
 gazetta-model-ext = { path = "model-ext", version = "=0.5.5" }
 
 [package]
@@ -35,3 +37,7 @@ gazetta-core.workspace = true
 gazetta-cli.workspace = true
 gazetta-render-ext.workspace = true
 gazetta-model-ext.workspace = true
+
+[features]
+syntax-highlighting = ["gazetta-render-ext/syntax-highlighting"]
+default = ["syntax-highlighting"]

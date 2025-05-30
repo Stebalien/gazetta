@@ -1,0 +1,16 @@
+[package]
+name = "gazetta-syntax-css"
+description = "Helix to CSS theme converter for syntax-highlighting in gazetta."
+documentation = "https://docs.rs/gazetta_render_ext/"
+version.workspace = true
+authors.workspace = true
+keywords.workspace = true
+license.workspace = true
+edition.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+publish = false
+
+[dependencies]
+inkjet = { workspace = true, features = ["theme"] }

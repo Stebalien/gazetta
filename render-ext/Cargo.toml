@@ -14,3 +14,9 @@ homepage.workspace = true
 horrorshow = "0.8"
 pulldown-cmark = { version = "0.13.0", default-features = false }
 gazetta-core.workspace = true
+inkjet = { workspace = true, features = ["all_languages"], optional = true }
+v_htmlescape = { version = "0.15.8", optional = true }
+
+[features]
+default = ["syntax-highlighting"]
+syntax-highlighting = ["inkjet", "v_htmlescape"]
