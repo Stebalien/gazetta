@@ -2,7 +2,7 @@
 members = ["core", "render-ext", "model-ext", "cli", "render-ext/css"]
 
 [workspace.package]
-version = "0.5.5"
+version = "0.6.0"
 authors = ["Steven Allen <steven@stebalien.com>"]
 homepage = "http://stebalien.com/projects/gazetta"
 repository = "https://github.com/Stebalien/gazetta"
@@ -12,10 +12,10 @@ edition = "2024"
 
 [workspace.dependencies]
 inkjet = { version = "0.11.1", default-features = false }
-gazetta-core = { path = "core", version = "=0.5.5" }
-gazetta-cli = { path = "cli", version = "=0.5.5" }
-gazetta-render-ext = { path = "render-ext", version = "=0.5.5", default-features = false }
-gazetta-model-ext = { path = "model-ext", version = "=0.5.5" }
+gazetta-core = { path = "core", version = "=0.6.0" }
+gazetta-cli = { path = "cli", version = "=0.6.0" }
+gazetta-render-ext = { path = "render-ext", version = "=0.6.0", default-features = false }
+gazetta-model-ext = { path = "model-ext", version = "=0.6.0" }
 
 [package]
 name = "gazetta"
