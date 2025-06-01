@@ -15,7 +15,7 @@
 //
 
 use gazetta_core::model::Meta;
-use gazetta_core::yaml::Hash;
+use gazetta_core::yaml::{Hash, Yaml};
 
 use crate::link::Link;
 use crate::person::Person;
@@ -46,6 +46,7 @@ impl Meta for SourceMeta {
 pub struct EntryMeta {
     pub author: Option<Person>,
     pub about: Option<Person>,
+    pub robots: Option<Vec<String>>,
 }
 
 impl Meta for EntryMeta {
@@ -58,6 +59,17 @@ impl Meta for EntryMeta {
             about: meta
                 .remove(&yaml::KEYS.about)
                 .map(Person::from_yaml)
+                .transpose()?,
+            robots: meta
+                .remove(&yaml::KEYS.robots)
+                .map(|r| match r {
+                    Yaml::String(val) => Ok(vec![val]),
+                    Yaml::Array(arr) => Ok(arr
+                        .into_iter()
+                        .map(|l| l.into_string().ok_or("robots directives must be strings"))
+                        .collect::<Result<Vec<_>, _>>()?),
+                    _ => Err("robots directives must be strings"),
+                })
                 .transpose()?,
         })
     }

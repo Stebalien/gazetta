@@ -28,6 +28,7 @@ pub static KEYS: LazyLock<YamlKeys> = LazyLock::new(|| YamlKeys {
     nicknames: Yaml::String("nicknames".into()),
     photo: Yaml::String("photo".into()),
     also: Yaml::String("also".into()),
+    robots: Yaml::String("robots".into()),
 });
 
 pub struct YamlKeys {
@@ -42,4 +43,5 @@ pub struct YamlKeys {
     pub nicknames: Yaml,
     pub photo: Yaml,
     pub also: Yaml,
+    pub robots: Yaml,
 }
