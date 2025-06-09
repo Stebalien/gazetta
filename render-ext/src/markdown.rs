@@ -42,6 +42,7 @@ impl<'a> Markdown<'a> {
     ///
     /// Note: `base` will only affect markdown links and images, not inline html ones.
     pub fn new(data: &'a str, base: &'a str, highlight: bool) -> Markdown<'a> {
+        let base = base.trim_end_matches("/"); // we always join with a slash.
         Markdown {
             data,
             base,
