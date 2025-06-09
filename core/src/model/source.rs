@@ -75,7 +75,7 @@ where
     ///
     ///  2. Directories under `assets/`.
     pub static_entries: Vec<StaticEntry>,
-    /// The website stylesheets. When rendered, these will be concatinated into a single
+    /// The website stylesheets. When rendered, these will be concatenated into a single
     /// stylesheet.
     ///
     /// By default, this list is populated by the files in is `assets/stylesheets/` in
