@@ -94,7 +94,7 @@ pub trait Gazetta: Sized {
             feed(xmlns="http://www.w3.org/2005/Atom", xml:base=context.site.base()) {
                 id : context.canonical_url();
                 title : &context.page.title;
-                link(href = &context.page.href);
+                link(href = context.canonical_url());
                 link(rel = "self", href = feed_url);
                 updated : context.page.updated.to_rfc3339();
 
@@ -104,22 +104,19 @@ pub trait Gazetta: Sized {
 
                 |tmpl| self.render_feed_head(context, tmpl);
 
-                @ for p in index.entries {
+                @ for pctx in index.entries.iter().map(|page| Context{site: context.site, page}) {
                     entry {
-                        id : Context{site: context.site, page: p}.canonical_url();
-                        title : &p.title;
-                        link(href = &p.href, rel="alternate");
-                        updated : p.updated.to_rfc3339();
-                        @ if let Some(date) = p.date {
+                        id : pctx.canonical_url();
+                        title : &pctx.page.title;
+                        link(href = pctx.canonical_url(), rel="alternate");
+                        updated : pctx.page.updated.to_rfc3339();
+                        @ if let Some(date) = pctx.page.date {
                             published : date.to_rfc3339();
                         }
-                        @ if let Some(summary) = p.description {
+                        @ if let Some(summary) = pctx.page.description {
                             summary(type="text") : summary;
                         }
-                        |tmpl| self.render_feed_entry(&Context{
-                            site: context.site,
-                            page: p,
-                        }, tmpl);
+                        |tmpl| self.render_feed_entry(&pctx, tmpl);
                     }
                 }
             }
