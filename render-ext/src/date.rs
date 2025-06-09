@@ -35,9 +35,11 @@ impl<'a> RenderMut for Date<'a> {
 impl<'a> Render for Date<'a> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         tmpl << html! {
-            time(datetime = self.0.to_rfc3339()) {
+            time(datetime = self.0.to_rfc3339(), title = format_args!("{}", self.0.format("%B %d, %Y"))) {
                 span(class="date-year") : format_args!("{:04}", self.0.year());
+                span(class="date-separator") : "-";
                 span(class="date-month") : format_args!("{:02}", self.0.month());
+                span(class="date-separator") : "-";
                 span(class="date-day") : format_args!("{:02}", self.0.day());
             }
         }
