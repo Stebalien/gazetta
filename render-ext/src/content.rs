@@ -13,12 +13,24 @@
 //  You should have received a copy of the GNU General Public License along with this program.  If
 //  not, see <http://www.gnu.org/licenses/>.
 //
-use horrorshow::prelude::*;
+use horrorshow::{html, prelude::*};
 
-/// Renders a page's content
+/// Renders content:
+///
+/// - Raw text will be rendered as escaped paragraphs (separated by double newlines).
+/// - HTML will be injected as-is with no processing.
+/// - Markdown documents will be rendered as one might expect EXCEPT that:
+///   - "./" at the beginning of links, image references, etc. will be replaced with `path`.
+///   - If `root` is specified, all links will be made absolute (prefixed with `root`).
 pub struct Content<'a> {
+    /// The content to render.
     pub content: &'a gazetta_core::view::Content<'a>,
-    pub base: &'a str,
+    /// The website's "root" (origin). If specified, links and references will be absolute (markdown
+    /// only).
+    pub root: Option<&'a str>,
+    /// The current page, relative to the root (markdown only).
+    pub path: &'a str,
+    /// Whether or not to syntax highlight code blocks (markdown only).
     pub syntax_highlight: bool,
 }
 
@@ -38,11 +50,21 @@ impl Render for Content<'_> {
     fn render(&self, tmpl: &mut TemplateBuffer) {
         match self.content.format {
             "mkd" | "md" | "markdown" => {
-                tmpl << crate::Markdown::new(self.content.data, self.base, self.syntax_highlight)
+                tmpl << crate::Markdown::new(
+                    self.content.data,
+                    self.root,
+                    self.path,
+                    self.syntax_highlight,
+                )
             }
-            // TODO: error if heading-level is non-zero.
             "html" => tmpl << Raw(self.content.data),
-            "" | "text" | "txt" => tmpl << self.content.data,
+            "" | "text" | "txt" => {
+                tmpl << html! {
+                    @ for p in self.content.data.split("\n\n") {
+                        p : p;
+                    }
+                }
+            }
             format => tmpl.record_error(format!("unknown format '{}'", format)),
         }
     }

@@ -15,13 +15,13 @@
 //
 
 use std::collections::HashMap;
-use std::convert::TryFrom;
+use std::fmt;
 
 use horrorshow::Join;
 use horrorshow::html;
 use horrorshow::prelude::*;
 use pulldown_cmark::HeadingLevel;
-use pulldown_cmark::{CowStr, Event, InlineStr, Options, Parser};
+use pulldown_cmark::{CowStr, Event, Options, Parser};
 
 #[cfg(feature = "syntax-highlighting")]
 use crate::highlight::SyntaxHighlight;
@@ -30,22 +30,30 @@ use crate::highlight::SyntaxHighlight;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Markdown<'a> {
     data: &'a str,
-    base: &'a str,
+    root: &'a str,
+    path: &'a str,
     highlight: bool,
 }
 
 impl<'a> Markdown<'a> {
     /// Create a new markdown renderer.
     ///
-    /// `data` should contain the markdown to be rendered and `base` should specify a relative url
+    /// `data` should contain the markdown to be rendered and `path` should specify a relative url
     /// prefix (for relative links and images).
     ///
-    /// Note: `base` will only affect markdown links and images, not inline html ones.
-    pub fn new(data: &'a str, base: &'a str, highlight: bool) -> Markdown<'a> {
-        let base = base.trim_end_matches("/"); // we always join with a slash.
+    /// Note: `path` will only affect markdown links and images, not inline html ones.
+    pub fn new(
+        data: &'a str,
+        root: Option<&'a str>,
+        path: &'a str,
+        highlight: bool,
+    ) -> Markdown<'a> {
+        let path = path.trim_end_matches('/'); // we always join with a slash.
+        let root = root.unwrap_or_default();
         Markdown {
             data,
-            base,
+            root,
+            path,
             highlight,
         }
     }
@@ -80,7 +88,8 @@ impl<'a> Render for Markdown<'a> {
                     | Options::ENABLE_TASKLISTS
                     | Options::ENABLE_GFM,
             ),
-            base: self.base,
+            path: self.path,
+            root: self.root,
             syntax_highlight: self.highlight,
         }
     }
@@ -89,9 +98,101 @@ impl<'a> Render for Markdown<'a> {
 struct RenderMarkdown<'a, I> {
     iter: I,
     footnotes: HashMap<CowStr<'a>, u32>,
-    base: &'a str,
+    path: &'a str,
+    root: &'a str,
     #[cfg_attr(not(feature = "syntax-highlighting"), allow(dead_code))]
     syntax_highlight: bool,
+}
+
+struct RelativeUrl<'a> {
+    root: &'a str,
+    path: &'a str,
+    href: &'a str,
+}
+
+fn is_absolute_url(href: &str) -> bool {
+    let mut bytes = href.bytes();
+    if !matches!(bytes.next(), Some(b'a'..=b'z' | b'A'..=b'Z')) {
+        return false;
+    }
+    for b in bytes {
+        match b {
+            b':' => return true,
+            b'a'..=b'z' | b'A'..=b'Z' | b'0'..=b'9' | b'+' | b'-' | b'.' => {}
+            _ => return false,
+        }
+    }
+    false
+}
+
+#[test]
+fn test_is_absolute_url() {
+    // Absolute URLs with different schemes
+    assert!(is_absolute_url("http://example.com"));
+    assert!(is_absolute_url("https://example.com/path"));
+    assert!(is_absolute_url("ftp://example.com"));
+    assert!(is_absolute_url("file:///path/to/file"));
+    assert!(is_absolute_url("mailto:user@example.com"));
+
+    // Relative URLs
+    assert!(!is_absolute_url("/path/to/resource"));
+    assert!(!is_absolute_url("./relative/path"));
+    assert!(!is_absolute_url("../parent/path"));
+    assert!(!is_absolute_url("path/to/resource"));
+    assert!(!is_absolute_url(""));
+
+    // Edge cases
+    assert!(!is_absolute_url("://missing-scheme.com"));
+    assert!(is_absolute_url("git+ssh://example.com"));
+}
+
+impl<'a> fmt::Display for RelativeUrl<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if is_absolute_url(self.href) {
+            return f.write_str(self.href);
+        }
+        if !self.root.is_empty() {
+            f.write_str(self.root)?;
+            if !self.root.ends_with("/") {
+                f.write_str("/")?;
+            }
+        }
+        if let Some(href) = self.href.strip_prefix("./") {
+            if !self.path.is_empty() {
+                f.write_str(self.path)?;
+                f.write_str("/")?;
+            }
+            f.write_str(href)?;
+        } else {
+            f.write_str(self.href)?;
+        }
+        Ok(())
+    }
+}
+
+impl Render for RelativeUrl<'_> {
+    fn render(&self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
+        tmpl.write_fmt(format_args!("{}", self))
+    }
+}
+
+impl RenderMut for RelativeUrl<'_> {
+    fn render_mut(&mut self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
+        self.render(tmpl)
+    }
+}
+
+impl RenderOnce for RelativeUrl<'_> {
+    fn render_once(self, tmpl: &mut horrorshow::TemplateBuffer<'_>)
+    where
+        Self: Sized,
+    {
+        self.render(tmpl)
+    }
+
+    fn size_hint(&self) -> usize {
+        self.root.len() + self.path.len() + self.href.len() + 2
+    }
 }
 
 impl<'a, I> RenderMarkdown<'a, I> {
@@ -100,28 +201,14 @@ impl<'a, I> RenderMarkdown<'a, I> {
         *self.footnotes.entry(name).or_insert(next_idx)
     }
 
-    fn make_relative<'b>(&self, dest: CowStr<'b>) -> CowStr<'b> {
-        #[allow(clippy::manual_strip)]
-        if dest.starts_with("./") {
-            if self.base.is_empty() {
-                match dest {
-                    CowStr::Borrowed(v) => CowStr::Borrowed(&v[2..]),
-                    CowStr::Boxed(v) => InlineStr::try_from(&v[2..])
-                        .map(CowStr::Inlined)
-                        .unwrap_or_else(|_| {
-                            let mut s: String = v.into();
-                            s.replace_range(0..2, "");
-                            CowStr::Boxed(s.into_boxed_str())
-                        }),
-                    CowStr::Inlined(inlined) => {
-                        CowStr::Inlined(InlineStr::try_from(&inlined[2..]).unwrap())
-                    }
-                }
-            } else {
-                CowStr::Boxed(format!("{}/{}", self.base, &dest[2..]).into())
-            }
-        } else {
-            dest
+    fn make_relative<'b>(&self, href: &'b str) -> RelativeUrl<'b>
+    where
+        'a: 'b,
+    {
+        RelativeUrl {
+            root: self.root,
+            path: self.path.trim_matches('/'),
+            href,
         }
     }
 }
@@ -249,7 +336,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                         } => {
                             tmpl << html! {
                                 // TODO: Escape href?
-                                a(href = &*s.make_relative(dest_url),
+                                a(href = s.make_relative(&dest_url),
                                   title? = if !title.is_empty() { Some(&*title) } else { None },
                                   id ?= if !id.is_empty() { Some(&*id) } else { None }) : s
                             }
@@ -261,7 +348,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                             id,
                         } => {
                             tmpl << html! {
-                                img(src = &*s.make_relative(dest_url),
+                                img(src = s.make_relative(&dest_url),
                                     title? = if !title.is_empty() { Some(&*title) } else { None },
                                     id ?= if !id.is_empty() { Some(&*id) } else { None },
                                     alt = inner_text(&mut s.iter, true))
@@ -318,7 +405,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> RenderMut for RenderMarkdown<'a, I> {
                 FootnoteReference(name) => {
                     tmpl << html! {
                         sup(class="footnote-reference") {
-                            a(href=format_args!("{}/#footnote-{}", self.base, name)) : self.footnote(name);
+                            a(href=format_args!("{}/#footnote-{}", self.path, name)) : self.footnote(name);
                         }
                     }
                 }
