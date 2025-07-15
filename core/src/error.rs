@@ -19,7 +19,6 @@ use std::fmt;
 use std::io;
 use std::path::PathBuf;
 
-use glob::PatternError;
 use horrorshow;
 
 use crate::model::index::SortError;
@@ -148,12 +147,6 @@ impl From<::url::ParseError> for SourceError {
 impl From<ScanError> for SourceError {
     fn from(e: ScanError) -> SourceError {
         SourceError::Parse(e)
-    }
-}
-
-impl From<PatternError> for SourceError {
-    fn from(_: PatternError) -> SourceError {
-        SourceError::from("invalid index directory pattern")
     }
 }
 

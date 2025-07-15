@@ -36,7 +36,7 @@ trait RenderPaths {
 impl<G: Gazetta> RenderPaths for G {
     fn render_paths(&self, source_path: &Path, dest_path: &Path) -> Result<(), Box<dyn Error>> {
         let source = Source::new(source_path)?;
-        self.render(&source, dest_path)?;
+        self.render(&source.index()?, dest_path)?;
         Ok(())
     }
 }

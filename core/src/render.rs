@@ -24,7 +24,7 @@ use std::collections::hash_map::DefaultHasher;
 use str_stack::StrStack;
 
 use crate::error::{AnnotatedError, RenderError};
-use crate::model::{Meta, Source};
+use crate::model::{IndexedSource, Meta};
 use crate::util::{self, StreamHasher};
 use crate::view::{Context, Index, Page, Paginate, Site};
 
@@ -131,7 +131,7 @@ pub trait Gazetta: Sized {
     /// much all of the provided render logic.
     fn render<P: AsRef<Path>>(
         &self,
-        source: &Source<Self::SiteMeta, Self::PageMeta>,
+        source: &IndexedSource<Self::SiteMeta, Self::PageMeta>,
         output: P,
     ) -> Result<(), AnnotatedError<RenderError>> {
         let output = output.as_ref();
@@ -193,8 +193,9 @@ pub trait Gazetta: Sized {
 
             if let Some(ref index) = entry.index {
                 let children: Vec<_> = source
-                    .build_index(entry)
-                    .into_iter()
+                    .children(&entry.name)
+                    .iter()
+                    .copied()
                     .map(Page::for_entry)
                     .collect();
 

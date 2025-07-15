@@ -27,4 +27,4 @@ use chrono::Utc;
 
 pub use self::entry::{Entry, StaticEntry};
 pub use self::meta::Meta;
-pub use self::source::Source;
+pub use self::source::{IndexedSource, Source};

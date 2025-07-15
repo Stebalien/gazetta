@@ -18,7 +18,6 @@ use std::fs::File;
 use std::path::{Path, PathBuf};
 
 use chrono::FixedOffset;
-use glob;
 
 use crate::error::SourceError;
 use crate::model::index::Syndicate;
@@ -104,18 +103,52 @@ where
         // Helpers
         const U32_MAX_AS_I64: i64 = u32::MAX as i64;
 
-        fn dir_to_glob(mut dir: String) -> Result<glob::Pattern, SourceError> {
-            if !dir.ends_with('/') {
-                dir.push('/');
+        fn resolve_path(base: &str, path: &str) -> Result<PathBuf, SourceError> {
+            use std::path::Component::*;
+            let path: &Path = path.as_ref();
+            let resolved = match path.components().next() {
+                Some(Prefix(_) | RootDir) => {
+                    return Err(SourceError::Config(
+                        format!("index for {base} specifies an absolute directory").into(),
+                    ));
+                }
+                None => {
+                    return Err(SourceError::Config(
+                        format!("index for {base} specifies an empty directory").into(),
+                    ));
+                }
+                Some(CurDir | ParentDir) => Path::new(base).join(path),
+                _ => path.into(),
+            };
+            let mut normalized = PathBuf::new();
+            for component in resolved.components() {
+                match component {
+                    Prefix(_) | RootDir => {
+                        return Err(SourceError::Config(
+                            format!("index for {base} specifies an absolute directory").into(),
+                        ));
+                    }
+                    CurDir => (),
+                    ParentDir => {
+                        if !normalized.pop() {
+                            return Err(SourceError::Config(
+                                format!(
+                                    "index for {base} specifies an invalid relative path: {}",
+                                    resolved.display(),
+                                )
+                                .into(),
+                            ));
+                        }
+                    }
+                    Normal(c) => normalized.push(c),
+                }
             }
-            dir.push('*');
-            glob::Pattern::new(&dir).map_err(From::from)
-        }
-
-        fn name_to_glob(name: &str) -> glob::Pattern {
-            let mut s = glob::Pattern::escape(name);
-            s.push_str("/*");
-            glob::Pattern::new(&s).unwrap()
+            if normalized.components().next().is_none() {
+                return Err(SourceError::Config(
+                    format!("index for {base} specifies an empty directory").into(),
+                ));
+            }
+            Ok(normalized)
         }
 
         // Load metadata
@@ -157,7 +190,7 @@ where
                 max: None,
                 compact: false,
                 sort: index::Sort::default(),
-                directories: vec![name_to_glob(name)],
+                directories: vec![name.into()],
                 syndicate: None,
             }),
             Some(Yaml::String(dir)) => Some(Index {
@@ -165,7 +198,7 @@ where
                 max: None,
                 compact: false,
                 sort: index::Sort::default(),
-                directories: vec![dir_to_glob(dir)?],
+                directories: vec![resolve_path(name, &dir)?],
                 syndicate: None,
             }),
             Some(Yaml::Array(array)) => Some(Index {
@@ -176,7 +209,7 @@ where
                 directories: array
                     .into_iter()
                     .map(|i| match i {
-                        Yaml::String(dir) => dir_to_glob(dir),
+                        Yaml::String(dir) => resolve_path(name, &dir),
                         _ => Err(SourceError::from("index directories must be strings")),
                     })
                     .collect::<Result<_, _>>()?,
@@ -215,16 +248,16 @@ where
                     Some(Yaml::Array(array)) => array
                         .into_iter()
                         .map(|i| match i {
-                            Yaml::String(dir) => dir_to_glob(dir),
+                            Yaml::String(dir) => resolve_path(name, &dir),
                             _ => Err(SourceError::from(
                                 "index directories must be \
                                  strings",
                             )),
                         })
                         .collect::<Result<_, _>>()?,
-                    Some(Yaml::String(dir)) => vec![dir_to_glob(dir)?],
+                    Some(Yaml::String(dir)) => vec![resolve_path(name, &dir)?],
                     Some(..) => return Err("invalid directory list in index".into()),
-                    None => vec![name_to_glob(name)],
+                    None => vec![name.into()],
                 },
             }),
             Some(..) => return Err("invalid index value".into()),

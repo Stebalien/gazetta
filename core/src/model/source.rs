@@ -14,7 +14,9 @@
 //  not, see <http://www.gnu.org/licenses/>.
 //
 
+use std::collections::HashMap;
 use std::fs;
+use std::ops::Deref;
 use std::path::{Path, PathBuf};
 
 use url::Url;
@@ -25,12 +27,6 @@ use crate::util;
 use super::Meta;
 use super::yaml::{self, Yaml};
 use super::{Entry, StaticEntry};
-
-const MATCH_OPTIONS: ::glob::MatchOptions = ::glob::MatchOptions {
-    case_sensitive: true,
-    require_literal_separator: true,
-    require_literal_leading_dot: false,
-};
 
 /// The Source object reads and interprets a source directory.
 ///
@@ -99,30 +95,120 @@ where
     pub meta: SourceMeta,
 }
 
+pub struct IndexedSource<'a, SourceMeta, EntryMeta>
+where
+    SourceMeta: Meta,
+    EntryMeta: Meta,
+{
+    source: &'a Source<SourceMeta, EntryMeta>,
+    by_name: HashMap<&'a str, &'a Entry<EntryMeta>>,
+    children: HashMap<&'a str, Vec<&'a Entry<EntryMeta>>>,
+    references: HashMap<&'a str, Vec<&'a Entry<EntryMeta>>>,
+}
+
+impl<'a, SourceMeta, EntryMeta> Deref for IndexedSource<'a, SourceMeta, EntryMeta>
+where
+    SourceMeta: Meta,
+    EntryMeta: Meta,
+{
+    type Target = Source<SourceMeta, EntryMeta>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.source
+    }
+}
+
+impl<'a, SourceMeta, EntryMeta> IndexedSource<'a, SourceMeta, EntryMeta>
+where
+    SourceMeta: Meta,
+    EntryMeta: Meta,
+{
+    pub fn entry(&self, name: &str) -> Option<&Entry<EntryMeta>> {
+        self.by_name.get(name).copied()
+    }
+    pub fn children(&self, name: &str) -> &[&Entry<EntryMeta>] {
+        self.children.get(name).map(|v| &**v).unwrap_or_default()
+    }
+    pub fn references(&self, name: &str) -> &[&Entry<EntryMeta>] {
+        self.references.get(name).map(|v| &**v).unwrap_or_default()
+    }
+}
+
 impl<SourceMeta, EntryMeta> Source<SourceMeta, EntryMeta>
 where
     SourceMeta: Meta,
     EntryMeta: Meta,
 {
-    /// Build an index for an entry.
-    ///
-    /// This index includes all entries that "cc" this entry and all entries specified in this
-    /// entry's index pattern.
-    pub fn build_index(&self, entry: &Entry<EntryMeta>) -> Vec<&Entry<EntryMeta>> {
+    /// Build the [`IndexedSource`] for this [`Source`].
+    pub fn index<'a>(&'a self) -> Result<IndexedSource<'a, SourceMeta, EntryMeta>, SourceError> {
         use crate::model::index::SortDirection::*;
 
-        if let Some(ref index) = entry.index {
-            let mut child_entries: Vec<_> = self
+        let by_name: HashMap<_, _> = self.entries.iter().map(|e| (&*e.name, e)).collect();
+        let references = self
+            .entries
+            .iter()
+            .map(|e| {
+                (
+                    &*e.name,
+                    e.cc.iter()
+                        .filter_map(|n| by_name.get(&**n))
+                        .copied()
+                        .collect(),
+                )
+            })
+            .collect();
+
+        let mut children: HashMap<_, Vec<_>> = {
+            let mut by_directory: HashMap<_, _> = self
                 .entries
                 .iter()
-                .filter(|child| {
-                    child.cc.contains(&entry.name)
-                        || index
+                .filter_map(|e| e.index.as_ref())
+                .flat_map(|i| &i.directories)
+                .map(|d| &**d)
+                .map(|d| (d, Vec::new()))
+                .collect();
+
+            for entry in &self.entries {
+                if let Some(idx) = by_directory.get_mut(Path::new(&entry.name)) {
+                    idx.push(entry);
+                }
+            }
+            self.entries
+                .iter()
+                .filter_map(|e| {
+                    Some((
+                        &*e.name,
+                        e.index
+                            .as_ref()?
                             .directories
                             .iter()
-                            .any(|d| d.matches_with(&child.name, MATCH_OPTIONS))
+                            .filter_map(|d| by_directory.get(&**d))
+                            .flatten()
+                            .copied()
+                            .collect(),
+                    ))
                 })
-                .collect();
+                .collect()
+        };
+
+        for entry in &self.entries {
+            for cc in &entry.cc {
+                let Some(child_entries) = children.get_mut(&**cc) else {
+                    return Err(SourceError::Config(
+                        format!(
+                            "entry {} CCs entry {} which either doesn't exist or has no index",
+                            entry.name, cc
+                        )
+                        .into(),
+                    ));
+                };
+                child_entries.push(entry);
+            }
+        }
+
+        for (name, child_entries) in &mut children {
+            let entry = by_name.get(name).expect("missing entry");
+            let index = entry.index.as_ref().expect("missing index");
 
             match index.sort.direction {
                 Ascending => child_entries.sort_by(|e1, e2| index.sort.field.compare(e1, e2)),
@@ -132,10 +218,14 @@ where
             if let Some(max) = index.max {
                 child_entries.truncate(max as usize);
             }
-            child_entries
-        } else {
-            Vec::new()
         }
+
+        Ok(IndexedSource {
+            source: self,
+            by_name,
+            references,
+            children,
+        })
     }
 
     /// Parse a source directory to create a new source.

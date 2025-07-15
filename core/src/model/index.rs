@@ -15,10 +15,10 @@
 //
 
 use std::cmp::Ordering;
+use std::path::PathBuf;
 use std::str::FromStr;
 use std::sync::LazyLock;
 
-use glob;
 use icu_collator::options::CollatorOptions;
 use icu_collator::preferences::CollationNumericOrdering;
 use icu_collator::{Collator, CollatorBorrowed, CollatorPreferences};
@@ -117,7 +117,7 @@ impl Default for Sort {
 #[derive(Debug, Clone)]
 pub struct Index {
     pub sort: Sort,
-    pub directories: Vec<glob::Pattern>,
+    pub directories: Vec<PathBuf>,
     pub syndicate: Option<Syndicate>,
     pub paginate: Option<u32>,
     pub max: Option<u32>,
