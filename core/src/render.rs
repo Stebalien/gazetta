@@ -50,7 +50,7 @@ where
         output.finish()
     };
 
-    let href = format!("assets/{}-{:x}.{}", prefix, hash, ext);
+    let href = format!("assets/{prefix}-{hash:x}.{ext}");
     let final_path = target.join(&href);
     try_annotate!(fs::rename(tmp_path, &final_path), final_path);
     Ok(href)

@@ -89,7 +89,7 @@ impl<'a> Display for CanonicalUrl<'a> {
 
 impl Render for CanonicalUrl<'_> {
     fn render(&self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
-        tmpl.write_fmt(format_args!("{}", self))
+        tmpl.write_fmt(format_args!("{self}"))
     }
 }
 

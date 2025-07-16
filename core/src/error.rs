@@ -70,9 +70,9 @@ impl fmt::Display for SourceError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         use self::SourceError::*;
         match *self {
-            Parse(ref e) => write!(f, "yaml parse error '{:?}'", e),
-            Read(ref e) => write!(f, "read error '{}'", e),
-            Config(ref e) => write!(f, "config error '{}'", e),
+            Parse(ref e) => write!(f, "yaml parse error '{e:?}'"),
+            Read(ref e) => write!(f, "read error '{e}'"),
+            Config(ref e) => write!(f, "config error '{e}'"),
         }
     }
 }
@@ -140,7 +140,7 @@ impl From<io::Error> for SourceError {
 
 impl From<::url::ParseError> for SourceError {
     fn from(e: ::url::ParseError) -> SourceError {
-        SourceError::Config(Cow::Owned(format!("{}", e)))
+        SourceError::Config(Cow::Owned(format!("{e}")))
     }
 }
 

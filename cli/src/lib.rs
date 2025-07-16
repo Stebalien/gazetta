@@ -44,7 +44,7 @@ impl<G: Gazetta> RenderPaths for G {
 /// Run the CLI. Prefer [`run_with_version`] whenever possible.
 pub fn run<G: Gazetta>(gazetta: G) -> ! {
     process::exit(_run(&gazetta, None).unwrap_or_else(|e| {
-        eprintln!("{}", e);
+        eprintln!("{e}");
         1
     }))
 }
@@ -52,7 +52,7 @@ pub fn run<G: Gazetta>(gazetta: G) -> ! {
 /// Run the CLI, specifying the CLI version.
 pub fn run_with_version<G: Gazetta>(gazetta: G, version: &'static str) -> ! {
     process::exit(_run(&gazetta, Some(version)).unwrap_or_else(|e| {
-        eprintln!("{}", e);
+        eprintln!("{e}");
         1
     }))
 }
@@ -127,7 +127,7 @@ fn edit_file(path: &Path) -> Result<i32, Box<dyn Error>> {
             Some(code) => Ok(code),
             None => Err("Editor was killed.".into()),
         },
-        Err(e) => Err(format!("Failed to spawn editor: {}", e).into()),
+        Err(e) => Err(format!("Failed to spawn editor: {e}").into()),
     }
 }
 
@@ -245,8 +245,8 @@ fn _run(
 
             writeln!(file, "---")?;
             writeln!(file, "title: {}", &title)?;
-            writeln!(file, "date: {}", date)?;
-            writeln!(file, "updated: {}", date)?;
+            writeln!(file, "date: {date}")?;
+            writeln!(file, "updated: {date}")?;
             writeln!(file, "---")?;
             println!("Created page: {}", path.display());
             file.flush()?;

@@ -172,7 +172,7 @@ impl<'a> fmt::Display for RelativeUrl<'a> {
 
 impl Render for RelativeUrl<'_> {
     fn render(&self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
-        tmpl.write_fmt(format_args!("{}", self))
+        tmpl.write_fmt(format_args!("{self}"))
     }
 }
 

@@ -136,7 +136,7 @@ impl<'a> Display for Base<'a> {
 
 impl Render for Base<'_> {
     fn render(&self, tmpl: &mut horrorshow::TemplateBuffer<'_>) {
-        tmpl.write_fmt(format_args!("{}", self))
+        tmpl.write_fmt(format_args!("{self}"))
     }
 }
 

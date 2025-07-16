@@ -114,7 +114,7 @@ where
     type Target = Source<SourceMeta, EntryMeta>;
 
     fn deref(&self) -> &Self::Target {
-        &self.source
+        self.source
     }
 }
 

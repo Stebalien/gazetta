@@ -65,7 +65,7 @@ impl Render for Content<'_> {
                     }
                 }
             }
-            format => tmpl.record_error(format!("unknown format '{}'", format)),
+            format => tmpl.record_error(format!("unknown format '{format}'")),
         }
     }
 }

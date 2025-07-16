@@ -59,7 +59,7 @@ impl fmt::Display for Person {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.name)?;
         if let Some(ref email) = self.email {
-            write!(f, " <{}>", email)?;
+            write!(f, " <{email}>")?;
         }
         Ok(())
     }
