@@ -23,8 +23,8 @@ use crate::render::Gazetta;
 
 use super::Index;
 
-/// Represents an indevidual page to be rendered.
-pub struct Page<'a, G>
+/// Represents the a page to be rendered, sans any links/references to other pages.
+pub struct BasePage<'a, G>
 where
     G: Gazetta + 'a,
     G::PageMeta: 'a,
@@ -46,9 +46,6 @@ where
     /// The page's location, relative to the site's base.
     pub href: &'a str,
 
-    /// The index contained in this page, if any.
-    pub index: Option<Index<'a, G>>,
-
     /// Extra metadata specified in the Entry.
     pub meta: &'a G::PageMeta,
 
@@ -64,15 +61,15 @@ where
     pub content: Content<'a>,
 }
 
-impl<'a, G> Page<'a, G>
+impl<'a, G> BasePage<'a, G>
 where
     G: Gazetta + 'a,
     G::PageMeta: 'a,
     G::SiteMeta: 'a,
 {
-    /// Creates a page for an entry. This does *not* fill in the index.
+    /// Creates a base page for an entry.
     pub fn for_entry(entry: &'a Entry<G::PageMeta>) -> Self {
-        Page {
+        BasePage {
             title: &entry.title,
             date: entry.date.as_ref(),
             updated: &entry.updated,
@@ -82,9 +79,51 @@ where
                 format: &entry.format,
             },
             href: &entry.name,
-            index: None,
             meta: &entry.meta,
         }
+    }
+}
+
+impl<'a, G> Deref for BasePage<'a, G>
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
+{
+    type Target = G::PageMeta;
+    fn deref(&self) -> &Self::Target {
+        self.meta
+    }
+}
+
+/// Represents an indevidual page to be rendered.
+pub struct Page<'a, G>
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
+{
+    /// The base page containing all the content, etc.
+    pub base: BasePage<'a, G>,
+
+    /// The index that should be rendered in association with this page, if any.
+    pub index: Option<Index<'a, G>>,
+
+    /// The other pages referenced in this page's "cc" field (usually tags, categories, projects,
+    /// etc.).
+    pub references: &'a [BasePage<'a, G>],
+}
+
+impl<'a, G> Deref for Page<'a, G>
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
+{
+    type Target = BasePage<'a, G>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.base
     }
 }
 
@@ -95,6 +134,25 @@ pub struct Content<'a> {
 }
 
 // Implement these manually. Derive requires that G: Trait.
+
+impl<'a, G> Copy for BasePage<'a, G>
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
+{
+}
+
+impl<'a, G> Clone for BasePage<'a, G>
+where
+    G: Gazetta + 'a,
+    G::PageMeta: 'a,
+    G::SiteMeta: 'a,
+{
+    fn clone(&self) -> Self {
+        *self
+    }
+}
 
 impl<'a, G> Copy for Page<'a, G>
 where
@@ -130,17 +188,5 @@ where
             .field("meta", &self.meta)
             .field("content", &self.content)
             .finish()
-    }
-}
-
-impl<'a, G> Deref for Page<'a, G>
-where
-    G: Gazetta + 'a,
-    G::PageMeta: 'a,
-    G::SiteMeta: 'a,
-{
-    type Target = G::PageMeta;
-    fn deref(&self) -> &Self::Target {
-        self.meta
     }
 }

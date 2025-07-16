@@ -20,5 +20,5 @@ mod site;
 
 pub use self::context::{CanonicalUrl, Context};
 pub use self::index::{Index, Paginate};
-pub use self::page::{Content, Page};
+pub use self::page::{BasePage, Content, Page};
 pub use self::site::Site;

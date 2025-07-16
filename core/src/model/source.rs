@@ -169,7 +169,9 @@ where
                 .collect();
 
             for entry in &self.entries {
-                if let Some(idx) = by_directory.get_mut(Path::new(&entry.name)) {
+                if let Some(parent) = Path::new(&entry.name).parent()
+                    && let Some(idx) = by_directory.get_mut(parent)
+                {
                     idx.push(entry);
                 }
             }

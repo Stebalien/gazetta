@@ -26,7 +26,7 @@ use str_stack::StrStack;
 use crate::error::{AnnotatedError, RenderError};
 use crate::model::{IndexedSource, Meta};
 use crate::util::{self, StreamHasher};
-use crate::view::{Context, Index, Page, Paginate, Site};
+use crate::view::{BasePage, Context, Index, Page, Paginate, Site};
 
 /// Compiles a set of files into a single asset by concatinating them. This
 /// function also hashes the files so they can be cached.
@@ -189,14 +189,43 @@ pub trait Gazetta: Sized {
             let dest_dir = output.join(&entry.name);
             try_annotate!(fs::create_dir_all(&dest_dir), dest_dir);
 
-            let page = Page::for_entry(entry);
+            let references: Vec<_> = source
+                .references(&entry.name)
+                .iter()
+                .copied()
+                .map(BasePage::for_entry)
+                .collect();
+
+            let page = Page {
+                base: BasePage::for_entry(entry),
+                references: &references,
+                index: None,
+            };
 
             if let Some(ref index) = entry.index {
-                let children: Vec<_> = source
-                    .children(&entry.name)
+                let child_entries = source.children(&entry.name);
+
+                let grandchildren: Vec<_> = child_entries
+                    .iter()
+                    .flat_map(|e| source.references(&e.name))
+                    .copied()
+                    .map(BasePage::for_entry)
+                    .collect();
+                let mut remaining_grandchildren = &*grandchildren;
+
+                let children: Vec<_> = child_entries
                     .iter()
                     .copied()
-                    .map(Page::for_entry)
+                    .map(|e| {
+                        let refs;
+                        (refs, remaining_grandchildren) =
+                            remaining_grandchildren.split_at(e.cc.len());
+                        Page {
+                            base: BasePage::for_entry(e),
+                            references: refs,
+                            index: None,
+                        }
+                    })
                     .collect();
 
                 let feed_path = if let Some(syndicate) = &index.syndicate {
@@ -293,17 +322,20 @@ pub trait Gazetta: Sized {
                                     |tmpl| self.render_page(&Context{
                                         site: &site,
                                         page: &Page {
-                                        index: Some(Index {
-                                            feed: feed_path.as_deref(),
-                                            compact: index.compact,
-                                            paginate: Some(Paginate {
-                                                pages: &pages,
-                                                current: page_num,
+                                            index: Some(Index {
+                                                feed: feed_path.as_deref(),
+                                                compact: index.compact,
+                                                paginate: Some(Paginate {
+                                                    pages: &pages,
+                                                    current: page_num,
+                                                }),
+                                                entries: children_range,
                                             }),
-                                            entries: children_range,
-                                        }),
-                                        href,
-                                        ..page
+                                            base: BasePage {
+                                                href,
+                                                ..page.base
+                                            },
+                                            ..page
                                         },
                                     }, tmpl);
                                 }
@@ -323,13 +355,13 @@ pub trait Gazetta: Sized {
                             |tmpl| self.render_page(&Context {
                                 site: &site,
                                 page: &Page {
-                                index:  Some(Index {
-                                    feed: feed_path.as_deref(),
-                                    compact: index.compact,
-                                    paginate: None,
-                                    entries: &children[..],
-                                }),
-                                ..page
+                                    index:  Some(Index {
+                                        feed: feed_path.as_deref(),
+                                        compact: index.compact,
+                                        paginate: None,
+                                        entries: &children[..],
+                                    }),
+                                    ..page
                                 },
                             }, tmpl);
                         }
