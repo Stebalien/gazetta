@@ -13,4 +13,4 @@ homepage.workspace = true
 publish = false
 
 [dependencies]
-inkjet = { workspace = true, features = ["theme"] }
+autumnus = { workspace = true }

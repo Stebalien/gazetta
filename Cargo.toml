@@ -11,7 +11,7 @@ license = "GPL-3.0"
 edition = "2024"
 
 [workspace.dependencies]
-inkjet = { version = "0.11.1", default-features = false }
+autumnus = { version = "0.7.3", default-features = false }
 gazetta-core = { path = "core", version = "=0.8.0" }
 gazetta-cli = { path = "cli", version = "=0.8.0" }
 gazetta-render-ext = { path = "render-ext", version = "=0.8.0", default-features = false }

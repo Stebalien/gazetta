@@ -1,8 +1,6 @@
 use horrorshow::RenderOnce;
-use inkjet::constants::HIGHLIGHT_CLASS_NAMES;
-use inkjet::formatter::Formatter;
-use inkjet::tree_sitter_highlight::HighlightEvent;
-use inkjet::{Highlighter, Language};
+use autumnus::{Options, FormatterOption};
+use std::fmt::Write;
 
 pub struct SyntaxHighlight<'a> {
     pub code: &'a str,
@@ -14,42 +12,68 @@ impl RenderOnce for SyntaxHighlight<'_> {
     where
         Self: Sized,
     {
-        let mut hl = Highlighter::new();
-        let lang = Language::from_token(self.lang).unwrap_or(Language::Plaintext);
-        if let Err(e) = hl.highlight_to_fmt(lang, &Html, self.code, &mut tmpl.as_raw_writer()) {
-            tmpl.record_error(e)
+        // Use autumnus HtmlLinked formatter to generate HTML with CSS classes
+        // similar to what the original inkjet implementation was doing
+        let options = Options {
+            lang_or_file: Some(self.lang),
+            formatter: FormatterOption::HtmlLinked {
+                pre_class: None,
+                highlight_lines: None,
+                header: None,
+            },
+        };
+
+        let highlighted = autumnus::highlight(self.code, options);
+        
+        // Write the highlighted HTML directly to the template buffer
+        if let Err(e) = tmpl.as_raw_writer().write_str(&highlighted) {
+            tmpl.record_error(e);
         }
     }
 }
 
-struct Html;
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use horrorshow::{html, Template};
 
-impl Formatter for Html {
-    fn write<W>(&self, source: &str, writer: &mut W, event: HighlightEvent) -> inkjet::Result<()>
-    where
-        W: std::fmt::Write,
-    {
-        match event {
-            HighlightEvent::Source { start, end } => {
-                let span = source
-                    .get(start..end)
-                    .expect("Source bounds should be in bounds!");
-                write!(writer, "{}", v_htmlescape::escape(span))?;
-            }
-            HighlightEvent::HighlightStart(idx) => {
-                let name = HIGHLIGHT_CLASS_NAMES[idx.0];
-                writer.write_str("<span class=\"")?;
-                for class in name.split_inclusive(' ') {
-                    writer.write_str("hl-")?;
-                    writer.write_str(class)?;
-                }
-                writer.write_str("\">")?;
-            }
-            HighlightEvent::HighlightEnd => {
-                writer.write_str("</span>")?;
-            }
-        }
+    #[test]
+    fn test_syntax_highlighting() {
+        let code = r#"fn main() {
+    println!("Hello, world!");
+    let x = 42;
+}"#;
 
-        Ok(())
+        let rendered = html! {
+            : SyntaxHighlight { code, lang: "rust" }
+        }.into_string().unwrap();
+        
+        // Check that highlighting was applied
+        assert!(rendered.contains("class=\"athl"));
+        // Check for some expected classes that should be generated
+        assert!(rendered.contains("keyword-function"));
+        assert!(rendered.contains("function"));
+        assert!(rendered.contains("string"));
+        println!("Rendered HTML: {}", rendered);
+    }
+
+    #[test] 
+    fn test_javascript_highlighting() {
+        let code = r#"function hello() {
+    console.log("Hello, world!");
+    const x = 42;
+}"#;
+
+        let rendered = html! {
+            : SyntaxHighlight { code, lang: "javascript" }
+        }.into_string().unwrap();
+        
+        // Check that highlighting was applied
+        assert!(rendered.contains("class=\"athl"));
+        assert!(rendered.contains("language-javascript"));
+        // Check for expected JavaScript-specific classes
+        assert!(rendered.contains("keyword-function"));
+        assert!(rendered.contains("variable-builtin")); // for console
+        println!("JS Rendered HTML: {}", rendered);
     }
 }
