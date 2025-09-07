@@ -1,11 +1,20 @@
-use horrorshow::RenderOnce;
+//! Syntax highlighting module for rendering code with syntax highlighting
+//!
+//! This module provides functionality to render code snippets with syntax highlighting
+//! using tree-sitter for parsing and autumnus for styling.
+
 use autumnus::constants::CLASSES;
 use autumnus::languages::Language;
-use tree_sitter_highlight::{Highlighter, HighlightEvent};
-use std::fmt::Write;
+use horrorshow::{RenderMut, RenderOnce, TemplateBuffer, html};
+use tree_sitter_highlight::{HighlightEvent, Highlighter};
 
+/// A structure that represents a syntax-highlightable code snippet
+///
+/// This struct implements `RenderOnce` to integrate with horrorshow templates.
 pub struct SyntaxHighlight<'a> {
+    /// The source code to highlight
     pub code: &'a str,
+    /// The programming language name (e.g., "rust", "javascript")
     pub lang: &'a str,
 }
 
@@ -15,71 +24,90 @@ impl RenderOnce for SyntaxHighlight<'_> {
         Self: Sized,
     {
         let mut highlighter = Highlighter::new();
-        let lang = Language::guess(self.lang, "");
-        
-        match highlight_to_fmt(&mut highlighter, lang, &Html, self.code, &mut tmpl.as_raw_writer()) {
-            Ok(()) => {},
+        let lang = Language::guess(self.lang, self.code);
+
+        // Get highlighting events
+        let events_result =
+            highlighter.highlight(lang.config(), self.code.as_bytes(), None, |injected| {
+                Some(Language::guess(injected, "").config())
+            });
+
+        let events_iter = match events_result {
+            Ok(events) => events,
             Err(e) => {
-                // Convert error to a format compatible with horrorshow
-                let error_msg = format!("Syntax highlighting error: {}", e);
-                tmpl.record_error(std::io::Error::new(std::io::ErrorKind::Other, error_msg));
+                tmpl.record_error(format!("highlight failed: {}", e));
+                return;
+            }
+        };
+
+        // Create the renderer and render with it
+        tmpl << html! {
+            : RenderSyntaxHighlight::new(events_iter, self.code)
+        };
+    }
+}
+
+/// Internal helper struct that manages the actual rendering process
+///
+/// This struct consumes the highlighting events from tree-sitter and renders
+/// them as HTML with appropriate CSS classes.
+struct RenderSyntaxHighlight<'a, I> {
+    iter: I,
+    code: &'a str,
+}
+
+impl<'a, I: Iterator<Item = Result<HighlightEvent, tree_sitter_highlight::Error>>>
+    RenderSyntaxHighlight<'a, I>
+{
+    fn new(iter: I, code: &'a str) -> Self {
+        Self { iter, code }
+    }
+}
+
+impl<'a, I: Iterator<Item = Result<HighlightEvent, tree_sitter_highlight::Error>>> RenderOnce
+    for RenderSyntaxHighlight<'a, I>
+{
+    fn render_once(mut self, tmpl: &mut TemplateBuffer) {
+        self.render_mut(tmpl);
+    }
+}
+
+impl<'a, I: Iterator<Item = Result<HighlightEvent, tree_sitter_highlight::Error>>> RenderMut
+    for RenderSyntaxHighlight<'a, I>
+{
+    fn render_mut(&mut self, tmpl: &mut TemplateBuffer) {
+        while let Some(event_result) = self.iter.next() {
+            let tmpl = &mut *tmpl;
+            match event_result {
+                Ok(event) => match event {
+                    HighlightEvent::Source { start, end } => {
+                        if let Some(span) = self.code.get(start..end) {
+                            tmpl.write_str(span);
+                        }
+                    }
+                    HighlightEvent::HighlightStart(idx) => {
+                        let class = CLASSES[idx.0];
+                        tmpl << html! {
+                            span(class=class) : &mut *self
+                        };
+                    }
+                    HighlightEvent::HighlightEnd => return,
+                },
+                Err(e) => {
+                    tmpl.record_error(format!("event error: {}", e));
+                    return;
+                }
             }
         }
     }
 }
 
-struct Html;
-
-fn highlight_to_fmt<W: Write>(
-    highlighter: &mut Highlighter,
-    language: Language,
-    formatter: &Html,
-    source: &str,
-    writer: &mut W,
-) -> Result<(), String> {
-    let events = highlighter.highlight(
-        language.config(),
-        source.as_bytes(),
-        None,
-        |injected| Some(Language::guess(injected, "").config()),
-    ).map_err(|e| format!("Highlight failed: {}", e))?;
-
-    for event in events {
-        let event = event.map_err(|e| format!("Event error: {}", e))?;
-        formatter.write(source, writer, event)
-            .map_err(|e| format!("Write error: {}", e))?;
-    }
-    Ok(())
-}
-
-impl Html {
-    fn write<W>(&self, source: &str, writer: &mut W, event: HighlightEvent) -> Result<(), std::fmt::Error>
-    where
-        W: std::fmt::Write,
-    {
-        match event {
-            HighlightEvent::Source { start, end } => {
-                let span = source
-                    .get(start..end)
-                    .expect("Source bounds should be in bounds!");
-                write!(writer, "{}", v_htmlescape::escape(span))?;
-            }
-            HighlightEvent::HighlightStart(idx) => {
-                let class = CLASSES[idx.0];
-                write!(writer, "<span class=\"{}\">", class)?;
-            }
-            HighlightEvent::HighlightEnd => {
-                writer.write_str("</span>")?;
-            }
-        }
-        Ok(())
-    }
-}
+// No longer needed as the functionality is now inline in render_once
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use horrorshow::{html, Template};
+    use horrorshow::{Template, html};
 
     #[test]
     fn test_syntax_highlighting() {
@@ -90,8 +118,10 @@ mod tests {
 
         let rendered = html! {
             : SyntaxHighlight { code, lang: "rust" }
-        }.into_string().unwrap();
-        
+        }
+        .into_string()
+        .unwrap();
+
         // Check that highlighting was applied with autumnus CSS classes
         assert!(rendered.contains("keyword-function")); // autumnus uses "keyword-function"
         assert!(rendered.contains("function-macro")); // println! should be highlighted as macro
@@ -99,7 +129,7 @@ mod tests {
         println!("Rendered HTML: {}", rendered);
     }
 
-    #[test] 
+    #[test]
     fn test_javascript_highlighting() {
         let code = r#"function hello() {
     console.log("Hello, world!");
@@ -108,8 +138,10 @@ mod tests {
 
         let rendered = html! {
             : SyntaxHighlight { code, lang: "javascript" }
-        }.into_string().unwrap();
-        
+        }
+        .into_string()
+        .unwrap();
+
         // Check for expected JavaScript-specific classes from autumnus
         assert!(rendered.contains("keyword-function")); // function keyword
         assert!(rendered.contains("variable-builtin")); // console
