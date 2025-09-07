@@ -81,9 +81,11 @@ impl<'a, I: Iterator<Item = Result<HighlightEvent, tree_sitter_highlight::Error>
             match event_result {
                 Ok(event) => match event {
                     HighlightEvent::Source { start, end } => {
-                        if let Some(span) = self.code.get(start..end) {
-                            tmpl.write_str(span);
-                        }
+                        let Some(span) = self.code.get(start..end) else {
+                            tmpl.record_error(format!("invalid source span {start}..{end}"));
+                            return;
+                        };
+                        tmpl.write_str(span);
                     }
                     HighlightEvent::HighlightStart(idx) => {
                         let class = CLASSES[idx.0];
