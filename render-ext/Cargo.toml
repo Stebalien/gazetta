@@ -15,8 +15,9 @@ horrorshow = "0.8"
 pulldown-cmark = { version = "0.13.0", default-features = false }
 gazetta-core.workspace = true
 autumnus = { workspace = true, features = ["all-languages"], optional = true }
+tree-sitter-highlight = { version = "0.25", optional = true }
 v_htmlescape = { version = "0.15.8", optional = true }
 
 [features]
 default = ["syntax-highlighting"]
-syntax-highlighting = ["autumnus", "v_htmlescape"]
+syntax-highlighting = ["autumnus", "tree-sitter-highlight", "v_htmlescape"]
