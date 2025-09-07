@@ -7,7 +7,7 @@ pub fn write_stylesheet(out: impl Write, theme: &autumnus::themes::Theme) -> io:
     // Write the main pre styling using theme name if available
     writeln!(output, "/* {} */", theme.name)?;
     writeln!(output, "pre.athl {{")?;
-    
+
     // Look for a default or background style - autumnus themes may not have these
     // so we'll just close the pre block for now
     writeln!(output, "}}")?;
@@ -20,12 +20,12 @@ pub fn write_stylesheet(out: impl Write, theme: &autumnus::themes::Theme) -> io:
         if scope.is_empty() {
             continue; // Skip empty scope
         }
-        
+
         // Convert scope names to CSS class names that match autumnus output
         // autumnus uses scope names as-is for CSS classes (e.g., "keyword.function" -> "keyword-function")
         let class_name = scope.replace(".", "-").replace("@", "");
         writeln!(output, ".{} {{", class_name)?;
-        
+
         if let Some(fg) = &style.fg {
             writeln!(output, "  color: {};", fg)?;
         }

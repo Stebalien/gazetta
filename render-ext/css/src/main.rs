@@ -15,8 +15,8 @@
 
 use std::io::Write;
 
-use gazetta_syntax_css::write_stylesheet;
 use autumnus::themes::{self, Theme};
+use gazetta_syntax_css::write_stylesheet;
 
 // Use some default theme names that are available in autumnus
 const DARK_THEME: &str = "nord";
@@ -24,11 +24,17 @@ const LIGHT_THEME: &str = "papercolor_light";
 
 enum ThemeChoice {
     One(&'static Theme),
-    Two { light: &'static Theme, dark: &'static Theme },
+    Two {
+        light: &'static Theme,
+        dark: &'static Theme,
+    },
 }
 
 fn get_theme_by_name(name: &str) -> Option<&'static Theme> {
-    themes::available_themes().iter().find(|t| t.name == name).copied()
+    themes::available_themes()
+        .iter()
+        .find(|t| t.name == name)
+        .copied()
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -44,16 +50,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 if let Some(theme) = get_theme_by_name(theme) {
                     ThemeChoice::One(theme)
                 } else {
-                    let available: Vec<_> = themes::available_themes().iter().map(|t| &t.name).collect();
-                    return Err(format!("Theme '{}' not found. Available themes: {:?}", theme, available).into());
+                    let available: Vec<_> =
+                        themes::available_themes().iter().map(|t| &t.name).collect();
+                    return Err(format!(
+                        "Theme '{}' not found. Available themes: {:?}",
+                        theme, available
+                    )
+                    .into());
                 }
             }
         },
         [light_name, dark_name] => {
-            let light = get_theme_by_name(light_name).ok_or_else(|| format!("Light theme '{}' not found", light_name))?;
-            let dark = get_theme_by_name(dark_name).ok_or_else(|| format!("Dark theme '{}' not found", dark_name))?;
+            let light = get_theme_by_name(light_name)
+                .ok_or_else(|| format!("Light theme '{}' not found", light_name))?;
+            let dark = get_theme_by_name(dark_name)
+                .ok_or_else(|| format!("Dark theme '{}' not found", dark_name))?;
             ThemeChoice::Two { light, dark }
-        },
+        }
         _ => {
             eprintln!("Output the default stylesheet:");
             eprintln!("  gazetta-syntax-css DEFAULT");
