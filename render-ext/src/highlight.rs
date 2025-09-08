@@ -5,7 +5,7 @@
 
 use autumnus::constants::CLASSES;
 use autumnus::languages::Language;
-use horrorshow::{RenderMut, RenderOnce, TemplateBuffer, html};
+use horrorshow::{Concat, RenderMut, RenderOnce, TemplateBuffer, html};
 use tree_sitter_highlight::{HighlightEvent, Highlighter};
 
 /// A structure that represents a syntax-highlightable code snippet
@@ -88,10 +88,9 @@ impl<'a, I: Iterator<Item = Result<HighlightEvent, tree_sitter_highlight::Error>
                         tmpl.write_str(span);
                     }
                     HighlightEvent::HighlightStart(idx) => {
-                        let class = CLASSES[idx.0];
                         tmpl << html! {
-                            span(class=class) : &mut *self
-                        };
+                            span(class=Concat(["hl-", CLASSES[idx.0]])) : &mut *self
+                        }
                     }
                     HighlightEvent::HighlightEnd => return,
                 },
